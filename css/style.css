@@ -6,7 +6,7 @@
 			background-color: #d4e1e6;
         }
         
-					/* Manteniendo TODOS tus estilos existentes */
+					/* barra de navegacion */
 			nav {
 				background-color: #ffffff;
 				display: flex;
@@ -14,7 +14,7 @@
 				align-items: stretch;
 				padding: 0;
 				position: relative;
-				height: 80px; /* Ajusta según necesites */
+				height: 80px; /* altura */
 			}
 
 			.menu-center {
@@ -194,27 +194,27 @@
             border: 1px solid #444;
             padding: 12px 15px;
             text-align: right;
-            background-color: #a3a3a3;/*celdas relleno sandy*/
-            color: #fff;
+            background-color: #fff;/*celdas relleno sandy*/
+            color: #000000;
         }
         
         th {
-            background-color: #003366;/*sandy color encabezado*/
+            background-color: #a6fea7;/*sandy color encabezado*/
             font-weight: 600;
         }
         
         tr:nth-child(even) {
-            background-color: #749cb0;/*fianza*/
+            background-color: #ffffff;/*fianza*/
         }
         
         .total-row th, .total-row td {
-            border-top: 2px solid #8c8c8c;/*sandy */
+            border-top: 2px solid #006f02;/*color linea */
             font-weight: 600;
-            background-color: #2a2a2a;/*sandycolor totales */
+            background-color: #a6fea7;/*sandycolor totales */
         }
         
         .saldo-row th {
-            background-color: #a4a4a4;/*sandy*/
+            background-color: #95ca96;/*sandy*/
             color: white;
             text-align: right;
         }
@@ -236,12 +236,12 @@
             border: 1px solid #444;
             padding: 12px;
             text-align: center;
-            background-color: #1a1a1a;
-            color: #fff;
+            background-color: #ffffff;/*sandy*/
+            color: #000000;
         }
         
         .guarantee-table th {
-            background-color: #003366;/*sandy encabezado de tipo de garantia */
+            background-color: #95ca96;/*sandy encabezado de tipo de garantia */
         }
         
         .airport-header {
@@ -278,7 +278,7 @@
         }
         
         .chart-box {
-            background-color: #2a2a2a;/*sandy color graficas*/
+            background-color: #ffffff;/*sandy color graficas*/
             padding: 15px;
             border-radius: 5px;
         }
