@@ -296,3 +296,33 @@
                 padding: 8px 10px;
             }
         }
+		  .boton-recargar {
+ padding: 20px 30px;
+    font-size: 24px;
+	text-decoration:none;
+    background-color: #165baf;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .boton-recargar:hover {
+    background-color: #e00000;
+  }
+  		  .boton-recargar1 {
+ padding: 10px 25px;
+    font-size: 24px;
+	text-decoration:none;
+    background-color: #165baf;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .boton-recargar:hover {
+    background-color: #e00000;
+  }
+  
+  

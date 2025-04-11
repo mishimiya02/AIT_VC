@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Inflación</title>
+  
+</head>
+<body>
+<!-- FORMULARIO DE INFLACIÓN -->
+<h2 style="margin-top: 40px;">Calculadora de Inflación</h2>
+
+<form onsubmit="event.preventDefault(); calcularInflacion();" style="max-width: 600px;">
+  <div class="form-group">
+    <label for="monto">Monto original:</label>
+    <input type="number" id="monto" required>
+  </div>
+
+  <div class="form-group">
+    <label for="tasa">Tasa de inflación anual (%):</label>
+    <input type="number" id="tasa" step="0.01" required>
+  </div>
+
+  <div class="form-group">
+    <label for="inicioInflacion">Fecha de inicio:</label>
+    <input type="date" id="inicioInflacion" required>
+  </div>
+
+  <div class="form-group">
+    <label for="finalInflacion">Fecha final:</label>
+    <input type="date" id="finalInflacion" required>
+  </div>
+
+  <button type="submit">Calcular Inflación</button>
+</form>
+
+<div id="resultadoInflacion" style="margin-top: 20px; font-size: 16px;"></div>
+
+<script>
+  function calcularInflacion() {
+    const monto = parseFloat(document.getElementById('monto').value);
+    const tasa = parseFloat(document.getElementById('tasa').value) / 100;
+    const fechaInicio = new Date(document.getElementById('inicioInflacion').value);
+    const fechaFinal = new Date(document.getElementById('finalInflacion').value);
+
+    if (isNaN(monto) || isNaN(tasa) || fechaFinal <= fechaInicio) {
+      document.getElementById('resultadoInflacion').innerHTML = 'Por favor, revisa los datos ingresados.';
+      return;
+    }
+
+    const años = (fechaFinal - fechaInicio) / (1000 * 60 * 60 * 24 * 365.25);
+    const valorAjustado = monto * Math.pow(1 + tasa, años);
+
+    const resultado = `
+      <p>Valor ajustado por inflación: <strong>$${valorAjustado.toFixed(2)}</strong></p>
+      <p>En ${años.toFixed(2)} años, con una inflación anual del ${(tasa * 100).toFixed(2)}%, 
+      tu dinero pasó de <strong>$${monto}</strong> a <strong>$${valorAjustado.toFixed(2)}</strong>.</p>
+    `;
+
+    document.getElementById('resultadoInflacion').innerHTML = resultado;
+  }
+</script>
+
+
+</body>
