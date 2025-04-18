@@ -102,6 +102,47 @@
                 <input type="checkbox" id="inflacion">
             </div>
             
+			
+			
+			<!--ABAJO DE APLICAR INFLACION POR CADA ANIVERSARIO-->
+												<div class="form-group1">
+								<label for="tinflacion">Desplegar tabla de inflación</label>
+							
+								<input type="checkbox" id="tinflacion">
+								<strong><p><a href="calcularinflacion.html" class="link-bonito">si desea calcular la inflacion entre dos fechas de clic aqui</a></strong></p>
+							</div>
+
+							<img id="tablaInflacion" src="img/tinflacion.png" alt="Tabla de inflación">
+							<br><br>
+
+							<script>
+								const checkbox = document.getElementById('tinflacion');
+								const imagen = document.getElementById('tablaInflacion');
+
+								checkbox.addEventListener('change', function() {
+									if (this.checked) {
+										imagen.style.display = 'block';
+									} else {
+										imagen.style.display = 'none';
+									}
+								});
+							</script>
+
+            
+			
+			
+			<br><br>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
             <div class="form-group" id="inflacion-aniversario-container" style="display: none;">
                 <label for="inflacion-aniversario">Porcentaje de inflación por cada aniversario cumplido (separados por comas):</label>
                 <input type="text" id="inflacion-aniversario">
@@ -241,7 +282,7 @@
 			
             
             <div class="footer">
-          <a href="#" onclick="location.reload(); return false;" class="boton-recargar">
+          <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">
   vaciar formulario
 </a>  
             </div>
@@ -750,3 +791,4 @@ document.getElementById('contract-info').style.display = 'block';
 	
 </body>
 </html>
+

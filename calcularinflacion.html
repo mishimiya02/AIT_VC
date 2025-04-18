@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--aqui van los css-->
+<link rel="stylesheet" href="css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Inflación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body>
+		<!-- Barra de navegación -->
+    	  <!--  -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo">
+    <div class="menu-center">
+        <a  href="index.html">Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+                <a href="servicio1.html"target="_blank">TARIFA PROPORCIONAL</a>
+                <a href="calcularinflacion.html">CALCULADORA DE INFLACION</a>
+                <a href="servicio3.html">Servicio 3</a>
+                <a href="servicio4.html">Servicio 4</a>
+            </div>
+        </div>
+        
+        <a href="#contacto">Contacto</a>
+        <a href="#acerca">Acerca de</a>
+    </div>
+	</nav>
+
+
+
+
+
+			  <h1>Calculadora de Inflación</h1>
+	
+	 <div class="container">
+
+  
+
+    <div class="form-group">
+        <label for="monto">Monto original:</label>
+        <input type="number" id="monto" placeholder="Ej. 1000">
+
+        <label for="fechaInicio">Fecha inicial:</label>
+        <input type="month" id="fechaInicio">
+
+        <label for="fechaFinal">Fecha final:</label>
+        <input type="month" id="fechaFinal">
+
+        <button onclick="calcularInflacion()">Calcular</button>
+
+        <div id="resultado"></div>
+    </div>
+</div>
+    <script>
+    function calcularInflacion() {
+        const monto = parseFloat(document.getElementById('monto').value);
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFinal = document.getElementById('fechaFinal').value;
+
+        if (!monto || !fechaInicio || !fechaFinal) {
+            document.getElementById('resultado').innerText = 'Por favor, completa todos los campos.';
+            return;
+        }
+
+        const inflacionAnual = 0.04; // Inflación estimada del 4% anual
+        const mesesInicio = new Date(fechaInicio).getFullYear() * 12 + new Date(fechaInicio).getMonth();
+        const mesesFinal = new Date(fechaFinal).getFullYear() * 12 + new Date(fechaFinal).getMonth();
+        const diferenciaMeses = mesesFinal - mesesInicio;
+
+        if (diferenciaMeses < 0) {
+            document.getElementById('resultado').innerText = 'La fecha final debe ser posterior a la inicial.';
+            return;
+        }
+
+        const inflacionMensual = Math.pow(1 + inflacionAnual, 1 / 12) - 1;
+        const montoAjustado = monto * Math.pow(1 + inflacionMensual, diferenciaMeses);
+        const porcentajeInflacion = ((montoAjustado - monto) / monto) * 100;
+
+        document.getElementById('resultado').innerHTML = `
+            Monto ajustado por inflación: <strong>$${montoAjustado.toFixed(2)}</strong><br>
+            Inflación acumulada: <strong>${porcentajeInflacion.toFixed(2)}%</strong>
+        `;
+    }
+</script>
+
+</body>
+</html>
