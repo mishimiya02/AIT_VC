@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="es">
 <!--aqui van los css-->
@@ -30,8 +29,8 @@
             </div>
         </div>
         
-        <a href="contacto.html">Contacto</a>
-        
+        <a href="#contacto">Contacto</a>
+        <a href="#acerca">Acerca de</a>
     </div>
 	</nav>
     
@@ -66,19 +65,36 @@
                 <input type="text" id="numero-contrato" required>
                 <div class="error-message">Este campo es obligatorio</div>
             </div>
+            <label for="fecha-inicio" class="required-field">Fecha inicio:</label>
+                <input type="date" id="fecha-inicio">
+              
+                <label for="fecha-fin" class="required-field">Fecha de fin:</label>
+                <input type="date" id="fecha-fin">
+              
+                <div id="resultado-fechas"></div>
+              
+                <script>
+                  const fechaInicio = document.getElementById('fecha-inicio');
+                  const fechaFin = document.getElementById('fecha-fin');
+                  const resultado = document.getElementById('resultado-fechas');
+              
+                  function calcularDias() {
+                    const inicio = new Date(fechaInicio.value);
+                    const fin = new Date(fechaFin.value);
+              
+                    if (!isNaN(inicio) && !isNaN(fin)) {
+                      const diferencia = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24));
+                      resultado.textContent = `Hay ${diferencia} días entre ambas fechas.`;
+                    } else {
+                      resultado.textContent = '';
+                    }
+                  }
+              
+                  fechaInicio.addEventListener('input', calcularDias);
+                  fechaFin.addEventListener('input', calcularDias);
+                </script>
             
-            <div class="form-group">
-                <label for="fecha-inicio" class="required-field">Fecha inicio:</label>
-                <input type="date" id="fecha-inicio" required>
-                <div class="error-message">Este campo es obligatorio</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="fecha-fin" class="required-field">Fecha fin:</label>
-                <input type="date" id="fecha-fin" required>
-                <div class="error-message">Este campo es obligatorio</div>
-            </div>
-            
+           
             <div class="form-group">
                 <label for="importe-bruto" class="required-field">Importe bruto base:</label>
                 <input type="number" id="importe-bruto" step="0.01" required>
@@ -106,7 +122,7 @@
 			
 			<!--ABAJO DE APLICAR INFLACION POR CADA ANIVERSARIO-->
 												<div class="form-group1">
-								<label for="tinflacion">Desplegar/ocultar tabla de inflación</label>
+								<label for="tinflacion">Desplegar tabla de inflación</label>
 							
 								<input type="checkbox" id="tinflacion">
 								<strong><p><a href="calcularinflacion.html" class="link-bonito">si desea calcular la inflacion entre dos fechas de clic aqui</a></strong></p>
@@ -502,14 +518,11 @@
                 const pageNumer = document.getElementById('page-number');
                 
                 // Mostrar información del usuario y contrato
-                //userContract.textContent = `${nombre} - ${numeroContrato}`;
-                //userContractRepeat.textContent = `${nombre} - ${numeroContrato}`;
-               // document.getElementById('contract-info').style.display = 'block';
 				 userContract.textContent = `${nombre} - ${numeroContrato}`;
-userContract.style.color = "#FF5733";  // Color naranja
-userContractRepeat.textContent = `${nombre} - ${numeroContrato}`;
-userContractRepeat.style.color = "#FF5733"; // Mismo color
-document.getElementById('contract-info').style.display = 'block';
+                userContract.style.color = "#FF5733";  // Color naranja
+                userContractRepeat.textContent = `${nombre} - ${numeroContrato}`;
+                userContractRepeat.style.color = "#FF5733"; // Mismo color
+                document.getElementById('contract-info').style.display = 'block';
                 
                 // Limpiar las tablas
                 cuerpoTabla.innerHTML = '';
