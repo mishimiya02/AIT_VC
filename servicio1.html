@@ -45,8 +45,8 @@
 
 <div class="container"><!-- contenedor delimitado  fondo azul  -->
 <form>
-    <label for="sueldo">Tarifa</label>
-    <input type="number" id="sueldo" name="sueldo" required><br><br>
+    <label for="tarifa">Tarifa</label>
+    <input type="number" id="tarifa" name="tarifa" required><br><br>
 
     <label for="inicio">Fecha de inicio:</label>
     <input type="date" id="inicio" name="inicio" required><br><br>
@@ -65,90 +65,97 @@
             <th>Mes</th>
             <th>Año</th>
             <th>Días del mes</th>
-            <th>Sueldo Diario</th>
-            <th>Sueldo Proporcional</th>
+            <th>Tarifa  Diaria</th>
+            <th>Tarifa Proporcional</th>
         </tr>
     </thead>
     <tbody></tbody>
 </table>
 
 <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">Vaciar formulario</a>
-
 <script>
     function calcularDiferencia() {
-        let sueldo = parseFloat(document.getElementById("sueldo").value);
+        let tarifa = parseFloat(document.getElementById("tarifa").value);
         let inicio = new Date(document.getElementById("inicio").value);
         let termino = new Date(document.getElementById("termino").value);
         let tabla = document.getElementById("tablaResultados");
         let tbody = tabla.querySelector("tbody");
-
-        if (isNaN(sueldo) || sueldo <= 0) {
-            document.getElementById("resultado").innerText = "Por favor, ingresa un sueldo válido.";
+    
+        if (isNaN(tarifa) || tarifa <= 0) {
+            document.getElementById("resultado").innerText = "Por favor, ingresa una cantidad válida.";
             tabla.style.display = "none";
             return;
         }
-
+    
         if (isNaN(inicio) || isNaN(termino)) {
             document.getElementById("resultado").innerText = "Por favor, selecciona ambas fechas.";
             tabla.style.display = "none";
             return;
         }
-
+    
         if (termino < inicio) {
             document.getElementById("resultado").innerText = "La fecha de término no puede ser anterior a la de inicio.";
             tabla.style.display = "none";
             return;
         }
-
+    
+        // Normalizar horas
+        inicio.setHours(0, 0, 0, 0);
+        termino.setHours(0, 0, 0, 0);
+    
         tbody.innerHTML = "";
         let fechaActual = new Date(inicio);
         let totalMeses = 0;
         let totalDias = 0;
-
+    
         while (fechaActual <= termino) {
             let año = fechaActual.getFullYear();
             let mes = fechaActual.getMonth();
             let diasMes = new Date(año, mes + 1, 0).getDate();
-            let diasUsados = 0;
-
-            // Caso especial si el inicio y término están en el mismo mes
-            if (año === inicio.getFullYear() && mes === inicio.getMonth() &&
-                año === termino.getFullYear() && mes === termino.getMonth()) {
-                diasUsados = termino.getDate() - inicio.getDate() + 1;
+            let primerDiaMes = new Date(año, mes, 1);
+            let ultimoDiaMes = new Date(año, mes + 1, 0);
+    
+            let desde = primerDiaMes;
+            let hasta = ultimoDiaMes;
+    
+            if (año === inicio.getFullYear() && mes === inicio.getMonth()) {
+                desde = inicio;
             }
-            else if (año === inicio.getFullYear() && mes === inicio.getMonth()) {
-                diasUsados = diasMes - inicio.getDate() + 1;
+    
+            if (año === termino.getFullYear() && mes === termino.getMonth()) {
+                hasta = termino;
             }
-            else if (año === termino.getFullYear() && mes === termino.getMonth()) {
-                diasUsados = termino.getDate();
-            } else {
-                diasUsados = diasMes;
-            }
-
-            let sueldoDiario = sueldo / diasMes;
-            let sueldoProporcional = sueldoDiario * diasUsados;
-
+    
+            // Normalizar
+            desde.setHours(0, 0, 0, 0);
+            hasta.setHours(0, 0, 0, 0);
+    
+            let diasUsados = Math.round((hasta - desde) / (1000 * 60 * 60 * 24)) ;
+    
+            let tarifaDiaria = tarifa / diasMes;
+            let tarifaProporcional = tarifaDiaria * diasUsados;
+    
             totalMeses++;
             totalDias += diasUsados;
-
+    
             let fila = `<tr>
                 <td>${fechaActual.toLocaleString('es-ES', { month: 'long' }).toUpperCase()}</td>
                 <td>${año}</td>
-                <td>${diasUsados}</td>
-                <td>$ ${sueldoDiario.toFixed(2)} MNX</td>
-                <td>$ ${sueldoProporcional.toFixed(2)} MNX</td>
+                <td>${diasUsados} / ${diasMes}</td>
+                <td>$ ${tarifaDiaria.toFixed(2)}</td>
+                <td>$ ${tarifaProporcional.toFixed(2)}</td>
             </tr>`;
-
+    
             tbody.innerHTML += fila;
-
+    
+            // Avanza al siguiente mes
             fechaActual.setMonth(fechaActual.getMonth() + 1);
             fechaActual.setDate(1);
         }
-
-        document.getElementById("resultado").innerText = `Total: ${totalMeses} meses y ${totalDias} días.`;
+    
+        document.getElementById("resultado").innerText = `Total: ${totalMeses} mes(es) y ${totalDias} día(s).`;
         tabla.style.display = "table";
     }
-</script>
-
+    </script>
 </body>
 </html>
