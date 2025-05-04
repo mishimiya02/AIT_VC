@@ -193,14 +193,14 @@
                 const indiceFin = inflacion[fin];
         
                 resultado.innerHTML = `
-                  Índice en <strong>${inicio}</strong>: ${indiceInicio}<br>
-                  Índice en <strong>${fin}</strong>: ${indiceFin}
+                 <strong> Índice en ${inicio}: ${indiceInicio}</strong><br><br>
+                 <strong> Índice en ${fin}: ${indiceFin}</strong><br><br>
                 `;
         
                 if (!isNaN(monto)) {
                   const ajustado = monto * (indiceFin / indiceInicio);
                   ajuste.innerHTML = `
-                    Valor ajustado por inflación: <strong>$${ajustado.toFixed(2)}</strong>
+                   <strong> Valor ajustado por inflación: $${ajustado.toFixed(2)}</strong>
                   `;
                 } else {
                   ajuste.innerHTML = '';

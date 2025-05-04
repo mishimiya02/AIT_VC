@@ -45,113 +45,113 @@
                 <label for="termino">Fecha de término:</label>
                 <input type="date" id="termino" name="termino" required>
             </div>
-            
+			
+            <label for="termino">Tarifa</label>
+            <input type="numero" id="tarifa"required>
+				
             <button onclick="calcularDiasPorMes()">Generar reporte</button>
             
             <div id="resultado"></div>
         </div>
     
-        <script>
-            function calcularDiasPorMes() {
-                const inicio = new Date(document.getElementById('inicio').value);
-                const termino = new Date(document.getElementById('termino').value);
-                const resultadoDiv = document.getElementById('resultado');
-                
-                // Limpiar resultados anteriores
-                resultadoDiv.innerHTML = '';
-                
-                // Validar que las fechas sean válidas
-                if (isNaN(inicio.getTime()) || isNaN(termino.getTime())) {
-                    resultadoDiv.innerHTML = `<div class="error">Por favor, ingrese ambas fechas válidas.</div>`;
-                    return;
-                }
-                
-                // Validar que la fecha de término no sea anterior a la de inicio
-                if (termino < inicio) {
-                    resultadoDiv.innerHTML = `<div class="error">La fecha de término debe ser posterior a la fecha de inicio.</div>`;
-                    return;
-                }
-                
-                let fechaActual = new Date(inicio);
-                let desglose = [];
-                let totalDias = 0;
-                
-                // Ajustar la fecha actual al primer día del mes para evitar problemas con meses de diferente duración
-                fechaActual.setDate(1);
-                
-                // Mientras la fecha actual (mes) sea menor o igual al mes de término
-                while (fechaActual <= termino || 
-                       fechaActual.getFullYear() < termino.getFullYear() || 
-                       (fechaActual.getFullYear() === termino.getFullYear() && 
-                        fechaActual.getMonth() <= termino.getMonth())) {
-                    
-                    const año = fechaActual.getFullYear();
-                    const mes = fechaActual.getMonth();
-                    const nombreMes = fechaActual.toLocaleString('es-ES', { month: 'long' });
-                    const nombreMesFormateado = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1);
-                    
-                    // Determinar el primer y último día del mes actual a considerar
-                    let primerDiaMes = new Date(año, mes, 1);
-                    let ultimoDiaMes = new Date(año, mes + 1, 0);
-                    
-                    // Ajustar los límites según las fechas de inicio y término
-                    let inicioMes = (primerDiaMes < inicio) ? inicio : primerDiaMes;
-                    let finMes = (ultimoDiaMes > termino) ? termino : ultimoDiaMes;
-                    
-                    // Calcular días en este mes
-                    const diasEnMes = Math.max(0, (finMes - inicioMes) / (1000 * 60 * 60 * 24) + 1);
-                    
-                    if (diasEnMes > 0) {
-                        const diasRedondeados = Math.round(diasEnMes);
-                        desglose.push({
-                            mes: nombreMesFormateado,
-                            año: año,
-                            dias: diasRedondeados
-                        });
-                        totalDias += diasRedondeados;
-                    }
-                    
-                    // Pasar al siguiente mes
-                    fechaActual.setMonth(fechaActual.getMonth() + 1);
-                }
-                
-                // Mostrar resultados
-                if (desglose.length === 0) {
-                    resultadoDiv.innerHTML = `<div class="error">No hay días para mostrar en el rango seleccionado.</div>`;
-                    return;
-                }
-                
-                let html = `
-                    <div class="total-dias">Total de días: ${totalDias}</div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Mes</th>
-                                <th>Año</th>
-                                <th>Días</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                desglose.forEach(item => {
-                    html += `
-                        <tr>
-                            <td>${item.mes}</td>
-                            <td>${item.año}</td>
-                            <td>${item.dias}</td>
-                        </tr>
-                    `;
+       <script>
+    function calcularDiasPorMes() {
+        const inicio = new Date(document.getElementById('inicio').value);
+        const termino = new Date(document.getElementById('termino').value);
+        const tarifa = parseFloat(document.getElementById('tarifa').value);
+        const resultadoDiv = document.getElementById('resultado');
+
+        // Limpiar resultados anteriores
+        resultadoDiv.innerHTML = '';
+
+        // Validaciones
+        if (isNaN(inicio.getTime()) || isNaN(termino.getTime())) {
+            resultadoDiv.innerHTML = `<div class="error">Por favor, ingrese ambas fechas válidas.</div>`;
+            return;
+        }
+        if (termino < inicio) {
+            resultadoDiv.innerHTML = `<div class="error">La fecha de término debe ser posterior a la fecha de inicio.</div>`;
+            return;
+        }
+        if (isNaN(tarifa) || tarifa <= 0) {
+            resultadoDiv.innerHTML = `<div class="error">Ingrese una tarifa válida mayor que cero.</div>`;
+            return;
+        }
+
+        let fechaActual = new Date(inicio);
+        let desglose = [];
+        let totalDias = 0;
+
+        fechaActual.setDate(1); // primer día del mes
+
+        while (fechaActual <= termino) {
+            const año = fechaActual.getFullYear();
+            const mes = fechaActual.getMonth();
+            const nombreMes = fechaActual.toLocaleString('es-ES', { month: 'long' });
+            const nombreMesFormateado = nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1);
+
+            let primerDiaMes = new Date(año, mes, 1);
+            let ultimoDiaMes = new Date(año, mes + 1, 0);
+
+            let inicioMes = (primerDiaMes < inicio) ? inicio : primerDiaMes;
+            let finMes = (ultimoDiaMes > termino) ? termino : ultimoDiaMes;
+
+            const diasEnMes = Math.max(0, (finMes - inicioMes) / (1000 * 60 * 60 * 24) + 1);
+
+            if (diasEnMes > 0) {
+                const diasRedondeados = Math.round(diasEnMes);
+                const resultado = tarifa / diasRedondeados;
+                desglose.push({
+                    mes: nombreMesFormateado,
+                    año: año,
+                    dias: diasRedondeados,
+                    division: resultado.toFixed(2)
                 });
-                
-                html += `
-                        </tbody>
-                    </table>
-                `;
-                
-                resultadoDiv.innerHTML = html;
+                totalDias += diasRedondeados;
             }
-        </script>
+
+            fechaActual.setMonth(fechaActual.getMonth() + 1);
+        }
+
+        // Mostrar resultados
+        if (desglose.length === 0) {
+            resultadoDiv.innerHTML = `<div class="error">No hay días para mostrar en el rango seleccionado.</div>`;
+            return;
+        }
+
+        let html = `
+            <div class="total-dias">Total de días: ${totalDias}</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mes</th>
+                        <th>Año</th>
+                        <th>Días</th>
+                        <th>Tarifa Diaria</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        desglose.forEach(item => {
+            html += `
+                <tr>
+                    <td>${item.mes}</td>
+                    <td>${item.año}</td>
+                    <td>${item.dias}</td>
+                    <td>$${item.division}</td>
+                </tr>
+            `;
+        });
+
+        html += `
+                </tbody>
+            </table>
+        `;
+
+        resultadoDiv.innerHTML = html;
+    }
+</script>
 
 </body>
 </html>
