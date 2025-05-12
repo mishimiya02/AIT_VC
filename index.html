@@ -507,38 +507,27 @@
                     }
                     
                     // Mostrar resultado
-                    resultadoDiv.style.display = 'block';
-                    resultadoDiv.style.backgroundColor = datosValor.color;
-                    resultadoDiv.style.color = 'white';
-                    resultadoDiv.innerHTML = `
-                        <h3>Valor para ${nombreMes} ${anio}</h3>
-                        <div class="valor-grande">$${datosValor.valor}</div>
-                        <p>${datosValor.descripcion}</p>
-                    `;
+                   // Mostrar resultado
+resultadoDiv.style.display = 'block';
+resultadoDiv.style.backgroundColor = datosValor.color || '#3498db'; // Color de fondo personalizado o predeterminado
+resultadoDiv.style.color = 'white';
+resultadoDiv.style.padding = '20px';
+resultadoDiv.style.borderRadius = '12px';
+resultadoDiv.style.marginTop = '20px';
+resultadoDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+resultadoDiv.style.fontFamily = 'Arial, sans-serif';
+resultadoDiv.style.transition = 'all 0.3s ease-in-out';
+
+// Contenido HTML interno
+resultadoDiv.innerHTML = `
+    <h3 style="margin-top: 0; font-size: 1.5rem;">Valor para ${nombreMes} ${anio}</h3>
+    <div style="font-size: 2.5rem; font-weight: bold; margin: 10px 0;">$${datosValor.valor}</div>
+    <p style="font-size: 1rem; margin: 0;">${datosValor.descripcion}</p>
+`;
+
                 }
         
-                // Rellenar automáticamente los meses restantes con valores base
-                function inicializarValores() {
-                    const meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-                    
-                    meses.forEach(mes => {
-                        if (!valoresPorMesAnio["2023"][mes]) {
-                            valoresPorMesAnio["2023"][mes] = {
-                                valor: 150 + (parseInt(mes) * 5),
-                                color: `#${Math.floor(Math.random()*16777215).toString(16)}`,
-                                descripcion: "Valor calculado"
-                            };
-                        }
-                        
-                        if (!valoresPorMesAnio["2024"][mes]) {
-                            valoresPorMesAnio["2024"][mes] = {
-                                valor: 180 + (parseInt(mes) * 6),
-                                color: `#${Math.floor(Math.random()*16777215).toString(16)}`,
-                                descripcion: "Valor proyectado"
-                            };
-                        }
-                    });
-                }
+            
         
                 // Inicializar al cargar la página
                 window.onload = inicializarValores;
