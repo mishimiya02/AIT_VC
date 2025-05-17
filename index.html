@@ -533,11 +533,11 @@
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 1rem; margin-bottom: 5px;">Inflación Acumulada</div>
-                        <div style="font-size: 2.5rem; font-weight: bold;">$${datosValor.valorAdicional1}</div>
+                        <div style="font-size: 2.5rem; font-weight: bold;">${datosValor.valorAdicional1}</div>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 1rem; margin-bottom: 5px;">Inflación Anual</div>
-                        <div style="font-size: 2.5rem; font-weight: bold;">$${datosValor.valorAdicional2}</div>
+                        <div style="font-size: 2.5rem; font-weight: bold;">${datosValor.valorAdicional2}</div>
                     </div>
                 </div>
                 <p style="font-size: 1rem; margin: 0;">${datosValor.descripcion}</p>
@@ -618,6 +618,7 @@
                         <th>Consecutivo</th>
                         <th>Fecha</th>
 						<th>Dias del mes </th>
+						<th>Importe Diario</th>
                         <th>Fecha límite</th>
                         <th>Importe bruto</th>
                         <th>Inflación Año</th>
@@ -930,30 +931,33 @@ document.getElementById('contract-info').style.display = 'block';
                 
                 // Agregar filas a la tabla principal
                  data.forEach(row => {
-        const fecha = new Date(row.fecha);
-        const ultimoDiaMes = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0).getDate();
+    const fecha = new Date(row.fecha);
+    const ultimoDiaMes = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0).getDate();
+    const importeDiario = row.importeBruto / ultimoDiaMes; // Cálculo del importe diario
+
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+        <td>${row.consecutivo}</td>
+        <td>${formatearFecha(row.fecha)}</td>
+        <td>${ultimoDiaMes}</td>
+		<td>${formatearMoneda(importeDiario)}</td> <!-- Nueva columna -->
+        <td>${formatearFecha(row.fechaLimite)}</td>
+        <td>${formatearMoneda(row.importeBruto)}</td>
         
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td>${row.consecutivo}</td>
-            <td>${formatearFecha(row.fecha)}</td>
-            <td>${ultimoDiaMes}</td>
-            <td>${formatearFecha(row.fechaLimite)}</td>
-            <td>${formatearMoneda(row.importeBruto)}</td>
-            <td>${formatearMoneda(row.inflacionAnual)}</td>
-            <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
-            <td>${formatearMoneda(row.montoActualizado)}</td>
-            <td>${formatearMoneda(row.descuento)}</td>
-            <td>${formatearMoneda(row.subtotal)}</td>
-            <td>${formatearMoneda(row.alicuotas)}</td>
-            <td>${formatearMoneda(row.impuestoSobreMonto)}</td>
-            <td>${formatearMoneda(row.impuestoSobreAlicuotas)}</td>
-            <td>${formatearMoneda(row.penalizacion)}</td>
-            <td>${formatearMoneda(row.totalMes)}</td>
-            <td>${formatearMoneda(row.acumuladoTotal)}</td>
-        `;
-        cuerpoTabla.appendChild(fila);
-    });
+        <td>${formatearMoneda(row.inflacionAnual)}</td>
+        <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
+        <td>${formatearMoneda(row.montoActualizado)}</td>
+        <td>${formatearMoneda(row.descuento)}</td>
+        <td>${formatearMoneda(row.subtotal)}</td>
+        <td>${formatearMoneda(row.alicuotas)}</td>
+        <td>${formatearMoneda(row.impuestoSobreMonto)}</td>
+        <td>${formatearMoneda(row.impuestoSobreAlicuotas)}</td>
+        <td>${formatearMoneda(row.penalizacion)}</td>
+        <td>${formatearMoneda(row.totalMes)}</td>
+        <td>${formatearMoneda(row.acumuladoTotal)}</td>
+    `;
+    cuerpoTabla.appendChild(fila);
+});
                 
                 // Actualizar totales
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
