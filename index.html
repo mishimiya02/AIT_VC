@@ -529,7 +529,7 @@
                 <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin: 20px 0;">
                     <div style="text-align: center;">
                         <div style="font-size: 1rem; margin-bottom: 5px;"> Inflacion Mensual</div>
-                        <div style="font-size: 2.5rem; font-weight: bold;">$${datosValor.valor}</div>
+                        <div style="font-size: 2.5rem; font-weight: bold;">${datosValor.valor}</div>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 1rem; margin-bottom: 5px;">Inflación Acumulada</div>
@@ -635,10 +635,10 @@
                     </tr>
                 </thead>
                 <tbody id="cuerpo-tabla">
-                    <!-- Filas dinámicas -->
+                    <!-- Filas dinámicas filas totales -->
                 </tbody>
                 <tfoot>
-                    <tr class="total-row">
+                <!--    <tr class="total-row">
                         <th colspan="3">Totales:</th>
                         <td id="total-importe-bruto"></td>
                         <td></td>
@@ -652,7 +652,7 @@
                         <td id="total-penalizacion"></td>
                         <td id="total-mensual"></td>
                         <td id="total-acumulado"></td>
-                    </tr>
+                    </tr>     -->
                     <tr class="saldo-row">
                         <th colspan="13">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
                     </tr>
@@ -943,7 +943,6 @@ document.getElementById('contract-info').style.display = 'block';
 		<td>${formatearMoneda(importeDiario)}</td> <!-- Nueva columna -->
         <td>${formatearFecha(row.fechaLimite)}</td>
         <td>${formatearMoneda(row.importeBruto)}</td>
-        
         <td>${formatearMoneda(row.inflacionAnual)}</td>
         <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
         <td>${formatearMoneda(row.montoActualizado)}</td>
@@ -960,16 +959,16 @@ document.getElementById('contract-info').style.display = 'block';
 });
                 
                 // Actualizar totales
-                totalImporteBruto.textContent = formatearMoneda(totalIB);
-                totalMontoActualizado.textContent = formatearMoneda(totalMA);
-                totalAlicuota.textContent = formatearMoneda(totalAL);
-                totalImpuestoMonto.textContent = formatearMoneda(totalIM);
-                totalImpuestoAlicuota.textContent = formatearMoneda(totalIA);
-                totalPenalizacion.textContent = formatearMoneda(totalPE);
-                totalDescuento.textContent = formatearMoneda(totalDT);
-                totalSubtotal.textContent = formatearMoneda(totalST);
-                totalMensual.textContent = formatearMoneda(totalTM);
-                totalAcumulado.textContent = formatearMoneda(totalAT);
+               // totalImporteBruto.textContent = formatearMoneda(totalIB);
+               // totalMontoActualizado.textContent = formatearMoneda(totalMA);
+               // totalAlicuota.textContent = formatearMoneda(totalAL);
+                //totalImpuestoMonto.textContent = formatearMoneda(totalIM);
+               // totalImpuestoAlicuota.textContent = formatearMoneda(totalIA);
+               // totalPenalizacion.textContent = formatearMoneda(totalPE);
+               // totalDescuento.textContent = formatearMoneda(totalDT);
+              //  totalSubtotal.textContent = formatearMoneda(totalST);
+               // totalMensual.textContent = formatearMoneda(totalTM);
+               // totalAcumulado.textContent = formatearMoneda(totalAT);//
                 
                 // Mostrar monto pagado y saldo del contrato
                 montoPagadoElement.textContent = formatearMoneda(totalPagado);
