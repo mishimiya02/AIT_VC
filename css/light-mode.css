@@ -6,15 +6,19 @@
  			background-color: #f5f5f5;
          }
 
+      .form-group .required-field {
+    color: #000000; /* Azul */
+  }
+
 
          /* Formulario con texto blanco */
         #valuation-form {
-            color: white;
+            color: rgb(0, 0, 0);
         }
         
         /* Labels en blanco */
         #valuation-form label {
-            color: white !important;
+            color: rgb(0, 0, 0) !important;
         }
         
         /* Inputs con texto negro para legibilidad */
@@ -27,22 +31,28 @@
         .error-message {
             color: #ff9999 !important;
         }
-        
-     /* FORMULARIO */
-#valuation-form {
-    font-size: 22px;
-}
-
-#valuation-form label {
-    font-size: 20px;
-    font-weight: bold;
-}
 
 
- 
+
+
+
+
+  #numero-contrato {
+    color: #ffffff;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+     
+  #user-contract {/*usuario contrato*/
+    text-align: center;
+    color: rgb(255, 255, 255); /* Color */
+    font-family: Arial, sans-serif;
+    margin: 15px 0;
+  }
+
  					/* barra de navegacion */
  			nav {
- 				background-color: #413FCF;
+ 				background-color: #5552e6;
  				display: flex;
  				justify-content: space-between;
  				align-items: stretch;
@@ -50,6 +60,8 @@
  				position: relative;
  				height: 80px; /* altura */
  			}
+
+          
  
  			.menu-center {
  				display: flex;
@@ -68,10 +80,11 @@
  				font-family: 'Segoe UI', sans-serif;
  				letter-spacing: 1px;
  				text-transform: uppercase;
- 				display: flex;
+ 				/*display: flex;*/
  				align-items: center;
  				height: 100%;
  				transition: all 0.3s;
+                display: flex;
  			}
  
  			nav a:hover {
@@ -117,7 +130,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #ff802c;
+ 				background-color: #2f517c;
  				color: white;
  			}
  
@@ -128,18 +141,59 @@
              display: table;
          }
  
- 		p {
-             text-align: center;
-        }
+ 		    p {
+         text-align: center;
+         
+      }
+ 
+#theme-toggle {
+   font-weight: bold;
+     font-size: 17px;
+     background-color: #5552e6;
+     color: white;
+     border: none;
+     cursor: pointer;
+     transition: background-color 0.3s;
+         
+}
+
+.dark-mode #theme-toggle {
+    border-color: #0aa5ff;
+    color: #ff7e5f;
+    font-weight: bold;
+     font-size: 17px;
+      cursor: pointer;
+     transition: background-color 0.3s;
+     border: none;
+}
+
+#theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
+
+.dark-mode #theme-toggle:hover {
+    background: rgb(255, 103, 33);
+}
+
+
+
+
+
+
+
+
  /* tabla*****************************************************************************************/
  .container {
              max-width: 80%;
              margin: 0 auto;
-             background-color: #4342a5;/*color del contenedor*/
+             background-color: #ffffff;
              padding: 25px;
              border-radius: 8px;
              box-shadow: 0 2px 10px rgba(0,0,0,0.3);
- 			overflow-x: auto; /* Agrega un scroll horizontal si la tabla es muy ancha */
+ 			 overflow-x: auto; /* Agrega un scroll horizontal si la tabla es muy ancha */
+             border: 3px solid transparent;
+             border-image: linear-gradient(to right, #44e9ff, #413FCF);
+             border-image-slice: 1;
          }
          
          h1 {
@@ -154,19 +208,10 @@
              text-align: center;
              font-style: sans-serif;
              margin-top: 0;
-             color: #ffffff;
+             color: #0011ff;
 			 font-size: 35px;
          }
          
-
-           h3 {
-             text-align: center;
-             font-style: sans-serif;
-             margin-top: 0;
-             color: #ffffff;
-			 font-size: 25px;
-         }
-
          .subtitle {
              text-align: center;
              font-size: 14px;
@@ -182,22 +227,22 @@
              display: block;
              margin-bottom: 8px;
              font-weight: 600;
-             color: #000000;
+             color: #00a2ff;
          }
          
          input, select {
              width: 100%;
              padding: 10px;
              background-color: d5ffff;
-             color: #000000;
-             border: 1px solid #00ebec;
+             color: #f55a2a;
+             border: 1px solid #0091b6;
              border-radius: 4px;
              box-sizing: border-box;
              font-size: 14px;
          }
          
          button {
-             background-color: #ff2600b0;
+             background-color: #0051ff;
              color: white;
              border: none;
              padding: 12px 20px;
@@ -209,7 +254,7 @@
          }
          
          button:hover {
-             background-color: #ff8f0e;
+             background-color: #36c6ff;
          }
          
          table {
@@ -228,7 +273,7 @@
          }
          
          th {
-             background-color: #29fff4;/*sandy color encabezado*/
+             background-color: #00c3ff;/*sandy color encabezado*/
              font-weight: 600;
          }
          
@@ -239,11 +284,11 @@
          .total-row th, .total-row td {
              border-top: 2px solid #006f02;/*color linea */
              font-weight: 600;
-             background-color: #a6fea7;/*sandycolor totales */
+             background-color: #78ebff;/*sandycolor totales */
          }
          
          .saldo-row th {
-             background-color: #4fbeff;/*sandy*/
+             background-color: #45c4bd;/*sandy*/
              color: black;/*color monto pagado*/
              text-align: right;
          }
@@ -270,7 +315,7 @@
          }
          
          .guarantee-table th {
-             background-color: #6ad5ff;/*sandy encabezado de tipo de garantia */
+             background-color: #95ca96;/*sandy encabezado de tipo de garantia */
          }
          
          .airport-header {
@@ -330,7 +375,7 @@
   padding: 20px 30px;
      font-size: 24px;
  	text-decoration:none;
-     background-color: #ffa600;
+     background-color: #165baf;
      color: white;
      border: none;
      border-radius: 8px;
@@ -338,13 +383,13 @@
      transition: background-color 0.3s;
    }
    .boton-recargar:hover {
-     background-color: #e00000;
+     background-color: #80dbff;
    }
    		  .boton-recargar1 {
   padding: 10px 25px;
      font-size: 24px;
  	text-decoration:none;
-     background-color: #ff0000b2;
+     background-color: #0032d6;
      color: white;
      border: none;
      border-radius: 8px;
@@ -352,9 +397,6 @@
      transition: background-color 0.3s;
    }
    .boton-recargar:hover {
-     background-color: #e00000;
+     background-color: #7cfff8;
    }
    
- .boton-recargar1:hover {
-     background-color: #ff7b00;
-   }

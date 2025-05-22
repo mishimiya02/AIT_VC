@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
- <!-- Tema claro (activo por defecto) -->
-    <link rel="stylesheet" href="css/light-mode.css" id="theme-style">
+
+<link rel="stylesheet" href="css/style.css">     <!-- hoja de estilos  -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -27,10 +28,10 @@
         </div>
         
         <a href='/contacto'>Contacto</a>
-        <button id="theme-toggle">🌙 Modo Nocturno</button>
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
 	</nav>
+<body>
     <!-- Contenido principal -->
     <div class="contenido">
         <h1>Solicita una valuación de contrato </h1>
@@ -604,7 +605,7 @@
         
         <div id="resultados" style="display: none; margin-top: 30px;">
             <div class="airport-header">
-                <h2>Administradora Mexiquense del Aeropuerto Internacional de Toluca</h2>
+                <h3>Administradora Mexiquense del Aeropuerto Internacional de Toluca</h3>
                 <h2  style="color: white; font-weight: bold " >Valuación contractual</h2> 
 
                 <div    style="color: white; font-weight: bold class" ="subtitle"    >CIFRAS EN MXN</div>
@@ -618,6 +619,8 @@
                         <th>Fecha</th>
 						<th>Dias del mes </th>
 						<th>Importe Diario</th>
+						<th>Importe proporcional</th><!--diana-->
+						<th>dias cubiertos</th>
                         <th>Fecha límite</th>
                         <th>Importe bruto</th>
                         <th>Inflación Año</th>
@@ -933,6 +936,29 @@ document.getElementById('contract-info').style.display = 'block';
     const fecha = new Date(row.fecha);
     const ultimoDiaMes = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0).getDate();
     const importeDiario = row.importeBruto / ultimoDiaMes; // Cálculo del importe diario
+	
+	 // Nueva: Calcular días cubiertos (asumiendo fechas de inicio/fin del contrato)
+    const fechaInicioContrato = new Date(document.getElementById('fecha-inicio').value);
+    const fechaFinContrato = new Date(document.getElementById('fecha-fin').value);
+    
+    let diasCubiertos = ultimoDiaMes; // Por defecto, todo el mes
+    
+    // Si es el primer mes del contrato
+    if (row.consecutivo === 1 && fecha.getMonth() === fechaInicioContrato.getMonth()) {
+        diasCubiertos = ultimoDiaMes - fechaInicioContrato.getDate() + 1;
+    }
+    
+    // Si es el último mes del contrato
+    if (row.consecutivo === data.length && fecha.getMonth() === fechaFinContrato.getMonth()) {
+        diasCubiertos = fechaFinContrato.getDate();
+    }
+    
+    // Nueva: Calcular importe proporcional
+    const importeProporcional = importeDiario * diasCubiertos;
+    
+    // Agregar estos valores al objeto row para usarlos después
+    row.diasCubiertos = diasCubiertos;
+    row.importeProporcional = importeProporcional;
 
     const fila = document.createElement('tr');
     fila.innerHTML = `
@@ -940,7 +966,13 @@ document.getElementById('contract-info').style.display = 'block';
         <td>${formatearFecha(row.fecha)}</td>
         <td>${ultimoDiaMes}</td>
 		<td>${formatearMoneda(importeDiario)}</td> <!-- Nueva columna -->
-        <td>${formatearFecha(row.fechaLimite)}</td>
+		
+		<!-- NUEVAS COLUMNAS -->
+		<td>${row.diasCubiertos}</td>
+		<td>${formatearMoneda(row.importeProporcional)}</td>
+		<!-- FIN NUEVAS COLUMNAS -->
+        
+		<td>${formatearFecha(row.fechaLimite)}</td>
         <td>${formatearMoneda(row.importeBruto)}</td>
         <td>${formatearMoneda(row.inflacionAnual)}</td>
         <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
@@ -1160,6 +1192,22 @@ document.getElementById('contract-info').style.display = 'block';
                         }
                     }
                 });
+				
+				
+				
+				/* ////////////////////////****///////////////////////////////////////////////*/
+	
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
             }
         });
     </script>
@@ -1193,6 +1241,5 @@ function exportTableToWord(tableID, filename = ''){
     document.body.removeChild(link);
 }
 </script>
- <script src="theme-switcher.js"></script>
 </body>
 </html>
