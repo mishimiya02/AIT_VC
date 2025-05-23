@@ -12,6 +12,12 @@
 }
 
 
+
+p {
+   text-align: center;
+   color: white;
+}
+
          /* Formulario con texto blanco */
         #valuation-form {
             color: white;
@@ -65,7 +71,7 @@
 
  					/* barra de navegacion */
  			nav {
- 				background-color: #534b55;
+ 				background-color: #6f1177;
  				display: flex;
  				justify-content: space-between;
  				align-items: stretch;
@@ -159,7 +165,7 @@
            #theme-toggle {
         font-weight: bold;
         font-size: 17px;
-        background-color: #534b55;
+        background-color:  #6f1177;;
         color: white;
         border: none;
         cursor: pointer;
@@ -205,7 +211,7 @@
  .container {
              max-width: 80%;
              margin: 0 auto;
-             background-color: #413FCF;
+             background-color: #0300a0;
              padding: 25px;
              border-radius: 8px;
              box-shadow: 0 2px 10px rgba(0,0,0,0.3);
@@ -217,7 +223,7 @@
              margin: 25px 0 15px 0;
              font-size: 24px;
              font-weight: 600;
-             color: #000000;
+             color: #ffffff;
          }
          
          h2 {
