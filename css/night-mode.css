@@ -293,12 +293,12 @@ p {
              border: 1px solid #444;
              padding: 12px 15px;
              text-align: right;
-             background-color: #fff;/*celdas relleno sandy*/
+             background-color: #c5c5c5;/*celdas relleno sandy*/
              color: #000000;
          }
          
          th {
-             background-color: #a6fea7;/*sandy color encabezado*/
+             background-color: #77a0cf;/*sandy color encabezado*/
              font-weight: 600;
          }
          
@@ -309,11 +309,11 @@ p {
          .total-row th, .total-row td {
              border-top: 2px solid #006f02;/*color linea */
              font-weight: 600;
-             background-color: #a6fea7;/*sandycolor totales */
+             background-color: #91cce7;/*sandycolor totales */
          }
          
          .saldo-row th {
-             background-color: #95ca96;/*sandy*/
+             background-color: #c0c0c0;/*sandy*/
              color: black;/*color monto pagado*/
              text-align: right;
          }
@@ -335,12 +335,12 @@ p {
              border: 1px solid #444;
              padding: 12px;
              text-align: center;
-             background-color: #ffffff;/*sandy*/
+             background-color: #c7c7c7;/*sandy*/
              color: #000000;
          }
          
          .guarantee-table th {
-             background-color: #95ca96;/*sandy encabezado de tipo de garantia */
+             background-color: #84c1c9;/*sandy encabezado de tipo de garantia */
          }
          
          .airport-header {
@@ -377,7 +377,7 @@ p {
          }
  
          .chart-box {
-             background-color: #ffffff;/*sandy color graficas*/
+             background-color: #ececec;/*sandy color graficas*/
              padding: 15px;
              border-radius: 5px;
          }
