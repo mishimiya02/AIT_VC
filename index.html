@@ -628,7 +628,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="total-row">
-                        <th colspan="4">Totales:</th>
+                        <th colspan="3">Totales:</th>
                         <td id="total-importe-bruto"></td>
 						<td id="total-dias"></td>
 
@@ -645,7 +645,7 @@
                         <td id="total-acumulado"></td>
                     </tr>
                     <tr class="saldo-row">
-                        <th colspan="13">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
+                        <th colspan="17">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
                     </tr>
                 </tfoot>
             </table>
@@ -750,8 +750,8 @@
                 let currentYear = fechaInicio.getFullYear();
                 
                 for (let i = 0; i < mesesContrato; i++) {
-                    // Establecer la fecha al primer día del mes
-                    mesActual.setDate(1);
+// Establecer la fecha al primer día del mes
+ // mesActual.setDate(1);
                     
                     // Calcular inflación si es necesario
                     let inflacionAplicada = 0;
@@ -794,12 +794,50 @@
                     const fechaLimite = new Date(mesActual);
                     fechaLimite.setDate(fechaLimite.getDate() + 4);
                     
+
+                    // Calcular días del periodo addsan
+                  // Establecer fecha inicial y final del mes
+   // Calcular días del periodo
+// Establecer fecha inicial y final del mes
+// Calcular días del periodo
+// Establecer fecha inicial y final del mes
+let desdePeriodo = new Date(mesActual.getFullYear(), mesActual.getMonth(), 1);
+let hastaPeriodo = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0);
+
+// Si es el primer mes, ajustar inicio
+if (
+  mesActual.getFullYear() === fechaInicio.getFullYear() &&
+  mesActual.getMonth() === fechaInicio.getMonth()
+) {
+  desdePeriodo = new Date(fechaInicio);
+}
+
+// Si es el último mes, ajustar fin
+if (
+  mesActual.getFullYear() === fechaFin.getFullYear() &&
+  mesActual.getMonth() === fechaFin.getMonth()
+) {
+  hastaPeriodo = new Date(fechaFin);
+}
+
+// Normalizar horas a 00:00:00 para evitar problemas por diferencias de zona
+desdePeriodo.setHours(0, 0, 0, 0);
+hastaPeriodo.setHours(0, 0, 0, 0);
+
+// Calcular días (forma más simple y precisa)
+const diasDelPeriodo = (hastaPeriodo.getDate() - desdePeriodo.getDate()) + 1;
+
+
+
+
+
                     // Agregar fila a los datos
                     data.push({
                         consecutivo: i + 1,
                         fecha: new Date(mesActual),
                         fechaLimite: fechaLimite,
                         importeBruto: importeBruto,
+                        diasDelPeriodo: diasDelPeriodo,
                         inflacionAnual: inflacionAplicada,
                         inflacionAcumulativa: inflacionAcumuladaAniversario,
                         montoActualizado: importeBrutoActualizado,
@@ -940,7 +978,7 @@ document.getElementById('contract-info').style.display = 'block';
                         <td>${formatearFecha(row.fecha)}</td>
                         <td>${formatearFecha(row.fechaLimite)}</td>
                         <td>${formatearMoneda(row.importeBruto)}</td>
-						 <td>${diasDelPeriodo}</td> <!-- NUEVA CELDA -->
+						 <td>${row.diasDelPeriodo}</td> <!-- NUEVA CELDA -->
 						 <td>${formatearMoneda(row.importeBruto)}</td>
                         <td>${formatearMoneda(row.inflacionAnual)}</td>
                         <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
