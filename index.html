@@ -957,43 +957,45 @@ document.getElementById('contract-info').style.display = 'block';
                 let totalAT = 0;
                 
                 // Agregar filas a la tabla principal
-                data.forEach(row => {
-                    totalIB += row.importeBruto;
-                    totalMA += row.montoActualizado;
-                    totalAL += row.alicuotas;
-                    totalIM += row.impuestoSobreMonto;
-                    totalIA += row.impuestoSobreAlicuotas;
-                    totalPE += row.penalizacion;
-                    totalDT += row.descuento;
-                    totalST += row.subtotal;
-                    totalTM += row.totalMes;
-                    totalAT = row.acumuladoTotal;
-                    
-                    const fila = document.createElement('tr');
-					const diasDelPeriodo = new Date(row.fecha.getFullYear(), row.fecha.getMonth() + 1, 0).getDate();
-					const importeDiario = row.importeBruto / diasDelPeriodo;
+               data.forEach(row => {
+    totalIB += row.importeBruto;
+    totalMA += row.montoActualizado;
+    totalAL += row.alicuotas;
+    totalIM += row.impuestoSobreMonto;
+    totalIA += row.impuestoSobreAlicuotas;
+    totalPE += row.penalizacion;
+    totalDT += row.descuento;
+    totalST += row.subtotal;
+    totalTM += row.totalMes;
+    totalAT = row.acumuladoTotal;
 
-                    fila.innerHTML = `
-                        <td>${row.consecutivo}</td>
-                        <td>${formatearFecha(row.fecha)}</td>
-                        <td>${formatearFecha(row.fechaLimite)}</td>
-                        <td>${formatearMoneda(row.importeBruto)}</td>
-						 <td>${row.diasDelPeriodo}</td> <!-- NUEVA CELDA -->
-						 <td>${formatearMoneda(row.importeBruto)}</td>
-                        <td>${formatearMoneda(row.inflacionAnual)}</td>
-                        <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
-                        <td>${formatearMoneda(row.montoActualizado)}</td>
-                        <td>${formatearMoneda(row.descuento)}</td>
-                        <td>${formatearMoneda(row.subtotal)}</td>
-                        <td>${formatearMoneda(row.alicuotas)}</td>
-                        <td>${formatearMoneda(row.impuestoSobreMonto)}</td>
-                        <td>${formatearMoneda(row.impuestoSobreAlicuotas)}</td>
-                        <td>${formatearMoneda(row.penalizacion)}</td>
-                        <td>${formatearMoneda(row.totalMes)}</td>
-                        <td>${formatearMoneda(row.acumuladoTotal)}</td>
-                    `;
-                    cuerpoTabla.appendChild(fila);
-                });
+    const importeDiario = row.diasDelPeriodo > 0
+        ? row.importeBruto / row.diasDelPeriodo
+        : 0;
+
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+        <td>${row.consecutivo}</td>
+        <td>${formatearFecha(row.fecha)}</td>
+        <td>${formatearFecha(row.fechaLimite)}</td>
+        <td>${formatearMoneda(row.importeBruto)}</td>
+        <td>${row.diasDelPeriodo}</td>
+        <td>${formatearMoneda(importeDiario)}</td> <!-- 🔥 Aquí se muestra -->
+        <td>${formatearMoneda(row.inflacionAnual)}</td>
+        <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
+        <td>${formatearMoneda(row.montoActualizado)}</td>
+        <td>${formatearMoneda(row.descuento)}</td>
+        <td>${formatearMoneda(row.subtotal)}</td>
+        <td>${formatearMoneda(row.alicuotas)}</td>
+        <td>${formatearMoneda(row.impuestoSobreMonto)}</td>
+        <td>${formatearMoneda(row.impuestoSobreAlicuotas)}</td>
+        <td>${formatearMoneda(row.penalizacion)}</td>
+        <td>${formatearMoneda(row.totalMes)}</td>
+        <td>${formatearMoneda(row.acumuladoTotal)}</td>
+    `;
+    cuerpoTabla.appendChild(fila);
+});
+
                 
                 // Actualizar totales
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
