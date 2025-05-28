@@ -1209,32 +1209,99 @@ document.getElementById('contract-info').style.display = 'block';
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 			<script>
-function exportTableToWord(tableID, filename = ''){
-    const preHtml = `
+                function exportTableToWord(tableID, filename = '') {
+    const table = document.getElementById(tableID);
+    if (!table) return alert("Tabla no encontrada");
+
+    const rows = table.rows;
+    const numCols = rows[0].cells.length;
+    const lastColIndex = numCols - 1;
+
+    // ✅ aqui va la imagen 
+    const logoURL = 'img/logo2n.png';
+
+    const styles = `
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .header img {
+                height: 50px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                font-size: 14px;
+            }
+            th, td {
+                border: 1px solid #999;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #3a68d3;
+            }
+        </style>
+    `;
+
+    // Construir tabla con columnas seleccionadas
+    let newTable = '<table><thead><tr>';
+    const firstRow = rows[0];
+
+    [0, 1, lastColIndex].forEach(i => {
+        if (firstRow.cells[i]) {
+            newTable += `<th>${firstRow.cells[i].innerHTML}</th>`;
+        }
+    });
+    newTable += '</tr></thead><tbody>';
+
+    for (let r = 1; r < rows.length; r++) {
+        newTable += '<tr>';
+        [0, 1, lastColIndex].forEach(i => {
+            if (rows[r].cells[i]) {
+                newTable += `<td>${rows[r].cells[i].innerHTML}</td>`;
+            }
+        });
+        newTable += '</tr>';
+    }
+
+    newTable += '</tbody></table>';
+
+    const html = `
         <html xmlns:o='urn:schemas-microsoft-com:office:office' 
               xmlns:w='urn:schemas-microsoft-com:office:word' 
               xmlns='http://www.w3.org/TR/REC-html40'>
-        <head><meta charset='utf-8'></head><body>`;
-    const postHtml = "</body></html>";
-    const table = document.getElementById(tableID);
-    const html = preHtml + table.outerHTML + postHtml;
+        <head><meta charset='utf-8'>${styles}</head>
+        <body>
+            <div class="header">
+                <img src="${logoURL}" alt="Logo">
+                <h2>VALUACION DE CONTRATO </h2>
+            </div>
+            ${newTable}
+        </body>
+        </html>
+    `;
 
     const blob = new Blob(['\ufeff', html], {
         type: 'application/msword'
     });
 
-    const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = filename ? `${filename}.doc` : 'documento.doc';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 }
 </script>
  <script src="theme-switcher.js"></script>
-
-
-
 </body>
 </html>
