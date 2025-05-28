@@ -676,7 +676,7 @@
 		  </div>
         </div>
     </div>
-
+<!--aqui empieza el script-->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
@@ -750,8 +750,22 @@
                 let currentYear = fechaInicio.getFullYear();
                 
                 for (let i = 0; i < mesesContrato; i++) {
-// Establecer la fecha al primer día del mes
- // mesActual.setDate(1);
+	// Establecer la fecha al primer día del mes
+	// mesActual.setDate(1);
+	// Calcular la fecha que debe mostrarse en la tabla
+		let fechaMostrada;
+
+		if (i === 0) {
+	// Primer mes: usar la fecha de inicio original
+	fechaMostrada = new Date(document.getElementById('fecha-inicio').value);
+	} else if (i === mesesContrato - 1) {
+	// Último mes: usar la fecha de fin
+	fechaMostrada = new Date(document.getElementById('fecha-fin').value);
+	} else {
+	// Meses intermedios: primer día del mes
+	fechaMostrada = new Date(mesActual.getFullYear(), mesActual.getMonth(), 1);
+	}
+
                     
                     // Calcular inflación si es necesario
                     let inflacionAplicada = 0;
@@ -834,7 +848,7 @@ const diasDelPeriodo = (hastaPeriodo.getDate() - desdePeriodo.getDate()) + 1;
                     // Agregar fila a los datos
                     data.push({
                         consecutivo: i + 1,
-                        fecha: new Date(mesActual),
+                        fecha: fechaMostrada,
                         fechaLimite: fechaLimite,
                         importeBruto: importeBruto,
                         diasDelPeriodo: diasDelPeriodo,
@@ -1034,15 +1048,58 @@ document.getElementById('contract-info').style.display = 'block';
             }
             
             // Función para exportar a Excel de manera segura
-            exportarBtn.addEventListener('click', function() {
-                const tabla = document.getElementById('tabla-resultados');
-                const worksheet = XLSX.utils.table_to_sheet(tabla);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Valuación");
-                
-                // Guardar el archivo
-                XLSX.writeFile(workbook, "valuacion_contrato.xlsx");
-            });
+				exportarBtn.addEventListener('click', function() {
+    const tabla = document.getElementById('tabla-resultados');
+    const ws = XLSX.utils.table_to_sheet(tabla);
+    const range = XLSX.utils.decode_range(ws['!ref']);
+    const filas = tabla.querySelectorAll('tr');
+
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+        const filaHTML = filas[R];
+        const esTotal = filaHTML?.classList.contains('total-row');
+        const esEncabezado = R === 0;
+
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+            const cellRef = XLSX.utils.encode_cell({c: C, r: R});
+            const cell = ws[cellRef];
+            if (!cell) continue;
+
+            if (esEncabezado) {
+                cell.s = {
+                    fill: { fgColor: { rgb: "FFDDDDDD" } },
+                    font: { bold: true },
+                    alignment: { horizontal: "center", vertical: "center" },
+                    border: bordeEstilo()
+                };
+            } else if (esTotal) {
+                cell.s = {
+                    fill: { fgColor: { rgb: "FFDFFFD6" } },
+                    font: { bold: true },
+                    alignment: { horizontal: "right" },
+                    border: bordeEstilo()
+                };
+            } else {
+                cell.s = {
+                    alignment: { horizontal: "right" },
+                    border: bordeEstilo()
+                };
+            }
+        }
+    }
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Valuación");
+    XLSX.writeFile(wb, "valuacion_contrato.xlsx");
+});
+
+function bordeEstilo() {
+    return {
+        top: { style: "thin", color: { auto: 1 } },
+        bottom: { style: "thin", color: { auto: 1 } },
+        left: { style: "thin", color: { auto: 1 } },
+        right: { style: "thin", color: { auto: 1 } }
+    };
+}
             
             // Función para parsear meses con formatos de comas y guiones
             function parseMeses(mesesStr) {
