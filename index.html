@@ -983,9 +983,11 @@ document.getElementById('contract-info').style.display = 'block';
     totalTM += row.totalMes;
     totalAT = row.acumuladoTotal;
 
-    const importeDiario = row.diasDelPeriodo > 0
-        ? row.importeBruto / row.diasDelPeriodo
-        : 0;
+    const diasDelMes = new Date(row.fecha.getFullYear(), row.fecha.getMonth() + 1, 0).getDate();
+
+const importeDiario = diasDelMes > 0
+    ? (row.importeBruto / diasDelMes) * row.diasDelPeriodo
+    : 0;
 
     const fila = document.createElement('tr');
     fila.innerHTML = `
