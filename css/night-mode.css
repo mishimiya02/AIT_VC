@@ -400,7 +400,7 @@ p {
   padding: 20px 30px;
      font-size: 24px;
  	text-decoration:none;
-     background-color: #165baf;
+     background-color: #858585;
      color: white;
      border: none;
      border-radius: 8px;
@@ -411,15 +411,15 @@ p {
      background-color: #e00000;
    }
    		  .boton-recargar1 {
-  padding: 10px 25px;
-     font-size: 24px;
- 	text-decoration:none;
-     background-color: #ee6f1a;
-     color: white;
-     border: none;
-     border-radius: 8px;
-     cursor: pointer;
-     transition: background-color 0.3s;
+   background-color: #7c7c7c;
+             color: white;
+             border: none;
+             padding: 12px 20px;
+             border-radius: 4px;
+             cursor: pointer;
+             font-size: 16px;
+             margin-right: 15px;
+             transition: background-color 0.3s;
    }
    .boton-recargar:hover {
      background-color: #d42417;
