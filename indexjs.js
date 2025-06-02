@@ -106,44 +106,19 @@
 		
 		
 		//calcular tarifa proporcional
-			const importeBrutoProrrateado = calcularImporteBrutoProrrateado(
-    fechaInicio, 
-    fechaFin, 
-    importeBruto, 
-    mesActual, 
-    mesesContrato, 
-    i
+                    const importeBrutoProrrateado = calcularImporteBrutoProrrateado(
+    importeBruto,
+    diasVigencia,
+    mesActual
 );
-function calcularImporteBrutoProrrateado(fechaInicio, fechaFin, importeBruto, mesActual, mesesContrato, i) {
-    // Crear fecha de inicio del mes actual (primer día del mes)
-    const inicioMes = new Date(mesActual.getFullYear(), mesActual.getMonth(), 1);
-    
-    // Crear fecha de fin del mes actual (último día del mes)
-    const finMesActual = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0);
-    
-    // Calcular días totales del mes
-    const totalDiasMes = finMesActual.getDate();
-    
-    // Determinar fecha inicial efectiva (la mayor entre fecha inicio y inicio del mes)
-    const fechaInicioEfectiva = i === 0 ? 
-        new Date(Math.max(fechaInicio.getTime(), inicioMes.getTime())) : 
-        inicioMes;
-    
-    // Determinar fecha final efectiva (la menor entre fecha fin y fin de mes)
-    const fechaFinEfectiva = i === mesesContrato - 1 ? 
-        new Date(Math.min(fechaFin.getTime(), finMesActual.getTime())) : 
-        finMesActual;
-    
-    // Calcular días vigencia (añadiendo +1 para incluir ambos días extremos)
-    const diasVigencia = Math.floor((fechaFinEfectiva - fechaInicioEfectiva) / (1000 * 60 * 60 * 24)) + 1;
-    
-    // Calcular importe diario
-    const importeDiario = importeBruto / totalDiasMes;
-    
-    // Calcular y retornar importe prorrateado
-    return importeDiario * diasVigencia;
+
+function calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual) {
+    const diasDelMes = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0).getDate();
+    return (importeBruto / diasDelMes) * diasVigencia;
 }
+
 		
+
 		
     // Calcular inflación si es necesario
     let inflacionAplicada = 0;
