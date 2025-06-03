@@ -1,5 +1,9 @@
 
- document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
             const calcularBtn = document.getElementById('calcular');
             const exportarBtn = document.getElementById('exportar-excel');
@@ -392,7 +396,7 @@ if (i === 0) {
             }
             
             // Función para exportar a Excel de manera segura
-     exportarBtn.addEventListener('click', async function () {
+ exportarBtn.addEventListener('click', async function () {
     const tabla = document.getElementById('tabla-resultados');
     const nombre = document.getElementById('nombre').value.trim() || "Usuario no especificado";
     const numeroContrato = document.getElementById('numero-contrato').value.trim() || "Sin contrato";
@@ -402,38 +406,35 @@ if (i === 0) {
 
     const columnasTabla = tabla.querySelectorAll('thead th').length;
 
-    // 1️⃣ Fila combinada para Nombre
-    worksheet.mergeCells(`A1:${String.fromCharCode(64 + 8)}1`);
-    const filaNombre = worksheet.getCell('A1');
+    // 🧑‍💼 Nombre
+    worksheet.mergeCells(`A4:${String.fromCharCode(64 + 8)}4`);
+    const filaNombre = worksheet.getCell('A4');
     filaNombre.value = `Nombre: ${nombre}`;
-    filaNombre.font = { bold: true, size: 25 };
+    filaNombre.font = { name: 'Aptos', bold: true, size: 25 };
     filaNombre.alignment = { horizontal: 'center', vertical: 'middle' };
 
-    // 2️⃣ Fila combinada para Contrato
-    worksheet.mergeCells(`A2:${String.fromCharCode(64 + 8)}2`);
-    const filaContrato = worksheet.getCell('A2');
+    // 📄 Contrato
+    worksheet.mergeCells(`A5:${String.fromCharCode(64 + 8)}5`);
+    const filaContrato = worksheet.getCell('A5');
     filaContrato.value = `Contrato: ${numeroContrato}`;
-    filaContrato.font = { italic: true, size: 20 };
+    filaContrato.font = { name: 'Aptos', italic: true, size: 25 };
     filaContrato.alignment = { horizontal: 'center', vertical: 'middle' };
 
-    worksheet.addRow([]); // Fila vacía antes de encabezado
+    worksheet.addRow([]);
 
-    // 3️⃣ Encabezados
+    // 🧩 Encabezado de columnas
     const headers = Array.from(tabla.querySelectorAll('thead th')).map(th => th.textContent.trim());
     const headerRow = worksheet.addRow(headers);
 
-    // Tonos de azul para columnas
     const tonosAzul = [
-        
         'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
         'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
         'FF004C99', 'FF003366', 'FF001A66', 'FF00004D', 'FF000033',
-        'FF00001A', 'FF000000' // Más tonos si necesitas
+        'FF00001A', 'FF000000'
     ];
 
-    // Estilo de encabezado con diferentes colores
     headerRow.eachCell((cell, colNumber) => {
-        cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        cell.font = { name: 'Aptos', bold: true, size: 14, color: { argb: 'FFFFFFFF' } };
         cell.fill = {
             type: 'pattern',
             pattern: 'solid',
@@ -448,12 +449,13 @@ if (i === 0) {
         cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
     });
 
-    // 4️⃣ Agregar datos
+    // 📊 Agregar filas de datos
     const rows = tabla.querySelectorAll('tbody tr');
     rows.forEach(htmlRow => {
         const rowData = Array.from(htmlRow.querySelectorAll('td')).map(td => td.textContent.trim());
         const row = worksheet.addRow(rowData);
         row.eachCell(cell => {
+            cell.font = { name: 'Aptos', size: 12 };
             cell.border = {
                 top: { style: 'medium' },
                 left: { style: 'medium' },
@@ -464,7 +466,7 @@ if (i === 0) {
         });
     });
 
-    // 5️⃣ Ajuste automático de columnas
+    // 📐 Ajustar ancho de columnas
     worksheet.columns.forEach(column => {
         let maxLength = 0;
         column.eachCell({ includeEmpty: true }, cell => {
@@ -474,7 +476,7 @@ if (i === 0) {
         column.width = Math.max(maxLength + 2, 12);
     });
 
-    // 6️⃣ Descargar archivo
+    // 📤 Descargar Excel
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -487,6 +489,8 @@ if (i === 0) {
     a.click();
     URL.revokeObjectURL(url);
 });
+
+
 
             // Función para parsear meses con formatos de comas y guiones
             function parseMeses(mesesStr) {
