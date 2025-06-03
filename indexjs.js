@@ -121,18 +121,23 @@ function calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual) 
 
 		
     // Calcular inflación si es necesario
-    let inflacionAplicada = 0;
-    if (aplicarInflacion) {
-        if (mesActual.getMonth() === fechaInicio.getMonth()) {
-            aniversarioActual++;
-            if (aniversarioActual <= inflacionPorAniversario.length) {
-                const inflacionAniversario = inflacionPorAniversario[aniversarioActual - 1];
-                inflacionAplicada = importeBruto * inflacionAniversario;
-                inflacionAcumuladaAniversario += inflacionAplicada;
-                importeBrutoActualizado = importeBruto + inflacionAcumuladaAniversario;
-            }
+ // Calcular inflación si es necesario
+let inflacionAplicada = 0;
+
+if (aplicarInflacion) {
+    if (mesActual.getMonth() === fechaInicio.getMonth()) {
+        aniversarioActual++;
+        if (aniversarioActual <= inflacionPorAniversario.length) {
+            const inflacionAniversario = inflacionPorAniversario[aniversarioActual - 1];
+            inflacionAplicada = importeBrutoProrrateado * inflacionAniversario;
+            inflacionAcumuladaAniversario += inflacionAplicada;
         }
     }
+}
+
+// Calcular el monto actualizado con el importe prorrateado
+const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniversario;
+
 
     // Calcular descuento
     let descuento = 0;
