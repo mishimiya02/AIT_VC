@@ -406,6 +406,30 @@ if (i === 0) {
 
     const columnasTabla = tabla.querySelectorAll('thead th').length;
 
+// Convierte número de columna a letras estilo Excel (A, B, ..., Z, AA, AB, etc.)
+function numeroAColumnaExcel(num) {
+    let col = '';
+    while (num > 0) {
+        let modulo = (num - 1) % 26;
+        col = String.fromCharCode(65 + modulo) + col;
+        num = Math.floor((num - 1) / 26);
+    }
+    return col;
+}
+
+const ultimaCol = numeroAColumnaExcel(columnasTabla);
+
+
+
+        // 🏢 Fila principal con nombre de la empresa
+    worksheet.mergeCells(`A1:${ultimaCol}1`);
+    const tituloEmpresa = worksheet.getCell('A1');
+    tituloEmpresa.value = "AEROPUERTO INTERNACIONAL DE TOLUCA";/*esto va a ir hasta arriba */
+    tituloEmpresa.font = { name: 'Aptos', size: 25, bold: true };
+    tituloEmpresa.alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.addRow([]);
+
     // 🧑‍💼 Nombre
     worksheet.mergeCells(`A4:${String.fromCharCode(64 + 8)}4`);
     const filaNombre = worksheet.getCell('A4');
