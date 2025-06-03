@@ -248,12 +248,12 @@ if (i === 0) {
             
             // Función para formatear fechas
             function formatearFecha(fecha) {
-                return fecha.toLocaleDateString('es-MX', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
-            }
+            const dia = String(fecha.getDate()).padStart(2, '0');
+            const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+            const anio = fecha.getFullYear();
+            return `${dia}/${mes}/${anio}`;
+        }
+
             
             // Función principal para mostrar resultados
             function mostrarResultados(data, garantias, nombre, numeroContrato, valorTotalContrato, saldoContrato, totalPagado) {
