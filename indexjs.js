@@ -392,15 +392,75 @@ if (i === 0) {
             }
             
             // Función para exportar a Excel de manera segura
-            exportarBtn.addEventListener('click', function() {
-                const tabla = document.getElementById('tabla-resultados');
-                const worksheet = XLSX.utils.table_to_sheet(tabla);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Valuación");
-                
-                // Guardar el archivo
-                XLSX.writeFile(workbook, "valuacion_contrato.xlsx");
-            });
+          exportarBtn.addEventListener('click', async function () {
+    const tabla = document.getElementById('tabla-resultados');
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Valuación');
+
+    // Leer encabezados de la tabla
+    const headers = Array.from(tabla.querySelectorAll('thead th')).map(th => th.textContent.trim());
+    const headerRow = worksheet.addRow(headers);
+
+    // Aplicar estilo a encabezados
+    headerRow.eachCell(cell => {
+        cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: '74, 152, 193' } // azul oscuro
+        };
+        cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    });
+
+    // Leer y añadir las filas de datos
+    const rows = tabla.querySelectorAll('tbody tr');
+    rows.forEach(htmlRow => {
+        const rowData = Array.from(htmlRow.querySelectorAll('td')).map(td => td.textContent.trim());
+        const row = worksheet.addRow(rowData);
+
+        // Aplicar borde a todas las celdas del cuerpo
+        row.eachCell(cell => {
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+    });
+
+    // Ajustar ancho de columnas automáticamente
+    worksheet.columns.forEach(column => {
+        let maxLength = 0;
+        column.eachCell({ includeEmpty: true }, cell => {
+            const text = cell.value ? cell.value.toString() : '';
+            maxLength = Math.max(maxLength, text.length);
+        });
+        column.width = maxLength < 10 ? 10 : maxLength + 2;
+    });
+
+    // Descargar archivo Excel
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'valuacion_contrato.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+
             
             // Función para parsear meses con formatos de comas y guiones
             function parseMeses(mesesStr) {
