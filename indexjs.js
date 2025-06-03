@@ -403,17 +403,17 @@ if (i === 0) {
     const columnasTabla = tabla.querySelectorAll('thead th').length;
 
     // 1️⃣ Fila combinada para Nombre
-    worksheet.mergeCells(`A1:${String.fromCharCode(64 + columnasTabla)}1`);
+    worksheet.mergeCells(`A1:${String.fromCharCode(64 + 8)}1`);
     const filaNombre = worksheet.getCell('A1');
     filaNombre.value = `Nombre: ${nombre}`;
-    filaNombre.font = { bold: true, size: 14 };
+    filaNombre.font = { bold: true, size: 25 };
     filaNombre.alignment = { horizontal: 'center', vertical: 'middle' };
 
     // 2️⃣ Fila combinada para Contrato
-    worksheet.mergeCells(`A2:${String.fromCharCode(64 + columnasTabla)}2`);
+    worksheet.mergeCells(`A2:${String.fromCharCode(64 + 8)}2`);
     const filaContrato = worksheet.getCell('A2');
     filaContrato.value = `Contrato: ${numeroContrato}`;
-    filaContrato.font = { italic: true, size: 12 };
+    filaContrato.font = { italic: true, size: 20 };
     filaContrato.alignment = { horizontal: 'center', vertical: 'middle' };
 
     worksheet.addRow([]); // Fila vacía antes de encabezado
@@ -424,7 +424,8 @@ if (i === 0) {
 
     // Tonos de azul para columnas
     const tonosAzul = [
-        'FFCCE5FF', 'FFB3D9FF', 'FF99CCFF', 'FF80BFFF', 'FF66B2FF',
+        
+        'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
         'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
         'FF004C99', 'FF003366', 'FF001A66', 'FF00004D', 'FF000033',
         'FF00001A', 'FF000000' // Más tonos si necesitas
