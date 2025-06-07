@@ -4,12 +4,15 @@
 <head>
 	<!-- Tema claro (activo por defecto) -->
     <link rel="stylesheet" href="css/light-mode.css" id="theme-style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>CALCULADORA DE TARIFA PROPORCIONAL </title> <!--  titulo de la pagina  -->
     <script src="theme-switcher.js"></script>
 	<script src="indexjs.js"></script>
     <script src="wordjs.js"></script>
+     <script src="exportarexcel.js"></script>
+      <script src="sidebar.js"></script>
 </head>
 <body>
 	 
@@ -40,7 +43,51 @@
         <h1>Solicita una valuación de contrato </h1>
     </div>
 	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
-	
+	 <button id="toggle-sidebar" class="toggle-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+<!--sidebar-->
+        <div class="sidebar right-sidebar" id="sidebar">
+        <div class="sidebar-header">
+             <script src="mostrarinflacion.js"></script>
+            <h3>CONSUTAR INFLACION</h3>
+            <button class="close-btn" id="close-sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            			<select id="mes">
+    <option value="">Selecciona un mes</option>
+    <option value="1">Enero</option>
+    <option value="2">Febrero</option>
+    <option value="3">Marzo</option>
+    <option value="4">Abril</option>
+    <option value="5">Mayo</option>
+    <option value="6">Junio</option>
+    <option value="7">Julio</option>
+    <option value="8">Agosto</option>
+    <option value="9">Septiembre</option>
+    <option value="10">Octubre</option>
+    <option value="11">Noviembre</option>
+    <option value="12">Diciembre</option>
+</select>
+
+<select id="anio">
+    <option value="">Selecciona un año</option>
+    <option value="2025">2025</option>
+    <option value="2024">2024</option>
+</select>
+
+<button type="button" onclick="mostrarValor()">Consultar Valor</button>
+
+<div id="resultadot"></div>
+
+    <button type="button" onclick="mostrarValor()">Consultar Valor</button>
+
+    <div id="resultadot"></div>
+        </div>
+    </div>
 	
 	
 	 <div class="container">
@@ -236,7 +283,7 @@
                         <td id="total-acumulado"></td>
                     </tr>
                     <tr class="saldo-row">
-                        <th colspan="15">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
+                        <th colspan="17">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
                     </tr>
                 </tfoot>
             </table>
