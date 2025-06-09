@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
             const calcularBtn = document.getElementById('calcular');
             const exportarBtn = document.getElementById('exportar-excel');
+            const exportarword = document.getElementById('exportar-word');
+            const exportarpdf = document.getElementById('exportar-pdf');     
             const inflacionCheckbox = document.getElementById('inflacion');
             const inflacionAniversarioContainer = document.getElementById('inflacion-aniversario-container');
             const descuentosCheckbox = document.getElementById('descuentos');
@@ -242,6 +244,8 @@ if (i === 0) {
                 
                 // Mostrar botón de exportar a Excel
                 exportarBtn.style.display = 'inline-block';
+                exportarword.style.display = 'inline-block';
+                exportarpdf.style.display = 'inline-block';
                 
                 // Mostrar gráficos
                 mostrarGraficos(data);

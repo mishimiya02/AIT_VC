@@ -10,8 +10,8 @@
 }
 
 .enlace-inegi:hover {
-    color: #0073b6;
-    border-bottom: 1px solid #0073b6;
+    color: #ff9606;
+    border-bottom: 1px solid #fffb00;
 }
 .enlace-banxico {
     font-family: 'Segoe UI', Roboto, sans-serif;
@@ -24,8 +24,8 @@
 }
 
 .enlace-banxico:hover {
-    color: #0073b6;
-    border-bottom: 1px solid #0073b6;
+    color: #fbff00;
+    border-bottom: 1px solid #eeff00;
 }
 
 
