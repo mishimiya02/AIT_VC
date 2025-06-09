@@ -5,12 +5,14 @@
 	<!-- Tema claro (activo por defecto) -->
     <link rel="stylesheet" href="css/light-mode.css" id="theme-style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>CALCULADORA DE TARIFA PROPORCIONAL </title> <!--  titulo de la pagina  -->
     <script src="theme-switcher.js"></script>
 	<script src="indexjs.js"></script>
     <script src="wordjs.js"></script>
+     <script src="exportarpdf.js"></script>
      <script src="exportarexcel.js"></script>
       <script src="sidebar.js"></script>
 </head>
@@ -72,7 +74,7 @@
     <option value="11">Noviembre</option>
     <option value="12">Diciembre</option>
 </select>
-
+<br><br>
 <select id="anio">
     <option value="">Selecciona un año</option>
     <option value="2025">2025</option>
@@ -92,15 +94,20 @@
     <option value="2011">2011</option>
     <option value="2010">2010</option>
 </select>
-<br>
+<br><br>
 <button type="button" onclick="mostrarValor()">Consultar Valor</button>
 <br>
-<div id="resultadot"></div>
+<div id="resultadot"></div> 
+ </div>
 <h3>Valores tomados de Banxico</h3>
-<a href='https://www.banxico.org.mx/tipcamb/main.do?page=inf&idioma=sp' target='_blank'>BANXICO</a>
-        </div>
+<a href='https://www.banxico.org.mx/tipcamb/main.do?page=inf&idioma=sp' target='_blank' class="enlace-banxico">BANXICO</a>     
+<a href="https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx" target="_blank" class="enlace-inegi">Calculadora de Inflación (INEGI)</a>
+
+        </div>       
     </div>
-	
+
+
+
 	
 	 <div class="container">
         <div class="airport-header">
@@ -114,7 +121,7 @@
         
         <form id="valuation-form">
             <div class="form-group">
-                <label for="nombre" class="required-field">Nombre del usuario:</label>
+                <label for="nombre" >Nombre del usuario:</label>
                 <input type="text" id="nombre">
                 
             
@@ -193,7 +200,7 @@
             </div>
             
             <div class="form-group">
-                <label for="penalizaciones" class="required-field">Porcentaje de penalizaciones (%):</label>
+                <label for="penalizaciones" >Porcentaje de penalizaciones (%):</label>
                 <input type="number" id="penalizaciones" step="0.01">
                 <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
             </div>
@@ -237,9 +244,7 @@
             
             <button type="button" id="calcular">Calcular Valuación</button>
 			<a href="#" onclick="location.reload(); return false;" class="boton-recargar1">vaciar formulario</a>  
-            <button type="button" id="exportar-excel" style="display: none;">Exportar a Excel</button>
-			<button type="button" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
-          
+           
         </form>
         
         <div id="resultados" style="display: none; margin-top: 30px;">
@@ -335,6 +340,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 			
  <img id="logo-image" src="img/logo2n.png" style="display: none;" />
-           
+       <br><br><button type="button" id="exportar-excel" style="display: none;">Exportar a Excel</button>
+			<button type="button" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
+            <button type="button" id="exportar-pdf">Exportar a PDF</button>     
 </body>
 </html>

@@ -1,3 +1,37 @@
+/*enlaces**/
+.enlace-inegi {
+    font-family: 'Segoe UI', Roboto,sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffaa0c; /* Azul INEGI */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.enlace-inegi:hover {
+    color: #ff8800;
+    border-bottom: 1px solid #ffd000;
+}
+.enlace-banxico {
+    font-weight: bold;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    color: #ffaa0c; /* Azul INEGI */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.enlace-banxico:hover {
+    color: #ff8800;
+    border-bottom: 1px solid #fbff00;
+}
+
+
+
+
+
 /* Estilos CSS */
          body {
              font-family: sans-serif;
