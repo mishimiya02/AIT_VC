@@ -23,7 +23,7 @@ exportarBtn.addEventListener('click', async function () {
     const ultimaCol = numeroAColumnaExcel(columnasTabla);
 
     // 🏢 Fila principal con nombre de la empresa
-    worksheet.mergeCells(`A1:${ultimaCol}1`);
+    worksheet.mergeCells('A1:E1');
     const tituloEmpresa = worksheet.getCell('A1');
     tituloEmpresa.value = "AEROPUERTO INTERNACIONAL DE TOLUCA";
     tituloEmpresa.font = { name: 'Aptos', size: 25, bold: true };
@@ -32,14 +32,14 @@ exportarBtn.addEventListener('click', async function () {
     worksheet.addRow([]);
 
     // 🧑‍💼 Nombre
-    worksheet.mergeCells(`A4:${String.fromCharCode(64 + 8)}4`);
+    worksheet.mergeCells(`A4:${String.fromCharCode(64 + 5)}4`);
     const filaNombre = worksheet.getCell('A4');
     filaNombre.value = `Nombre: ${nombre}`;
     filaNombre.font = { name: 'Aptos', bold: true, size: 25 };
     filaNombre.alignment = { horizontal: 'center', vertical: 'middle' };
 
     // 📄 Contrato
-    worksheet.mergeCells(`A5:${String.fromCharCode(64 + 8)}5`);
+    worksheet.mergeCells(`A5:${String.fromCharCode(64 + 5)}5`);
     const filaContrato = worksheet.getCell('A5');
     filaContrato.value = `Contrato: ${numeroContrato}`;
     filaContrato.font = { name: 'Aptos', italic: true, size: 25 };

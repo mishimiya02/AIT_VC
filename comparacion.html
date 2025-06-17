@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="css/comparar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios divididos con márgenes</title>
+</head>
+<body>
+  <!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+                <a href='/tarifaxdia' target='_blank'>TARIFA PROPORCIONAL</a>
+                <a href='/calcularinflacion' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                <!--  <a href="servicio3.html">Servicio 3</a>
+                <a href="servicio4.html">Servicio 4</a>-->
+            </div>
+        </div>
+        
+        <a href='/contacto'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
+    
+    <div class="main-wrapper"> <!-- Nuevo contenedor para los márgenes -->
+        <div class="main-container">
+            <div class="form-container" id="form-left">
+                <h2>CONTRATO PASADO </h2>
+                <form action="#" method="post">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono">
+                    
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" rows="4"></textarea>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            <div class="form-container" id="form-right">
+                <h2> CONTRATO RECIENTE </h2>
+                <form action="#" method="post">
+                    <label for="usuario">Usuario:</label>
+                    <input type="text" id="usuario" name="usuario" required>
+                    
+                    <label for="contrasena">Contraseña:</label>
+                    <input type="password" id="contrasena" name="contrasena" required>
+                    
+                    <label for="pais">País:</label>
+                    <select id="pais" name="pais">
+                        <option value="">Seleccione un país</option>
+                        <option value="mx">México</option>
+                        <option value="es">España</option>
+                        <option value="ar">Argentina</option>
+                        <option value="co">Colombia</option>
+                    </select>
+                    
+                    <label>
+                        <input type="checkbox" name="recordar"> Recordar mis datos
+                    </label>
+                    
+                    <button type="submit">Iniciar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
