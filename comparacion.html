@@ -9,7 +9,7 @@
 <body>
   <!-- Barra de navegación -->
     <nav class="clearfix">
-    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+  <!----  <img src="img/logo2.png" alt="Logo" class="logo"> logo  -->
     <div class="menu-center">  
         <a href='/'>Inicio</a>
         
@@ -30,76 +30,122 @@
     </div>
 	</nav>
     
-    <div class="main-wrapper"> <!-- Nuevo contenedor para los márgenes -->
-        <div class="main-container">
-            <div class="form-container" id="form-left">
-                <h2>CONTRATO PASADO </h2>
-                <form action="#" method="post">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                    
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono">
-                    
-                    <label for="mensaje">Mensaje:</label>
-                    <textarea id="mensaje" name="mensaje" rows="4"></textarea>
-                    
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
-            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            <div class="form-container" id="form-right">
-                <h2> CONTRATO RECIENTE </h2>
-                <form action="#" method="post">
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" required>
-                    
-                    <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" name="contrasena" required>
-                    
-                    <label for="pais">País:</label>
-                    <select id="pais" name="pais">
-                        <option value="">Seleccione un país</option>
-                        <option value="mx">México</option>
-                        <option value="es">España</option>
-                        <option value="ar">Argentina</option>
-                        <option value="co">Colombia</option>
-                    </select>
-                    
-                    <label>
-                        <input type="checkbox" name="recordar"> Recordar mis datos
-                    </label>
-                    
-                    <button type="submit">Iniciar sesión</button>
-                </form>
-            </div>
+     <div class="form-container">
+        <!-- Primer formulario -->
+        <div class="form-wrapper">
+            <h2>Valuación 1</h2>
+            <form id="valuation-form-1">
+                <!-- Copia todo el contenido de tu formulario aquí -->
+                <div class="form-group">
+                    <label for="nombre-1">Nombre del usuario:</label>
+                    <input type="text" id="nombre-1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="numero-contrato-1" class="required-field">Número de contrato:</label>
+                    <input type="text" id="numero-contrato-1" required>
+                    <div class="error-message">Este campo es obligatorio</div>
+                </div>
+                
+                <!-- ... resto de los campos del formulario (cambia los IDs agregando "-1") ... -->
+                
+                <button type="button" id="calcular-1">Calcular Valuación</button>
+                <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">Vaciar formulario</a>
+            </form>
+        </div>
+        
+        <!-- Segundo formulario -->
+        <div class="form-wrapper">
+            <h2>Valuación 2</h2>
+            <form id="valuation-form-2">
+                <!-- Copia todo el contenido de tu formulario aquí -->
+                <div class="form-group">
+                    <label for="nombre-2">Nombre del usuario:</label>
+                    <input type="text" id="nombre-2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="numero-contrato-2" class="required-field">Número de contrato:</label>
+                    <input type="text" id="numero-contrato-2" required>
+                    <div class="error-message">Este campo es obligatorio</div>
+                </div>
+                
+                <!-- ... resto de los campos del formulario (cambia los IDs agregando "-2") ... -->
+                
+                <button type="button" id="calcular-2">Calcular Valuación</button>
+                <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">Vaciar formulario</a>
+            </form>
         </div>
     </div>
+
+    <script>
+        // Código JavaScript para manejar ambos formularios
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuración para el checkbox de inflación (ejemplo para el primer formulario)
+            const inflacion1 = document.getElementById('inflacion-1');
+            const inflacionContainer1 = document.getElementById('inflacion-aniversario-container-1');
+            
+            if (inflacion1 && inflacionContainer1) {
+                inflacion1.addEventListener('change', function() {
+                    inflacionContainer1.style.display = this.checked ? 'block' : 'none';
+                });
+            }
+            
+            // Repite para el segundo formulario
+            const inflacion2 = document.getElementById('inflacion-2');
+            const inflacionContainer2 = document.getElementById('inflacion-aniversario-container-2');
+            
+            if (inflacion2 && inflacionContainer2) {
+                inflacion2.addEventListener('change', function() {
+                    inflacionContainer2.style.display = this.checked ? 'block' : 'none';
+                });
+            }
+            
+            // Código para calcular días entre fechas (ejemplo para el primer formulario)
+            const fechaInicio1 = document.getElementById('fecha-inicio-1');
+            const fechaFin1 = document.getElementById('fecha-fin-1');
+            const resultado1 = document.getElementById('resultado-fechas-1');
+            
+            if (fechaInicio1 && fechaFin1 && resultado1) {
+                function calcularDias1() {
+                    const inicio = new Date(fechaInicio1.value);
+                    const fin = new Date(fechaFin1.value);
+                    
+                    if (!isNaN(inicio) && !isNaN(fin)) {
+                        const diferencia = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24) + 1);
+                        resultado1.textContent = `Hay ${diferencia} días entre ambas fechas.`;
+                    } else {
+                        resultado1.textContent = '';
+                    }
+                }
+                
+                fechaInicio1.addEventListener('input', calcularDias1);
+                fechaFin1.addEventListener('input', calcularDias1);
+            }
+            
+            // Repite para el segundo formulario
+            const fechaInicio2 = document.getElementById('fecha-inicio-2');
+            const fechaFin2 = document.getElementById('fecha-fin-2');
+            const resultado2 = document.getElementById('resultado-fechas-2');
+            
+            if (fechaInicio2 && fechaFin2 && resultado2) {
+                function calcularDias2() {
+                    const inicio = new Date(fechaInicio2.value);
+                    const fin = new Date(fechaFin2.value);
+                    
+                    if (!isNaN(inicio) && !isNaN(fin)) {
+                        const diferencia = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24) + 1);
+                        resultado2.textContent = `Hay ${diferencia} días entre ambas fechas.`;
+                    } else {
+                        resultado2.textContent = '';
+                    }
+                }
+                
+                fechaInicio2.addEventListener('input', calcularDias2);
+                fechaFin2.addEventListener('input', calcularDias2);
+            }
+        });
+    </script>
 </body>
 </html>
