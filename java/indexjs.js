@@ -1,4 +1,8 @@
 
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
             const calcularBtn = document.getElementById('calcular');
@@ -394,4 +398,299 @@ if (i === 0) {
                 // Mostrar los resultados
                 resultadosDiv.style.display = 'block';
             }
-})
+            
+            // Función para exportar a Excel de manera segura
+ exportarBtn.addEventListener('click', async function () {
+    const tabla = document.getElementById('tabla-resultados');
+    const nombre = document.getElementById('nombre').value.trim() || "Usuario no especificado";
+    const numeroContrato = document.getElementById('numero-contrato').value.trim() || "Sin contrato";
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Valuación');
+
+    const columnasTabla = tabla.querySelectorAll('thead th').length;
+
+// Convierte número de columna a letras estilo Excel (A, B, ..., Z, AA, AB, etc.)
+function numeroAColumnaExcel(num) {
+    let col = '';
+    while (num > 0) {
+        let modulo = (num - 1) % 26;
+        col = String.fromCharCode(65 + modulo) + col;
+        num = Math.floor((num - 1) / 26);
+    }
+    return col;
+}
+
+const ultimaCol = numeroAColumnaExcel(columnasTabla);
+
+
+
+        // 🏢 Fila principal con nombre de la empresa
+    worksheet.mergeCells(`A1:${ultimaCol}1`);
+    const tituloEmpresa = worksheet.getCell('A1');
+    tituloEmpresa.value = "AEROPUERTO INTERNACIONAL DE TOLUCA";/*esto va a ir hasta arriba */
+    tituloEmpresa.font = { name: 'Aptos', size: 25, bold: true };
+    tituloEmpresa.alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.addRow([]);
+
+    // 🧑‍💼 Nombre
+    worksheet.mergeCells(`A4:${String.fromCharCode(64 + 8)}4`);
+    const filaNombre = worksheet.getCell('A4');
+    filaNombre.value = `Nombre: ${nombre}`;
+    filaNombre.font = { name: 'Aptos', bold: true, size: 25 };
+    filaNombre.alignment = { horizontal: 'center', vertical: 'middle' };
+
+    // 📄 Contrato
+    worksheet.mergeCells(`A5:${String.fromCharCode(64 + 8)}5`);
+    const filaContrato = worksheet.getCell('A5');
+    filaContrato.value = `Contrato: ${numeroContrato}`;
+    filaContrato.font = { name: 'Aptos', italic: true, size: 25 };
+    filaContrato.alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.addRow([]);
+
+    // 🧩 Encabezado de columnas
+    const headers = Array.from(tabla.querySelectorAll('thead th')).map(th => th.textContent.trim());
+    const headerRow = worksheet.addRow(headers);
+
+    const tonosAzul = [
+        'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
+        'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
+        'FF004C99', 'FF003366', 'FF001A66', 'FF00004D', 'FF000033',
+        'FF00001A', 'FF000000'
+    ];
+
+    headerRow.eachCell((cell, colNumber) => {
+        cell.font = { name: 'Aptos', bold: true, size: 14, color: { argb: 'FFFFFFFF' } };
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: tonosAzul[(colNumber - 1) % tonosAzul.length] }
+        };
+        cell.border = {
+            top: { style: 'medium' },
+            left: { style: 'medium' },
+            bottom: { style: 'medium' },
+            right: { style: 'medium' }
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+    });
+
+    // 📊 Agregar filas de datos
+    const rows = tabla.querySelectorAll('tbody tr');
+    rows.forEach(htmlRow => {
+        const rowData = Array.from(htmlRow.querySelectorAll('td')).map(td => td.textContent.trim());
+        const row = worksheet.addRow(rowData);
+        row.eachCell(cell => {
+            cell.font = { name: 'Aptos', size: 12 };
+            cell.border = {
+                top: { style: 'medium' },
+                left: { style: 'medium' },
+                bottom: { style: 'medium' },
+                right: { style: 'medium' }
+            };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+    });
+
+    // 📐 Ajustar ancho de columnas
+    worksheet.columns.forEach(column => {
+        let maxLength = 0;
+        column.eachCell({ includeEmpty: true }, cell => {
+            const text = cell.value ? cell.value.toString() : '';
+            maxLength = Math.max(maxLength, text.length);
+        });
+        column.width = Math.max(maxLength + 2, 12);
+    });
+
+    // 📤 Descargar Excel
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'valuacion_contrato.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+
+
+            // Función para parsear meses con formatos de comas y guiones
+            function parseMeses(mesesStr) {
+                if (!mesesStr) return [];
+                
+                const meses = [];
+                const partes = mesesStr.split(',');
+                
+                partes.forEach(parte => {
+                    const rango = parte.trim().split('-');
+                    if (rango.length === 1) {
+                        const mes = parseInt(rango[0]);
+                        if (!isNaN(mes)) meses.push(mes);
+                    } else if (rango.length === 2) {
+                        const inicio = parseInt(rango[0]);
+                        const fin = parseInt(rango[1]);
+                        if (!isNaN(inicio) && !isNaN(fin) && inicio <= fin) {
+                            for (let i = inicio; i <= fin; i++) {
+                                meses.push(i);
+                            }
+                        }
+                    }
+                });
+                
+                return meses;
+            }
+            
+            // Validación del formulario
+            function validateForm() {
+                let isValid = true;
+                
+				
+				
+				
+                // Reiniciar estados de error
+                const formGroups = document.querySelectorAll('.form-group');
+                formGroups.forEach(group => {
+                    group.classList.remove('error');
+                });
+                
+                // Validar campos requeridos
+                const requiredFields = document.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.parentElement.classList.add('error');
+                        isValid = false;
+                    }
+                });
+                
+                // Validar porcentajes
+                const percentageFields = document.querySelectorAll('#alicuotas, #impuestos, #penalizaciones, #porcentaje-descuento');
+                percentageFields.forEach(field => {
+                    if (field.value) {
+                        const value = parseFloat(field.value);
+                        if (value < 0 || value > 100) {
+                            field.parentElement.classList.add('error');
+                            isValid = false;
+                        }
+                    }
+                });
+                
+                // Validar meses con penalización y descuento
+                
+			// Reemplazar por esta validación solo si hay contenido:
+			const mesesPenalizacion = document.getElementById('meses-penalizacion');
+			if (mesesPenalizacion.value.trim() !== "") {
+			const meses = parseMeses(mesesPenalizacion.value);
+			if (meses.length === 0) {
+			mesesPenalizacion.parentElement.classList.add('error');
+			isValid = false;
+			}
+			}
+			// Para el porcentaje de penalización, mantener solo validación de rango si tiene valor:
+			const penalizacionesField = document.getElementById('penalizaciones');
+			if (penalizacionesField.value.trim() !== "") {
+			const value = parseFloat(penalizacionesField.value);
+			if (value < 0 || value > 100) {
+			penalizacionesField.parentElement.classList.add('error');
+			isValid = false;
+			}
+		}
+
+                
+                const mesesDescuento = document.getElementById('meses-descuento');
+                if (mesesDescuento && mesesDescuento.value) {
+                    const meses = parseMeses(mesesDescuento.value);
+                    if (meses.length === 0) {
+                        mesesDescuento.parentElement.classList.add('error');
+                        isValid = false;
+                    }
+                }
+                
+                // Validar inflación por aniversario
+                const inflacionAniversario = document.getElementById('inflacion-aniversario');
+                if (inflacionAniversario && inflacionAniversario.value) {
+                    const porcentajes = inflacionAniversario.value.split(',');
+                    if (!porcentajes.every(p => !isNaN(parseFloat(p.trim())))) {
+                        inflacionAniversario.parentElement.classList.add('error');
+                        isValid = false;
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // Función para mostrar gráficos
+            function mostrarGraficos(data) {
+                const chartsContainer = document.getElementById('charts-container');
+                chartsContainer.style.display = 'grid';
+                
+                // Preparar datos para los gráficos
+                const meses = data.map(row => `Mes ${row.consecutivo}`);
+                const totalesMensuales = data.map(row => row.totalMes);
+                const inflaciones = data.map(row => row.inflacionAcumulativa);
+                
+                // Gráfico de Evolución del Total Mensual
+                const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [ {
+                            label: 'Total Mensual',
+                            data: totalesMensuales,
+                            borderColor: '#003366',
+                            backgroundColor: 'rgba(0, 51, 102, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        } ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Evolución del Total Mensual'
+                            }
+                        }
+                    }
+                });
+                
+                // Gráfico de Inflación Acumulativa por Mes
+                const ctx3 = document.getElementById('inflacionChart').getContext('2d');
+                new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [ {
+                            label: 'Inflación Acumulativa',
+                            data: inflaciones,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        } ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Evolución de la Inflación Acumulativa'
+                            }
+                        }
+                    }
+                });
+            }
+        });
+		
