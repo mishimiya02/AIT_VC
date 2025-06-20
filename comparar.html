@@ -3,7 +3,7 @@
  
 <head>
 	<!-- Tema claro (activo por defecto) -->
-    <link rel="stylesheet" href="css/light-mode.css" id="theme-style">
+    <link rel="stylesheet" href="css/comparar.css" id="theme-style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <meta charset="UTF-8">
@@ -12,6 +12,11 @@
     
 	<script src="java/comparar.js"></script>
     <script src="java/wordjs.js"></script>
+    <script src="java/theme-switcher.js"></script>
+	
+     <script src="java/exportarpdf.js"></script>
+     <script src="java/exportarexcel.js"></script>
+      <script src="java/sidebar.js"></script>
      
 </head>
 <body>
@@ -302,6 +307,87 @@
                     </tr>
                 </tfoot>
             </table>
+
+
+
+<!-- Nueva tabla de resumen -->
+<div id="tabla-resumen-container" style="margin-top: 30px; display: none;">
+    <h3 style="color: white; text-align: center;">Resumen de Totales</h3>
+    <table id="tabla-resumen" class="resumen-table">
+        <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Días de Vigencia Totales</td>
+                <td id="resumen-dias-vigencia"></td>
+            </tr>
+            <tr>
+                <td>Importe Bruto Total</td>
+                <td id="resumen-importe-bruto"></td>
+            </tr>
+            <tr>
+                <td>Tarifa Proporcional Total</td>
+                <td id="resumen-bruto-prorrateado"></td>
+            </tr>
+            <tr>
+                <td>Monto Actualizado Total</td>
+                <td id="resumen-monto-actualizado"></td>
+            </tr>
+            <tr>
+                <td>Descuentos Totales</td>
+                <td id="resumen-descuento"></td>
+            </tr>
+            <tr>
+                <td>Subtotal</td>
+                <td id="resumen-subtotal"></td>
+            </tr>
+            <tr>
+                <td>Alícuotas Totales</td>
+                <td id="resumen-alicuota"></td>
+            </tr>
+            <tr>
+                <td>Impuestos sobre Monto</td>
+                <td id="resumen-impuesto-monto"></td>
+            </tr>
+            <tr>
+                <td>Impuestos sobre Alícuotas</td>
+                <td id="resumen-impuesto-alicuota"></td>
+            </tr>
+            <tr>
+                <td>Penalizaciones Totales</td>
+                <td id="resumen-penalizacion"></td>
+            </tr>
+            <tr>
+                <td>Total Mensual</td>
+                <td id="resumen-mensual"></td>
+            </tr>
+            <tr>
+                <td>Acumulado Total</td>
+                <td id="resumen-acumulado"></td>
+            </tr>
+            <tr class="saldo-row">
+                <td>Monto Pagado</td>
+                <td id="resumen-monto-pagado"></td>
+            </tr>
+            <tr class="saldo-row">
+                <td>Saldo del Contrato</td>
+                <td id="resumen-saldo-contrato"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
             
             <div id="garantia-tabla-container" style="margin-top: 20px;">
                 <h3 style="color: white; text-align: center;">Resumen de garantías</h3>

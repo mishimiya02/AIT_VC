@@ -379,6 +379,11 @@ if (i === 0) {
                 montoPagadoElement.textContent = formatearMoneda(totalPagado);
                 saldoContratoElement.textContent = formatearMoneda(saldoContrato);
                 
+
+
+
+
+                
                 // Agregar tabla de garantías
                 if (garantias.length > 0) {
                     let garantiaHTML = '<tr><th>Tipo de Garantía</th><th>Valor de Garantía</th><th>Monto Exhibido/Vigente</th><th>Saldo</th></tr>';
