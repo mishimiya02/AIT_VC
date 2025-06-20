@@ -1,3 +1,119 @@
+/*tabla de resumen */
+
+    /* Contenedor principal */
+    #tabla-resumen-container {
+        background: linear-gradient(145deg, #2c3e50, #34495e);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        margin: 30px auto;
+        max-width: 800px;
+        overflow: hidden;
+    }
+
+    /* Título */
+    #tabla-resumen-container h3 {
+        color: #fff;
+        text-align: center;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    /* Estilo de la tabla */
+    .resumen-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+
+    /* Cabecera de la tabla */
+    .resumen-table thead th {
+        background: linear-gradient(to right, #3498db, #2980b9);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9em;
+    }
+
+    .resumen-table thead th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    .resumen-table thead th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+    /* Celdas del cuerpo */
+    .resumen-table tbody td {
+        padding: 12px 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    /* Filas alternas */
+    .resumen-table tbody tr:nth-child(even) td {
+        background-color: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Última fila */
+    .resumen-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Celda de concepto */
+    .resumen-table tbody td:first-child {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    /* Celda de valor */
+    .resumen-table tbody td:last-child {
+        font-weight: 600;
+        color: #e74c3c;
+        text-align: right;
+    }
+
+    /* Filas especiales (saldo) */
+    .saldo-row td {
+        background-color: #f8f9fa !important;
+        font-weight: 700 !important;
+    }
+
+    .saldo-row td:first-child {
+        color: #27ae60 !important;
+    }
+
+    .saldo-row td:last-child {
+        color: #27ae60 !important;
+        font-size: 1.1em;
+    }
+
+    /* Efecto hover */
+    .resumen-table tbody tr:hover td {
+        background-color: #e3f2fd;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Bordes redondeados inferiores */
+    .resumen-table tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 8px;
+    }
+
+    .resumen-table tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 8px;
+    }
+
+
+
+
 * {
             box-sizing: border-box;
             margin: 0;
@@ -301,14 +417,16 @@ p {
              font-size: 24px;
              font-weight: 600;
              color: #000000;
+              font-weight: bold;
          }
          
          h2 {
              text-align: center;
              font-style: sans-serif;
              margin-top: 0;
-             color: #0011ff;
+             color: #000000;
 			 font-size: 35px;
+            font-weight: bold;
          }
          
          .subtitle {

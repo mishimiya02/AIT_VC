@@ -248,7 +248,7 @@ if (i === 0) {
                 exportarpdf.style.display = 'inline-block';
                 
                 // Mostrar gráficos
-                mostrarGraficos(data);
+                //mostrarGraficos(data);
             });
             
             // Función para formatear los números como moneda
@@ -648,73 +648,5 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
                 return isValid;
             }
             
-            // Función para mostrar gráficos
-            function mostrarGraficos(data) {
-                const chartsContainer = document.getElementById('charts-container');
-                chartsContainer.style.display = 'grid';
-                
-                // Preparar datos para los gráficos
-                const meses = data.map(row => `Mes ${row.consecutivo}`);
-                const totalesMensuales = data.map(row => row.totalMes);
-                const inflaciones = data.map(row => row.inflacionAcumulativa);
-                
-                // Gráfico de Evolución del Total Mensual
-                const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
-                new Chart(ctx1, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [ {
-                            label: 'Total Mensual',
-                            data: totalesMensuales,
-                            borderColor: '#003366',
-                            backgroundColor: 'rgba(0, 51, 102, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        } ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución del Total Mensual'
-                            }
-                        }
-                    }
-                });
-                
-                // Gráfico de Inflación Acumulativa por Mes
-                const ctx3 = document.getElementById('inflacionChart').getContext('2d');
-                new Chart(ctx3, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [ {
-                            label: 'Inflación Acumulativa',
-                            data: inflaciones,
-                            borderColor: '#28a745',
-                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        } ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución de la Inflación Acumulativa'
-                            }
-                        }
-                    }
-                });
-            }
-        });
-		
+            // Función para mostrar gráficos aqui borre graficas 
+})
