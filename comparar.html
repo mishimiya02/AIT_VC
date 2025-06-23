@@ -42,7 +42,7 @@
 	</nav>
     <!-- Contenido principal -->
     <div class="contenido">
-        <h1>Solicita una valuación de contrato </h1>
+        <h1>COMPARACION DE VALUACIONES </h1>
     </div>
 	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
 	 <button id="toggle-sidebar" class="toggle-btn">
@@ -112,7 +112,9 @@
 	 <div class="container">
         <div class="airport-header">
             <h2>A.M.A.I.T.</h2>
-            <h2>Valuación contractual</h2>
+            <h2>Valuación contractual 1</h2>
+            <p style="text-align: center;">Por favor ingrese los datos correctos para realizar la comparacion</p>
+	
         </div>
         
         <div id="contract-info" style="display: none;">
@@ -309,6 +311,11 @@
 
 <div id="tabla-resumen-totales" style="margin-top: 2rem;"></div><!-- tabla resumen-->
 
+     <br><br>
+    <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
+	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
+    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
+
 
             <div id="garantia-tabla-container" style="margin-top: 20px;">
                 <h3 style="color: white; text-align: center;">Resumen de garantías</h3>
@@ -345,9 +352,5 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 			
  <img id="logo-image" src="img/logo2n.png" style="display: none;" />
-       <br><br>
-    <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
-	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
-    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
 </body>
 </html>

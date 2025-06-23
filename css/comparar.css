@@ -572,10 +572,11 @@ p {
 }
 
 .form-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* ← Ahora 3 columnas */
+  gap: 20px;
 }
+
 
 .form-group.left-column,
 .form-group.right-column {
