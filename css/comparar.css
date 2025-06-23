@@ -1,213 +1,86 @@
-/*tabla de resumen */
+.resumen-totales {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-    /* Contenedor principal */
-    #tabla-resumen-container {
-        background: linear-gradient(145deg, #2c3e50, #34495e);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        margin: 30px auto;
-        max-width: 800px;
-        overflow: hidden;
-    }
+.resumen-totales h3 {
+    margin-top: 0;
+    color: #003366;
+    text-align: center;
+}
 
-    /* Título */
-    #tabla-resumen-container h3 {
-        color: #fff;
-        text-align: center;
-        font-size: 1.8em;
-        margin-bottom: 20px;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        font-weight: 300;
-        letter-spacing: 1px;
-    }
+.resumen-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
 
-    /* Estilo de la tabla */
-    .resumen-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #333;
-    }
+.resumen-table th, .resumen-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
 
-    /* Cabecera de la tabla */
-    .resumen-table thead th {
-        background: linear-gradient(to right, #3498db, #2980b9);
-        color: white;
-        padding: 15px;
-        text-align: left;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-size: 0.9em;
-    }
+.resumen-table th {
+    background-color: #003366;
+    color: white;
+}
 
-    .resumen-table thead th:first-child {
-        border-top-left-radius: 8px;
-    }
-
-    .resumen-table thead th:last-child {
-        border-top-right-radius: 8px;
-    }
-
-    /* Celdas del cuerpo */
-    .resumen-table tbody td {
-        padding: 12px 15px;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    /* Filas alternas */
-    .resumen-table tbody tr:nth-child(even) td {
-        background-color: rgba(255, 255, 255, 0.95);
-    }
-
-    /* Última fila */
-    .resumen-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    /* Celda de concepto */
-    .resumen-table tbody td:first-child {
-        font-weight: 500;
-        color: #2c3e50;
-    }
-
-    /* Celda de valor */
-    .resumen-table tbody td:last-child {
-        font-weight: 600;
-        color: #e74c3c;
-        text-align: right;
-    }
-
-    /* Filas especiales (saldo) */
-    .saldo-row td {
-        background-color: #f8f9fa !important;
-        font-weight: 700 !important;
-    }
-
-    .saldo-row td:first-child {
-        color: #27ae60 !important;
-    }
-
-    .saldo-row td:last-child {
-        color: #27ae60 !important;
-        font-size: 1.1em;
-    }
-
-    /* Efecto hover */
-    .resumen-table tbody tr:hover td {
-        background-color: #e3f2fd;
-        transition: background-color 0.3s ease;
-    }
-
-    /* Bordes redondeados inferiores */
-    .resumen-table tbody tr:last-child td:first-child {
-        border-bottom-left-radius: 8px;
-    }
-
-    .resumen-table tbody tr:last-child td:last-child {
-        border-bottom-right-radius: 8px;
-    }
+.resumen-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
 
 
 
-* {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-        
-        body {
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .form-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .form-wrapper {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-            text-align: center;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .required-field::after {
-            content: " *";
-            color: red;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        input[type="checkbox"] {
-            width: auto;
-        }
-        
-        .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        button, .boton-recargar1 {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        
-        .boton-recargar1 {
-            background-color: #f44336;
-            margin-left: 10px;
-        }
-        
-        #resultado-fechas {
-            margin-top: 10px;
-            font-style: italic;
-            color: #555;
-        }
-        
-        @media (max-width: 768px) {
-            .form-wrapper {
-                min-width: 100%;
-            }
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*enlaces**/
+.enlace-inegi {
+    font-family: 'Segoe UI', Roboto,sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffaa0c; /* Azul INEGI */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.enlace-inegi:hover {
+    color: #ff8800;
+    border-bottom: 1px solid #ffd000;
+}
+.enlace-banxico {
+    font-weight: bold;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    color: #ffaa0c; /* Azul INEGI */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.enlace-banxico:hover {
+    color: #ff8800;
+    border-bottom: 1px solid #fbff00;
+}
+
+
+
 
 
 /* Estilos CSS */
@@ -417,16 +290,14 @@ p {
              font-size: 24px;
              font-weight: 600;
              color: #000000;
-              font-weight: bold;
          }
          
          h2 {
              text-align: center;
              font-style: sans-serif;
              margin-top: 0;
-             color: #000000;
+             color: #0011ff;
 			 font-size: 35px;
-            font-weight: bold;
          }
          
          .subtitle {
@@ -613,12 +484,25 @@ p {
              margin-right: 15px;
              transition: background-color 0.3s;
    }
+
+
+  		  .boton-recargar2 {
+   background-color: #2c00ca;
+             color: white;
+             border: none;
+             padding: 12px 20px;
+             border-radius: 4px;
+             cursor: pointer;
+             font-size: 16px;
+             margin-right: 15px;
+             transition: background-color 0.3s;
+   }
+
+
    .boton-recargar:hover {
      background-color: #7cfff8;
    }
    
-
- 
 /* Estilos de la sidebar derecha */
 .right-sidebar {
     width: 300px;
@@ -735,5 +619,3 @@ p {
         right: 0;
     }
 }
-
-   

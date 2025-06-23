@@ -248,7 +248,7 @@ if (i === 0) {
                 exportarpdf.style.display = 'inline-block';
                 
                 // Mostrar gráficos
-                //mostrarGraficos(data);
+                mostrarGraficos(data);
             });
             
             // Función para formatear los números como moneda
@@ -289,6 +289,37 @@ if (i === 0) {
                 const saldoContratoElement = document.getElementById('saldo-contrato');
                 const pageNumer = document.getElementById('page-number');
 				
+
+function mostrarTablaResumenTotales(totales) {
+    const contenedor = document.getElementById('tabla-resumen-totales');
+    contenedor.innerHTML = ''; // Limpiar contenido anterior
+
+    const tabla = document.createElement('table');
+    tabla.style.width = '100%';
+    tabla.style.borderCollapse = 'collapse';
+    tabla.style.marginTop = '20px';
+
+    const encabezado = document.createElement('tr');
+    encabezado.innerHTML = `
+        <th style="border: 1px solid #000; padding: 8px; background-color: #f0f0f0;">Concepto</th>
+        <th style="border: 1px solid #000; padding: 8px; background-color: #f0f0f0;">Total</th>
+    `;
+    tabla.appendChild(encabezado);
+
+    for (const concepto in totales) {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td style="border: 1px solid #000; padding: 8px;">${concepto}</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatearMoneda(totales[concepto])}</td>
+        `;
+        tabla.appendChild(fila);
+    }
+
+    contenedor.appendChild(tabla);
+}
+
+
+
                 
                 // Mostrar información del usuario y contrato
                 userContract.textContent = `${nombre} - ${numeroContrato}`;
@@ -357,7 +388,7 @@ if (i === 0) {
                     `;
                     cuerpoTabla.appendChild(fila);
                 });
-                
+
                 // Actualizar totales
 				
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
@@ -374,6 +405,23 @@ if (i === 0) {
 				document.getElementById('total-bruto-prorrateado').textContent = formatearMoneda(totalBrutoProrrateado);
 
 
+mostrarTablaResumenTotales({
+    'Días de Vigencia': totalDiasVigencia,
+    'Importe Bruto': totalIB,
+    'Importe Bruto Prorrateado': totalBrutoProrrateado,
+    'Monto Actualizado': totalMA,
+    'Alicuotas': totalAL,
+    'Impuesto sobre Monto': totalIM,
+    'Impuesto sobre Alicuotas': totalIA,
+    'Penalización': totalPE,
+    'Descuento': totalDT,
+    'Subtotal': totalST,
+    'Total Mensual': totalTM,
+    'Total Acumulado': totalAT
+});
+
+
+
                 
                 // Mostrar monto pagado y saldo del contrato
                 montoPagadoElement.textContent = formatearMoneda(totalPagado);
@@ -381,28 +429,7 @@ if (i === 0) {
                 
 
 
- // Mostrar la tabla de resumen
-    document.getElementById('tabla-resumen-container').style.display = 'block';
-    
-    // Actualizar la tabla de resumen
-    document.getElementById('resumen-dias-vigencia').textContent = totalDiasVigencia;
-    document.getElementById('resumen-importe-bruto').textContent = formatearMoneda(totalIB);
-    document.getElementById('resumen-bruto-prorrateado').textContent = formatearMoneda(totalBrutoProrrateado);
-    document.getElementById('resumen-monto-actualizado').textContent = formatearMoneda(totalMA);
-    document.getElementById('resumen-descuento').textContent = formatearMoneda(totalDT);
-    document.getElementById('resumen-subtotal').textContent = formatearMoneda(totalST);
-    document.getElementById('resumen-alicuota').textContent = formatearMoneda(totalAL);
-    document.getElementById('resumen-impuesto-monto').textContent = formatearMoneda(totalIM);
-    document.getElementById('resumen-impuesto-alicuota').textContent = formatearMoneda(totalIA);
-    document.getElementById('resumen-penalizacion').textContent = formatearMoneda(totalPE);
-    document.getElementById('resumen-mensual').textContent = formatearMoneda(totalTM);
-    document.getElementById('resumen-acumulado').textContent = formatearMoneda(totalAT);
-    document.getElementById('resumen-monto-pagado').textContent = formatearMoneda(totalPagado);
-    document.getElementById('resumen-saldo-contrato').textContent = formatearMoneda(saldoContrato);
-
-
-
-
+                
                 // Agregar tabla de garantías
                 if (garantias.length > 0) {
                     let garantiaHTML = '<tr><th>Tipo de Garantía</th><th>Valor de Garantía</th><th>Monto Exhibido/Vigente</th><th>Saldo</th></tr>';
@@ -648,5 +675,73 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
                 return isValid;
             }
             
-            // Función para mostrar gráficos aqui borre graficas 
-})
+            // Función para mostrar gráficos
+            function mostrarGraficos(data) {
+                const chartsContainer = document.getElementById('charts-container');
+                chartsContainer.style.display = 'grid';
+                
+                // Preparar datos para los gráficos
+                const meses = data.map(row => `Mes ${row.consecutivo}`);
+                const totalesMensuales = data.map(row => row.totalMes);
+                const inflaciones = data.map(row => row.inflacionAcumulativa);
+                
+                // Gráfico de Evolución del Total Mensual
+                const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [ {
+                            label: 'Total Mensual',
+                            data: totalesMensuales,
+                            borderColor: '#003366',
+                            backgroundColor: 'rgba(0, 51, 102, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        } ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Evolución del Total Mensual'
+                            }
+                        }
+                    }
+                });
+                
+                // Gráfico de Inflación Acumulativa por Mes
+                const ctx3 = document.getElementById('inflacionChart').getContext('2d');
+                new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [ {
+                            label: 'Inflación Acumulativa',
+                            data: inflaciones,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        } ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Evolución de la Inflación Acumulativa'
+                            }
+                        }
+                    }
+                });
+            }
+        });
+		

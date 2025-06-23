@@ -9,162 +9,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>CALCULADORA DE TARIFA PROPORCIONAL </title> <!--  titulo de la pagina  -->
-    
+    <script src="java/theme-switcher.js"></script>
 	<script src="java/comparar.js"></script>
     <script src="java/wordjs.js"></script>
-    <script src="java/theme-switcher.js"></script>
-	
      <script src="java/exportarpdf.js"></script>
      <script src="java/exportarexcel.js"></script>
       <script src="java/sidebar.js"></script>
-      <style>
-    /* Contenedor principal */
-    #resultados {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        margin: 30px auto;
-        font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    }
-
-    /* Encabezado institucional */
-    .airport-header {
-        background: linear-gradient(135deg, #ffffff, #5eb3d4);
-        color: white;
-        padding: 25px;
-        text-align: center;
-        margin-bottom: 20px;
-        border-bottom: 5px solid #3b0088;
-    }
-
-    .airport-header h1 {
-        font-size: 3.8em;
-        margin: 0;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-         color: white;
-    }
-
-    .airport-header h2 {
-        font-size: 1.4em;
-        margin: 10px 0 5px;
-        font-weight: 400;
-    }
-
-    .subtitle {
-        font-size: 0.9em;
-        opacity: 0.9;
-        font-style: italic;
-    }
-
-    /* Estilo de la tabla */
-    #tabla-resultados {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        font-size: 0.85em;
-    }
-
-    /* Cabecera de tabla */
-    #tabla-resultados thead th {
-        background-color: #4584c4;
-        color: white;
-        padding: 12px 8px;
-        text-align: center;
-        font-weight: 500;
-        position: sticky;
-        top: 0;
-        border-left: 1px solid #5289c4;
-    }
-
-    #tabla-resultados thead th:first-child {
-        border-left: none;
-    }
-
-    /* Cuerpo de tabla */
-    #tabla-resultados tbody td {
-        padding: 10px 8px;
-        text-align: center;
-        border-bottom: 1px solid #e0e0e0;
-        background-color: white;
-    }
-
-    /* Filas alternas */
-    #tabla-resultados tbody tr:nth-child(even) td {
-        background-color: #f5f7fa;
-    }
-
-    /* Efecto hover */
-    #tabla-resultados tbody tr:hover td {
-        background-color: #e3f2fd;
-    }
-
-    /* Pie de tabla */
-    #tabla-resultados tfoot th {
-        background-color: #34495e;
-        color: white;
-        padding: 12px;
-        text-align: left;
-        font-weight: 500;
-    }
-
-    /* Fila de totales */
-    #tabla-resultados .total-row td {
-        background-color: #e8f4fc;
-        font-weight: 600;
-        color: #2c3e50;
-        text-align: center;
-        border-bottom: 2px solid #bdc3c7;
-    }
-
-    /* Fila de saldo */
-    #tabla-resultados .saldo-row th {
-        background-color: #27ae60;
-        color: white;
-        text-align: center;
-        font-size: 1.1em;
-        letter-spacing: 0.5px;
-    }
-
-    #tabla-resultados .saldo-row span {
-        font-weight: 600;
-        margin: 0 15px;
-    }
-
-    /* Ajustes para columnas numéricas */
-    #tabla-resultados td:nth-child(n+4),
-    #tabla-resultados th:nth-child(n+4) {
-        text-align: right;
-        padding-right: 15px;
-    }
-
-    /* Bordes redondeados */
-    #tabla-resultados {
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    /* Scroll para tablas muy anchas */
-    @media (max-width: 1600px) {
-        #resultados {
-            overflow-x: auto;
-        }
-    }
-
-    /* Estilo para celdas importantes */
-    #total-mensual, #total-acumulado, 
-    #total-monto-actualizado, #total-subtotal {
-        font-weight: 700;
-        color: #e74c3c;
-    }
-
-    /* Efecto de transición suave */
-    #tabla-resultados tbody tr {
-        transition: background-color 0.2s ease;
-    }
-</style>
-     
 </head>
 <body>
 	 
@@ -192,10 +42,9 @@
 	</nav>
     <!-- Contenido principal -->
     <div class="contenido">
-        </br>
-        <h2> COMPARACION DE CONTRATOS </h2>
+        <h1>Solicita una valuación de contrato </h1>
     </div>
-	<p style="text-align: center;"></p>
+	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
 	 <button id="toggle-sidebar" class="toggle-btn">
             <i class="fas fa-bars"></i>
         </button>
@@ -203,7 +52,7 @@
 <!--sidebar-->
         <div class="sidebar right-sidebar" id="sidebar">
         <div class="sidebar-header">
-             <script src="sidebar.js"></script>
+             <script src="java/sidebar.js"></script>
             <h3>CONSUTAR INFLACION</h3>
             <button class="close-btn" id="close-sidebar">
                 <i class="fas fa-times"></i>
@@ -239,7 +88,7 @@
      <option value="2017">2017</option>
     <option value="2016">2016</option>
     <option value="2015">2015</option>
-    <option value="20214">2014</option>
+    <option value="2014">2014</option>
      <option value="2013">2013</option>
     <option value="2012">2012</option>
     <option value="2011">2011</option>
@@ -263,7 +112,7 @@
 	 <div class="container">
         <div class="airport-header">
             <h2>A.M.A.I.T.</h2>
-            <h2>Valuación contractual  1</h2>
+            <h2>Valuación contractual</h2>
         </div>
         
         <div id="contract-info" style="display: none;">
@@ -455,202 +304,19 @@
                     </tr>
                 </tfoot>
             </table>
-
-
-
-<!-- Nueva tabla de resumen -->
-<div id="tabla-resumen-container" style="margin-top: 30px; display: none;">
-    <h3 style="color: white; text-align: center;">Resumen de Totales</h3>
-    <table id="tabla-resumen" class="resumen-table">
-        <thead>
-            <tr>
-                <th>Concepto</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Días de Vigencia Totales</td>
-                <td id="resumen-dias-vigencia"></td>
-            </tr>
-            <tr>
-                <td>Importe Bruto Total</td>
-                <td id="resumen-importe-bruto"></td>
-            </tr>
-            <tr>
-                <td>Tarifa Proporcional Total</td>
-                <td id="resumen-bruto-prorrateado"></td>
-            </tr>
-            <tr>
-                <td>Monto Actualizado Total</td>
-                <td id="resumen-monto-actualizado"></td>
-            </tr>
-            <tr>
-                <td>Descuentos Totales</td>
-                <td id="resumen-descuento"></td>
-            </tr>
-            <tr>
-                <td>Subtotal</td>
-                <td id="resumen-subtotal"></td>
-            </tr>
-            <tr>
-                <td>Alícuotas Totales</td>
-                <td id="resumen-alicuota"></td>
-            </tr>
-            <tr>
-                <td>Impuestos sobre Monto</td>
-                <td id="resumen-impuesto-monto"></td>
-            </tr>
-            <tr>
-                <td>Impuestos sobre Alícuotas</td>
-                <td id="resumen-impuesto-alicuota"></td>
-            </tr>
-            <tr>
-                <td>Penalizaciones Totales</td>
-                <td id="resumen-penalizacion"></td>
-            </tr>
-            <tr>
-                <td>Total Mensual</td>
-                <td id="resumen-mensual"></td>
-            </tr>
-            <tr>
-                <td>Acumulado Total</td>
-                <td id="resumen-acumulado"></td>
-            </tr>
-            <tr class="saldo-row">
-                <td>Monto Pagado</td>
-                <td id="resumen-monto-pagado"></td>
-            </tr>
-            <tr class="saldo-row">
-                <td>Saldo del Contrato</td>
-                <td id="resumen-saldo-contrato"></td>
-            </tr>
-        </tbody>
-    </table>
-    <style>
-    /* Contenedor principal */
-    #tabla-resumen-container {
-        background: linear-gradient(145deg, #2c3e50, #34495e);
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        margin: 30px auto;
-        max-width: 800px;
-        overflow: hidden;
-    }
-
-    /* Título */
-    #tabla-resumen-container h3 {
-        color: #fff;
-        text-align: center;
-        font-size: 1.8em;
-        margin-bottom: 20px;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        font-weight: 300;
-        letter-spacing: 1px;
-    }
-
-    /* Estilo de la tabla */
-    .resumen-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #333;
-    }
-
-    /* Cabecera de la tabla */
-    .resumen-table thead th {
-        background: linear-gradient(to right, #3498db, #2980b9);
-        color: white;
-        padding: 15px;
-        text-align: left;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-size: 0.9em;
-    }
-
-    .resumen-table thead th:first-child {
-        border-top-left-radius: 8px;
-    }
-
-    .resumen-table thead th:last-child {
-        border-top-right-radius: 8px;
-    }
-
-    /* Celdas del cuerpo */
-    .resumen-table tbody td {
-        padding: 12px 15px;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    /* Filas alternas */
-    .resumen-table tbody tr:nth-child(even) td {
-        background-color: rgba(255, 255, 255, 0.95);
-    }
-
-    /* Última fila */
-    .resumen-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    /* Celda de concepto */
-    .resumen-table tbody td:first-child {
-        font-weight: 500;
-        color: #2c3e50;
-    }
-
-    /* Celda de valor */
-    .resumen-table tbody td:last-child {
-        font-weight: 600;
-        color: #e74c3c;
-        text-align: right;
-    }
-
-    /* Filas especiales (saldo) */
-    .saldo-row td {
-        background-color: #f8f9fa !important;
-        font-weight: 700 !important;
-    }
-
-    .saldo-row td:first-child {
-        color: #27ae60 !important;
-    }
-
-    .saldo-row td:last-child {
-        color: #27ae60 !important;
-        font-size: 1.1em;
-    }
-
-    /* Efecto hover */
-    .resumen-table tbody tr:hover td {
-        background-color: #e3f2fd;
-        transition: background-color 0.3s ease;
-    }
-
-    /* Bordes redondeados inferiores */
-    .resumen-table tbody tr:last-child td:first-child {
-        border-bottom-left-radius: 8px;
-    }
-
-    .resumen-table tbody tr:last-child td:last-child {
-        border-bottom-right-radius: 8px;
-    }
-</style>
-</div>
-
-
-
-
-
-
-
-
-        
             
-          <!----<h3 style="color: white; text-align: center; margin-top: 30px;">Gráficas</h3>-->
+
+<div id="tabla-resumen-totales" style="margin-top: 2rem;"></div><!-- tabla resumen-->
+
+
+            <div id="garantia-tabla-container" style="margin-top: 20px;">
+                <h3 style="color: white; text-align: center;">Resumen de garantías</h3>
+                <table class="guarantee-table" id="garantia-tabla">
+                    <!-- Filas dinámicas -->
+                </table>
+            </div>
+            
+            <h3 style="color: white; text-align: center; margin-top: 30px;">Gráficas</h3>
             
             <div class="charts-container" id="charts-container" style="display: none;">
                 <div class="chart-box">
