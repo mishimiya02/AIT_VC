@@ -289,35 +289,56 @@ if (i === 0) {
                 const saldoContratoElement = document.getElementById('saldo-contrato');
                 const pageNumer = document.getElementById('page-number');
 				
-
 function mostrarTablaResumenTotales(totales) {
     const contenedor = document.getElementById('tabla-resumen-totales');
     contenedor.innerHTML = ''; // Limpiar contenido anterior
 
+    // Aplicar estilos al contenedor
+    contenedor.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+    contenedor.style.borderRadius = "8px";
+    contenedor.style.overflow = "hidden";
+    contenedor.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+
     const tabla = document.createElement('table');
     tabla.style.width = '100%';
-    tabla.style.borderCollapse = 'collapse';
-    tabla.style.marginTop = '20px';
+    tabla.style.borderCollapse = 'separate';
+    tabla.style.borderSpacing = '0';
+    tabla.style.margin = '20px 0';
 
     const encabezado = document.createElement('tr');
     encabezado.innerHTML = `
-        <th style="border: 1px solid #000; padding: 8px; background-color: #f0f0f0;">Concepto</th>
-        <th style="border: 1px solid #000; padding: 8px; background-color: #f0f0f0;">Total</th>
+        <th style="background-color: #4a6fa5; color: white; font-weight: 600; padding: 12px 15px; text-align: left; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px;">Concepto</th>
+        <th style="background-color: #4a6fa5; color: white; font-weight: 600; padding: 12px 15px; text-align: left; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px;">Total</th>
     `;
     tabla.appendChild(encabezado);
 
+    let isEven = false;
     for (const concepto in totales) {
         const fila = document.createElement('tr');
+        fila.style.transition = 'background-color 0.2s ease';
+        if (isEven) {
+            fila.style.backgroundColor = '#f8f9fa';
+        }
+        fila.onmouseover = function() { this.style.backgroundColor = '#f1f5fd'; };
+        fila.onmouseout = function() { this.style.backgroundColor = isEven ? '#f8f9fa' : 'transparent'; };
+        
         fila.innerHTML = `
-            <td style="border: 1px solid #000; padding: 8px;">${concepto}</td>
-            <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatearMoneda(totales[concepto])}</td>
+            <td style="padding: 12px 15px; border-bottom: 1px solidrgb(0, 0, 0); color: #333;">${concepto}</td>
+            <td style="padding: 12px 15px; border-bottom: 1px solidrgb(0, 0, 0); text-align: right; font-weight: bold; color: #2c3e50;">${formatearMoneda(totales[concepto])}</td>
         `;
         tabla.appendChild(fila);
+        isEven = !isEven;
+    }
+
+    // Eliminar borde inferior de la última fila
+    const lastRow = tabla.lastElementChild;
+    if (lastRow) {
+        const cells = lastRow.querySelectorAll('td');
+        cells.forEach(cell => cell.style.borderBottom = 'none');
     }
 
     contenedor.appendChild(tabla);
 }
-
 
 
                 
@@ -427,24 +448,6 @@ mostrarTablaResumenTotales({
                 montoPagadoElement.textContent = formatearMoneda(totalPagado);
                 saldoContratoElement.textContent = formatearMoneda(saldoContrato);
                 
-
-
-                
-                // Agregar tabla de garantías
-                if (garantias.length > 0) {
-                    let garantiaHTML = '<tr><th>Tipo de Garantía</th><th>Valor de Garantía</th><th>Monto Exhibido/Vigente</th><th>Saldo</th></tr>';
-                    garantias.forEach(garantia => {
-                        garantiaHTML += `
-                            <tr>
-                                <td>${garantia.tipo}</td>
-                                <td>${formatearMoneda(garantia.valor)}</td>
-                                <td>${formatearMoneda(garantia.montoExhibido)}</td>
-                                <td>${formatearMoneda(garantia.saldo)}</td>
-                            </tr>
-                        `;
-                    });
-                    tablaGarantia.innerHTML = garantiaHTML;
-                }
                 
                 // Mostrar los resultados
                 resultadosDiv.style.display = 'block';
@@ -675,73 +678,4 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
                 return isValid;
             }
             
-            // Función para mostrar gráficos
-            function mostrarGraficos(data) {
-                const chartsContainer = document.getElementById('charts-container');
-                chartsContainer.style.display = 'grid';
-                
-                // Preparar datos para los gráficos
-                const meses = data.map(row => `Mes ${row.consecutivo}`);
-                const totalesMensuales = data.map(row => row.totalMes);
-                const inflaciones = data.map(row => row.inflacionAcumulativa);
-                
-                // Gráfico de Evolución del Total Mensual
-                const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
-                new Chart(ctx1, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [ {
-                            label: 'Total Mensual',
-                            data: totalesMensuales,
-                            borderColor: '#003366',
-                            backgroundColor: 'rgba(0, 51, 102, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        } ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución del Total Mensual'
-                            }
-                        }
-                    }
-                });
-                
-                // Gráfico de Inflación Acumulativa por Mes
-                const ctx3 = document.getElementById('inflacionChart').getContext('2d');
-                new Chart(ctx3, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [ {
-                            label: 'Inflación Acumulativa',
-                            data: inflaciones,
-                            borderColor: '#28a745',
-                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        } ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución de la Inflación Acumulativa'
-                            }
-                        }
-                    }
-                });
-            }
-        });
-		
+})
