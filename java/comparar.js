@@ -1,8 +1,5 @@
 
 
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
             const calcularBtn = document.getElementById('calcular');
@@ -288,8 +285,7 @@ if (i === 0) {
                 const montoPagadoElement = document.getElementById('monto-pagado');
                 const saldoContratoElement = document.getElementById('saldo-contrato');
                 const pageNumer = document.getElementById('page-number');
-				
-function mostrarTablaResumenTotales(totales) {
+			function mostrarTablaResumenTotales(totales) {
     const contenedor = document.getElementById('tabla-resumen-totales');
     contenedor.innerHTML = ''; // Limpiar contenido anterior
 
@@ -298,20 +294,43 @@ function mostrarTablaResumenTotales(totales) {
     contenedor.style.borderRadius = "8px";
     contenedor.style.overflow = "hidden";
     contenedor.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
+    contenedor.style.marginTop = "30px";
 
     const tabla = document.createElement('table');
     tabla.style.width = '100%';
     tabla.style.borderCollapse = 'separate';
     tabla.style.borderSpacing = '0';
-    tabla.style.margin = '20px 0';
+    tabla.style.margin = '0';
+    tabla.style.borderRadius = '8px';
+    tabla.style.overflow = 'hidden';
 
+    // Encabezado
     const encabezado = document.createElement('tr');
     encabezado.innerHTML = `
-        <th style="background-color: #4a6fa5; color: white; font-weight: 600; padding: 12px 15px; text-align: left; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px;">Concepto</th>
-        <th style="background-color: #4a6fa5; color: white; font-weight: 600; padding: 12px 15px; text-align: left; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px;">Total</th>
+        <th style="
+            background-color: #4a6fa5;
+            color: white;
+            font-weight: 600;
+            padding: 12px 15px;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        ">Concepto</th>
+        <th style="
+            background-color: #4a6fa5;
+            color: white;
+            font-weight: 600;
+            padding: 12px 15px;
+            text-align: right;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        ">Total</th>
     `;
     tabla.appendChild(encabezado);
 
+    // Filas alternadas con efectos
     let isEven = false;
     for (const concepto in totales) {
         const fila = document.createElement('tr');
@@ -319,22 +338,40 @@ function mostrarTablaResumenTotales(totales) {
         if (isEven) {
             fila.style.backgroundColor = '#f8f9fa';
         }
-        fila.onmouseover = function() { this.style.backgroundColor = '#f1f5fd'; };
-        fila.onmouseout = function() { this.style.backgroundColor = isEven ? '#f8f9fa' : 'transparent'; };
-        
+
+        fila.onmouseover = function () {
+            this.style.backgroundColor = '#f1f5fd';
+        };
+        fila.onmouseout = function () {
+            this.style.backgroundColor = isEven ? '#f8f9fa' : 'transparent';
+        };
+
         fila.innerHTML = `
-            <td style="padding: 12px 15px; border-bottom: 1px solidrgb(0, 0, 0); color: #333;">${concepto}</td>
-            <td style="padding: 12px 15px; border-bottom: 1px solidrgb(0, 0, 0); text-align: right; font-weight: bold; color: #2c3e50;">${formatearMoneda(totales[concepto])}</td>
+            <td style="
+                padding: 12px 15px;
+                border-bottom: 1px solid rgb(200, 200, 200);
+                color: #333;
+            ">${concepto}</td>
+            <td style="
+                padding: 12px 15px;
+                border-bottom: 1px solid rgb(200, 200, 200);
+                text-align: right;
+                font-weight: bold;
+                color: #2c3e50;
+            ">${formatearMoneda(totales[concepto])}</td>
         `;
+
         tabla.appendChild(fila);
         isEven = !isEven;
     }
 
-    // Eliminar borde inferior de la última fila
+    // Quitar borde a última fila
     const lastRow = tabla.lastElementChild;
     if (lastRow) {
         const cells = lastRow.querySelectorAll('td');
-        cells.forEach(cell => cell.style.borderBottom = 'none');
+        cells.forEach(cell => {
+            cell.style.borderBottom = 'none';
+        });
     }
 
     contenedor.appendChild(tabla);
