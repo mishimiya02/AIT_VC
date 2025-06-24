@@ -571,6 +571,11 @@ p {
     }
 }
 
+
+.form-group.full-width {
+  grid-column: span 3;
+}
+
 .form-columns {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; /* ← Ahora 3 columnas */

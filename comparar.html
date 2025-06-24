@@ -134,6 +134,11 @@
       <input type="text" id="numero-contrato" required>
     </div>
 
+ <div class="form-group left-column">
+      <label for="importe-bruto">Importe bruto base:</label>
+      <input type="number" id="importe-bruto" step="0.01" required>
+    </div>
+
     <!-- Fila 2 -->
     <div class="form-group left-column">
       <label for="fecha-inicio">Fecha inicio:</label>
@@ -144,7 +149,13 @@
       <label for="fecha-fin">Fecha de fin:</label>
       <input type="date" id="fecha-fin">
     </div>
- <div id="resultado-fechas"></div>
+
+     <div class="form-group right-column">
+  <br>
+  <div id="resultado-fechas" style="font-weight: bold; color: blue; font-size: 20px;"></div>
+</div>
+
+ 
               
                 <script>
                   const fechaInicio = document.getElementById('fecha-inicio');
@@ -167,10 +178,7 @@
                   fechaFin.addEventListener('input', calcularDias);
                 </script>
     <!-- Fila 3 -->
-    <div class="form-group left-column">
-      <label for="importe-bruto">Importe bruto base:</label>
-      <input type="number" id="importe-bruto" step="0.01" required>
-    </div>
+   
 
     <div class="form-group right-column">
       <label for="alicuotas">Porcentaje de alícuotas (%):</label>
@@ -209,29 +217,30 @@
       <input type="number" id="monto-garantia-exhibida" step="0.01">
     </div>
 
-    <div class="form-group right-column">
+    <div class="form-group full-width">
       <label for="total-pagado">Total pagado:</label>
       <input type="number" id="total-pagado" step="0.01">
     </div>
 
     <!-- Fila 7 -->
-    <div class="form-group left-column">
+  
+      <div class="form-group full-width">
       <label>Aplicar inflación:</label>
       <input type="checkbox" id="inflacion">
     </div>
 
-    <div class="form-group right-column">
+   <div class="form-group full-width">
       <label for="inflacion-aniversario">Inflación por aniversario (%):</label>
       <input type="text" id="inflacion-aniversario">
     </div>
 
     <!-- Fila 8 -->
-    <div class="form-group left-column">
+    <div class="form-group full-width">
       <label>¿Conceder descuentos?</label>
       <input type="checkbox" id="descuentos">
     </div>
 
-    <div class="form-group right-column">
+    <div class="form-group full-width">
       <label for="porcentaje-descuento">Porcentaje de descuento (%) (opcional):</label>
       <input type="number" id="porcentaje-descuento" step="0.01">
     </div>
