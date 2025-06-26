@@ -253,6 +253,216 @@
 
   </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>valuacion 2</h2>
+  <div class="form-group left-column">
+  <label for="nombre2">Nombre del usuario:</label>
+  <input type="text" id="nombre2">
+</div>
+
+<div class="form-group right-column">
+  <label for="numero-contrato2">Número de contrato:</label>
+  <input type="text" id="numero-contrato2" required>
+</div>
+
+<div class="form-group left-column">
+  <label for="importe-bruto2">Importe bruto base:</label>
+  <input type="number" id="importe-bruto2" step="0.01" required>
+</div>
+
+<div class="form-group left-column">
+  <label for="fecha-inicio2">Fecha inicio:</label>
+  <input type="date" id="fecha-inicio2">
+</div>
+
+<div class="form-group right-column">
+  <label for="fecha-fin2">Fecha de fin:</label>
+  <input type="date" id="fecha-fin2">
+</div>
+
+<div class="form-group right-column">
+  <br>
+  <div id="resultado-fechas2" style="font-weight: bold; color: rgb(255, 255, 255); font-size: 20px;"></div>
+</div>
+
+<script>
+  const fechaInicio2 = document.getElementById('fecha-inicio2');
+  const fechaFin2 = document.getElementById('fecha-fin2');
+  const resultado2 = document.getElementById('resultado-fechas2');
+
+  function calcularDias2() {
+    const inicio = new Date(fechaInicio2.value);
+    const fin = new Date(fechaFin2.value);
+
+    if (!isNaN(inicio) && !isNaN(fin)) {
+      const diferencia = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24) + 1);
+      resultado2.textContent = `Hay ${diferencia} días entre ambas fechas.`;
+    } else {
+      resultado2.textContent = '';
+    }
+  }
+
+  fechaInicio2.addEventListener('input', calcularDias2);
+  fechaFin2.addEventListener('input', calcularDias2);
+</script>
+
+<div class="form-group right-column">
+  <label for="alicuotas2">Porcentaje de alícuotas (%):</label>
+  <input type="number" id="alicuotas2" step="0.01" required>
+</div>
+
+<div class="form-group left-column">
+  <label for="impuestos2">Porcentaje de impuestos (%):</label>
+  <input type="number" id="impuestos2" step="0.01" required>
+</div>
+
+<div class="form-group right-column">
+  <label for="penalizaciones2">Penalizaciones(%):</label>
+  <input type="number" id="penalizaciones2" step="0.01">
+</div>
+
+<div class="form-group left-column">
+  <label for="meses-penalizacion2">Meses con penalización:</label>
+  <input type="text" id="meses-penalizacion2">
+</div>
+
+<div class="form-group right-column">
+  <label for="mecanismo-garantia2">Mecanismo de garantía:</label>
+  <select id="mecanismo-garantia2" required>
+    <option value="">Seleccionar</option>
+    <option value="fianza">Fianza</option>
+    <option value="deposito">Depósito en Garantía</option>
+  </select>
+</div>
+
+<div class="form-group left-column">
+  <label for="monto-garantia-exhibida2">Monto Garantía Exhibida:</label>
+  <input type="number" id="monto-garantia-exhibida2" step="0.01">
+</div>
+
+<div class="form-group full-width">
+  <label for="total-pagado2">Total pagado:</label>
+  <input type="number" id="total-pagado2" step="0.01">
+</div>
+
+<div class="form-group full-width">
+  <label>Aplicar inflación:</label>
+  <input type="checkbox" id="inflacion2">
+</div>
+
+<div class="form-group full-width">
+  <label for="inflacion-aniversario2">Inflación por aniversario (%):</label>
+  <input type="text" id="inflacion-aniversario2">
+</div>
+
+<div class="form-group full-width">
+  <label>¿Conceder descuentos?</label>
+  <input type="checkbox" id="descuentos2">
+</div>
+
+<div class="form-group full-width">
+  <label for="porcentaje-descuento2">Porcentaje de descuento (%) (opcional):</label>
+  <input type="number" id="porcentaje-descuento2" step="0.01">
+</div>
+
+<div class="form-group full-width">
+  <label for="meses-descuento2">Meses a los que aplicará el descuento (opcional):</label>
+  <input type="text" id="meses-descuento2">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
   <!-- Botones -->
   <button type="button" id="calcular">Calcular Valuación</button>
   <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">Vaciar formulario</a>
