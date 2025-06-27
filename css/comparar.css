@@ -634,3 +634,65 @@ p {
     color: #ff8800;
     font-size: 12px;
 }
+
+/*SEGUNDO FORMULARIO*/
+.form-group2.full-width {
+  grid-column: span 3;
+}
+
+.form-columns2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group2.left-column,
+.form-group2.right-column {
+  text-align: left;
+}
+
+.form-group2 label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ff7300;
+}
+
+.form-group2 input,
+.form-group2 select,
+.form-group2 textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ff7300;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #222;
+}
+
+.form-group2 input:focus,
+.form-group2 select:focus,
+.form-group2 textarea:focus {
+    outline: none;
+    border-color: #ff9900;
+    box-shadow: 0 0 5px rgba(255, 153, 0, 0.829);
+    background-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .form-columns2 {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group2.right-column,
+    .form-group2.left-column {
+        text-align: left;
+    }
+}
+
+/* Resultado de fechas del segundo formulario */
+#resultado-fechas2 {
+    font-weight: bold;
+    color: #ff8800;
+    font-size: 12px;
+}
