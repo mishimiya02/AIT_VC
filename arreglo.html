@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+ 
+<head>
+	<!-- Tema claro (activo por defecto) -->
+    <link rel="stylesheet" href="css/comparar.css" id="theme-style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>CALCULADORA DE TARIFA PROPORCIONAL </title> <!--  titulo de la pagina  -->
+    <script src="java/theme-switchercomparar.js"></script>
+	<script src="java/arreglojs.js"></script>
+    <script src="java/wordjs.js"></script>
+     <script src="java/exportarpdf.js"></script>
+     <script src="java/exportarexcel.js"></script>
+      <script src="java/sidebar.js"></script>
+</head>
+<body>
+	 
+	  <!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+                <a href='/tarifaxdia' target='_blank'>TARIFA PROPORCIONAL</a>
+                <a href='/calcularinflacion' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                <!--  <a href="servicio3.html">Servicio 3</a>
+                <a href="servicio4.html">Servicio 4</a>-->
+            </div>
+        </div>
+        
+        <a href='/contacto'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
+    <!-- Contenido principal -->
+    <div class="contenido">
+        <h1>COMPARACION DE VALUACIONES </h1>
+    </div>
+	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
+	 <button id="toggle-sidebar" class="toggle-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+
+<!--sidebar-->
+        <div class="sidebar right-sidebar" id="sidebar">
+        <div class="sidebar-header">
+             <script src="java/sidebar.js"></script>
+            <h3>CONSUTAR INFLACION</h3>
+            <button class="close-btn" id="close-sidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            			<select id="mes">
+    <option value="">Selecciona un mes</option>
+    <option value="1">Enero</option>
+    <option value="2">Febrero</option>
+    <option value="3">Marzo</option>
+    <option value="4">Abril</option>
+    <option value="5">Mayo</option>
+    <option value="6">Junio</option>
+    <option value="7">Julio</option>
+    <option value="8">Agosto</option>
+    <option value="9">Septiembre</option>
+    <option value="10">Octubre</option>
+    <option value="11">Noviembre</option>
+    <option value="12">Diciembre</option>
+</select>
+<br><br>
+<select id="anio">
+    <option value="">Selecciona un año</option>
+    <option value="2025">2025</option>
+    <option value="2024">2024</option>
+    <option value="2023">2023</option>
+    <option value="2022">2022</option>
+     <option value="2021">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+     <option value="2017">2017</option>
+    <option value="2016">2016</option>
+    <option value="2015">2015</option>
+    <option value="2014">2014</option>
+     <option value="2013">2013</option>
+    <option value="2012">2012</option>
+    <option value="2011">2011</option>
+    <option value="2010">2010</option>
+</select>
+<br><br>
+<button type="button" onclick="mostrarValor()">Consultar Valor</button>
+<br>
+<div id="resultadot"></div> 
+ </div>
+<h3>Valores tomados de Banxico</h3>
+<a href='https://www.banxico.org.mx/tipcamb/main.do?page=inf&idioma=sp' target='_blank' class="enlace-banxico">BANXICO</a>     
+<a href="https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx" target="_blank" class="enlace-inegi">Calculadora de Inflación (INEGI)</a>
+
+        </div>       
+    </div>
+
+
+
+	
+	 <div class="container">
+        <div class="airport-header">
+            <h2>A.M.A.I.T.</h2>
+            <h2>Valuación contractual 1</h2>
+            <p style="text-align: center;">Por favor ingrese los datos correctos para realizar la comparacion</p>
+	
+        </div>
+        
+        <div id="contract-info" style="display: none;">
+            <h3 id="user-contract"></h3>
+        </div>
+        <form id="valuation-form">
+  <div class="form-columns">
+
+    <!-- Fila 1 -->
+    <div class="form-group left-column">
+      <label for="nombre">Nombre del usuario:</label>
+      <input type="text" id="nombre">
+    </div>
+
+    <div class="form-group right-column">
+      <label for="numero-contrato">Número de contrato:</label>
+      <input type="text" id="numero-contrato" required>
+    </div>
+
+ <div class="form-group left-column">
+      <label for="importe-bruto">Importe bruto base:</label>
+      <input type="number" id="importe-bruto" step="0.01" required>
+    </div>
+
+    <!-- Fila 2 -->
+    <div class="form-group left-column">
+      <label for="fecha-inicio">Fecha inicio:</label>
+      <input type="date" id="fecha-inicio">
+    </div>
+
+    <div class="form-group right-column">
+      <label for="fecha-fin">Fecha de fin:</label>
+      <input type="date" id="fecha-fin">
+    </div>
+
+     <div class="form-group right-column">
+  <br>
+  <div id="resultado-fechas" style="font-weight: bold; color: rgb(255, 255, 255); font-size: 20px;"></div>
+</div>
+
+ 
+              
+                <script>
+                  const fechaInicio = document.getElementById('fecha-inicio');
+                  const fechaFin = document.getElementById('fecha-fin');
+                  const resultado = document.getElementById('resultado-fechas');
+              
+                  function calcularDias() {
+                    const inicio = new Date(fechaInicio.value);
+                    const fin = new Date(fechaFin.value);
+              
+                    if (!isNaN(inicio) && !isNaN(fin)) {
+                      const diferencia = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24 )+1);
+                      resultado.textContent = `Hay ${diferencia} días entre ambas fechas.`;
+                    } else {
+                      resultado.textContent = '';
+                    }
+                  }
+              
+                  fechaInicio.addEventListener('input', calcularDias);
+                  fechaFin.addEventListener('input', calcularDias);
+                </script>
+    <!-- Fila 3 -->
+   
+
+    <div class="form-group right-column">
+      <label for="alicuotas">Porcentaje de alícuotas (%):</label>
+      <input type="number" id="alicuotas" step="0.01" required>
+    </div>
+
+    <!-- Fila 4 -->
+    <div class="form-group left-column">
+      <label for="impuestos">Porcentaje de impuestos (%):</label>
+      <input type="number" id="impuestos" step="0.01" required>
+    </div>
+
+    <div class="form-group right-column">
+      <label for="penalizaciones">Penalizaciones(%):</label>
+      <input type="number" id="penalizaciones" step="0.01">
+    </div>
+
+    <!-- Fila 5 -->
+    <div class="form-group left-column">
+      <label for="meses-penalizacion">Meses con penalización:</label>
+      <input type="text" id="meses-penalizacion">
+    </div>
+
+    <div class="form-group right-column">
+      <label for="mecanismo-garantia">Mecanismo de garantía:</label>
+      <select id="mecanismo-garantia" required>
+        <option value="">Seleccionar</option>
+        <option value="fianza">Fianza</option>
+        <option value="deposito">Depósito en Garantía</option>
+      </select>
+    </div>
+
+    <!-- Fila 6 -->
+    <div class="form-group left-column">
+      <label for="monto-garantia-exhibida">Monto Garantía Exhibida:</label>
+      <input type="number" id="monto-garantia-exhibida" step="0.01">
+    </div>
+
+    <div class="form-group full-width">
+      <label for="total-pagado">Total pagado:</label>
+      <input type="number" id="total-pagado" step="0.01">
+    </div>
+
+    <!-- Fila 7 -->
+  
+      <div class="form-group full-width">
+      <label>Aplicar inflación:</label>
+      <input type="checkbox" id="inflacion">
+    </div>
+
+   <div class="form-group full-width">
+      <label for="inflacion-aniversario">Inflación por aniversario (%):</label>
+      <input type="text" id="inflacion-aniversario">
+    </div>
+
+    <!-- Fila 8 -->
+    <div class="form-group full-width">
+      <label>¿Conceder descuentos?</label>
+      <input type="checkbox" id="descuentos">
+    </div>
+
+    <div class="form-group full-width">
+      <label for="porcentaje-descuento">Porcentaje de descuento (%) (opcional):</label>
+      <input type="number" id="porcentaje-descuento" step="0.01">
+    </div>
+
+    <!-- Fila 9 -->
+    <div class="form-group full-width">
+      <label for="meses-descuento">Meses a los que aplicará el descuento (opcional):</label>
+      <input type="text" id="meses-descuento">
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <!-- Botones -->
+  <button type="button" id="calcular">Calcular Valuación</button>
+  <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">Vaciar formulario</a>
+    <br><br>
+     <button type="button" onclick="mostrarHistorial()">Ver valuaciones guardadas</button>
+
+</form>
+
+        
+        <div id="resultados" style="display: none; margin-top: 30px;">
+            <div class="airport-header">
+                <h1>Administradora Mexiquense del Aeropuerto Internacional de Toluca</h1>
+                <h2>Valuación contractual</h2>
+                <div class="subtitle">CIFRAS EN MXN</div>
+                <h2 id="user-contract-repeat"></h2>
+            </div>
+            
+            <table id="tabla-resultados">
+                <thead>
+                    <tr>
+                        <th>Consecutivo</th>
+                        <th>Fecha</th>
+                        <th>Fecha límite</th>
+						<th>Días Vigencia</th>
+                        <th>Importe bruto</th>
+						<th>Tarifa proporcional</th>
+
+                        <th>Inflación Año</th>
+                        <th>Inflación Acumulativa</th>
+                        <th>Monto Actualizado</th>
+                        <th>Descuento/Incentivo</th>
+                        <th>Subtotal</th>
+                        <th>Alícuota</th>
+                        <th>Impuesto sobre Monto</th>
+                        <th>Impuesto sobre Alícuotas</th>
+                        <th>Penalización</th>
+                        <th>Total Mes</th>
+                        <th>Acumulado Total Mes</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-tabla">
+                    <!-- Filas dinámicas -->
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <th colspan="3">Totales:</th>
+						<td id="total-dias-vigencia"></td>
+                        <td id="total-importe-bruto"></td>
+						 <td id="total-bruto-prorrateado"></td>
+                        <td></td>
+                        <td></td>
+                        <td id="total-monto-actualizado"></td>
+                        <td id="total-descuento"></td>
+                        <td id="total-subtotal"></td>
+                        <td id="total-alicuota"></td>
+                        <td id="total-impuesto-monto"></td>
+                        <td id="total-impuesto-alicuota"></td>
+                        <td id="total-penalizacion"></td>
+                        <td id="total-mensual"></td>
+                        <td id="total-acumulado"></td>
+                    </tr>
+                    <tr class="saldo-row">
+                        <th colspan="17">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
+                    </tr>
+                </tfoot>
+            </table>
+            
+
+<div id="tabla-resumen-totales" style="margin-top: 2rem;"></div><!-- tabla resumen-->
+
+     <br><br>
+    <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
+	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
+    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
+
+
+            <div id="garantia-tabla-container" style="margin-top: 20px;">
+                <h3 style="color: white; text-align: center;">Resumen de garantías</h3>
+                <table class="guarantee-table" id="garantia-tabla">
+                    <!-- Filas dinámicas -->
+                </table>
+            </div>
+            
+            <h3 style="color: white; text-align: center; margin-top: 30px;">Gráficas</h3>
+            
+            <div class="charts-container" id="charts-container" style="display: none;">
+                <div class="chart-box">
+                    <canvas id="totalMensualChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="inflacionChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <div class="page-number" id="page-number"></div>
+            </div>
+        </div>
+
+<div id="historial-valuaciones" style="display: none; margin-top: 2rem;">
+    <h2 style="text-align:center; color: white;">Historial de Valuaciones Recientes</h2>
+    <div id="tabla-historial-container"></div>
+</div>
+
+
+    </div>
+
+    <script>
+       
+    </script>
+    <!-- Incluimos la biblioteca SheetJS para exportación segura a Excel -->
+     <!-- ExcelJS desde CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    
+    <!-- Incluimos la biblioteca Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+			
+ <img id="logo-image" src="img/logo2n.png" style="display: none;" />
+</body>
+</html>
