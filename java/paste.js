@@ -1,4 +1,4 @@
-const historialValuaciones = [];
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -25,41 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Función principal de cálculo
-     calcularBtn.addEventListener('click', function() {
-        
-    const valuacion = guardarValuacionEnHistorial();
+            calcularBtn.addEventListener('click', function() {
                 if (!validateForm()) return;
-
-
-function guardarValuacionEnHistorial(nombre, numeroContrato, totalAcumulado) {
-    const fecha = new Date().toLocaleString();
-
-    if (typeof totalAcumulado !== 'number') {
-        console.warn('❗ totalAcumulado no es un número:', totalAcumulado);
-        totalAcumulado = 0;
-    }
-
-    if (historialValuaciones.length >= 3) {
-        historialValuaciones.shift(); // eliminar la más antigua
-    }
-
-    historialValuaciones.push({
-        nombre,
-        numeroContrato,
-        totalAcumulado: totalAcumulado.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-        fecha
-    });
-}
-
-
-
-
-
-
-
-
-
-
                 
                 // Obtener valores del formulario
                 const nombre = document.getElementById('nombre').value.trim() || "Usuario no especificado";
@@ -269,15 +236,22 @@ if (i === 0) {
                 // Calcular valor total del contrato y saldo
                 const valorTotalContrato = acumuladoTotal;
                 const saldoContrato = valorTotalContrato - totalPagado;
-
-                console.log('valorTotalContrato calculado:', valorTotalContrato);
-
-                guardarValuacionEnHistorial(nombre, numeroContrato, valorTotalContrato);
-
                 
                 // Formatear y mostrar los resultados
                 mostrarResultados(data, garantias, nombre, numeroContrato, valorTotalContrato, saldoContrato, totalPagado);
                 
+// Guardamos en una variable global para futura comparación
+window.ultimaValuacionCalculada = {
+    nombre,
+    contrato: numeroContrato,
+    valorTotal: valorTotalContrato,
+    data
+};
+
+
+
+
+
                 // Mostrar botón de exportar a Excel
                 exportarBtn.style.display = 'inline-block';
                 exportarword.style.display = 'inline-block';
@@ -324,99 +298,7 @@ if (i === 0) {
                 const montoPagadoElement = document.getElementById('monto-pagado');
                 const saldoContratoElement = document.getElementById('saldo-contrato');
                 const pageNumer = document.getElementById('page-number');
-			function mostrarTablaResumenTotales(totales) {
-    const contenedor = document.getElementById('tabla-resumen-totales');
-    contenedor.innerHTML = ''; // Limpiar contenido anterior
-
-    // Aplicar estilos al contenedor
-    contenedor.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
-    contenedor.style.borderRadius = "8px";
-    contenedor.style.overflow = "hidden";
-    contenedor.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
-    contenedor.style.marginTop = "30px";
-
-    const tabla = document.createElement('table');
-    tabla.style.width = '100%';
-    tabla.style.borderCollapse = 'separate';
-    tabla.style.borderSpacing = '0';
-    tabla.style.margin = '0';
-    tabla.style.borderRadius = '8px';
-    tabla.style.overflow = 'hidden';
-
-    // Encabezado
-    const encabezado = document.createElement('tr');
-    encabezado.innerHTML = `
-        <th style="
-            background-color: #4a6fa5;
-            color: white;
-            font-weight: 600;
-            padding: 12px 15px;
-            text-align: left;
-            text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-        ">Concepto</th>
-        <th style="
-            background-color: #4a6fa5;
-            color: white;
-            font-weight: 600;
-            padding: 12px 15px;
-            text-align: right;
-            text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-        ">Total</th>
-    `;
-    tabla.appendChild(encabezado);
-
-    // Filas alternadas con efectos
-    let isEven = false;
-    for (const concepto in totales) {
-        const fila = document.createElement('tr');
-        fila.style.transition = 'background-color 0.2s ease';
-        if (isEven) {
-            fila.style.backgroundColor = '#f8f9fa';
-        }
-
-        fila.onmouseover = function () {
-            this.style.backgroundColor = '#f1f5fd';
-        };
-        fila.onmouseout = function () {
-            this.style.backgroundColor = isEven ? '#f8f9fa' : 'transparent';
-        };
-
-        fila.innerHTML = `
-            <td style="
-                padding: 12px 15px;
-                border-bottom: 1px solid rgb(200, 200, 200);
-                color: #333;
-            ">${concepto}</td>
-            <td style="
-                padding: 12px 15px;
-                border-bottom: 1px solid rgb(200, 200, 200);
-                text-align: right;
-                font-weight: bold;
-                color: #2c3e50;
-            ">${formatearMoneda(totales[concepto])}</td>
-        `;
-
-        tabla.appendChild(fila);
-        isEven = !isEven;
-    }
-
-    // Quitar borde a última fila
-    const lastRow = tabla.lastElementChild;
-    if (lastRow) {
-        const cells = lastRow.querySelectorAll('td');
-        cells.forEach(cell => {
-            cell.style.borderBottom = 'none';
-        });
-    }
-
-    contenedor.appendChild(tabla);
-}
-
-
+				
                 
                 // Mostrar información del usuario y contrato
                 userContract.textContent = `${nombre} - ${numeroContrato}`;
@@ -485,7 +367,7 @@ if (i === 0) {
                     `;
                     cuerpoTabla.appendChild(fila);
                 });
-
+                
                 // Actualizar totales
 				
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
@@ -502,28 +384,31 @@ if (i === 0) {
 				document.getElementById('total-bruto-prorrateado').textContent = formatearMoneda(totalBrutoProrrateado);
 
 
-mostrarTablaResumenTotales({
-    'Días de Vigencia': totalDiasVigencia,
-    'Importe Bruto': totalIB,
-    'Importe Bruto Prorrateado': totalBrutoProrrateado,
-    'Monto Actualizado': totalMA,
-    'Alicuotas': totalAL,
-    'Impuesto sobre Monto': totalIM,
-    'Impuesto sobre Alicuotas': totalIA,
-    'Penalización': totalPE,
-    'Descuento': totalDT,
-    'Subtotal': totalST,
-    'Total Mensual': totalTM,
-    'Total Acumulado': totalAT
-});
-
-
-
                 
                 // Mostrar monto pagado y saldo del contrato
                 montoPagadoElement.textContent = formatearMoneda(totalPagado);
                 saldoContratoElement.textContent = formatearMoneda(saldoContrato);
                 
+
+
+
+
+                
+                // Agregar tabla de garantías
+                if (garantias.length > 0) {
+                    let garantiaHTML = '<tr><th>Tipo de Garantía</th><th>Valor de Garantía</th><th>Monto Exhibido/Vigente</th><th>Saldo</th></tr>';
+                    garantias.forEach(garantia => {
+                        garantiaHTML += `
+                            <tr>
+                                <td>${garantia.tipo}</td>
+                                <td>${formatearMoneda(garantia.valor)}</td>
+                                <td>${formatearMoneda(garantia.montoExhibido)}</td>
+                                <td>${formatearMoneda(garantia.saldo)}</td>
+                            </tr>
+                        `;
+                    });
+                    tablaGarantia.innerHTML = garantiaHTML;
+                }
                 
                 // Mostrar los resultados
                 resultadosDiv.style.display = 'block';
@@ -754,45 +639,127 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
                 return isValid;
             }
             
-})
+            // Función para mostrar gráficos
+            function mostrarGraficos(data) {
+                const chartsContainer = document.getElementById('charts-container');
+                chartsContainer.style.display = 'grid';
+                
+                // Preparar datos para los gráficos
+                const meses = data.map(row => `Mes ${row.consecutivo}`);
+                const totalesMensuales = data.map(row => row.totalMes);
+                const inflaciones = data.map(row => row.inflacionAcumulativa);
+                
+                // Gráfico de Evolución del Total Mensual
+                const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [ {
+                            label: 'Total Mensual',
+                            data: totalesMensuales,
+                            borderColor: '#003366',
+                            backgroundColor: 'rgba(0, 51, 102, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        } ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Evolución del Total Mensual'
+                            }
+                        }
+                    }
+                });
+                
+                // Gráfico de Inflación Acumulativa por Mes
+                const ctx3 = document.getElementById('inflacionChart').getContext('2d');
+                new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [ {
+                            label: 'Inflación Acumulativa',
+                            data: inflaciones,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        } ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Evolución de la Inflación Acumulativa'
+                            }
+                        }
+                    }
+                });
+            }
+            // Guardar valuación actual (máximo 2)
+document.getElementById('guardar-valuacion').addEventListener('click', function () {
+    const nombre = document.getElementById('nombre').value.trim() || "Sin nombre";
+    const contrato = document.getElementById('numero-contrato').value.trim() || "Sin contrato";
 
-
-
-function mostrarHistorial() {
-    const contenedor = document.getElementById('historial-valuaciones');
-    const tablaContainer = document.getElementById('tabla-historial-container');
-    tablaContainer.innerHTML = ''; // Limpiar contenido anterior
-
-    if (historialValuaciones.length === 0) {
-        tablaContainer.innerHTML = "<p style='color:white; text-align:center;'>No hay valuaciones guardadas.</p>";
-    } else {
-        const tabla = document.createElement('table');
-        tabla.style.width = '100%';
-        tabla.style.borderCollapse = 'collapse';
-        tabla.style.marginTop = '10px';
-        tabla.style.fontFamily = "'Segoe UI', sans-serif";
-        tabla.innerHTML = `
-            <thead>
-                <tr style="background-color:#4a6fa5; color:white;">
-                    <th style="padding: 8px; border: 1px solid #ccc;">Nombre</th>
-                    <th style="padding: 8px; border: 1px solid #ccc;">Contrato</th>
-                    <th style="padding: 8px; border: 1px solid #ccc;">Total Acumulado</th>
-                    <th style="padding: 8px; border: 1px solid #ccc;">Fecha</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${historialValuaciones.map((v, i) => `
-                    <tr style="background-color: ${i % 2 === 0 ? '#f8f9fa' : '#e0e6f0'};">
-                        <td style="padding: 8px; border: 1px solid #ccc;">${v.nombre}</td>
-                        <td style="padding: 8px; border: 1px solid #ccc;">${v.numeroContrato}</td>
-                        <td style="padding: 8px; border: 1px solid #ccc;">${v.totalAcumulado}</td>
-                        <td style="padding: 8px; border: 1px solid #ccc;">${v.fecha}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        `;
-        tablaContainer.appendChild(tabla);
+    if (!window.ultimaValuacionCalculada) {
+        alert("Primero calcula la valuación.");
+        return;
     }
 
-    contenedor.style.display = 'block';
-}
+    const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
+
+    // Solo conservar las 2 más recientes
+    if (valuaciones.length >= 2) valuaciones.shift();
+
+    valuaciones.push({
+        timestamp: Date.now(),
+        nombre,
+        contrato,
+        total: formatearMoneda(ultimaValuacionCalculada.valorTotal),
+        datos: ultimaValuacionCalculada // toda la info detallada
+    });
+
+    localStorage.setItem('valuaciones', JSON.stringify(valuaciones));
+    alert("Valuación guardada exitosamente.");
+});
+
+// Comparar 2 valuaciones guardadas
+document.getElementById('comparar-valuaciones').addEventListener('click', function () {
+    const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
+
+    if (valuaciones.length < 2) {
+        alert("Se necesitan 2 valuaciones guardadas para comparar.");
+        return;
+    }
+
+    const [v1, v2] = valuaciones;
+    const mensaje = `
+Comparación de Valuaciones:
+
+➤ Contrato 1: ${v1.contrato}
+➤ Total 1: ${v1.total}
+
+➤ Contrato 2: ${v2.contrato}
+➤ Total 2: ${v2.total}
+
+Diferencia total: ${formatearMoneda(
+        parseFloat(v2.total.replace(/,/g, '')) - parseFloat(v1.total.replace(/,/g, ''))
+    )}
+    `;
+
+    alert(mensaje);
+});
+
+        });
+		

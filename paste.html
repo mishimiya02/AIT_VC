@@ -3,18 +3,17 @@
  
 <head>
 	<!-- Tema claro (activo por defecto) -->
-    <link rel="stylesheet" href="css/comparar.css" id="theme-style">
+    <link rel="stylesheet" href="css/light-mode.css" id="theme-style">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>CALCULADORA DE TARIFA PROPORCIONAL </title> <!--  titulo de la pagina  -->
-    <script src="java/theme-switchercomparar.js"></script>
-	<script src="java/arreglojs.js"></script>
+    <script src="java/theme-switcher.js"></script>
+	<script src="java/paste.js"></script>
     <script src="java/wordjs.js"></script>
      <script src="java/exportarpdf.js"></script>
      <script src="java/exportarexcel.js"></script>
-      <script src="java/sidebar.js"></script>
 </head>
 <body>
 	 
@@ -42,7 +41,7 @@
 	</nav>
     <!-- Contenido principal -->
     <div class="contenido">
-        <h1>COMPARACION DE VALUACIONES </h1>
+        <h1>Solicita una valuación de contrato </h1>
     </div>
 	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
 	 <button id="toggle-sidebar" class="toggle-btn">
@@ -112,50 +111,33 @@
 	 <div class="container">
         <div class="airport-header">
             <h2>A.M.A.I.T.</h2>
-            <h2>Valuación contractual 1</h2>
-            <p style="text-align: center;">Por favor ingrese los datos correctos para realizar la comparacion</p>
-	
+            <h2>Valuación contractual</h2>
         </div>
         
         <div id="contract-info" style="display: none;">
             <h3 id="user-contract"></h3>
         </div>
+        
         <form id="valuation-form">
-  <div class="form-columns">
-
-    <!-- Fila 1 -->
-    <div class="form-group left-column">
-      <label for="nombre">Nombre del usuario:</label>
-      <input type="text" id="nombre">
-    </div>
-
-    <div class="form-group right-column">
-      <label for="numero-contrato">Número de contrato:</label>
-      <input type="text" id="numero-contrato" required>
-    </div>
-
- <div class="form-group left-column">
-      <label for="importe-bruto">Importe bruto base:</label>
-      <input type="number" id="importe-bruto" step="0.01" required>
-    </div>
-
-    <!-- Fila 2 -->
-    <div class="form-group left-column">
-      <label for="fecha-inicio">Fecha inicio:</label>
-      <input type="date" id="fecha-inicio">
-    </div>
-
-    <div class="form-group right-column">
-      <label for="fecha-fin">Fecha de fin:</label>
-      <input type="date" id="fecha-fin">
-    </div>
-
-     <div class="form-group right-column">
-  <br>
-  <div id="resultado-fechas" style="font-weight: bold; color: rgb(255, 255, 255); font-size: 20px;"></div>
-</div>
-
- 
+            <div class="form-group">
+                <label for="nombre" >Nombre del usuario:</label>
+                <input type="text" id="nombre">
+                
+            
+            <div class="form-group">
+                <label for="numero-contrato" class="required-field">Número de contrato:</label>
+                <input type="text" id="numero-contrato" required>
+                <div class="error-message">Este campo es obligatorio</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="fecha-inicio" class="required-field">Fecha inicio:</label>
+                <input type="date" id="fecha-inicio">
+              
+                <label for="fecha-fin" class="required-field">Fecha de fin:</label>
+                <input type="date" id="fecha-fin">
+              
+                <div id="resultado-fechas"></div>
               
                 <script>
                   const fechaInicio = document.getElementById('fecha-inicio');
@@ -177,96 +159,92 @@
                   fechaInicio.addEventListener('input', calcularDias);
                   fechaFin.addEventListener('input', calcularDias);
                 </script>
-    <!-- Fila 3 -->
-   
-
-    <div class="form-group right-column">
-      <label for="alicuotas">Porcentaje de alícuotas (%):</label>
-      <input type="number" id="alicuotas" step="0.01" required>
-    </div>
-
-    <!-- Fila 4 -->
-    <div class="form-group left-column">
-      <label for="impuestos">Porcentaje de impuestos (%):</label>
-      <input type="number" id="impuestos" step="0.01" required>
-    </div>
-
-    <div class="form-group right-column">
-      <label for="penalizaciones">Penalizaciones(%):</label>
-      <input type="number" id="penalizaciones" step="0.01">
-    </div>
-
-    <!-- Fila 5 -->
-    <div class="form-group left-column">
-      <label for="meses-penalizacion">Meses con penalización:</label>
-      <input type="text" id="meses-penalizacion">
-    </div>
-
-    <div class="form-group right-column">
-      <label for="mecanismo-garantia">Mecanismo de garantía:</label>
-      <select id="mecanismo-garantia" required>
-        <option value="">Seleccionar</option>
-        <option value="fianza">Fianza</option>
-        <option value="deposito">Depósito en Garantía</option>
-      </select>
-    </div>
-
-    <!-- Fila 6 -->
-    <div class="form-group left-column">
-      <label for="monto-garantia-exhibida">Monto Garantía Exhibida:</label>
-      <input type="number" id="monto-garantia-exhibida" step="0.01">
-    </div>
-
-    <div class="form-group full-width">
-      <label for="total-pagado">Total pagado:</label>
-      <input type="number" id="total-pagado" step="0.01">
-    </div>
-
-    <!-- Fila 7 -->
-  
-      <div class="form-group full-width">
-      <label>Aplicar inflación:</label>
-      <input type="checkbox" id="inflacion">
-    </div>
-
-   <div class="form-group full-width">
-      <label for="inflacion-aniversario">Inflación por aniversario (%):</label>
-      <input type="text" id="inflacion-aniversario">
-    </div>
-
-    <!-- Fila 8 -->
-    <div class="form-group full-width">
-      <label>¿Conceder descuentos?</label>
-      <input type="checkbox" id="descuentos">
-    </div>
-
-    <div class="form-group full-width">
-      <label for="porcentaje-descuento">Porcentaje de descuento (%) (opcional):</label>
-      <input type="number" id="porcentaje-descuento" step="0.01">
-    </div>
-
-    <!-- Fila 9 -->
-    <div class="form-group full-width">
-      <label for="meses-descuento">Meses a los que aplicará el descuento (opcional):</label>
-      <input type="text" id="meses-descuento">
-    </div>
-
-  </div>
+            
 
 
-
-
-
-
-
-  <!-- Botones -->
-  <button type="button" id="calcular">Calcular Valuación</button>
-  <a href="#" onclick="location.reload(); return false;" class="boton-recargar1">Vaciar formulario</a>
-    <br><br>
-     <button type="button" onclick="mostrarHistorial()">Ver valuaciones guardadas</button>
-
-</form>
-
+            
+            <div class="form-group">
+                <label for="importe-bruto" class="required-field">Importe bruto base:</label>
+                <input type="number" id="importe-bruto" step="0.01" required>
+                <div class="error-message">Este campo es obligatorio</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="alicuotas" class="required-field">Porcentaje de alicuotas (%):</label>
+                <input type="number" id="alicuotas" step="0.01" required>
+                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="impuestos" class="required-field">Porcentaje de impuestos (%):</label>
+                <input type="number" id="impuestos" step="0.01" required>
+                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
+            </div>
+            
+                       <div class="form-group">
+                <label>Aplicar inflación para cada aniversario:</label>
+                <input type="checkbox" id="inflacion">
+            </div>
+            
+            <div class="form-group" id="inflacion-aniversario-container" style="display: none;">
+                <label for="inflacion-aniversario">Porcentaje de inflación por cada aniversario cumplido (separados por comas):</label>
+                <input type="text" id="inflacion-aniversario">
+                <div class="error-message">Por favor ingrese valores numéricos separados por comas</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="meses-penalizacion">Meses con penalización (consecutivos separados por comas o guiones para rangos):</label>
+                <input type="text" id="meses-penalizacion">
+                <div class="error-message">Este campo es obligatorio</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="penalizaciones" >Porcentaje de penalizaciones (%):</label>
+                <input type="number" id="penalizaciones" step="0.01">
+                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
+            </div>
+            
+            <div class="form-group">
+                <label>¿Se concederán descuentos o incentivos?</label>
+                <input type="checkbox" id="descuentos">
+            </div>
+            
+            <div class="form-group" id="porcentaje-descuento-container" style="display: none;">
+                <label for="porcentaje-descuento">Porcentaje de descuento y/o incentivo (%):</label>
+                <input type="number" id="porcentaje-descuento" step="0.01">
+                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
+            </div>
+            
+            <div class="form-group" id="meses-descuento-container" style="display: none;">
+                <label for="meses-descuento">Meses a los que aplicará el descuento/incentivo (consecutivos separados por comas o guiones para rangos):</label>
+                <input type="text" id="meses-descuento">
+                <div class="error-message">Por favor ingrese valores numéricos separados por comas o guiones</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="mecanismo-garantia" class="required-field">Mecanismo de garantía:</label>
+                <select id="mecanismo-garantia" required>
+                    <option value="">Seleccionar</option>
+                    <option value="fianza">Fianza</option>
+                    <option value="deposito">Depósito en Garantía</option>
+                </select>
+                <div class="error-message">Este campo es obligatorio</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="monto-garantia-exhibida">Monto de Garantía Exhibida o Vigente (opcional):</label>
+                <input type="number" id="monto-garantia-exhibida" step="0.01">
+            </div>
+            
+            <div class="form-group">
+                <label for="total-pagado">Total pagado (opcional):</label>
+                <input type="number" id="total-pagado" step="0.01">
+            </div>
+            
+            <button type="button" id="calcular">Calcular Valuación</button>
+			<a href="#" onclick="location.reload(); return false;" class="boton-recargar1">vaciar formulario</a>  
+           
+        </form>
         
         <div id="resultados" style="display: none; margin-top: 30px;">
             <div class="airport-header">
@@ -326,15 +304,6 @@
                 </tfoot>
             </table>
             
-
-<div id="tabla-resumen-totales" style="margin-top: 2rem;"></div><!-- tabla resumen-->
-
-     <br><br>
-    <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
-	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
-    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
-
-
             <div id="garantia-tabla-container" style="margin-top: 20px;">
                 <h3 style="color: white; text-align: center;">Resumen de garantías</h3>
                 <table class="guarantee-table" id="garantia-tabla">
@@ -357,18 +326,7 @@
                 <div class="page-number" id="page-number"></div>
             </div>
         </div>
-
-<div id="historial-valuaciones" style="display: none; margin-top: 2rem;">
-    <h2 style="text-align:center; color: white;">Historial de Valuaciones Recientes</h2>
-    <div id="tabla-historial-container"></div>
-</div>
-
-
     </div>
-
-    <script>
-       
-    </script>
     <!-- Incluimos la biblioteca SheetJS para exportación segura a Excel -->
      <!-- ExcelJS desde CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
@@ -377,5 +335,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 			
  <img id="logo-image" src="img/logo2n.png" style="display: none;" />
+       <br><br><!--parte de los botones-->
+       <button type="button" id="guardar-valuacion">Guardar Valuación</button>
+<button type="button" id="comparar-valuaciones">Comparar Valuaciones</button>
+
+    <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
+	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
+    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
 </body>
 </html>
