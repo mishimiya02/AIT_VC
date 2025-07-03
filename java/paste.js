@@ -737,59 +737,120 @@ document.getElementById('guardar-valuacion').addEventListener('click', function 
 // Comparar 2 valuaciones guardadas
 document.getElementById('comparar-valuaciones').addEventListener('click', function () {
     const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
-
     if (valuaciones.length < 2) {
         alert("Se necesitan 2 valuaciones guardadas para comparar.");
         return;
     }
 
     const [v1, v2] = valuaciones;
+    const d1 = v1.datos.data;
+    const d2 = v2.datos.data;
+    const longitud = Math.max(d1.length, d2.length);
 
-    const compararCampo = (nombre, v1valor, v2valor) => {
-        const dif = parseFloat(v2valor.replace(/[$,]/g, '')) - parseFloat(v1valor.replace(/[$,]/g, ''));
-        const signo = dif > 0 ? '+' : '';
-        return `<tr>
-            <td>${nombre}</td>
-            <td>${v1valor}</td>
-            <td>${v2valor}</td>
-            <td>${signo}${formatearMoneda(dif)}</td>
-        </tr>`;
-    };
+    const formatea = n => formatearMoneda(n || 0);
 
-    const html = `
-        <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+    // Comparación general
+    let html = `
+        <h3>Resumen General</h3>
+        <table border="1" style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 30px;">
             <thead>
                 <tr style="background-color: #333; color: white;">
                     <th>Campo</th>
-                    <th>Valuación 1<br><small>${v1.contrato}</small></th>
-                    <th>Valuación 2<br><small>${v2.contrato}</small></th>
+                    <th>Valuación 1 (${v1.contrato})</th>
+                    <th>Valuación 2 (${v2.contrato})</th>
                     <th>Diferencia</th>
                 </tr>
             </thead>
             <tbody>
                 ${compararCampo("Total Acumulado", v1.total, v2.total)}
-                ${compararCampo("Importe Bruto", 
-                    formatearMoneda(v1.datos.data.reduce((sum, m) => sum + m.importeBruto, 0)),
-                    formatearMoneda(v2.datos.data.reduce((sum, m) => sum + m.importeBruto, 0))
-                )}
-                ${compararCampo("Penalizaciones", 
-                    formatearMoneda(v1.datos.data.reduce((sum, m) => sum + m.penalizacion, 0)),
-                    formatearMoneda(v2.datos.data.reduce((sum, m) => sum + m.penalizacion, 0))
-                )}
-                ${compararCampo("Descuentos", 
-                    formatearMoneda(v1.datos.data.reduce((sum, m) => sum + m.descuento, 0)),
-                    formatearMoneda(v2.datos.data.reduce((sum, m) => sum + m.descuento, 0))
-                )}
-                ${compararCampo("Inflación acumulada",
-                    formatearMoneda(v1.datos.data[v1.datos.data.length - 1].inflacionAcumulativa),
-                    formatearMoneda(v2.datos.data[v2.datos.data.length - 1].inflacionAcumulativa)
-                )}
+                ${compararCampo("Inflación acumulada final", formatea(d1.at(-1).inflacionAcumulativa), formatea(d2.at(-1).inflacionAcumulativa))}
+                ${compararCampo("Total Descuento", formatea(suma(d1, 'descuento')), formatea(suma(d2, 'descuento')))}
+                ${compararCampo("Total Penalización", formatea(suma(d1, 'penalizacion')), formatea(suma(d2, 'penalizacion')))}
             </tbody>
         </table>
     `;
 
+    // Comparación mes por mes
+    html += `
+        <h3>Comparación Mes por Mes</h3>
+        <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+            <thead>
+                <tr style="background-color: #444; color: white;">
+                    <th>Mes</th>
+                    <th>Total Mes (V1)</th>
+                    <th>Total Mes (V2)</th>
+                    <th>Diferencia</th>
+                    <th>Inflación Acum. (V1)</th>
+                    <th>Inflación Acum. (V2)</th>
+                    <th>Diferencia</th>
+                    <th>Descuento (V1)</th>
+                    <th>Descuento (V2)</th>
+                    <th>Diferencia</th>
+                    <th>Penalización (V1)</th>
+                    <th>Penalización (V2)</th>
+                    <th>Diferencia</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    for (let i = 0; i < longitud; i++) {
+        const mes = `Mes ${i + 1}`;
+        const v1m = d1[i] || {};
+        const v2m = d2[i] || {};
+
+        const td1 = v1m.totalMes || 0;
+        const td2 = v2m.totalMes || 0;
+        const ia1 = v1m.inflacionAcumulativa || 0;
+        const ia2 = v2m.inflacionAcumulativa || 0;
+        const de1 = v1m.descuento || 0;
+        const de2 = v2m.descuento || 0;
+        const pe1 = v1m.penalizacion || 0;
+        const pe2 = v2m.penalizacion || 0;
+
+        html += `
+            <tr>
+                <td>${mes}</td>
+                <td>${formatea(td1)}</td>
+                <td>${formatea(td2)}</td>
+                <td>${formatea(td2 - td1)}</td>
+
+                <td>${formatea(ia1)}</td>
+                <td>${formatea(ia2)}</td>
+                <td>${formatea(ia2 - ia1)}</td>
+
+                <td>${formatea(de1)}</td>
+                <td>${formatea(de2)}</td>
+                <td>${formatea(de2 - de1)}</td>
+
+                <td>${formatea(pe1)}</td>
+                <td>${formatea(pe2)}</td>
+                <td>${formatea(pe2 - pe1)}</td>
+            </tr>
+        `;
+    }
+
+    html += '</tbody></table>';
+
     document.getElementById('comparacion-contenido').innerHTML = html;
     document.getElementById('modal-comparacion').style.display = 'block';
+
+    // Helpers
+    function suma(arr, campo) {
+        return arr.reduce((a, b) => a + (b[campo] || 0), 0);
+    }
+
+    function compararCampo(nombre, v1val, v2val) {
+        const n1 = parseFloat(v1val.toString().replace(/[$,]/g, '')) || 0;
+        const n2 = parseFloat(v2val.toString().replace(/[$,]/g, '')) || 0;
+        const dif = n2 - n1;
+        return `<tr>
+            <td>${nombre}</td>
+            <td>${formatea(n1)}</td>
+            <td>${formatea(n2)}</td>
+            <td>${formatea(dif)}</td>
+        </tr>`;
+    }
 });
 
 
@@ -830,6 +891,124 @@ function mostrarResumenValuaciones() {
         document.getElementById('comparar-valuaciones').disabled = false;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById('exportar-comparacion-excel').addEventListener('click', async function () {
+    const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
+    if (valuaciones.length < 2) {
+        alert("No hay suficientes valuaciones para exportar.");
+        return;
+    }
+
+    const [v1, v2] = valuaciones;
+    const d1 = v1.datos.data;
+    const d2 = v2.datos.data;
+    const longitud = Math.max(d1.length, d2.length);
+
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet('Comparación');
+
+    // Encabezado
+    ws.mergeCells('A1:M1');
+    ws.getCell('A1').value = 'Comparación de Valuaciones';
+    ws.getCell('A1').font = { size: 16, bold: true };
+    ws.getCell('A1').alignment = { horizontal: 'center' };
+
+    // Resumen general
+    ws.addRow([]);
+    ws.addRow(['Campo', 'Valuación 1', 'Valuación 2', 'Diferencia']);
+    const resumen = [
+        ['Total Acumulado', v1.total, v2.total],
+        ['Inflación acumulada final',
+            formatearMoneda(d1.at(-1).inflacionAcumulativa),
+            formatearMoneda(d2.at(-1).inflacionAcumulativa)],
+        ['Total Descuento',
+            formatearMoneda(suma(d1, 'descuento')),
+            formatearMoneda(suma(d2, 'descuento'))],
+        ['Total Penalización',
+            formatearMoneda(suma(d1, 'penalizacion')),
+            formatearMoneda(suma(d2, 'penalizacion'))]
+    ];
+
+    resumen.forEach(([campo, v1val, v2val]) => {
+        const n1 = parseFloat(v1val.toString().replace(/[$,]/g, '')) || 0;
+        const n2 = parseFloat(v2val.toString().replace(/[$,]/g, '')) || 0;
+        const dif = formatearMoneda(n2 - n1);
+        ws.addRow([campo, v1val, v2val, dif]);
+    });
+
+    // Tabla comparativa por mes
+    ws.addRow([]);
+    ws.addRow([
+        'Mes', 'Total Mes (V1)', 'Total Mes (V2)', 'Diferencia',
+        'Inflación Acum. (V1)', 'Inflación Acum. (V2)', 'Diferencia',
+        'Descuento (V1)', 'Descuento (V2)', 'Diferencia',
+        'Penalización (V1)', 'Penalización (V2)', 'Diferencia'
+    ]);
+
+    for (let i = 0; i < longitud; i++) {
+        const v1m = d1[i] || {};
+        const v2m = d2[i] || {};
+
+        const row = [
+            `Mes ${i + 1}`,
+            formatearMoneda(v1m.totalMes || 0),
+            formatearMoneda(v2m.totalMes || 0),
+            formatearMoneda((v2m.totalMes || 0) - (v1m.totalMes || 0)),
+
+            formatearMoneda(v1m.inflacionAcumulativa || 0),
+            formatearMoneda(v2m.inflacionAcumulativa || 0),
+            formatearMoneda((v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0)),
+
+            formatearMoneda(v1m.descuento || 0),
+            formatearMoneda(v2m.descuento || 0),
+            formatearMoneda((v2m.descuento || 0) - (v1m.descuento || 0)),
+
+            formatearMoneda(v1m.penalizacion || 0),
+            formatearMoneda(v2m.penalizacion || 0),
+            formatearMoneda((v2m.penalizacion || 0) - (v1m.penalizacion || 0))
+        ];
+
+        ws.addRow(row);
+    }
+
+    // Ajustar columnas
+    ws.columns.forEach(col => {
+        let max = 0;
+        col.eachCell(c => {
+            if (c.value) max = Math.max(max, c.value.toString().length);
+        });
+        col.width = max + 2;
+    });
+
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'comparacion_valuaciones.xlsx';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    function suma(arr, campo) {
+        return arr.reduce((a, b) => a + (b[campo] || 0), 0);
+    }
+});
+
 
         });
 		
