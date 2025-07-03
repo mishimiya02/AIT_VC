@@ -41,9 +41,9 @@
 	</nav>
     <!-- Contenido principal -->
     <div class="contenido">
-        <h1>Solicita una valuación de contrato </h1>
+        <h1>COMPARA VALUACIONES DE CONTRATO </h1>
     </div>
-	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
+	<p style="text-align: center;">INSTRUCCIONES: llene el formulario con la informacion correcta y despues de ser calculada presione el boton de guardar, despues de guardar 2 valuaciones podra comparar las ultimas 2 registradas, el año más reciente se le restara al año más antiguo. </p>
 	 <button id="toggle-sidebar" class="toggle-btn">
             <i class="fas fa-bars"></i>
         </button>
@@ -321,7 +321,7 @@
                     <canvas id="inflacionChart"></canvas>
                 </div>
             </div>
-            
+            <div id="resumen-valuaciones" style="margin-top: 20px;"></div>
             <div class="footer">
                 <div class="page-number" id="page-number"></div>
             </div>
@@ -339,8 +339,20 @@
        <button type="button" id="guardar-valuacion">Guardar Valuación</button>
 <button type="button" id="comparar-valuaciones">Comparar Valuaciones</button>
 
+
+
+
     <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
 	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
     <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
+
+    <div id="modal-comparacion" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; color: white; padding: 20px; overflow: auto;">
+    <div style="background: #333; max-width: 800px; margin: 50px auto; padding: 20px; border-radius: 10px;">
+        <h2 style="text-align: center;">Comparación de Valuaciones</h2>
+        <div id="comparacion-contenido"></div>
+        <button style="display: block; margin: 20px auto;" onclick="document.getElementById('modal-comparacion').style.display = 'none'">Cerrar</button>
+    </div>
+</div>
+
 </body>
 </html>

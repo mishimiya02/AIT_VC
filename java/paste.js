@@ -744,22 +744,92 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
     }
 
     const [v1, v2] = valuaciones;
-    const mensaje = `
-Comparación de Valuaciones:
 
-➤ Contrato 1: ${v1.contrato}
-➤ Total 1: ${v1.total}
+    const compararCampo = (nombre, v1valor, v2valor) => {
+        const dif = parseFloat(v2valor.replace(/[$,]/g, '')) - parseFloat(v1valor.replace(/[$,]/g, ''));
+        const signo = dif > 0 ? '+' : '';
+        return `<tr>
+            <td>${nombre}</td>
+            <td>${v1valor}</td>
+            <td>${v2valor}</td>
+            <td>${signo}${formatearMoneda(dif)}</td>
+        </tr>`;
+    };
 
-➤ Contrato 2: ${v2.contrato}
-➤ Total 2: ${v2.total}
-
-Diferencia total: ${formatearMoneda(
-        parseFloat(v2.total.replace(/,/g, '')) - parseFloat(v1.total.replace(/,/g, ''))
-    )}
+    const html = `
+        <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+            <thead>
+                <tr style="background-color: #333; color: white;">
+                    <th>Campo</th>
+                    <th>Valuación 1<br><small>${v1.contrato}</small></th>
+                    <th>Valuación 2<br><small>${v2.contrato}</small></th>
+                    <th>Diferencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${compararCampo("Total Acumulado", v1.total, v2.total)}
+                ${compararCampo("Importe Bruto", 
+                    formatearMoneda(v1.datos.data.reduce((sum, m) => sum + m.importeBruto, 0)),
+                    formatearMoneda(v2.datos.data.reduce((sum, m) => sum + m.importeBruto, 0))
+                )}
+                ${compararCampo("Penalizaciones", 
+                    formatearMoneda(v1.datos.data.reduce((sum, m) => sum + m.penalizacion, 0)),
+                    formatearMoneda(v2.datos.data.reduce((sum, m) => sum + m.penalizacion, 0))
+                )}
+                ${compararCampo("Descuentos", 
+                    formatearMoneda(v1.datos.data.reduce((sum, m) => sum + m.descuento, 0)),
+                    formatearMoneda(v2.datos.data.reduce((sum, m) => sum + m.descuento, 0))
+                )}
+                ${compararCampo("Inflación acumulada",
+                    formatearMoneda(v1.datos.data[v1.datos.data.length - 1].inflacionAcumulativa),
+                    formatearMoneda(v2.datos.data[v2.datos.data.length - 1].inflacionAcumulativa)
+                )}
+            </tbody>
+        </table>
     `;
 
-    alert(mensaje);
+    document.getElementById('comparacion-contenido').innerHTML = html;
+    document.getElementById('modal-comparacion').style.display = 'block';
 });
+
+
+// Mostrar resumen de valuaciones guardadas al cargar
+document.addEventListener('DOMContentLoaded', function () {
+    mostrarResumenValuaciones();
+});
+
+// Función para mostrar resumen de valuaciones guardadas
+function mostrarResumenValuaciones() {
+    const contenedor = document.getElementById('resumen-valuaciones');
+    const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
+
+    if (valuaciones.length === 0) {
+        contenedor.innerHTML = '<p>No hay valuaciones guardadas.</p>';
+        return;
+    }
+
+    let html = '<h3>Valuaciones Guardadas</h3><table border="1" style="width: 100%; text-align: center; border-collapse: collapse;">';
+    html += '<tr><th>#</th><th>Contrato</th><th>Nombre</th><th>Total</th><th>Fecha guardado</th></tr>';
+
+    valuaciones.forEach((val, i) => {
+        const fecha = new Date(val.timestamp).toLocaleString();
+        html += `<tr>
+            <td>${i + 1}</td>
+            <td>${val.contrato}</td>
+            <td>${val.nombre}</td>
+            <td>${val.total}</td>
+            <td>${fecha}</td>
+        </tr>`;
+    });
+
+    html += '</table>';
+    contenedor.innerHTML = html;
+
+    // Si hay 2, habilitar botón de comparación
+    if (valuaciones.length === 2) {
+        document.getElementById('comparar-valuaciones').disabled = false;
+    }
+}
 
         });
 		
