@@ -1,3 +1,12 @@
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background: #003366 !important; /* fuerza el fondo */
+    color: white;
+    font-weight: bold;
+    z-index: 3;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
 .scroll-table {
     overflow: auto;
     max-height: 500px;
