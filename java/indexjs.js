@@ -336,7 +336,7 @@ if (i === 0) {
                     
                     const fila = document.createElement('tr');
                     fila.innerHTML = `
-                        <td>${row.consecutivo}</td>
+                         <td class="sticky-col">${row.consecutivo}</td>
                         <td>${formatearFecha(row.fecha)}</td>
                         <td>${formatearFecha(row.fechaLimite)}</td>
 						<td>${row.diasVigencia}</td> <!-- ESTA ES LA NUEVA COLUMNA -->
