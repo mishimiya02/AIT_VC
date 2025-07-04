@@ -1,3 +1,80 @@
+
+.scroll-table {
+    overflow: auto;
+    max-height: 800px; /* altura máxima visible */
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+.scroll-table table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1200px;
+}
+
+.scroll-table thead th {
+    position: sticky;
+    top: 0;
+    background: #003366; /* fondo del encabezado */
+    color: rgb(255, 255, 255);/*letras de encabezado*/
+    z-index: 10;
+    padding: 8px;
+    border-bottom: 2px solid rgb(18, 0, 59);
+}
+
+.scroll-table tbody td, .scroll-table tfoot td, .scroll-table tfoot th {
+    padding: 8px;
+    border: 1px solid #001f61;
+    background: rgb(187, 187, 187);/*fondo de la tabla */
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*enlaces**/
+.enlace-inegi {
+    font-family: 'Segoe UI', Roboto,sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffaa0c; /* Azul INEGI */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.enlace-inegi:hover {
+    color: #ff8800;
+    border-bottom: 1px solid #ffd000;
+}
+.enlace-banxico {
+    font-weight: bold;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    color: #ffaa0c; /* Azul INEGI */
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.enlace-banxico:hover {
+    color: #ff8800;
+    border-bottom: 1px solid #fbff00;
+}
+
+
+
+
+
+
+
 /*enlaces**/
 .enlace-inegi {
     font-family: 'Segoe UI', Roboto, sans-serif;
@@ -482,12 +559,12 @@ p {
              border: 1px solid #444;
              padding: 12px;
              text-align: center;
-             background-color: #c7c7c7;/*sandy*/
-             color: #000000;
+             background-color: #585858;/*sandy*/
+             color: #ffffff;
          }
          
          .guarantee-table th {
-             background-color: #84c1c9;/*sandy encabezado de tipo de garantia */
+             background-color: #002a79;/*sandy encabezado de tipo de garantia */
          }
          
          .airport-header {
