@@ -427,7 +427,7 @@ acumuladoTotal += totalMes;
             }
             
             // Función para exportar a Excel de manera segura
- exportarBtn.addEventListener('click', async function () {
+exportarBtn.addEventListener('click', async function () {
     const tabla = document.getElementById('tabla-resultados');
     const nombre = document.getElementById('nombre').value.trim() || "Usuario no especificado";
     const numeroContrato = document.getElementById('numero-contrato').value.trim() || "Sin contrato";
@@ -435,65 +435,44 @@ acumuladoTotal += totalMes;
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Valuación');
 
-    const columnasTabla = tabla.querySelectorAll('thead th').length;
+    // 🖼 Insertar logo desde <img id="logo-image">
+    const img = document.getElementById('logo-image');
+    const base64Logo = await getBase64FromImage(img);
 
-// Convierte número de columna a letras estilo Excel (A, B, ..., Z, AA, AB, etc.)
-function numeroAColumnaExcel(num) {
-    let col = '';
-    while (num > 0) {
-        let modulo = (num - 1) % 26;
-        col = String.fromCharCode(65 + modulo) + col;
-        num = Math.floor((num - 1) / 26);
-    }
-    return col;
-}
+    const imageId = workbook.addImage({
+        base64: base64Logo,
+        extension: 'png'
+    });
 
-const ultimaCol = numeroAColumnaExcel(columnasTabla);
+    worksheet.addImage(imageId, {
+        tl: { col: 0, row: 0 },
+        ext: { width: 150, height: 75 }
+    });
 
-
-
-        // 🏢 Fila principal con nombre de la empresa
-    worksheet.mergeCells(`A1:${ultimaCol}1`);
-    const tituloEmpresa = worksheet.getCell('A1');
-    tituloEmpresa.value = "AEROPUERTO INTERNACIONAL DE TOLUCA";/*esto va a ir hasta arriba */
-    tituloEmpresa.font = { name: 'Aptos', size: 25, bold: true };
-    tituloEmpresa.alignment = { horizontal: 'center', vertical: 'middle' };
-
-    worksheet.addRow([]);
-
-    // 🧑‍💼 Nombre
-    worksheet.mergeCells(`A4:${String.fromCharCode(64 + 8)}4`);
-    const filaNombre = worksheet.getCell('A4');
+    // 🧑 Nombre y contrato como texto en filas 2 y 3
+    worksheet.mergeCells('C2:H2');
+    const filaNombre = worksheet.getCell('C2');
     filaNombre.value = `Nombre: ${nombre}`;
-    filaNombre.font = { name: 'Aptos', bold: true, size: 25 };
-    filaNombre.alignment = { horizontal: 'center', vertical: 'middle' };
+    filaNombre.font = { name: 'Aptos', bold: true, size: 16 };
+    filaNombre.alignment = { horizontal: 'left', vertical: 'middle' };
 
-    // 📄 Contrato
-    worksheet.mergeCells(`A5:${String.fromCharCode(64 + 8)}5`);
-    const filaContrato = worksheet.getCell('A5');
+    worksheet.mergeCells('C3:H3');
+    const filaContrato = worksheet.getCell('C3');
     filaContrato.value = `Contrato: ${numeroContrato}`;
-    filaContrato.font = { name: 'Aptos', italic: true, size: 25 };
-    filaContrato.alignment = { horizontal: 'center', vertical: 'middle' };
+    filaContrato.font = { name: 'Aptos', italic: true, size: 16 };
+    filaContrato.alignment = { horizontal: 'left', vertical: 'middle' };
 
+    // 🧩 Encabezados
     worksheet.addRow([]);
-
-    // 🧩 Encabezado de columnas
     const headers = Array.from(tabla.querySelectorAll('thead th')).map(th => th.textContent.trim());
     const headerRow = worksheet.addRow(headers);
-
-    const tonosAzul = [
-        'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
-        'FF4DA6FF', 'FF3399FF', 'FF1A8CFF', 'FF007FFF', 'FF0066CC',
-        'FF004C99', 'FF003366', 'FF001A66', 'FF00004D', 'FF000033',
-        'FF00001A', 'FF000000'
-    ];
 
     headerRow.eachCell((cell, colNumber) => {
         cell.font = { name: 'Aptos', bold: true, size: 14, color: { argb: 'FFFFFFFF' } };
         cell.fill = {
             type: 'pattern',
             pattern: 'solid',
-            fgColor: { argb: tonosAzul[(colNumber - 1) % tonosAzul.length] }
+            fgColor: { argb: 'FF004C99' }
         };
         cell.border = {
             top: { style: 'medium' },
@@ -504,34 +483,50 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
         cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
     });
 
-    // 📊 Agregar filas de datos
+    // 📊 Filas de datos
     const rows = tabla.querySelectorAll('tbody tr');
     rows.forEach(htmlRow => {
         const rowData = Array.from(htmlRow.querySelectorAll('td')).map(td => td.textContent.trim());
+
         const row = worksheet.addRow(rowData);
-        row.eachCell(cell => {
+
+        row.eachCell((cell, colIndex) => {
+            const raw = cell.value;
+
+            // Detectar si es una fecha válida (dd/mm/yyyy)
+            const esFecha = /^\d{2}\/\d{2}\/\d{4}$/.test(raw);
+            if (esFecha) {
+                const [dia, mes, anio] = raw.split('/').map(Number);
+                cell.value = new Date(anio, mes - 1, dia);
+                cell.numFmt = 'dd/mm/yyyy';
+            } else if (!isNaN(parseFloat(raw.replace(/[$,]/g, '')))) {
+                // Es un número, darle formato numérico
+                cell.value = parseFloat(raw.replace(/[$,]/g, ''));
+                cell.numFmt = '#,##0.00';
+            }
+
             cell.font = { name: 'Aptos', size: 12 };
-            cell.border = {
-                top: { style: 'medium' },
-                left: { style: 'medium' },
-                bottom: { style: 'medium' },
-                right: { style: 'medium' }
-            };
             cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
         });
     });
 
-    // 📐 Ajustar ancho de columnas
-    worksheet.columns.forEach(column => {
+    // 📐 Ajustar ancho de columnas automáticamente
+    worksheet.columns.forEach(col => {
         let maxLength = 0;
-        column.eachCell({ includeEmpty: true }, cell => {
+        col.eachCell({ includeEmpty: true }, cell => {
             const text = cell.value ? cell.value.toString() : '';
             maxLength = Math.max(maxLength, text.length);
         });
-        column.width = Math.max(maxLength + 2, 12);
+        col.width = Math.max(maxLength + 2, 12);
     });
 
-    // 📤 Descargar Excel
+    // 📤 Exportar
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -543,6 +538,18 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
     a.download = 'valuacion_contrato.xlsx';
     a.click();
     URL.revokeObjectURL(url);
+
+    // 🔧 Función auxiliar para convertir imagen a base64
+    async function getBase64FromImage(imgElement) {
+        return new Promise((resolve, reject) => {
+            const canvas = document.createElement('canvas');
+            canvas.width = imgElement.naturalWidth;
+            canvas.height = imgElement.naturalHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(imgElement, 0, 0);
+            resolve(canvas.toDataURL('image/png'));
+        });
+    }
 });
 
 
