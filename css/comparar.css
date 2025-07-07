@@ -1,3 +1,47 @@
+.sticky-col {
+    position: sticky;
+    left: 0;
+    background: #003366 !important; /* fuerza el fondo */
+    color: white;
+    font-weight: bold;
+    z-index: 3;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.scroll-table {
+    overflow: auto;
+    max-height: 800px; /* altura máxima visible */
+    border: 1px solid #ffffff;/*borde contenedor*/
+    position: relative;
+}
+
+.scroll-table table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1200px;
+}
+
+.scroll-table thead th {
+    position: sticky;
+    top: 0;
+    background: #005db9; /* fondo del encabezado */
+    color: rgb(255, 255, 255);
+    z-index: 10;
+    padding: 8px;
+    border-bottom: 2px solid white;
+}
+
+.scroll-table tbody td, .scroll-table tfoot td, .scroll-table tfoot th {
+    padding: 8px;
+    border: 1px solid #ccc;
+    background: white;
+    text-align: center;
+}
+
+
+
+
+
 
 
 /*enlaces**/
