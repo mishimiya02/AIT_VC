@@ -815,14 +815,14 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                     <th>Penalización (V1)</th>
                     <th>Penalización (V2)</th>
                     <th>Diferencia</th>
-                     <th>Alicuota (V1)</th>
-                    <th>Alicuota (V2)</th>
+                     <th>Luz (V1)</th>
+                    <th>Luz (V2)</th>
                     <th>Diferencia</th>
-                   <th>Alicuota 2 (V1)</th>
-                    <th>Alicuota 2 (V2)</th>
+                   <th>Mantenimiento (V1)</th>
+                    <th>Mantenimiento (V2)</th>
                     <th>Diferencia</th> 
-                   <th>Alicuota 3 (V1)</th>
-                    <th>Alicuota 3 (V2)</th>
+                   <th>Agua (V1)</th>
+                    <th>Agua (V2)</th>
                     <th>Diferencia</th>
                 </tr>
             </thead>
