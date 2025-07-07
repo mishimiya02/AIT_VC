@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const fechaFin = new Date(document.getElementById('fecha-fin').value);
                 const importeBruto = parseFloat(document.getElementById('importe-bruto').value);
                 const porcentajeAlicuotas = parseFloat(document.getElementById('alicuotas').value) / 100;
+                const porcentajeMantenimiento = parseFloat(document.getElementById('mantenimiento').value) / 100;
+                const porcentajeAgua = parseFloat(document.getElementById('agua').value) / 100;
+
                 const porcentajeImpuestos = parseFloat(document.getElementById('impuestos').value) / 100;
                 const aplicarInflacion = document.getElementById('inflacion').checked;
                 const inflacionAniversarioStr = document.getElementById('inflacion-aniversario').value;
@@ -153,12 +156,15 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
 
     const subtotal = importeBrutoActualizado - descuento;
     const alicuotas = porcentajeAlicuotas * subtotal;
+    const mantenimiento = porcentajeMantenimiento * subtotal;
+    const agua = porcentajeAgua * subtotal;
+
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
     const impuestoSobreAlicuotas = porcentajeImpuestos * alicuotas;
     const esMesPenalizacion = mesesPenalizacion.includes(i + 1);
     const penalizacion = (mesesPenalizacion.length > 0 && esMesPenalizacion) ? porcentajePenalizaciones * importeBrutoActualizado : 0;
-    const totalMes = subtotal + alicuotas + impuestoSobreMonto + impuestoSobreAlicuotas + penalizacion;
-    acumuladoTotal += totalMes;
+    const totalMes = subtotal + alicuotas + mantenimiento + agua + impuestoSobreMonto + impuestoSobreAlicuotas + penalizacion;
+
 
     const fechaLimite = new Date(mesActual);
     fechaLimite.setDate(fechaLimite.getDate() + 4);
@@ -187,6 +193,7 @@ if (i === 0) {
     fechaMostrada.setHours(0, 0, 0, 0);
 }
 
+acumuladoTotal += totalMes;
 
     // Guardar los datos del mes
     data.push({
@@ -203,6 +210,9 @@ if (i === 0) {
         descuento: descuento,
         subtotal: subtotal,
         alicuotas: alicuotas,
+        mantenimiento: mantenimiento,
+        agua: agua,
+
         impuestoSobreMonto: impuestoSobreMonto,
         impuestoSobreAlicuotas: impuestoSobreAlicuotas,
         penalizacion: penalizacion,
@@ -308,6 +318,9 @@ if (i === 0) {
 
                 let totalMA = 0;
                 let totalAL = 0;
+                let totalMantenimiento = 0;
+                let totalAgua = 0;
+
                 let totalIM = 0;
                 let totalIA = 0;
                 let totalPE = 0;
@@ -326,6 +339,9 @@ if (i === 0) {
 
                     totalMA += row.montoActualizado;
                     totalAL += row.alicuotas;
+                    totalMantenimiento += row.mantenimiento;
+                    totalAgua += row.agua;
+
                     totalIM += row.impuestoSobreMonto;
                     totalIA += row.impuestoSobreAlicuotas;
                     totalPE += row.penalizacion;
@@ -349,6 +365,9 @@ if (i === 0) {
                         <td>${formatearMoneda(row.descuento)}</td>
                         <td>${formatearMoneda(row.subtotal)}</td>
                         <td>${formatearMoneda(row.alicuotas)}</td>
+                        <td>${formatearMoneda(row.mantenimiento)}</td>
+                        <td>${formatearMoneda(row.agua)}</td>
+
                         <td>${formatearMoneda(row.impuestoSobreMonto)}</td>
                         <td>${formatearMoneda(row.impuestoSobreAlicuotas)}</td>
                         <td>${formatearMoneda(row.penalizacion)}</td>
@@ -363,6 +382,9 @@ if (i === 0) {
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
                 totalMontoActualizado.textContent = formatearMoneda(totalMA);
                 totalAlicuota.textContent = formatearMoneda(totalAL);
+                document.getElementById('total-mantenimiento').textContent = formatearMoneda(totalMantenimiento);
+                document.getElementById('total-agua').textContent = formatearMoneda(totalAgua);
+
                 totalImpuestoMonto.textContent = formatearMoneda(totalIM);
                 totalImpuestoAlicuota.textContent = formatearMoneda(totalIA);
                 totalPenalizacion.textContent = formatearMoneda(totalPE);
@@ -554,10 +576,7 @@ const ultimaCol = numeroAColumnaExcel(columnasTabla);
             // Validación del formulario
             function validateForm() {
                 let isValid = true;
-                
-				
-				
-				
+               
                 // Reiniciar estados de error
                 const formGroups = document.querySelectorAll('.form-group');
                 formGroups.forEach(group => {
