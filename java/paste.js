@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const fechaFin = new Date(document.getElementById('fecha-fin').value);
                 const importeBruto = parseFloat(document.getElementById('importe-bruto').value);
                 const porcentajeAlicuotas = parseFloat(document.getElementById('alicuotas').value) / 100;
+                const porcentajeAlicuotas2 = parseFloat(document.getElementById('alicuotas2').value) / 100;
+                const porcentajeAlicuotas3 = parseFloat(document.getElementById('alicuotas3').value) / 100;
+
                 const porcentajeImpuestos = parseFloat(document.getElementById('impuestos').value) / 100;
                 const aplicarInflacion = document.getElementById('inflacion').checked;
                 const inflacionAniversarioStr = document.getElementById('inflacion-aniversario').value;
@@ -73,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				
                 let data = [];
-                let importeBrutoActualizado = importeBruto;
+           
                 let inflacionAcumulativa = 0;
                 let acumuladoTotal = 0;
                 let mesActual = new Date(fechaInicio);
@@ -151,6 +154,9 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
 
     const subtotal = importeBrutoActualizado - descuento;
     const alicuotas = porcentajeAlicuotas * subtotal;
+    const alicuotas2 = porcentajeAlicuotas2 * subtotal;
+    const alicuotas3 = porcentajeAlicuotas3 * subtotal;
+
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
     const impuestoSobreAlicuotas = porcentajeImpuestos * alicuotas;
     const esMesPenalizacion = mesesPenalizacion.includes(i + 1);
@@ -185,7 +191,7 @@ if (i === 0) {
     fechaMostrada.setHours(0, 0, 0, 0);
 }
 
-
+acumuladoTotal += totalMes;
     // Guardar los datos del mes
     data.push({
         consecutivo: i + 1,	
@@ -201,6 +207,8 @@ if (i === 0) {
         descuento: descuento,
         subtotal: subtotal,
         alicuotas: alicuotas,
+        alicuotas2: alicuotas2,
+        alicuotas3: alicuotas3,
         impuestoSobreMonto: impuestoSobreMonto,
         impuestoSobreAlicuotas: impuestoSobreAlicuotas,
         penalizacion: penalizacion,
@@ -318,6 +326,8 @@ window.ultimaValuacionCalculada = {
 
                 let totalMA = 0;
                 let totalAL = 0;
+                let totalAL2 = 0;
+                let totalAL3 = 0;
                 let totalIM = 0;
                 let totalIA = 0;
                 let totalPE = 0;
@@ -336,6 +346,8 @@ window.ultimaValuacionCalculada = {
 
                     totalMA += row.montoActualizado;
                     totalAL += row.alicuotas;
+                    totalAL += row.alicuotas2;
+                    totalAL += row.alicuotas3;
                     totalIM += row.impuestoSobreMonto;
                     totalIA += row.impuestoSobreAlicuotas;
                     totalPE += row.penalizacion;
@@ -359,6 +371,9 @@ window.ultimaValuacionCalculada = {
                         <td>${formatearMoneda(row.descuento)}</td>
                         <td>${formatearMoneda(row.subtotal)}</td>
                         <td>${formatearMoneda(row.alicuotas)}</td>
+                        <td>${formatearMoneda(row.alicuotas2)}</td>
+                        <td>${formatearMoneda(row.alicuotas3)}</td>
+
                         <td>${formatearMoneda(row.impuestoSobreMonto)}</td>
                         <td>${formatearMoneda(row.impuestoSobreAlicuotas)}</td>
                         <td>${formatearMoneda(row.penalizacion)}</td>
@@ -380,6 +395,9 @@ window.ultimaValuacionCalculada = {
                 totalSubtotal.textContent = formatearMoneda(totalST);
                 totalMensual.textContent = formatearMoneda(totalTM);
                 totalAcumulado.textContent = formatearMoneda(totalAT);
+                
+                document.getElementById('total-alicuota2').textContent = formatearMoneda(totalAL2);
+                document.getElementById('total-alicuota3').textContent = formatearMoneda(totalAL3);
 				document.getElementById('total-dias-vigencia').textContent = totalDiasVigencia;
 				document.getElementById('total-bruto-prorrateado').textContent = formatearMoneda(totalBrutoProrrateado);
 
@@ -766,7 +784,15 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                 ${compararCampo("Inflación acumulada final", formatea(d1.at(-1).inflacionAcumulativa), formatea(d2.at(-1).inflacionAcumulativa))}
                 ${compararCampo("Total Descuento", formatea(suma(d1, 'descuento')), formatea(suma(d2, 'descuento')))}
                 ${compararCampo("Total Penalización", formatea(suma(d1, 'penalizacion')), formatea(suma(d2, 'penalizacion')))}
-            </tbody>
+                ${compararCampo("Total Alicuotas", formatea(suma(d1, 'alicuotas')), formatea(suma(d2, 'alicuotas')))}
+   
+                ${compararCampo("Total Alicuotas 2", formatea(suma(d1, 'alicuotas2')), formatea(suma(d2, 'alicuotas2')))}
+                ${compararCampo("Total Alicuotas 3", formatea(suma(d1, 'alicuotas3')), formatea(suma(d2, 'alicuotas3')))}
+
+            
+                </tbody>
+
+
         </table>
     `;
 
@@ -788,6 +814,15 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                     <th>Diferencia</th>
                     <th>Penalización (V1)</th>
                     <th>Penalización (V2)</th>
+                    <th>Diferencia</th>
+                     <th>Alicuota (V1)</th>
+                    <th>Alicuota (V2)</th>
+                    <th>Diferencia</th>
+                   <th>Alicuota 2 (V1)</th>
+                    <th>Alicuota 2 (V2)</th>
+                    <th>Diferencia</th> 
+                   <th>Alicuota 3 (V1)</th>
+                    <th>Alicuota 3 (V2)</th>
                     <th>Diferencia</th>
                 </tr>
             </thead>
@@ -826,6 +861,20 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                 <td>${formatea(pe1)}</td>
                 <td>${formatea(pe2)}</td>
                 <td>${formatea(pe2 - pe1)}</td>
+                
+                <td>${formatea(v1m.alicuotas || 0)}</td>
+                <td>${formatea(v2m.alicuotas || 0)}</td>
+                <td>${formatea((v2m.alicuotas || 0) - (v1m.alicuotas || 0))}</td>
+
+
+                <td>${formatea(v1m.alicuotas2 || 0)}</td>
+
+                <td>${formatea(v2m.alicuotas2 || 0)}</td>
+                <td>${formatea((v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0))}</td>
+                <td>${formatea(v1m.alicuotas3 || 0)}</td>
+                <td>${formatea(v2m.alicuotas3 || 0)}</td>
+                <td>${formatea((v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0))}</td>
+
             </tr>
         `;
     }
