@@ -238,20 +238,43 @@ document.getElementById('cantidad-mantenimiento').addEventListener('input', func
     }
 });
 </script>
-
-
-
-
-
-
-
-
-
          <div class="form-group">
          <label for="agua" class="required-field">Porcentaje para agua (%):</label>
          <input type="number" id="alicuotas3" step="0.01" required>
         <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
         </div>
+
+<div class="form-group">
+    <label for="cantidad-agua">Cantidad fija para agua ($):</label>
+    <input type="number" id="cantidad-agua" step="0.01">
+    <small id="porcentaje-calculado-agua" style="display:block; margin-top:5px; color:green;"></small>
+</div>
+
+
+<script>
+document.getElementById('cantidad-agua').addEventListener('input', function () {
+    const cantidad = parseFloat(this.value);
+    const importeBruto = parseFloat(document.getElementById('importe-bruto').value);
+    const mensaje = document.getElementById('porcentaje-calculado-agua');
+    const campoPorcentaje = document.getElementById('alicuotas3');
+
+    if (!isNaN(cantidad) && importeBruto > 0) {
+        const porcentaje = (cantidad / importeBruto) * 100;
+        mensaje.textContent = `Equivale a aproximadamente ${porcentaje.toFixed(2)}% del importe bruto`;
+
+        // Asignar automáticamente
+        campoPorcentaje.value = porcentaje.toFixed(2);
+    } else {
+        mensaje.textContent = '';
+        campoPorcentaje.value = '';
+    }
+});
+</script>
+
+
+
+
+
 
             <div class="form-group">
                 <label for="impuestos" class="required-field">Porcentaje de impuestos (%):</label>
