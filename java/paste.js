@@ -113,11 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		
 		//calcular tarifa proporcional
-                    const importeBrutoProrrateado = calcularImporteBrutoProrrateado(
-    importeBruto,
-    diasVigencia,
-    mesActual
-);
+const aplicarAlicuotaCompleta = document.getElementById('alicuota-luz-completa').checked;
+
+const importeBrutoProrrateado = aplicarAlicuotaCompleta
+    ? importeBruto  // Usa el importe completo sin prorrateo
+    : calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual);
+
 
 function calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual) {
     const diasDelMes = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0).getDate();
