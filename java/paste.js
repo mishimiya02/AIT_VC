@@ -999,12 +999,29 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
   suma(d1, 'alicuotas3'),
   suma(d2, 'alicuotas3')] ];
 
-    resumen.forEach(([campo, v1val, v2val]) => {
-        const n1 = parseFloat(v1val.toString().replace(/[$,]/g, '')) || 0;
-        const n2 = parseFloat(v2val.toString().replace(/[$,]/g, '')) || 0;
-        const dif = formatearMoneda(n2 - n1);
-        ws.addRow([campo, v1val, v2val, dif]);
+resumen.forEach(([campo, v1val, v2val]) => {
+    const n1 = parseFloat(v1val) || 0;
+    const n2 = parseFloat(v2val) || 0;
+    const dif = n2 - n1;
+
+    const row = ws.addRow([campo, n1, n2, dif]);
+
+    // Aplicar formato moneda y alineación derecha
+    row.eachCell((cell, colNumber) => {
+        if (colNumber > 1) {
+            cell.numFmt = '"$"#,##0.00';
+            cell.alignment = { horizontal: 'right' };
+        } else {
+            cell.font = { bold: true };
+        }
+        cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+        };
     });
+});
 
     // Tabla comparativa por mes
     ws.addRow([]);
