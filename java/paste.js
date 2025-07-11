@@ -987,8 +987,17 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
             formatearMoneda(suma(d2, 'descuento'))],
         ['Total Penalización',
             formatearMoneda(suma(d1, 'penalizacion')),
-            formatearMoneda(suma(d2, 'penalizacion'))]
-    ];
+            formatearMoneda(suma(d2, 'penalizacion'))],
+            
+            ['Total Luz (alicuotas)',
+  suma(d1, 'alicuotas'),
+  suma(d2, 'alicuotas')],
+['Total Mantenimiento (alicuotas2)',
+  suma(d1, 'alicuotas2'),
+  suma(d2, 'alicuotas2')],
+['Total Agua (alicuotas3)',
+  suma(d1, 'alicuotas3'),
+  suma(d2, 'alicuotas3')] ];
 
     resumen.forEach(([campo, v1val, v2val]) => {
         const n1 = parseFloat(v1val.toString().replace(/[$,]/g, '')) || 0;
@@ -1003,7 +1012,12 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
         'Mes', 'Total Mes (V1)', 'Total Mes (V2)', 'Diferencia',
         'Inflación Acum. (V1)', 'Inflación Acum. (V2)', 'Diferencia',
         'Descuento (V1)', 'Descuento (V2)', 'Diferencia',
-        'Penalización (V1)', 'Penalización (V2)', 'Diferencia'
+        'Penalización (V1)', 'Penalización (V2)', 'Diferencia',
+          'Luz (V1)', 'Luz (V2)', 'Diferencia',
+        'Mantenimiento (V1)', 'Mantenimiento (V2)', 'Diferencia',
+        'Agua (V1)', 'Agua (V2)', 'Diferencia'
+
+        
     ]);
 
     for (let i = 0; i < longitud; i++) {
@@ -1026,7 +1040,19 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
 
             formatearMoneda(v1m.penalizacion || 0),
             formatearMoneda(v2m.penalizacion || 0),
-            formatearMoneda((v2m.penalizacion || 0) - (v1m.penalizacion || 0))
+            formatearMoneda((v2m.penalizacion || 0) - (v1m.penalizacion || 0)),
+              formatearMoneda(v1m.alicuotas || 0),
+  formatearMoneda(v2m.alicuotas || 0),
+  formatearMoneda((v2m.alicuotas || 0) - (v1m.alicuotas || 0)),
+
+  formatearMoneda(v1m.alicuotas2 || 0),
+  formatearMoneda(v2m.alicuotas2 || 0),
+  formatearMoneda((v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0)),
+
+  formatearMoneda(v1m.alicuotas3 || 0),
+  formatearMoneda(v2m.alicuotas3 || 0),
+  formatearMoneda((v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0))
+
         ];
 
         ws.addRow(row);
