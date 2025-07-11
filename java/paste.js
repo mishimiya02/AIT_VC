@@ -1019,41 +1019,70 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
 
         
     ]);
+/*estilos*/
+const headerRow = ws.lastRow;
+
+headerRow.eachCell(cell => {
+    cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF004C99' } // azul fuerte
+    };
+    cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+    cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+    };
+});
+
+ws.columns.forEach(col => {
+    let max = 0;
+    col.eachCell(c => {
+        if (c.value) max = Math.max(max, c.value.toString().length);
+    });
+    col.width = max + 2;
+});
+
+
 
     for (let i = 0; i < longitud; i++) {
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
 
-        const row = [
-            `Mes ${i + 1}`,
-            formatearMoneda(v1m.totalMes || 0),
-            formatearMoneda(v2m.totalMes || 0),
-            formatearMoneda((v2m.totalMes || 0) - (v1m.totalMes || 0)),
+      const row = [
+  i + 1, // Mes
 
-            formatearMoneda(v1m.inflacionAcumulativa || 0),
-            formatearMoneda(v2m.inflacionAcumulativa || 0),
-            formatearMoneda((v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0)),
+  v1m.totalMes || 0,
+  v2m.totalMes || 0,
+  (v2m.totalMes || 0) - (v1m.totalMes || 0),
 
-            formatearMoneda(v1m.descuento || 0),
-            formatearMoneda(v2m.descuento || 0),
-            formatearMoneda((v2m.descuento || 0) - (v1m.descuento || 0)),
+  v1m.inflacionAcumulativa || 0,
+  v2m.inflacionAcumulativa || 0,
+  (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
 
-            formatearMoneda(v1m.penalizacion || 0),
-            formatearMoneda(v2m.penalizacion || 0),
-            formatearMoneda((v2m.penalizacion || 0) - (v1m.penalizacion || 0)),
-              formatearMoneda(v1m.alicuotas || 0),
-  formatearMoneda(v2m.alicuotas || 0),
-  formatearMoneda((v2m.alicuotas || 0) - (v1m.alicuotas || 0)),
+  v1m.descuento || 0,
+  v2m.descuento || 0,
+  (v2m.descuento || 0) - (v1m.descuento || 0),
 
-  formatearMoneda(v1m.alicuotas2 || 0),
-  formatearMoneda(v2m.alicuotas2 || 0),
-  formatearMoneda((v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0)),
+  v1m.penalizacion || 0,
+  v2m.penalizacion || 0,
+  (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
 
-  formatearMoneda(v1m.alicuotas3 || 0),
-  formatearMoneda(v2m.alicuotas3 || 0),
-  formatearMoneda((v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0))
+  v1m.alicuotas || 0,
+  v2m.alicuotas || 0,
+  (v2m.alicuotas || 0) - (v1m.alicuotas || 0),
 
-        ];
+  v1m.alicuotas2 || 0,
+  v2m.alicuotas2 || 0,
+  (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0),
+
+  v1m.alicuotas3 || 0,
+  v2m.alicuotas3 || 0,
+  (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0)
+];
 
         ws.addRow(row);
     }
