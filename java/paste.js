@@ -946,6 +946,9 @@ function mostrarResumenValuaciones() {
 
 
 
+function limpiarNumero(str) {
+    return Number((str || '').toString().replace(/[^0-9.-]+/g, '')) || 0;
+}
 
 
 
@@ -980,27 +983,31 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
     // Resumen general
     ws.addRow([]);
     ws.addRow(['Campo', 'Valuación 1', 'Valuación 2', 'Diferencia']);
-    const resumen = [
-        ['Total Acumulado', v1.total, v2.total],
-        ['Inflación acumulada final',
-            formatearMoneda(d1.at(-1).inflacionAcumulativa),
-            formatearMoneda(d2.at(-1).inflacionAcumulativa)],
-        ['Total Descuento',
-            formatearMoneda(suma(d1, 'descuento')),
-            formatearMoneda(suma(d2, 'descuento'))],
-        ['Total Penalización',
-            formatearMoneda(suma(d1, 'penalizacion')),
-            formatearMoneda(suma(d2, 'penalizacion'))],
-            
-            ['Total Luz (alicuotas)',
-  suma(d1, 'alicuotas'),
-  suma(d2, 'alicuotas')],
-['Total Mantenimiento (alicuotas2)',
-  suma(d1, 'alicuotas2'),
-  suma(d2, 'alicuotas2')],
-['Total Agua (alicuotas3)',
-  suma(d1, 'alicuotas3'),
-  suma(d2, 'alicuotas3')] ];
+
+const limpiarNumero = str => Number((str || '').toString().replace(/[^0-9.-]+/g, '')) || 0;
+
+const resumen = [
+    ['Total Acumulado', limpiarNumero(v1.total), limpiarNumero(v2.total)],
+    ['Inflación acumulada final',
+        limpiarNumero(d1.at(-1)?.inflacionAcumulativa),
+        limpiarNumero(d2.at(-1)?.inflacionAcumulativa)],
+    ['Total Descuento',
+        suma(d1, 'descuento'),
+        suma(d2, 'descuento')],
+    ['Total Penalización',
+        suma(d1, 'penalizacion'),
+        suma(d2, 'penalizacion')],
+    ['Total Luz (alicuotas)',
+        suma(d1, 'alicuotas'),
+        suma(d2, 'alicuotas')],
+    ['Total Mantenimiento (alicuotas2)',
+        suma(d1, 'alicuotas2'),
+        suma(d2, 'alicuotas2')],
+    ['Total Agua (alicuotas3)',
+        suma(d1, 'alicuotas3'),
+        suma(d2, 'alicuotas3')]
+];
+
 
 resumen.forEach(([campo, v1val, v2val]) => {
     const n1 = parseFloat(v1val) || 0;
