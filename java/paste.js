@@ -1047,17 +1047,20 @@ resumen.forEach(([campo, v1val, v2val]) => {
 
     // Tabla comparativa por mes
     ws.addRow([]);
-    ws.addRow([
-        'Mes', 'Total Mes (V1)', 'Total Mes (V2)', 'Diferencia',
-        'Inflación Acum. (V1)', 'Inflación Acum. (V2)', 'Diferencia',
-        'Descuento (V1)', 'Descuento (V2)', 'Diferencia',
-        'Penalización (V1)', 'Penalización (V2)', 'Diferencia',
-          'Luz (V1)', 'Luz (V2)', 'Diferencia',
-        'Mantenimiento (V1)', 'Mantenimiento (V2)', 'Diferencia',
-        'Agua (V1)', 'Agua (V2)', 'Diferencia'
+  ws.addRow([
+  'Mes',
 
-        
-    ]);
+  // BLOQUE V1
+  'Total Mes (V1)', 'Inflación Acum. (V1)', 'Descuento (V1)', 'Penalización (V1)', 'Agua (V1)', 'Luz (V1)', 'Mantenimiento (V1)',
+
+  // BLOQUE V2
+  'Total Mes (V2)', 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
+
+  // BLOQUE DIFERENCIA
+  'Diferencia Total', 'Diferencia Inflación', 'Diferencia Descuento',
+  'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento'
+]);
+
 /*estilos*/
 const headerRow = ws.lastRow;
 
