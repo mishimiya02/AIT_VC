@@ -114,6 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		//calcular tarifa proporcional
 const aplicarAlicuotaCompleta = document.getElementById('alicuota-luz-completa').checked;
+const aplicarMantenimientoCompleto = document.getElementById('alicuota-mantenimiento-completa').checked;
+const aplicarAguaCompleto = document.getElementById('alicuota-agua-completa').checked;
+
 
 const importeBrutoProrrateado = aplicarAlicuotaCompleta
     ? importeBruto  // Usa el importe completo sin prorrateo
@@ -156,9 +159,18 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
     }
 
     const subtotal = importeBrutoActualizado - descuento;
-    const alicuotas = porcentajeAlicuotas * subtotal;
-    const alicuotas2 = porcentajeAlicuotas2 * subtotal;
-    const alicuotas3 = porcentajeAlicuotas3 * subtotal;
+const diasDelMes = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0).getDate();
+
+const alicuotas = porcentajeAlicuotas * subtotal;
+
+const alicuotas2 = aplicarMantenimientoCompleto
+    ? porcentajeAlicuotas2 * subtotal
+    : porcentajeAlicuotas2 * subtotal * (diasVigencia / diasDelMes);
+
+const alicuotas3 = aplicarAguaCompleto
+    ? porcentajeAlicuotas3 * subtotal
+    : porcentajeAlicuotas3 * subtotal * (diasVigencia / diasDelMes);
+
 
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
     const impuestoSobreAlicuotas = porcentajeImpuestos * alicuotas;

@@ -256,6 +256,14 @@ document.getElementById('cantidad-alicuota').addEventListener('input', function 
     <small id="porcentaje-calculado-mantenimiento" style="display:block; margin-top:5px; color:green;"></small>
 </div>
 
+<div class="form-group">
+    <label>
+        <input type="checkbox" id="alicuota-mantenimiento-completa">
+        Aplicar 100% del mantenimiento incluso si el mes no es completo
+    </label>
+</div>
+
+
 
 <script>
 document.getElementById('cantidad-mantenimiento').addEventListener('input', function () {
@@ -288,6 +296,12 @@ document.getElementById('cantidad-mantenimiento').addEventListener('input', func
     <small id="porcentaje-calculado-agua" style="display:block; margin-top:5px; color:green;"></small>
 </div>
 
+<div class="form-group">
+    <label>
+        <input type="checkbox" id="alicuota-agua-completa">
+        Aplicar 100% del agua incluso si el mes no es completo
+    </label>
+</div>
 
 <script>
 document.getElementById('cantidad-agua').addEventListener('input', function () {
