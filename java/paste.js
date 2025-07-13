@@ -173,7 +173,7 @@ const alicuotas3 = aplicarAguaCompleto
 
 
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
-    const impuestoSobreAlicuotas = porcentajeImpuestos * alicuotas;
+    const impuestoSobreAlicuotas = (alicuotas + alicuotas2 + alicuotas3) * 0.16;
     const esMesPenalizacion = mesesPenalizacion.includes(i + 1);
     const penalizacion = (mesesPenalizacion.length > 0 && esMesPenalizacion) ? porcentajePenalizaciones * importeBrutoActualizado : 0;
    const totalMes = subtotal
