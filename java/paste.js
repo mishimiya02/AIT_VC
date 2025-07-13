@@ -1047,19 +1047,20 @@ resumen.forEach(([campo, v1val, v2val]) => {
 
     // Tabla comparativa por mes
     ws.addRow([]);
-  ws.addRow([
+ ws.addRow([
   'Mes',
 
   // BLOQUE V1
-  'Total Mes (V1)', 'Inflación Acum. (V1)', 'Descuento (V1)', 'Penalización (V1)', 'Agua (V1)', 'Luz (V1)', 'Mantenimiento (V1)',
+  'Fecha (V1)', 'Total Mes (V1)', 'Inflación Acum. (V1)', 'Descuento (V1)', 'Penalización (V1)', 'Agua (V1)', 'Luz (V1)', 'Mantenimiento (V1)',
 
   // BLOQUE V2
-  'Total Mes (V2)', 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
+  'Fecha (V2)', 'Total Mes (V2)', 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
 
   // BLOQUE DIFERENCIA
   'Diferencia Total', 'Diferencia Inflación', 'Diferencia Descuento',
   'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento'
 ]);
+
 
 /*estilos*/
 const headerRow = ws.lastRow;
@@ -1094,36 +1095,40 @@ ws.columns.forEach(col => {
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
 
-      const row = [
+    const fechaV1 = v1m.fecha ? new Date(v1m.fecha).toLocaleDateString('es-MX') : '';
+const fechaV2 = v2m.fecha ? new Date(v2m.fecha).toLocaleDateString('es-MX') : '';
+
+const row = [
   i + 1, // Mes
 
+  // V1
+  fechaV1,
   v1m.totalMes || 0,
-  v2m.totalMes || 0,
-  (v2m.totalMes || 0) - (v1m.totalMes || 0),
-
   v1m.inflacionAcumulativa || 0,
-  v2m.inflacionAcumulativa || 0,
-  (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
-
   v1m.descuento || 0,
-  v2m.descuento || 0,
-  (v2m.descuento || 0) - (v1m.descuento || 0),
-
   v1m.penalizacion || 0,
+  v1m.alicuotas3 || 0, // Agua
+  v1m.alicuotas || 0,  // Luz
+  v1m.alicuotas2 || 0, // Mantenimiento
+
+  // V2
+  fechaV2,
+  v2m.totalMes || 0,
+  v2m.inflacionAcumulativa || 0,
+  v2m.descuento || 0,
   v2m.penalizacion || 0,
-  (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
-
-  v1m.alicuotas || 0,
-  v2m.alicuotas || 0,
-  (v2m.alicuotas || 0) - (v1m.alicuotas || 0),
-
-  v1m.alicuotas2 || 0,
-  v2m.alicuotas2 || 0,
-  (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0),
-
-  v1m.alicuotas3 || 0,
   v2m.alicuotas3 || 0,
-  (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0)
+  v2m.alicuotas || 0,
+  v2m.alicuotas2 || 0,
+
+  // DIF
+  (v2m.totalMes || 0) - (v1m.totalMes || 0),
+  (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
+  (v2m.descuento || 0) - (v1m.descuento || 0),
+  (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
+  (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0),
+  (v2m.alicuotas || 0) - (v1m.alicuotas || 0),
+  (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0)
 ];
 
         ws.addRow(row);
