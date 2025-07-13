@@ -176,8 +176,15 @@ const alicuotas3 = aplicarAguaCompleto
     const impuestoSobreAlicuotas = porcentajeImpuestos * alicuotas;
     const esMesPenalizacion = mesesPenalizacion.includes(i + 1);
     const penalizacion = (mesesPenalizacion.length > 0 && esMesPenalizacion) ? porcentajePenalizaciones * importeBrutoActualizado : 0;
-    const totalMes = subtotal + alicuotas + impuestoSobreMonto + impuestoSobreAlicuotas + penalizacion;
-    acumuladoTotal += totalMes;
+   const totalMes = subtotal
+               + alicuotas        // luz
+               + alicuotas2       // mantenimiento
+               + alicuotas3       // agua
+               + impuestoSobreMonto
+               + impuestoSobreAlicuotas
+               + penalizacion;
+
+   
 
     const fechaLimite = new Date(mesActual);
     fechaLimite.setDate(fechaLimite.getDate() + 4);
