@@ -155,7 +155,7 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
     // Calcular descuento
     let descuento = 0;
     if (concederDescuentos && mesesDescuento.includes(i + 1)) {
-        descuento = porcentajeDescuento * importeBrutoActualizado;
+        descuento = (porcentajeDescuento * importeBrutoActualizado)/100;
     }
 
     const subtotal = importeBrutoActualizado - descuento;
