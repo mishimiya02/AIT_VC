@@ -858,8 +858,34 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
             <tbody>
     `;
 
+// Calcular totales
+const totalizador = (arr, campo) => arr.reduce((a, b) => a + (b?.[campo] || 0), 0);
+
+const totV1 = {
+    totalMes: totalizador(d1, 'totalMes'),
+    inflacion: totalizador(d1, 'inflacionAcumulativa'),
+    descuento: totalizador(d1, 'descuento'),
+    penalizacion: totalizador(d1, 'penalizacion'),
+    luz: totalizador(d1, 'alicuotas'),
+    mantenimiento: totalizador(d1, 'alicuotas2'),
+    agua: totalizador(d1, 'alicuotas3'),
+};
+
+const totV2 = {
+    totalMes: totalizador(d2, 'totalMes'),
+    inflacion: totalizador(d2, 'inflacionAcumulativa'),
+    descuento: totalizador(d2, 'descuento'),
+    penalizacion: totalizador(d2, 'penalizacion'),
+    luz: totalizador(d2, 'alicuotas'),
+    mantenimiento: totalizador(d2, 'alicuotas2'),
+    agua: totalizador(d2, 'alicuotas3'),
+};
+
+
     for (let i = 0; i < longitud; i++) {
-        const mes = `Mes ${i + 1}`;
+  
+
+      const mes = `Mes ${i + 1}`;
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
 
@@ -871,6 +897,7 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
         const de2 = v2m.descuento || 0;
         const pe1 = v1m.penalizacion || 0;
         const pe2 = v2m.penalizacion || 0;
+
 
         html += `
             <tr>
@@ -904,9 +931,52 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                 <td>${formatea(v2m.alicuotas3 || 0)}</td>
                 <td>${formatea((v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0))}</td>
 
+
+
+
+
             </tr>
         `;
     }
+
+
+    
+
+html += `
+<tr style="background-color: #ddd; font-weight: bold;">
+    <td>TOTALES</td>
+    <td>${formatea(totV1.totalMes)}</td>
+    <td>${formatea(totV2.totalMes)}</td>
+    <td>${formatea(totV2.totalMes - totV1.totalMes)}</td>
+
+    <td>${formatea(totV1.inflacion)}</td>
+    <td>${formatea(totV2.inflacion)}</td>
+    <td>${formatea(totV2.inflacion - totV1.inflacion)}</td>
+
+    <td>${formatea(totV1.descuento)}</td>
+    <td>${formatea(totV2.descuento)}</td>
+    <td>${formatea(totV2.descuento - totV1.descuento)}</td>
+
+    <td>${formatea(totV1.penalizacion)}</td>
+    <td>${formatea(totV2.penalizacion)}</td>
+    <td>${formatea(totV2.penalizacion - totV1.penalizacion)}</td>
+
+    <td>${formatea(totV1.luz)}</td>
+    <td>${formatea(totV2.luz)}</td>
+    <td>${formatea(totV2.luz - totV1.luz)}</td>
+
+    <td>${formatea(totV1.mantenimiento)}</td>
+    <td>${formatea(totV2.mantenimiento)}</td>
+    <td>${formatea(totV2.mantenimiento - totV1.mantenimiento)}</td>
+
+    <td>${formatea(totV1.agua)}</td>
+    <td>${formatea(totV2.agua)}</td>
+    <td>${formatea(totV2.agua - totV1.agua)}</td>
+</tr>
+`;
+
+
+
 
     html += '</tbody></table>';
 
