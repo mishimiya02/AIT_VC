@@ -1006,6 +1006,13 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
     ws.getCell('A1').font = { size: 16, bold: true };
     ws.getCell('A1').alignment = { horizontal: 'center' };
 
+    // Subtítulo
+ws.mergeCells('A2:M2');
+ws.getCell('A2').value = 'Cálculo de retroactivos';
+ws.getCell('A2').font = { size: 12, italic: true };
+ws.getCell('A2').alignment = { horizontal: 'center' };
+
+
     // Resumen general
     ws.addRow([]);
     ws.addRow(['Campo', 'Valuación 1', 'Valuación 2', 'Diferencia']);
@@ -1071,7 +1078,7 @@ ws.addRow([
   'Mes (V2)', 'Año (V2)', 'Fecha (V2)', 'Total Mes (V2)', 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
 
   // Bloque DIF
-  'Diferencia Total', 'Diferencia Inflación', 'Diferencia Descuento',
+  'Diferencia Total Mensual', 'Diferencia Inflación', 'Diferencia Descuento',
   'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento'
 ]);
 
