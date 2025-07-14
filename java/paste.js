@@ -858,6 +858,8 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                    <th>Agua (V1)</th>
                     <th>Agua (V2)</th>
                     <th>Diferencia</th>
+                    <th>Diferencia Bruto + Servicios</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -889,6 +891,7 @@ const totV2 = {
     mantenimiento: totalizador(d2, 'alicuotas2'),
     agua: totalizador(d2, 'alicuotas3'),
 };
+let totalSumaDiferencias = 0;
 
 
     for (let i = 0; i < longitud; i++) {
@@ -897,6 +900,10 @@ const totV2 = {
       const mes = `Mes ${i + 1}`;
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
+const difAgua = (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0);
+const difLuz = (v2m.alicuotas || 0) - (v1m.alicuotas || 0);
+const difMantenimiento = (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0);
+
 
         const td1 = v1m.totalMes || 0;
         const td2 = v2m.totalMes || 0;
@@ -910,6 +917,15 @@ const totV2 = {
         const de2 = v2m.descuento || 0;
         const pe1 = v1m.penalizacion || 0;
         const pe2 = v2m.penalizacion || 0;
+  const diffImporteBruto = (v2m.importeBruto || 0) - (v1m.importeBruto || 0);
+const diffLuz = (v2m.alicuotas || 0) - (v1m.alicuotas || 0);
+const diffMantenimiento = (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0);
+const diffAgua = (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0);
+
+const sumaDiferencias = diffImporteBruto + diffLuz + diffMantenimiento + diffAgua;
+
+totalSumaDiferencias += sumaDiferencias;
+
 
 
         html += `
@@ -948,6 +964,8 @@ const totV2 = {
                 <td>${formatea(v1m.alicuotas3 || 0)}</td>
                 <td>${formatea(v2m.alicuotas3 || 0)}</td>
                 <td>${formatea((v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0))}</td>
+
+                    <td>${formatea(sumaDiferencias)}</td>
 
 
 
@@ -995,6 +1013,8 @@ html += `
     <td>${formatea(totV1.agua)}</td>
     <td>${formatea(totV2.agua)}</td>
     <td>${formatea(totV2.agua - totV1.agua)}</td>
+    <td>${formatea(totalSumaDiferencias)}</td>
+
 </tr>
 `;
 
@@ -1179,9 +1199,12 @@ ws.addRow([
  'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
 
   // Bloque DIF
-  'Diferencia Total Mensual',   'Diferencia Importe Bruto',
+/*'Diferencia Total Mensual',*/   'Diferencia Importe Bruto',
 'Diferencia Inflación', 'Diferencia Descuento',
-  'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento'
+  'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento',
+  'Diferencia Total (Bruto + Servicios)'
+
+  
 ]);
 
 
@@ -1214,7 +1237,6 @@ ws.columns.forEach(col => {
 });
 
 
-
     for (let i = 0; i < longitud; i++) {
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
@@ -1229,6 +1251,14 @@ const fechaStrV1 = fechaV1 ? fechaV1.toLocaleDateString('es-MX') : '';
 const mesV2 = fechaV2 ? fechaV2.toLocaleString('es-MX', { month: 'long' }) : '';
 const anioV2 = fechaV2 ? fechaV2.getFullYear() : '';
 const fechaStrV2 = fechaV2 ? fechaV2.toLocaleDateString('es-MX') : '';
+
+
+const difImporteBruto = (v2m.importeBruto || 0) - (v1m.importeBruto || 0);
+const difLuz = (v2m.alicuotas || 0) - (v1m.alicuotas || 0);
+const difMantenimiento = (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0);
+const difAgua = (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0);
+const sumaDiferencias = difImporteBruto + difLuz + difMantenimiento + difAgua;
+
 
 const row = [
   i + 1,
@@ -1256,14 +1286,16 @@ const row = [
   v2m.alicuotas2 || 0,
 
   // Diferencias
-  (v2m.totalMes || 0) - (v1m.totalMes || 0),
+  /*(v2m.totalMes || 0) - (v1m.totalMes || 0),*/
     (v2m.importeBruto || 0) - (v1m.importeBruto || 0),
   (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
   (v2m.descuento || 0) - (v1m.descuento || 0),
   (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
   (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0),
   (v2m.alicuotas || 0) - (v1m.alicuotas || 0),
-  (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0)
+  (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0),
+    sumaDiferencias
+  
 ];
 
 
