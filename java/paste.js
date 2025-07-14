@@ -1118,6 +1118,11 @@ const resumen = [
         limpiarNumero(d1.at(-1)?.inflacionAcumulativa),
         limpiarNumero(d2.at(-1)?.inflacionAcumulativa)],
 
+    ['Importe Bruto Total',
+    suma(d1, 'importeBruto'),
+    suma(d2, 'importeBruto')],
+ 
+
      ['Importe Bruto Total',
     suma(d1, 'importeBruto'),
     suma(d2, 'importeBruto')],
@@ -1170,13 +1175,16 @@ ws.addRow([
   'Mes',
 
   // Bloque V1
-  'Mes (V1)', 'Año (V1)', 'Fecha (V1)', 'Total Mes (V1)', 'Inflación Acum. (V1)', 'Descuento (V1)', 'Penalización (V1)', 'Agua (V1)', 'Luz (V1)', 'Mantenimiento (V1)',
+  'Mes (V1)', 'Año (V1)', 'Fecha (V1)', 'Total Mes (V1)',   'Importe Bruto (V1)',
+'Inflación Acum. (V1)', 'Descuento (V1)', 'Penalización (V1)', 'Agua (V1)', 'Luz (V1)', 'Mantenimiento (V1)',
 
   // Bloque V2
-  'Mes (V2)', 'Año (V2)', 'Fecha (V2)', 'Total Mes (V2)', 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
+  'Mes (V2)', 'Año (V2)', 'Fecha (V2)', 'Total Mes (V2)',  'Importe Bruto (V2)',
+ 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
 
   // Bloque DIF
-  'Diferencia Total Mensual', 'Diferencia Inflación', 'Diferencia Descuento',
+  'Diferencia Total Mensual',   'Diferencia Importe Bruto',
+'Diferencia Inflación', 'Diferencia Descuento',
   'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento'
 ]);
 
@@ -1232,6 +1240,7 @@ const row = [
   // Bloque V1
   mesV1, anioV1, fechaStrV1,
   v1m.totalMes || 0,
+  v1m.importeBruto || 0,
   v1m.inflacionAcumulativa || 0,
   v1m.descuento || 0,
   v1m.penalizacion || 0,
@@ -1242,6 +1251,7 @@ const row = [
   // Bloque V2
   mesV2, anioV2, fechaStrV2,
   v2m.totalMes || 0,
+    v2m.importeBruto || 0,
   v2m.inflacionAcumulativa || 0,
   v2m.descuento || 0,
   v2m.penalizacion || 0,
@@ -1251,6 +1261,7 @@ const row = [
 
   // Diferencias
   (v2m.totalMes || 0) - (v1m.totalMes || 0),
+    (v2m.importeBruto || 0) - (v1m.importeBruto || 0),
   (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
   (v2m.descuento || 0) - (v1m.descuento || 0),
   (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
