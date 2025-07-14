@@ -835,6 +835,11 @@ document.getElementById('comparar-valuaciones').addEventListener('click', functi
                     <th>Total Mes (V1)</th>
                     <th>Total Mes (V2)</th>
                     <th>Diferencia</th>
+
+                    <th>Importe Bruto (V1)</th>
+                    <th>Importe Bruto (V2)</th>
+                    <th>Diferencia</th>
+
                     <th>Inflación Acum. (V1)</th>
                     <th>Inflación Acum. (V2)</th>
                     <th>Diferencia</th>
@@ -863,6 +868,8 @@ const totalizador = (arr, campo) => arr.reduce((a, b) => a + (b?.[campo] || 0), 
 
 const totV1 = {
     totalMes: totalizador(d1, 'totalMes'),
+    importeBruto: totalizador(d1, 'importeBruto'),
+
     inflacion: totalizador(d1, 'inflacionAcumulativa'),
     descuento: totalizador(d1, 'descuento'),
     penalizacion: totalizador(d1, 'penalizacion'),
@@ -873,6 +880,8 @@ const totV1 = {
 
 const totV2 = {
     totalMes: totalizador(d2, 'totalMes'),
+    importeBruto: totalizador(d2, 'importeBruto'),
+
     inflacion: totalizador(d2, 'inflacionAcumulativa'),
     descuento: totalizador(d2, 'descuento'),
     penalizacion: totalizador(d2, 'penalizacion'),
@@ -891,6 +900,10 @@ const totV2 = {
 
         const td1 = v1m.totalMes || 0;
         const td2 = v2m.totalMes || 0;
+        
+        const ib1 = v1m.importeBruto || 0;
+        const ib2 = v2m.importeBruto || 0;
+
         const ia1 = v1m.inflacionAcumulativa || 0;
         const ia2 = v2m.inflacionAcumulativa || 0;
         const de1 = v1m.descuento || 0;
@@ -905,6 +918,11 @@ const totV2 = {
                 <td>${formatea(td1)}</td>
                 <td>${formatea(td2)}</td>
                 <td>${formatea(td2 - td1)}</td>
+
+                <td>${formatea(ib1)}</td>
+                <td>${formatea(ib2)}</td>   
+                <td>${formatea(ib2 - ib1)}</td>
+
 
                 <td>${formatea(ia1)}</td>
                 <td>${formatea(ia2)}</td>
@@ -948,6 +966,11 @@ html += `
     <td>${formatea(totV1.totalMes)}</td>
     <td>${formatea(totV2.totalMes)}</td>
     <td>${formatea(totV2.totalMes - totV1.totalMes)}</td>
+
+<td>${formatea(totV1.importeBruto)}</td>
+<td>${formatea(totV2.importeBruto)}</td>
+<td>${formatea(totV2.importeBruto - totV1.importeBruto)}</td>
+
 
     <td>${formatea(totV1.inflacion)}</td>
     <td>${formatea(totV2.inflacion)}</td>
@@ -1094,6 +1117,11 @@ const resumen = [
     ['Inflación acumulada final',
         limpiarNumero(d1.at(-1)?.inflacionAcumulativa),
         limpiarNumero(d2.at(-1)?.inflacionAcumulativa)],
+
+     ['Importe Bruto Total',
+    suma(d1, 'importeBruto'),
+    suma(d2, 'importeBruto')],
+   
     ['Total Descuento',
         suma(d1, 'descuento'),
         suma(d2, 'descuento')],
