@@ -373,7 +373,7 @@ window.ultimaValuacionCalculada = {
                     
                     
                     /*modificaciones alicuotas */
-                    totalAL1 += row.alicuotas || 0;
+                    totalAL += row.alicuotas || 0;
                     totalAL2 += row.alicuotas2 || 0;
                     totalAL3 += row.alicuotas3 || 0;
 
@@ -399,7 +399,7 @@ window.ultimaValuacionCalculada = {
                         <td>${formatearMoneda(row.montoActualizado)}</td>
                         <td>${formatearMoneda(row.descuento)}</td>
                         <td>${formatearMoneda(row.subtotal)}</td>
-                        <td>${formatearMoneda(row.alicuotas1)}</td>
+                        <td>${formatearMoneda(row.alicuotas)}</td>
                         <td>${formatearMoneda(row.alicuotas2)}</td>
                         <td>${formatearMoneda(row.alicuotas3)}</td>
 
