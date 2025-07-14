@@ -288,12 +288,14 @@ window.ultimaValuacionCalculada = {
             });
             
             // Función para formatear los números como moneda
-            function formatearMoneda(numero) {
-                return numero.toLocaleString('es-MX', { 
-                    minimumFractionDigits: 2, 
-                    maximumFractionDigits: 2 
-                });
-            }
+        function formatearMoneda(valor) {
+        const num = Number(valor);
+        return isNaN(num) ? '$0.00' : num.toLocaleString('es-MX', {
+        style: 'currency',
+        currency: 'MXN'
+        });
+        }
+
             
             // Función para formatear fechas
             function formatearFecha(fecha) {
@@ -342,10 +344,15 @@ window.ultimaValuacionCalculada = {
                 let totalIB = 0;
 				let totalBrutoProrrateado = 0;
 
+/*aqui se inicializan */
+                let totalAL1 = 0; // luz
+                let totalAL2 = 0; // mantenimiento
+                let totalAL3 = 0; // agua
+
+
                 let totalMA = 0;
                 let totalAL = 0;
-                let totalAL2 = 0;
-                let totalAL3 = 0;
+               
                 let totalIM = 0;
                 let totalIA = 0;
                 let totalPE = 0;
@@ -363,9 +370,13 @@ window.ultimaValuacionCalculada = {
 					totalBrutoProrrateado += row.importeBrutoProrrateado;
 
                     totalMA += row.montoActualizado;
-                    totalAL += row.alicuotas;
-                    totalAL += row.alicuotas2;
-                    totalAL += row.alicuotas3;
+                    
+                    
+                    /*modificaciones alicuotas */
+                    totalAL1 += row.alicuotas || 0;
+                    totalAL2 += row.alicuotas2 || 0;
+                    totalAL3 += row.alicuotas3 || 0;
+
                     totalIM += row.impuestoSobreMonto;
                     totalIA += row.impuestoSobreAlicuotas;
                     totalPE += row.penalizacion;
@@ -388,7 +399,7 @@ window.ultimaValuacionCalculada = {
                         <td>${formatearMoneda(row.montoActualizado)}</td>
                         <td>${formatearMoneda(row.descuento)}</td>
                         <td>${formatearMoneda(row.subtotal)}</td>
-                        <td>${formatearMoneda(row.alicuotas)}</td>
+                        <td>${formatearMoneda(row.alicuotas1)}</td>
                         <td>${formatearMoneda(row.alicuotas2)}</td>
                         <td>${formatearMoneda(row.alicuotas3)}</td>
 
