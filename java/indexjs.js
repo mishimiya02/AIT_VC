@@ -160,7 +160,7 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
     const agua = porcentajeAgua * subtotal;
 /*alicuotas+ali1+ali2*/
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
-    const impuestoSobreAlicuotas = (alicuotas + alicuotas2 + alicuotas3) * 0.16;
+    const impuestoSobreAlicuotas = (alicuotas + mantenimiento+agua) * 0.16;
     const esMesPenalizacion = mesesPenalizacion.includes(i + 1);
     const penalizacion = (mesesPenalizacion.length > 0 && esMesPenalizacion) ? porcentajePenalizaciones * importeBrutoActualizado : 0;
     const totalMes = subtotal + alicuotas + mantenimiento + agua + impuestoSobreMonto + impuestoSobreAlicuotas + penalizacion;

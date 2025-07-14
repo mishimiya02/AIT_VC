@@ -163,13 +163,9 @@ const diasDelMes = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0
 
 const alicuotas = porcentajeAlicuotas * subtotal;
 
-const alicuotas2 = aplicarMantenimientoCompleto
-    ? porcentajeAlicuotas2 * subtotal
-    : porcentajeAlicuotas2 * subtotal * (diasVigencia / diasDelMes);
+const alicuotas2 = importeBrutoProrrateado * porcentajeAlicuotas2;
+const alicuotas3 = importeBrutoProrrateado * porcentajeAlicuotas3;
 
-const alicuotas3 = aplicarAguaCompleto
-    ? porcentajeAlicuotas3 * subtotal
-    : porcentajeAlicuotas3 * subtotal * (diasVigencia / diasDelMes);
 
 
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
