@@ -1122,10 +1122,6 @@ const resumen = [
     suma(d1, 'importeBruto'),
     suma(d2, 'importeBruto')],
  
-
-     ['Importe Bruto Total',
-    suma(d1, 'importeBruto'),
-    suma(d2, 'importeBruto')],
    
     ['Total Descuento',
         suma(d1, 'descuento'),
