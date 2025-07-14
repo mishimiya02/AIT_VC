@@ -1012,13 +1012,13 @@ const resumen = [
     ['Total Penalización',
         suma(d1, 'penalizacion'),
         suma(d2, 'penalizacion')],
-    ['Total Luz (alicuotas)',
+    ['Total Luz ',
         suma(d1, 'alicuotas'),
         suma(d2, 'alicuotas')],
-    ['Total Mantenimiento (alicuotas2)',
+    ['Total Mantenimiento',
         suma(d1, 'alicuotas2'),
         suma(d2, 'alicuotas2')],
-    ['Total Agua (alicuotas3)',
+    ['Total Agua ',
         suma(d1, 'alicuotas3'),
         suma(d2, 'alicuotas3')]
 ];
