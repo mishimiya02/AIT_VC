@@ -1202,7 +1202,7 @@ ws.addRow([
 /*'Diferencia Total Mensual',*/   'Diferencia Importe Bruto',
 'Diferencia Inflación', 'Diferencia Descuento',
   'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento',
-  'Diferencia Total (Bruto + Servicios)'
+  'Diferencia Total (Bruto + Servicios)','Diferencia Total (Bruto + Servicios)'
 
   
 ]);
