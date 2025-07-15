@@ -1254,8 +1254,7 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
         'INFLACIÓN ACUM. (V2)', 'DESCUENTO (V2)', 'PENALIZACIÓN (V2)', 
         'AGUA (V2)', 'LUZ (V2)', 'MANTENIMIENTO (V2)',
         // Diferencias
-        'DIF. IMPORTE BRUTO', 'DIF. INFLACIÓN', 'DIF. DESCUENTO',
-        'DIF. PENALIZACIÓN', 'DIF. AGUA', 'DIF. LUZ', 'DIF. MANTENIMIENTO',
+        'DIF. IMPORTE BRUTO', 'DIF. AGUA', 'DIF. LUZ', 'DIF. MANTENIMIENTO',
         'DIF. TOTAL (BRUTO + SERVICIOS)'
     ]);
 
@@ -1309,9 +1308,7 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
             v2m.alicuotas2 || 0,
             // Diferencias
             difImporteBruto,
-            (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
-            (v2m.descuento || 0) - (v1m.descuento || 0),
-            (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
+           
             difAgua,
             difLuz,
             difMantenimiento,
