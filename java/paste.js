@@ -1096,7 +1096,6 @@ function limpiarNumero(str) {
 
 
 /*Aqui empieza la exportacion  */
-
 document.getElementById('exportar-comparacion-excel').addEventListener('click', async function () {
     const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
     if (valuaciones.length < 2) {
@@ -1142,6 +1141,21 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
 
     const highlightStyle = {
         fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF2F2F2' } }
+    };
+
+    const totalStyle = {
+        font: { bold: true },
+        fill: {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFD9D9D9' }
+        },
+        border: {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+        }
     };
 
     // Título principal
@@ -1263,6 +1277,12 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
     });
 
     // Datos detallados
+    // Objeto para acumular totales por columna (5 a 13)
+    const totalesColumnas = {};
+    for (let col = 5; col <= 13; col++) {
+        totalesColumnas[col] = 0;
+    }
+
     for (let i = 0; i < longitud; i++) {
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
@@ -1308,12 +1328,16 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
             v2m.alicuotas2 || 0,
             // Diferencias
             difImporteBruto,
-           
             difAgua,
             difLuz,
             difMantenimiento,
             sumaDiferencias
         ]);
+
+        // Acumular totales para columnas 5-13
+        for (let col = 5; col <= 13; col++) {
+            totalesColumnas[col] += parseFloat(row.getCell(col).value) || 0;
+        }
 
         // Aplicar estilos a la fila
         row.eachCell((cell, colNumber) => {
@@ -1327,6 +1351,22 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
                 Object.assign(cell, highlightStyle);
             }
         });
+    }
+
+    // Agregar fila de totales al final
+    const filaTotales = ws.addRow([]);
+    filaTotales.getCell(1).value = 'TOTALES';
+    Object.assign(filaTotales.getCell(1), {
+        font: { bold: true },
+        alignment: { horizontal: 'right' }
+    });
+
+    // Llenar totales para columnas 5-13
+    for (let col = 5; col <= 13; col++) {
+        const cell = filaTotales.getCell(col);
+        cell.value = totalesColumnas[col];
+        Object.assign(cell, currencyStyle);
+        Object.assign(cell, totalStyle);
     }
 
     // Ajustar anchos de columnas automáticamente
