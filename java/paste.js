@@ -1276,10 +1276,13 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
         Object.assign(cell, headerStyle);
     });
 
+    // Determinar la última columna numérica (basado en los encabezados)
+    const ultimaColumnaNumerica = detailHeaders.cellCount;
+
     // Datos detallados
-    // Objeto para acumular totales por columna (5 a 13)
+    // Objeto para acumular totales por columna (desde la 5 hasta la última)
     const totalesColumnas = {};
-    for (let col = 5; col <= 13; col++) {
+    for (let col = 5; col <= ultimaColumnaNumerica; col++) {
         totalesColumnas[col] = 0;
     }
 
@@ -1334,9 +1337,10 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
             sumaDiferencias
         ]);
 
-        // Acumular totales para columnas 5-13
-        for (let col = 5; col <= 13; col++) {
-            totalesColumnas[col] += parseFloat(row.getCell(col).value) || 0;
+        // Acumular totales para todas las columnas numéricas (5 hasta la última)
+        for (let col = 5; col <= ultimaColumnaNumerica; col++) {
+            const cellValue = parseFloat(row.getCell(col).value) || 0;
+            totalesColumnas[col] += cellValue;
         }
 
         // Aplicar estilos a la fila
@@ -1361,8 +1365,8 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
         alignment: { horizontal: 'right' }
     });
 
-    // Llenar totales para columnas 5-13
-    for (let col = 5; col <= 13; col++) {
+    // Llenar totales para todas las columnas numéricas
+    for (let col = 5; col <= ultimaColumnaNumerica; col++) {
         const cell = filaTotales.getCell(col);
         cell.value = totalesColumnas[col];
         Object.assign(cell, currencyStyle);
