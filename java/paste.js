@@ -1095,8 +1095,7 @@ function limpiarNumero(str) {
 
 
 
-
-
+/*Aqui empieza la exportacion  */
 
 document.getElementById('exportar-comparacion-excel').addEventListener('click', async function () {
     const valuaciones = JSON.parse(localStorage.getItem('valuaciones')) || [];
@@ -1113,204 +1112,254 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
     const wb = new ExcelJS.Workbook();
     const ws = wb.addWorksheet('Comparación');
 
-    // Encabezado
-    ws.mergeCells('A1:M1');
-    ws.getCell('A1').value = 'Comparación de Valuaciones';
-    ws.getCell('A1').font = { size: 16, bold: true };
-    ws.getCell('A1').alignment = { horizontal: 'center' };
+    // Estilos reutilizables
+    const headerStyle = {
+        font: { bold: true, color: { argb: 'FFFFFFFF' }, size: 12 },
+        fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF0070C0' } },
+        border: {
+            top: { style: 'thin', color: { argb: 'FF000000' } },
+            left: { style: 'thin', color: { argb: 'FF000000' } },
+            bottom: { style: 'thin', color: { argb: 'FF000000' } },
+            right: { style: 'thin', color: { argb: 'FF000000' } }
+        },
+        alignment: { horizontal: 'center', vertical: 'middle', wrapText: true }
+    };
 
-    // Subtítulo
-ws.mergeCells('A2:M2');
-ws.getCell('A2').value = 'Cálculo de retroactivos';
-ws.getCell('A2').font = { size: 12, italic: true };
-ws.getCell('A2').alignment = { horizontal: 'center' };
+    const titleStyle = {
+        font: { bold: true, size: 16, color: { argb: 'FF000000' } },
+        alignment: { horizontal: 'center', vertical: 'middle' }
+    };
 
+    const subtitleStyle = {
+        font: { italic: true, size: 12, color: { argb: 'FF000000' } },
+        alignment: { horizontal: 'center', vertical: 'middle' }
+    };
+
+    const currencyStyle = {
+        numFmt: '"$"#,##0.00',
+        alignment: { horizontal: 'right' }
+    };
+
+    const highlightStyle = {
+        fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFF2F2F2' } }
+    };
+
+    // Título principal
+    ws.mergeCells('A1:W1');
+    const titleCell = ws.getCell('A1');
+    titleCell.value = 'COMPARACIÓN DE VALUACIONES DE CONTRATO';
+    Object.assign(titleCell, titleStyle);
+
+    // Subtítulos informativos
+    ws.mergeCells('A2:W2');
+    const subtitleCell = ws.getCell('A2');
+    subtitleCell.value = `"${v1.nombre}" (${v1.contrato}) vs "${v2.nombre}" (${v2.contrato})`;
+    Object.assign(subtitleCell, subtitleStyle);
+
+    ws.mergeCells('A3:W3');
+    const dateCell = ws.getCell('A3');
+    dateCell.value = `Generado el ${new Date().toLocaleDateString('es-MX', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    })}`;
+    Object.assign(dateCell, subtitleStyle);
 
     // Resumen general
-    ws.addRow([]);
-    ws.addRow(['Campo', 'Valuación 1', 'Valuación 2', 'Diferencia']);
-
-const limpiarNumero = str => Number((str || '').toString().replace(/[^0-9.-]+/g, '')) || 0;
-
-const resumen = [
-    ['Total Acumulado', limpiarNumero(v1.total), limpiarNumero(v2.total)],
-    ['Inflación acumulada final',
-        limpiarNumero(d1.at(-1)?.inflacionAcumulativa),
-        limpiarNumero(d2.at(-1)?.inflacionAcumulativa)],
-
-    ['Importe Bruto Total',
-    suma(d1, 'importeBruto'),
-    suma(d2, 'importeBruto')],
- 
-   
-    ['Total Descuento',
-        suma(d1, 'descuento'),
-        suma(d2, 'descuento')],
-    ['Total Penalización',
-        suma(d1, 'penalizacion'),
-        suma(d2, 'penalizacion')],
-    ['Total Luz ',
-        suma(d1, 'alicuotas'),
-        suma(d2, 'alicuotas')],
-    ['Total Mantenimiento',
-        suma(d1, 'alicuotas2'),
-        suma(d2, 'alicuotas2')],
-    ['Total Agua ',
-        suma(d1, 'alicuotas3'),
-        suma(d2, 'alicuotas3')]
-];
-
-
-resumen.forEach(([campo, v1val, v2val]) => {
-    const n1 = parseFloat(v1val) || 0;
-    const n2 = parseFloat(v2val) || 0;
-    const dif = n2 - n1;
-
-    const row = ws.addRow([campo, n1, n2, dif]);
-
-    // Aplicar formato moneda y alineación derecha
-    row.eachCell((cell, colNumber) => {
-        if (colNumber > 1) {
-            cell.numFmt = '"$"#,##0.00';
-            cell.alignment = { horizontal: 'right' };
-        } else {
-            cell.font = { bold: true };
-        }
-        cell.border = {
-            top: { style: 'thin' },
-            left: { style: 'thin' },
-            bottom: { style: 'thin' },
-            right: { style: 'thin' }
-        };
+    ws.mergeCells('A5:W5');
+    const summaryTitle = ws.getCell('A5');
+    summaryTitle.value = 'RESUMEN GENERAL';
+    Object.assign(summaryTitle, {
+        font: { bold: true, size: 14, color: { argb: 'FFFFFFFF' } },
+        fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF44546A' } },
+        alignment: { horizontal: 'center' }
     });
-});
 
-    // Tabla comparativa por mes
-    ws.addRow([]);
-ws.addRow([
-  'Mes',
-
-  // Bloque V1
-  'Mes (V1)', 'Año (V1)', 'Fecha (V1)', 'Total Mes (V1)',   'Importe Bruto (V1)',
-'Inflación Acum. (V1)', 'Descuento (V1)', 'Penalización (V1)', 'Agua (V1)', 'Luz (V1)', 'Mantenimiento (V1)',
-
-  // Bloque V2
-  'Mes (V2)', 'Año (V2)', 'Fecha (V2)', 'Total Mes (V2)',  'Importe Bruto (V2)',
- 'Inflación Acum. (V2)', 'Descuento (V2)', 'Penalización (V2)', 'Agua (V2)', 'Luz (V2)', 'Mantenimiento (V2)',
-
-  // Bloque DIF
-/*'Diferencia Total Mensual',*/   'Diferencia Importe Bruto',
-'Diferencia Inflación', 'Diferencia Descuento',
-  'Diferencia Penalización', 'Diferencia Agua', 'Diferencia Luz', 'Diferencia Mantenimiento',
-  'Diferencia Total (Bruto + Servicios)'
-
-  
-]);
-
-
-
-/*estilos*/
-const headerRow = ws.lastRow;
-
-headerRow.eachCell(cell => {
-    cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF004C99' } // azul fuerte
-    };
-    cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-    cell.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-    };
-});
-
-ws.columns.forEach(col => {
-    let max = 0;
-    col.eachCell(c => {
-        if (c.value) max = Math.max(max, c.value.toString().length);
+    // Encabezados de resumen
+    const summaryHeaders = ws.addRow(['INDICADOR', 'VALUACIÓN 1', 'VALUACIÓN 2', 'DIFERENCIA']);
+    summaryHeaders.eachCell(cell => {
+        Object.assign(cell, headerStyle);
     });
-    col.width = max + 2;
-});
 
+    // Datos de resumen
+    const limpiarNumero = str => Number((str || '').toString().replace(/[^0-9.-]+/g, '')) || 0;
 
+    const resumen = [
+        ['TOTAL ACUMULADO', limpiarNumero(v1.total), limpiarNumero(v2.total)],
+        ['IMPORTE BRUTO TOTAL', suma(d1, 'importeBruto'), suma(d2, 'importeBruto')],
+        ['INFLACIÓN ACUMULADA FINAL', 
+            limpiarNumero(d1.at(-1)?.inflacionAcumulativa), 
+            limpiarNumero(d2.at(-1)?.inflacionAcumulativa)],
+        ['TOTAL DESCUENTO', suma(d1, 'descuento'), suma(d2, 'descuento')],
+        ['TOTAL PENALIZACIÓN', suma(d1, 'penalizacion'), suma(d2, 'penalizacion')],
+        ['TOTAL LUZ', suma(d1, 'alicuotas'), suma(d2, 'alicuotas')],
+        ['TOTAL MANTENIMIENTO', suma(d1, 'alicuotas2'), suma(d2, 'alicuotas2')],
+        ['TOTAL AGUA', suma(d1, 'alicuotas3'), suma(d2, 'alicuotas3')]
+    ];
+
+    resumen.forEach(([campo, v1val, v2val], index) => {
+        const n1 = parseFloat(v1val) || 0;
+        const n2 = parseFloat(v2val) || 0;
+        const dif = n2 - n1;
+
+        const row = ws.addRow([campo, n1, n2, dif]);
+        
+        // Aplicar estilos
+        row.eachCell((cell, colNumber) => {
+            if (colNumber === 1) {
+                cell.font = { bold: true };
+            } else {
+                Object.assign(cell, currencyStyle);
+            }
+            
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+            
+            // Resaltar filas alternas
+            if (index % 2 === 0) {
+                Object.assign(cell, highlightStyle);
+            }
+        });
+    });
+
+    // Espacio antes de la tabla detallada
+    ws.addRow([]);
+    ws.addRow([]);
+
+    // Título de tabla detallada
+    ws.mergeCells('A10:W10');
+    const detailTitle = ws.getCell('A10');
+    detailTitle.value = 'COMPARACIÓN DETALLADA MES POR MES';
+    Object.assign(detailTitle, {
+        font: { bold: true, size: 14, color: { argb: 'FFFFFFFF' } },
+        fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF44546A' } },
+        alignment: { horizontal: 'center' }
+    });
+
+    // Encabezados de tabla detallada
+    const detailHeaders = ws.addRow([
+        'MES',
+        // Bloque V1
+        'MES (V1)', 'AÑO (V1)', 'FECHA (V1)', 'TOTAL MES (V1)', 'IMPORTE BRUTO (V1)',
+        'INFLACIÓN ACUM. (V1)', 'DESCUENTO (V1)', 'PENALIZACIÓN (V1)', 
+        'AGUA (V1)', 'LUZ (V1)', 'MANTENIMIENTO (V1)',
+        // Bloque V2
+        'MES (V2)', 'AÑO (V2)', 'FECHA (V2)', 'TOTAL MES (V2)', 'IMPORTE BRUTO (V2)',
+        'INFLACIÓN ACUM. (V2)', 'DESCUENTO (V2)', 'PENALIZACIÓN (V2)', 
+        'AGUA (V2)', 'LUZ (V2)', 'MANTENIMIENTO (V2)',
+        // Diferencias
+        'DIF. IMPORTE BRUTO', 'DIF. INFLACIÓN', 'DIF. DESCUENTO',
+        'DIF. PENALIZACIÓN', 'DIF. AGUA', 'DIF. LUZ', 'DIF. MANTENIMIENTO',
+        'DIF. TOTAL (BRUTO + SERVICIOS)'
+    ]);
+
+    detailHeaders.eachCell(cell => {
+        Object.assign(cell, headerStyle);
+    });
+
+    // Datos detallados
     for (let i = 0; i < longitud; i++) {
         const v1m = d1[i] || {};
         const v2m = d2[i] || {};
 
-   const fechaV1 = v1m.fecha ? new Date(v1m.fecha) : null;
-const fechaV2 = v2m.fecha ? new Date(v2m.fecha) : null;
+        const fechaV1 = v1m.fecha ? new Date(v1m.fecha) : null;
+        const fechaV2 = v2m.fecha ? new Date(v2m.fecha) : null;
 
-const mesV1 = fechaV1 ? fechaV1.toLocaleString('es-MX', { month: 'long' }) : '';
-const anioV1 = fechaV1 ? fechaV1.getFullYear() : '';
-const fechaStrV1 = fechaV1 ? fechaV1.toLocaleDateString('es-MX') : '';
+        const mesV1 = fechaV1 ? fechaV1.toLocaleString('es-MX', { month: 'short' }).toUpperCase() : '';
+        const anioV1 = fechaV1 ? fechaV1.getFullYear() : '';
+        const fechaStrV1 = fechaV1 ? fechaV1.toLocaleDateString('es-MX') : '';
 
-const mesV2 = fechaV2 ? fechaV2.toLocaleString('es-MX', { month: 'long' }) : '';
-const anioV2 = fechaV2 ? fechaV2.getFullYear() : '';
-const fechaStrV2 = fechaV2 ? fechaV2.toLocaleDateString('es-MX') : '';
+        const mesV2 = fechaV2 ? fechaV2.toLocaleString('es-MX', { month: 'short' }).toUpperCase() : '';
+        const anioV2 = fechaV2 ? fechaV2.getFullYear() : '';
+        const fechaStrV2 = fechaV2 ? fechaV2.toLocaleDateString('es-MX') : '';
 
+        const difImporteBruto = (v2m.importeBruto || 0) - (v1m.importeBruto || 0);
+        const difLuz = (v2m.alicuotas || 0) - (v1m.alicuotas || 0);
+        const difMantenimiento = (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0);
+        const difAgua = (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0);
+        const sumaDiferencias = difImporteBruto + difLuz + difMantenimiento + difAgua;
 
-const difImporteBruto = (v2m.importeBruto || 0) - (v1m.importeBruto || 0);
-const difLuz = (v2m.alicuotas || 0) - (v1m.alicuotas || 0);
-const difMantenimiento = (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0);
-const difAgua = (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0);
-const sumaDiferencias = difImporteBruto + difLuz + difMantenimiento + difAgua;
+        const row = ws.addRow([
+            i + 1,
+            // Bloque V1
+            mesV1, anioV1, fechaStrV1,
+            v1m.totalMes || 0,
+            v1m.importeBruto || 0,
+            v1m.inflacionAcumulativa || 0,
+            v1m.descuento || 0,
+            v1m.penalizacion || 0,
+            v1m.alicuotas3 || 0,
+            v1m.alicuotas || 0,
+            v1m.alicuotas2 || 0,
+            // Bloque V2
+            mesV2, anioV2, fechaStrV2,
+            v2m.totalMes || 0,
+            v2m.importeBruto || 0,
+            v2m.inflacionAcumulativa || 0,
+            v2m.descuento || 0,
+            v2m.penalizacion || 0,
+            v2m.alicuotas3 || 0,
+            v2m.alicuotas || 0,
+            v2m.alicuotas2 || 0,
+            // Diferencias
+            difImporteBruto,
+            (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
+            (v2m.descuento || 0) - (v1m.descuento || 0),
+            (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
+            difAgua,
+            difLuz,
+            difMantenimiento,
+            sumaDiferencias
+        ]);
 
-
-const row = [
-  i + 1,
-
-  // Bloque V1
-  mesV1, anioV1, fechaStrV1,
-  v1m.totalMes || 0,
-  v1m.importeBruto || 0,
-  v1m.inflacionAcumulativa || 0,
-  v1m.descuento || 0,
-  v1m.penalizacion || 0,
-  v1m.alicuotas3 || 0, // Agua
-  v1m.alicuotas || 0,  // Luz
-  v1m.alicuotas2 || 0, // Mantenimiento
-
-  // Bloque V2
-  mesV2, anioV2, fechaStrV2,
-  v2m.totalMes || 0,
-    v2m.importeBruto || 0,
-  v2m.inflacionAcumulativa || 0,
-  v2m.descuento || 0,
-  v2m.penalizacion || 0,
-  v2m.alicuotas3 || 0,
-  v2m.alicuotas || 0,
-  v2m.alicuotas2 || 0,
-
-  // Diferencias
-  /*(v2m.totalMes || 0) - (v1m.totalMes || 0),*/
-    (v2m.importeBruto || 0) - (v1m.importeBruto || 0),
-  (v2m.inflacionAcumulativa || 0) - (v1m.inflacionAcumulativa || 0),
-  (v2m.descuento || 0) - (v1m.descuento || 0),
-  (v2m.penalizacion || 0) - (v1m.penalizacion || 0),
-  (v2m.alicuotas3 || 0) - (v1m.alicuotas3 || 0),
-  (v2m.alicuotas || 0) - (v1m.alicuotas || 0),
-  (v2m.alicuotas2 || 0) - (v1m.alicuotas2 || 0),
-    sumaDiferencias
-  
-];
-
-
-        ws.addRow(row);
+        // Aplicar estilos a la fila
+        row.eachCell((cell, colNumber) => {
+            // Formato de moneda para columnas numéricas
+            if (colNumber >= 5) {
+                Object.assign(cell, currencyStyle);
+            }
+            
+            // Resaltar diferencias importantes
+            if (colNumber >= 22 && Math.abs(cell.value) > 0) {
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: cell.value > 0 ? 'FFC6EFCE' : 'FFFFC7CE' }
+                };
+                cell.font = { bold: true, color: { argb: cell.value > 0 ? 'FF006100' : 'FF9C0006' } };
+            }
+            
+            // Resaltar filas alternas
+            if (i % 2 === 0) {
+                Object.assign(cell, highlightStyle);
+            }
+        });
     }
 
-    // Ajustar columnas
-    ws.columns.forEach(col => {
-        let max = 0;
-        col.eachCell(c => {
-            if (c.value) max = Math.max(max, c.value.toString().length);
+    // Ajustar anchos de columnas automáticamente
+    ws.columns.forEach(column => {
+        let maxLength = 0;
+        column.eachCell({ includeEmpty: true }, cell => {
+            const cellLength = cell.value ? cell.value.toString().length : 0;
+            maxLength = Math.max(maxLength, cellLength);
         });
-        col.width = max + 2;
+        column.width = Math.min(Math.max(maxLength + 2, 10), 30);
     });
 
+    // Congelar paneles (filas de encabezado)
+    ws.views = [{
+        state: 'frozen',
+        ySplit: 10, // Congelar hasta la fila 10 (títulos)
+        activeCell: 'A11'
+    }];
+
+    // Generar y descargar el archivo
     const buffer = await wb.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -1319,7 +1368,7 @@ const row = [
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'comparacion_valuaciones.xlsx';
+    a.download = `Comparación_${v1.contrato}_vs_${v2.contrato}_${new Date().toISOString().slice(0,10)}.xlsx`;
     a.click();
     URL.revokeObjectURL(url);
 
@@ -1327,7 +1376,4 @@ const row = [
         return arr.reduce((a, b) => a + (b[campo] || 0), 0);
     }
 });
-
-
-        });
-		
+})
