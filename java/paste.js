@@ -129,16 +129,13 @@ function calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual) 
 }
 
 		
-
-		
-    // Calcular inflación si es necesario
- // Calcular inflación si es necesario
+// Calcular inflación si es necesario
 let inflacionAplicada = 0;
 
 if (aplicarInflacion && inflacionPorAniversario.length > 0) {
-    // Verifica si estamos en el mes aniversario
-    if ((i + 1) % 12 === 0) {  // cada 12 meses
-        aniversarioActual++; // 1 para año 1, 2 para año 2, etc.
+    // Aplica en mes 13, 25, 37... => índices 12, 24, 36...
+    if ((i + 1) % 12 === 1 && i !== 0) {
+        aniversarioActual++; // sube a 1 en mes 13
         if (aniversarioActual <= inflacionPorAniversario.length) {
             const inflacionAniversario = inflacionPorAniversario[aniversarioActual - 1];
             inflacionAplicada = importeBrutoProrrateado * inflacionAniversario;
@@ -146,6 +143,9 @@ if (aplicarInflacion && inflacionPorAniversario.length > 0) {
         }
     }
 }
+
+		
+   
 
 
 // Calcular el monto actualizado con el importe prorrateado
@@ -1323,16 +1323,6 @@ document.getElementById('exportar-comparacion-excel').addEventListener('click', 
             // Formato de moneda para columnas numéricas
             if (colNumber >= 5) {
                 Object.assign(cell, currencyStyle);
-            }
-            
-            // Resaltar diferencias importantes
-            if (colNumber >= 22 && Math.abs(cell.value) > 0) {
-                cell.fill = {
-                    type: 'pattern',
-                    pattern: 'solid',
-                    fgColor: { argb: cell.value > 0 ? 'FFC6EFCE' : 'FFFFC7CE' }
-                };
-                cell.font = { bold: true, color: { argb: cell.value > 0 ? 'FF006100' : 'FF9C0006' } };
             }
             
             // Resaltar filas alternas
