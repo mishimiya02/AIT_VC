@@ -1,0 +1,146 @@
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 3px solid transparent;
+    border-image: linear-gradient(to right, #ff9100, #ffcc41);
+    border-image-slice: 1;
+}
+
+/* Títulos */
+h1 {
+    text-align: center;
+    color: #003366;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h2 {
+    text-align: center;
+    color: #ff7300;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Formulario */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #00a2ff;
+    font-size: 16px;
+}
+
+input[type="month"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ffe600;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    color: #333;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: #ff9900;
+    box-shadow: 0 0 5px rgba(255, 153, 0, 0.5);
+}
+
+/* Botones */
+button {
+    background-color: #ffa836;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin: 25px auto;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background-color: #ffbb00;
+}
+
+/* Resultados */
+#resultado, #ajuste {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #ffa836;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+#resultado strong, #ajuste strong {
+    color: #ff7300;
+}
+
+/* Botón de recargar */
+.boton-recargar1 {
+    background-color: #ee9b00;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px auto;
+    display: block;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    text-align: center;
+    width: fit-content;
+}
+
+.boton-recargar1:hover {
+    background-color: #ffae00;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 15px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    input[type="month"],
+    input[type="number"] {
+        padding: 10px;
+        font-size: 14px;
+    }
+}

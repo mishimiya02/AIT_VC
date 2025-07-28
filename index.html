@@ -28,14 +28,14 @@
         <div class="dropdown">
             <a  class="dropbtn">Servicios</a>
             <div class="dropdown-content">
-                <a href='/tarifaxdia' target='_blank'>TARIFA PROPORCIONAL</a>
-                <a href='/calcularinflacion' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                 <a href="comparacion.html">Comparación</a>
+                <a href='/tarifaxdia.html' target='_blank'>TARIFA PROPORCIONAL</a>
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion.html' target='_blank'>Comparación</a>
                  <!--<a href="servicio4.html">Servicio 4</a>-->
             </div>
         </div>
         
-        <a href='/contacto'>Contacto</a>
+        <a href='/contacto.html'>Contacto</a>
         <button id="theme-toggle">🌙 Modo Nocturno</button>
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
@@ -176,18 +176,37 @@
                 <label for="alicuotas" class="required-field">Porcentaje energía electrica(%):</label>
                 <input type="number" id="alicuotas" step="0.01" required>
                 <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
+
+                <label>
+                       <br>
+                <input type="checkbox" id="alicuota-luz-completa">
+                     Aplicar porcentaje completo aunque el mes no sea completo
+            </label>
             </div>
+
 
                 <div class="form-group">
          <label for="mantenimiento" class="required-field">Porcentaje para mantenimiento (%):</label>
          <input type="number" id="mantenimiento" step="0.01" required>
         <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-                </div>
+        
+        <label>
+            <br>
+     <input type="checkbox" id="alicuota-mantenimiento-completa">
+        Aplicar porcentaje completo aunque el mes no sea completo
+    </label>       
+  </div>
 
          <div class="form-group">
          <label for="agua" class="required-field">Porcentaje para agua (%):</label>
          <input type="number" id="agua" step="0.01" required>
         <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
+
+        <label>
+       <br>
+        <input type="checkbox" id="alicuota-agua-completa">
+         Aplicar porcentaje completo aunque el mes no sea completo
+             </label>
         </div>
 
 

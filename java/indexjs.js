@@ -155,9 +155,19 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
     }
 
     const subtotal = importeBrutoActualizado - descuento;
-    const alicuotas = porcentajeAlicuotas * subtotal;
-    const mantenimiento = porcentajeMantenimiento * subtotal;
-    const agua = porcentajeAgua * subtotal;
+    
+// Recuperar el estado de los checkboxes
+const aplicarLuzCompleto = document.getElementById('alicuota-luz-completa')?.checked;
+const aplicarMantenimientoCompleto = document.getElementById('alicuota-mantenimiento-completa')?.checked;
+const aplicarAguaCompleto = document.getElementById('alicuota-agua-completa')?.checked;
+
+// Calcular alícuotas según checkboxes
+const alicuotas = (aplicarLuzCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeAlicuotas;
+const mantenimiento = (aplicarMantenimientoCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeMantenimiento;
+const agua = (aplicarAguaCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeAgua;
+
+
+
 /*alicuotas+ali1+ali2*/
     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
     const impuestoSobreAlicuotas = (alicuotas + mantenimiento+agua) * 0.16;
