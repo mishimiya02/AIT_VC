@@ -118,9 +118,6 @@ const aplicarMantenimientoCompleto = document.getElementById('alicuota-mantenimi
 const aplicarAguaCompleto = document.getElementById('alicuota-agua-completa').checked;
 
 
-const importeBrutoProrrateado = aplicarAlicuotaCompleta
-    ? importeBruto  // Usa el importe completo sin prorrateo
-    : calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual);
 
 
 function calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual) {
@@ -128,7 +125,12 @@ function calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual) 
     return (importeBruto / diasDelMes) * diasVigencia;
 }
 
-		
+
+const importeBrutoProrrateado = calcularImporteBrutoProrrateado(importeBruto, diasVigencia, mesActual);
+
+
+
+
 // Calcular inflación si es necesario
 let inflacionAplicada = 0;
 
@@ -161,10 +163,15 @@ const importeBrutoActualizado = importeBrutoProrrateado + inflacionAcumuladaAniv
     const subtotal = importeBrutoActualizado - descuento;
 const diasDelMes = new Date(mesActual.getFullYear(), mesActual.getMonth() + 1, 0).getDate();
 
-const alicuotas = porcentajeAlicuotas * subtotal;
+// Luz
+const alicuotas = (aplicarAlicuotaCompleta ? importeBruto : importeBrutoProrrateado) * porcentajeAlicuotas;
 
-const alicuotas2 = importeBrutoProrrateado * porcentajeAlicuotas2;
-const alicuotas3 = importeBrutoProrrateado * porcentajeAlicuotas3;
+// Mantenimiento
+const alicuotas2 = (aplicarMantenimientoCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeAlicuotas2;
+
+// Agua
+const alicuotas3 = (aplicarAguaCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeAlicuotas3;
+
 
 
 
