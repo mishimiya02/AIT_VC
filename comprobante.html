@@ -4,47 +4,77 @@
   <meta charset="UTF-8">
   <title>Depósito en garantía</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 40px;
     }
 
-    .formulario {
+    h1 {
+      text-align: center;
+      color: #333;
       margin-bottom: 30px;
     }
 
-    label {
+    .formulario {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .formulario label {
       display: block;
-      margin-top: 10px;
-      font-weight: bold;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #555;
     }
 
-    input {
+    .formulario input {
       width: 100%;
-      padding: 5px;
+      padding: 10px;
       margin-top: 5px;
-      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border 0.3s;
     }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
+    .formulario input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .formulario button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      color: white;
       font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
     }
 
-   #pdf-content {
-  display: none;
-  font-size: 12px;
-  color: #000;
-  padding: 20px; /* antes era 40px */
-  border: 1px solid #000;
-  width: 190mm;  /* antes era 210mm */
-  max-width: 100%;
-  box-sizing: border-box;
-}
+    .formulario button:hover {
+      background-color: #0056b3;
+    }
 
+    #pdf-content {
+      display: none;
+      font-size: 12px;
+      color: #000;
+      padding: 20px;
+      width: 190mm;
+      max-width: 100%;
+      box-sizing: border-box;
+      background: white;
+    }
 
     .encabezado {
       display: flex;
@@ -87,7 +117,7 @@
 </head>
 <body>
 
-  <h1>Comprobante de depósito en garantía</h1>
+  <h1>Comprobante de Depósito</h1>
 
   <form class="formulario" onsubmit="generarPDF(event)">
     <label for="campo1">IMPORTE</label>
@@ -161,66 +191,63 @@
       ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. 137411).
     </div>
   </div>
+
   <script>
-// Función para convertir número a letras (simplificada, en pesos)
-function numeroALetras(num) {
-  const UNIDADES = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
-  const DECENAS = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
-  const DIEZ_A_DIECINUEVE = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
-  const CENTENAS = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
+    function numeroALetras(num) {
+      const UNIDADES = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+      const DECENAS = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+      const DIEZ_A_DIECINUEVE = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
+      const CENTENAS = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
 
-  function convertirMenor1000(n) {
-    let output = "";
-    const centenas = Math.floor(n / 100);
-    const decenas = Math.floor((n % 100) / 10);
-    const unidades = n % 10;
+      function convertirMenor1000(n) {
+        let output = "";
+        const centenas = Math.floor(n / 100);
+        const decenas = Math.floor((n % 100) / 10);
+        const unidades = n % 10;
 
-    if (n === 100) return "CIEN";
+        if (n === 100) return "CIEN";
 
-    if (centenas) output += CENTENAS[centenas] + " ";
-    if (n % 100 >= 10 && n % 100 <= 19) {
-      output += DIEZ_A_DIECINUEVE[n % 100 - 10];
-    } else {
-      if (decenas) output += DECENAS[decenas];
-      if (decenas && unidades) output += " Y ";
-      if (unidades && decenas !== 1) output += UNIDADES[unidades];
+        if (centenas) output += CENTENAS[centenas] + " ";
+        if (n % 100 >= 10 && n % 100 <= 19) {
+          output += DIEZ_A_DIECINUEVE[n % 100 - 10];
+        } else {
+          if (decenas) output += DECENAS[decenas];
+          if (decenas && unidades) output += " Y ";
+          if (unidades && decenas !== 1) output += UNIDADES[unidades];
+        }
+
+        return output.trim();
+      }
+
+      function convertirNumero(n) {
+        if (n === 0) return "CERO";
+        if (n >= 1000000) return "UN MILLÓN"; // simplificado
+
+        const miles = Math.floor(n / 1000);
+        const resto = n % 1000;
+        let letras = "";
+
+        if (miles === 1) letras += "MIL ";
+        else if (miles > 1) letras += convertirMenor1000(miles) + " MIL ";
+
+        letras += convertirMenor1000(resto);
+        return letras.trim();
+      }
+
+      const partes = num.toFixed(2).split(".");
+      const entero = parseInt(partes[0]);
+      const centavos = parseInt(partes[1]);
+
+      let resultado = convertirNumero(entero) + " PESOS";
+      if (centavos > 0) {
+        resultado += ` ${centavos}/100 M.N.`;
+      } else {
+        resultado += " 00/100 M.N.";
+      }
+
+      return resultado;
     }
 
-    return output.trim();
-  }
-
-  function convertirNumero(n) {
-    if (n === 0) return "CERO";
-    if (n >= 1000000) return "UN MILLÓN"; // simplificado
-
-    const miles = Math.floor(n / 1000);
-    const resto = n % 1000;
-    let letras = "";
-
-    if (miles === 1) letras += "MIL ";
-    else if (miles > 1) letras += convertirMenor1000(miles) + " MIL ";
-
-    letras += convertirMenor1000(resto);
-    return letras.trim();
-  }
-
-  const partes = num.toFixed(2).split(".");
-  const entero = parseInt(partes[0]);
-  const centavos = parseInt(partes[1]);
-
-  let resultado = convertirNumero(entero) + " PESOS";
-  if (centavos > 0) {
-    resultado += ` ${centavos}/100 M.N.`;
-  } else {
-    resultado += " 00/100 M.N.";
-  }
-
-  return resultado;
-}
-</script>
-
-
-  <script>
     function generarPDF(event) {
       event.preventDefault();
 
@@ -243,8 +270,7 @@ function numeroALetras(num) {
       });
 
       document.getElementById("pdf-val1").textContent = `$${campo1.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-     document.getElementById("pdf-letra").textContent = numeroALetras(campo1);
-
+      document.getElementById("pdf-letra").textContent = numeroALetras(campo1);
       document.getElementById("pdf-val2").textContent = campo2;
       document.getElementById("pdf-val3").textContent = campo3;
       document.getElementById("pdf-val4").textContent = campo4;
@@ -255,10 +281,10 @@ function numeroALetras(num) {
       pdfElement.style.display = "block";
 
       html2pdf().set({
-        margin: 0,
+        margin: 10,
         filename: 'deposito_garantia.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 1.8 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       }).from(pdfElement).save().then(() => {
         pdfElement.style.display = "none";
