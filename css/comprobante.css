@@ -1,3 +1,17 @@
+.logo-izquierdo {
+  width: 100px;
+  height: auto;
+  float: left;
+  margin-top: 0.2cm;
+  margin-left: 0.2cm;
+}
+
+.logo-derecho {
+  position: absolute;
+  top: 1.5cm;  /*  márgenes */
+  left: 1.5cm;
+}
+
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -62,13 +76,15 @@
     background: white;
   }
 
-  .marco-interno {
-  margin: 1.5cm 2cm; /* 1.5 cm arriba y abajo, 2 cm izquierda y derecha */
+.marco-interno {
+  margin: 1.5cm 2cm;
   padding: 2rem;
-  border: 2px solid rgb(255, 255, 255);
+  border: 2px solid #ffffff; /* borde negro como pediste antes */
   box-sizing: border-box;
-  text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  overflow: hidden; /* para limpiar floats */
+  padding-top: 3cm; /* espacio extra para que no se encime con el logo */
 }
 
 
@@ -85,16 +101,16 @@
   }
 
   .marco-interno h2 {
-    color: #2a3f54;
+    color: #000000;
     margin: 1rem 0;
   }
 
-  .fecha {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 1.5rem;
-  }
+.fecha {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
 
   .marco-interno p {
     font-size: 1.1rem;
@@ -104,10 +120,6 @@
   .marco-interno strong {
     color: #1c2c3a;}
 
-    #pdf-wrapper {
-      text-align: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
 
     #pdf-wrapper header {
       margin-bottom: 1rem;
