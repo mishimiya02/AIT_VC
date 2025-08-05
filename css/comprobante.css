@@ -117,7 +117,9 @@
      transition: background-color 0.3s;
          
 }
-
+#theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
 
 
     body {

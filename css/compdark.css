@@ -124,6 +124,9 @@
    
     }
 
+    #theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
 
 
     body, nav, .formulario {
