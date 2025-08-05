@@ -1,4 +1,7 @@
 	/* barra de navegacion */
+  body, nav, .formulario {
+    transition: background-color 1s ease, color 1s ease; /* esto hace que la trancision sea despacito */
+}
 	  .boton-vaciar {
   padding: 20px 30px;
      font-size: 24px;

@@ -124,6 +124,11 @@
    
     }
 
+
+
+    body, nav, .formulario {
+    transition: background-color 1s ease, color 1s ease;
+}
     h1 {
       text-align: center;
       color: #a0a0a0;
