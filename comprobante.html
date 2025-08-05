@@ -52,6 +52,10 @@
     <label for="campo5">OBJETO:</label>
     <input type="text" id="campo5" name="campo5" required>
 
+  
+    <label for="campo6">NUMERO DE MOVIMIENTO:</label>
+    <input type="text" id="campo6" name="campo6" required>
+    
     <button type="submit">📄 Generar PDF</button>
   </form>
 
@@ -107,8 +111,7 @@
     </div>
 
     <div class="nota">
-      ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. 137411).
-    </div>
+      ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).</div>
   </div>
 
   <script>
@@ -167,19 +170,20 @@
       return resultado;
     }
 
-    function generarPDF(event) {
-      event.preventDefault();
+function generarPDF(event) {
+  event.preventDefault();
 
-      const campo1 = parseFloat(document.getElementById("campo1").value);
-      const campo2 = document.getElementById("campo2").value;
-      const campo3 = document.getElementById("campo3").value;
-      const campo4 = document.getElementById("campo4").value;
-      const campo5 = document.getElementById("campo5").value;
+  const campo1 = parseFloat(document.getElementById("campo1").value);
+  const campo2 = document.getElementById("campo2").value;
+  const campo3 = document.getElementById("campo3").value;
+  const campo4 = document.getElementById("campo4").value;
+  const campo5 = document.getElementById("campo5").value;
+  const campo6 = document.getElementById("campo6").value; // Nuevo campo
 
-      if (!campo1 || !campo2 || !campo3 || !campo4 || !campo5) {
-        alert("Por favor completa todos los campos.");
-        return;
-      }
+  if (!campo1 || !campo2 || !campo3 || !campo4 || !campo5 || !campo6) { // Agregamos validación
+    alert("Por favor completa todos los campos.");
+    return;
+  }
 
       const fechaActual = new Date();
       const fechaFormateada = fechaActual.toLocaleDateString('es-MX', {
@@ -187,14 +191,15 @@
         month: '2-digit',
         day: '2-digit'
       });
-
-      document.getElementById("pdf-val1").textContent = `$${campo1.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-      document.getElementById("pdf-letra").textContent = numeroALetras(campo1);
-      document.getElementById("pdf-val2").textContent = campo2;
-      document.getElementById("pdf-val3").textContent = campo3;
-      document.getElementById("pdf-val4").textContent = campo4;
-      document.getElementById("pdf-val5").textContent = campo5;
-      document.getElementById("pdf-fecha").textContent = fechaFormateada;
+      
+  document.getElementById("pdf-val1").textContent = `$${campo1.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+  document.getElementById("pdf-letra").textContent = numeroALetras(campo1);
+  document.getElementById("pdf-val2").textContent = campo2;
+  document.getElementById("pdf-val3").textContent = campo3;
+  document.getElementById("pdf-val4").textContent = campo4;
+  document.getElementById("pdf-val5").textContent = campo5;
+  document.getElementById("pdf-val6").textContent = campo6; // Asignamos el nuevo valor
+  document.getElementById("pdf-fecha").textContent = fechaFormateada;
 
       const pdfElement = document.getElementById("pdf-content");
       pdfElement.style.display = "block";
