@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="stylesheet" href="css/comprobante.css" id="theme-style">
+  <link rel="stylesheet" href="css/compdark.css" id="theme-style">
   <meta charset="UTF-8">
   <title>Depósito en garantía</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+     <script src="theme-switcher comp.js"></script>
 
 </head>
 <body>
@@ -63,7 +64,7 @@
     
     <button type="submit">📄 Generar PDF</button>
     
-		  <button a href="#" onclick="location.reload(); return false; "class="vaciar"></button>
+		  <button a href="#" onclick="location.reload(); return false; "class="vaciar">✈️​VACIAR</button>
     
   </form>
 
@@ -162,7 +163,7 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
     }
     
     return true;
-});
+    });
 
     function numeroALetras(num) {
       const UNIDADES = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
@@ -290,6 +291,34 @@ function generarPDFFinal() {
         pdfElement.style.display = "none";
     });
 }
+
+// Cambio de tema
+  document.getElementById('theme-toggle').addEventListener('click', function() {
+      const themeStyle = document.getElementById('theme-style');
+      const currentTheme = themeStyle.getAttribute('href');
+      const isDark = currentTheme.includes('compdark.css');
+      
+      if(isDark) {
+          themeStyle.setAttribute('href', 'css/comprobante.css');
+          this.textContent = '🌙 Modo Nocturno';
+      } else {
+          themeStyle.setAttribute('href', 'css/compdark.css');
+          this.textContent = '☀️ Modo Diurno';
+      }
+      
+      localStorage.setItem('themePreference', isDark ? 'light' : 'dark');
+  });
+
+  // Cargar tema guardado al iniciar
+  window.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('themePreference');
+      if(savedTheme === 'dark') {
+          document.getElementById('theme-style').setAttribute('href', 'css/compdark.css');
+          document.getElementById('theme-toggle').textContent = '☀️ Modo Diurno';
+      }
+  });
+
+
   </script>
 </body>
 </html>

@@ -1,0 +1,285 @@
+	/* barra de navegacion */
+	  .boton-vaciar {
+  padding: 20px 30px;
+     font-size: 24px;
+ 	text-decoration:none;
+     background-color: #165baf;
+     color: white;
+     border: none;
+     border-radius: 8px;
+     cursor: pointer;
+     transition: background-color 0.3s;
+   }
+   .boton-vaciar:hover {
+     background-color: #80dbff;
+   }
+
+
+ 			nav {
+ 				background-color: #5552e6;
+        padding-left: 0;
+ 				display: flex;
+ 				justify-content: space-between;
+ 				align-items: stretch;
+ 				position: relative;
+ 				height: 100px; /* altura */
+ 			}
+
+          
+ 
+ 			.menu-center {
+ 				display: flex;
+ 				position: absolute;
+ 				left: 50%;
+ 				transform: translateX(-50%);
+ 				height: 100%;
+ 			}
+ 
+ 			nav a {
+ 				color: white;
+ 				font-weight: bold;
+ 				font-size: 25px;
+ 				padding: 0 25px;
+ 				text-decoration: none;
+ 				font-family: 'Segoe UI', sans-serif;
+ 				letter-spacing: 1px;
+ 				text-transform: uppercase;
+ 				/*display: flex;*/
+ 				align-items: center;
+ 				height: 100%;
+ 				transition: all 0.3s;
+                display: flex;
+ 			}
+ 
+ 			nav a:hover {
+ 				background-color: #f7793a;
+ 				color: white;
+ 			}
+ 
+ 			/* Estilos NUEVOS para el dropdown  */
+ 			.dropdown {
+ 				position: relative;
+ 				height: 100%;
+ 				display: flex;
+ 				align-items: center;
+ 			}
+ 
+ 			.dropdown-content {
+ 				display: none;
+ 				position: absolute;
+ 				top: 100%;
+ 				left: 0;
+ 				background-color: white;
+ 				min-width: 200px;
+ 				box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+ 				z-index: 1000;
+ 			}
+ 
+ 			.dropdown-content a {
+ 				padding: 15px 25px;
+ 				color: black;
+ 				font-size: 16px;
+ 				text-transform: uppercase;
+ 				border-bottom: 1px solid #f0f0f0;
+ 			}
+ 
+ 			.dropdown-content a:hover {
+ 				background-color: #dc3545; /* Rojo al hover */
+ 				color: white;
+ 			}
+ 
+ 			.dropdown:hover .dropdown-content {
+ 				display: block;
+ 			}
+ 
+ 			/* Mantener hover azul en el botón principal */
+ 			.dropdown:hover > .dropbtn {
+ 				background-color: #2f517c;
+ 				color: white;
+ 			}
+   h2 {
+             text-align: center;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #000000;
+			 font-size: 17px;
+         }
+#theme-toggle {
+   font-weight: bold;
+     font-size: 17px;
+     background-color: #5552e6;
+     color: white;
+     border: none;
+     cursor: pointer;
+     transition: background-color 0.3s;
+         
+}
+
+
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #212831;
+      margin: 0;
+   
+    }
+
+    h1 {
+      text-align: center;
+      color: #a0a0a0;
+      margin-bottom: 30px;
+    }
+
+    .formulario {
+      max-width: 500px;
+      margin: 0 auto;
+      background: rgb(0, 0, 0);
+      padding: 45px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .formulario label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .formulario input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #251749;
+      border-radius: 8px;
+      transition: border 0.3s;
+    }
+
+    .formulario input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .formulario button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .formulario button:hover {
+      background-color: #0056b3;
+    }
+
+    #pdf-content {
+      display: none;
+      font-size: 12px;
+      color: #000;
+      padding: 20px;
+      width: 190mm;
+      max-width: 100%;
+      box-sizing: border-box;
+      background: white;
+    }
+
+    .encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .encabezado img {
+      height: 60px;
+    }
+
+    .titulo {
+      text-align: center;
+      background: #000;
+      color: white;
+      padding: 10px;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+/* Reemplaza los estilos de .seccion con estos nuevos */
+
+.seccion {
+    margin-top: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.seccion strong {
+    display: inline-block;
+    width: 30%;
+    min-width: 150px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Estilo para subrayar solo los datos del usuario */
+.seccion span {
+    display: inline-block;
+    width: 70%;
+    border-bottom: 1px solid #000; /* Subrayado */
+    padding-bottom: 3px;
+    min-height: 20px;
+    word-break: break-word;
+}
+
+/* Estilo especial para el importe en letra (sin subrayar) */
+#pdf-letra {
+    display: inline-block;
+    width: 70%;
+    border-bottom: 1px solid #000;
+    padding-bottom: 3px;
+    min-height: 20px;
+    text-align: right;
+    margin-left: 30%; /* Igual que los otros campos */
+    word-break: break-word;
+    
+
+
+    font-style: italic;
+}
+
+/* Estilo para la caja del OBJETO */
+#pdf-val5 {
+    display: block;
+    width: 70%;
+    border: 1px solid #000;
+    padding: 8px;
+    margin-top: 5px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    min-height: 40px;
+}
+
+
+
+.qr-container {
+    margin-top: 30px;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px dashed #ccc;
+}
+
+#qr-code {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px;
+    padding: 5px;
+    border: 1px solid #eee;
+}
+
+.qr-caption {
+    font-size: 10px;
+    color: #666;
+    margin-top: 5px;
+}
