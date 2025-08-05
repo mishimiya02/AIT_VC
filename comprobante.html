@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <title>Depósito en garantía</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  
+   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
 </head>
 <body>
 
@@ -104,6 +105,11 @@
       <span id="pdf-val5"></span>
     </div>
 
+    <div class="qr-container">
+    <div id="qr-code"></div>
+    <p class="qr-caption">Código QR de verificación</p>
+  </div>
+
     <div class="seccion">
       <strong>CADENA ORIGINAL:</strong>
       <span>ZX4Jf1Vx... (simulado)</span>
@@ -172,51 +178,78 @@
 
       return resultado;
     }
-
 function generarPDF(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  const campo1 = parseFloat(document.getElementById("campo1").value);
-  const campo2 = document.getElementById("campo2").value;
-  const campo3 = document.getElementById("campo3").value;
-  const campo4 = document.getElementById("campo4").value;
-  const campo5 = document.getElementById("campo5").value;
-  const campo6 = document.getElementById("campo6").value; // Nuevo campo
+    // Obtener valores del formulario
+    const importe = document.getElementById("campo1").value;
+    const razonSocial = document.getElementById("campo2").value;
+    const referencia = document.getElementById("campo4").value;
+    const rfc = document.getElementById("campo3").value;
+    const objeto = document.getElementById("campo5").value;
+    const movimiento = document.getElementById("campo6").value;
 
-  if (!campo1 || !campo2 || !campo3 || !campo4 || !campo5 || !campo6) { // Agregamos validación
-    alert("Por favor completa todos los campos.");
-    return;
-  }
+    // Validar campos
+    if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
+        alert("Por favor completa todos los campos.");
+        return;
+    }
 
-      const fechaActual = new Date();
-      const fechaFormateada = fechaActual.toLocaleDateString('es-MX', {
+    // Formatear fecha
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toLocaleDateString('es-MX', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
-      });
-      
-  document.getElementById("pdf-val1").textContent = `$${campo1.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-  document.getElementById("pdf-letra").textContent = numeroALetras(campo1);
-  document.getElementById("pdf-val2").textContent = campo2;
-  document.getElementById("pdf-val3").textContent = campo3;
-  document.getElementById("pdf-val4").textContent = campo4;
-  document.getElementById("pdf-val5").textContent = campo5;
-  document.getElementById("pdf-val6").textContent = campo6; // Asignamos el nuevo valor
-  document.getElementById("pdf-fecha").textContent = fechaFormateada;
+    });
 
-      const pdfElement = document.getElementById("pdf-content");
-      pdfElement.style.display = "block";
+    // Asignar valores al PDF
+    document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    document.getElementById("pdf-letra").textContent = numeroALetras(parseFloat(importe));
+    document.getElementById("pdf-val2").textContent = razonSocial;
+    document.getElementById("pdf-val3").textContent = rfc;
+    document.getElementById("pdf-val4").textContent = referencia;
+    document.getElementById("pdf-val5").textContent = objeto;
+    document.getElementById("pdf-val6").textContent = movimiento;
+    document.getElementById("pdf-fecha").textContent = fechaFormateada;
 
-      html2pdf().set({
+    // Generar datos para el QR
+    const qrData = `Depósito Garantía\n` +
+                   `Fecha: ${fechaFormateada}\n` +
+                   `Importe: $${importe}\n` +
+                   `Razón Social: ${razonSocial}\n` +
+                   `RFC: ${rfc}\n` +
+                   `Referencia: ${referencia}\n` +
+                   `Movimiento: ${movimiento}`;
+
+    // Generar código QR
+    const qrElement = document.getElementById("qr-code");
+    qrElement.innerHTML = ""; // Limpiar QR previo
+    QRCode.toCanvas(qrData, { width: 120 }, function(error, canvas) {
+        if (error) {
+            console.error("Error al generar QR:", error);
+            qrElement.innerHTML = "<p>Error en QR</p>";
+        } else {
+            qrElement.appendChild(canvas);
+            generarPDFFinal();
+        }
+    });
+}
+
+function generarPDFFinal() {
+    const pdfElement = document.getElementById("pdf-content");
+    pdfElement.style.display = "block";
+
+    html2pdf().set({
         margin: 10,
         filename: 'deposito_garantia.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 1.8 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      }).from(pdfElement).save().then(() => {
+    }).from(pdfElement).save().then(() => {
         pdfElement.style.display = "none";
-      });
-    }
+    });
+}
   </script>
 </body>
 </html>

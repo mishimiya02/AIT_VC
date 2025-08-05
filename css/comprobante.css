@@ -227,6 +227,9 @@
     text-align: right;
     margin-left: 30%; /* Igual que los otros campos */
     word-break: break-word;
+    
+
+
     font-style: italic;
 }
 
@@ -240,4 +243,27 @@
     background-color: #f9f9f9;
     border-radius: 4px;
     min-height: 40px;
+}
+
+
+
+.qr-container {
+    margin-top: 30px;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px dashed #ccc;
+}
+
+#qr-code {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px;
+    padding: 5px;
+    border: 1px solid #eee;
+}
+
+.qr-caption {
+    font-size: 10px;
+    color: #666;
+    margin-top: 5px;
 }
