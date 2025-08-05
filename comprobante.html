@@ -44,8 +44,12 @@
     <label for="campo2">RAZÓN SOCIAL:</label>
     <input type="text" id="campo2" name="campo2" required>
 
-    <label for="campo3">RFC:</label>
-    <input type="text" id="campo3" name="campo3" required>
+<label for="campo3">RFC:</label>
+<input type="text" id="campo3" name="campo3" 
+       pattern="^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$" 
+       title="El RFC debe tener 12 caracteres (personas morales) o 13 caracteres (personas físicas)"
+       maxlength="13"
+       required>
 
     <label for="campo4">CONTRATO O REFERENCIA:</label>
     <input type="text" id="campo4" name="campo4" required>
@@ -59,7 +63,7 @@
     
     <button type="submit">📄 Generar PDF</button>
     
-		  <button a href="#" onclick="location.reload(); return false; "class="vaciar">vaciar</button>
+		  <button a href="#" onclick="location.reload(); return false; "class="vaciar"></button>
     
   </form>
 
@@ -127,6 +131,39 @@
   </div>
 
   <script>
+
+document.getElementById('campo3').addEventListener('input', function(e) {
+    // Eliminar espacios y convertir a mayúsculas
+    let rfc = e.target.value.toUpperCase().replace(/\s/g, '');
+    e.target.value = rfc;
+    
+    // Validar longitud mientras escribe
+    if (rfc.length > 13) {
+        e.target.value = rfc.substring(0, 13);
+    }
+});
+
+// Validación al enviar el formulario
+document.querySelector('.formulario').addEventListener('submit', function(e) {
+    const rfc = document.getElementById('campo3').value;
+    
+    if (rfc.length !== 12 && rfc.length !== 13) {
+        alert('El RFC debe tener 12 caracteres (personas morales) o 13 caracteres (personas físicas)');
+        e.preventDefault();
+        return false;
+    }
+    
+    // Validar formato básico de RFC
+    const rfcPattern = /^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/;
+    if (!rfcPattern.test(rfc)) {
+        alert('Formato de RFC inválido. Ejemplos válidos:\nPersona física: ABC010203XYZ\nPersona moral: ABC010203XY1');
+        e.preventDefault();
+        return false;
+    }
+    
+    return true;
+});
+
     function numeroALetras(num) {
       const UNIDADES = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
       const DECENAS = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
