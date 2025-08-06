@@ -39,6 +39,9 @@
   <h1>Comprobante de Depósito</h1>
 
   <form class="formulario" onsubmit="generarPDF(event)">
+    <label for="fecha">FECHA:</label>
+    <input type="date" id="fecha" name="fecha" required>
+    
     <label for="campo1">IMPORTE</label>
     <input type="number" id="campo1" name="campo1" required>
 
@@ -219,10 +222,12 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
 
       return resultado;
     }
+
 function generarPDF(event) {
     event.preventDefault();
 
     // Obtener valores del formulario
+    const fecha = document.getElementById("fecha").value;
     const importe = document.getElementById("campo1").value;
     const razonSocial = document.getElementById("campo2").value;
     const referencia = document.getElementById("campo4").value;
@@ -231,18 +236,14 @@ function generarPDF(event) {
     const movimiento = document.getElementById("campo6").value;
 
     // Validar campos
-    if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
+    if (!fecha || !importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
         alert("Por favor completa todos los campos.");
         return;
     }
 
-    // Formatear fecha
-    const fechaActual = new Date();
-    const fechaFormateada = fechaActual.toLocaleDateString('es-MX', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    });
+    // Formatear fecha (convertir de YYYY-MM-DD a DD/MM/YYYY)
+    const [year, month, day] = fecha.split('-');
+    const fechaFormateada = `${day}/${month}/${year}`;
 
     // Asignar valores al PDF
     document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
@@ -316,6 +317,10 @@ function generarPDFFinal() {
           document.getElementById('theme-style').setAttribute('href', 'css/compdark.css');
           document.getElementById('theme-toggle').textContent = '☀️ Modo Diurno';
       }
+      
+      // Establecer fecha actual como valor por defecto
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('fecha').value = today;
   });
 
 
