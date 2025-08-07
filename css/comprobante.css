@@ -7,6 +7,71 @@
 }
   
   
+
+
+
+
+
+
+
+  /* Estilos para el formulario */
+  .formulario {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--form-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Estilos para los campos del formulario */
+  .formulario label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .formulario input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  /* Estilo específico para el campo de fecha */
+  .formulario input[type="date"] {
+    padding: 9px;
+  }
+
+  /* Contenedor de botones */
+  .botones-form {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  /* Estilos para el PDF */
+  #pdf-content {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: white;
+    display: none;
+  }
+
+
+
+
+
+
+
+
+
+
   
   /* Estilos para el contenido del PDF */
   #pdf-content {

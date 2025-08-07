@@ -39,6 +39,11 @@
   <h1>Comprobante de Depósito</h1>
 
   <form class="formulario" onsubmit="generarPDF(event)">
+
+  <label for="campo7">FECHA:</label>
+  <input type="date" id="campo7" name="campo7" required>
+
+
     <label for="campo1">IMPORTE</label>
     <input type="number" id="campo1" name="campo1" required>
 
@@ -219,6 +224,7 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
 
       return resultado;
     }
+
 function generarPDF(event) {
     event.preventDefault();
 
@@ -229,21 +235,23 @@ function generarPDF(event) {
     const rfc = document.getElementById("campo3").value;
     const objeto = document.getElementById("campo5").value;
     const movimiento = document.getElementById("campo6").value;
+    const fechaInput = document.getElementById("campo7").value;
 
     // Validar campos
-    if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
+    if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento || !fechaInput) {
         alert("Por favor completa todos los campos.");
         return;
     }
 
-    // Formatear fecha
-    const fechaActual = new Date();
-    const fechaFormateada = fechaActual.toLocaleDateString('es-MX', {
+    // Corregir la conversión de fecha (solución al problema)
+    const partesFecha = fechaInput.split('-');
+    const fechaCorregida = new Date(partesFecha[0], partesFecha[1] - 1, partesFecha[2]);
+    
+    const fechaFormateada = fechaCorregida.toLocaleDateString('es-MX', {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit'
     });
-
     // Asignar valores al PDF
     document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
     document.getElementById("pdf-letra").textContent = numeroALetras(parseFloat(importe));
