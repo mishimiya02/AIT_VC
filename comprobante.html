@@ -43,6 +43,9 @@
   <label for="campo7">FECHA:</label>
   <input type="date" id="campo7" name="campo7" required>
 
+  <label for="campo8">CLAVE DEL TRABAJADOR:</label>
+<input type="text" id="campo8" name="campo8" required>
+
 
     <label for="campo1">IMPORTE</label>
     <input type="number" id="campo1" name="campo1" required>
@@ -134,7 +137,12 @@
 
     <div class="nota">
       ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).</div>
-  </div>
+ 
+      <div class="seccion clave-trabajador">
+  <strong>CLAVE:</strong>
+  <span id="pdf-val7"></span>
+</div>
+    </div>
 
   <script>
 
@@ -236,12 +244,35 @@ function generarPDF(event) {
     const objeto = document.getElementById("campo5").value;
     const movimiento = document.getElementById("campo6").value;
     const fechaInput = document.getElementById("campo7").value;
+     const claveTrabajador = document.getElementById("campo8").value;
 
     // Validar campos
     if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento || !fechaInput) {
         alert("Por favor completa todos los campos.");
         return;
     }
+
+
+ // Validar campos (agregar la validación del nuevo campo)
+    if (!claveTrabajador /* || otros campos */) {
+        alert("Por favor completa todos los campos.");
+        return;
+    }
+
+
+
+    // Definir claves válidas
+    const clavesValidas = ['CLAVE1', 'CLAVE2']; // Reemplaza con tus claves reales
+
+    // Determinar el texto a mostrar
+    const textoClave = clavesValidas.includes(claveTrabajador.toUpperCase()) 
+        ? claveTrabajador 
+        : 'EXTERNO';
+
+    // Asignar valores al PDF (agregar la nueva asignación)
+    document.getElementById("pdf-val7").textContent = textoClave;
+
+
 
     // Corregir la conversión de fecha (solución al problema)
     const partesFecha = fechaInput.split('-');

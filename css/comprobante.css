@@ -1,12 +1,9 @@
-  .clave-trabajador {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 12px;
-  text-align: right;
+.clave-trabajador {
+    margin-top: 20px;
+    font-size: 1.1em;
+    text-align: right;
+    padding-right: 50px;
 }
-  
-  
 
 
 

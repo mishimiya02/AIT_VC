@@ -1,4 +1,12 @@
-	/* barra de navegacion */
+.clave-trabajador {
+    margin-top: 20px;
+    font-size: 1.1em;
+    text-align: right;
+    padding-right: 50px;
+}	
+  
+  
+  /* barra de navegacion */
 	  .boton-vaciar {
   padding: 20px 30px;
      font-size: 24px;
