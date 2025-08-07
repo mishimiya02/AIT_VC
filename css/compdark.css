@@ -1,3 +1,11 @@
+/* Estilo para la cadena original */
+#pdf-cadena {
+  font-size: 0.9em;  /* Tamaño reducido */
+  font-family: 'Courier New', monospace; /* Fuente monoespaciada */
+  letter-spacing: 0.5px; /* Espaciado compacto */
+  word-break: break-all; /* Para evitar desbordamiento */
+}
+
 .nota-clave {
     font-size: 0.8em;
     text-align: right;
