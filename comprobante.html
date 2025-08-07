@@ -39,14 +39,6 @@
   <h1>Comprobante de Depósito</h1>
 
   <form class="formulario" onsubmit="generarPDF(event)">
-
-<label for="campo7">CLAVE DEL TRABAJADOR:</label>
-<input type="text" id="campo7" name="campo7" required>
-
-
-    <label for="fecha">FECHA:</label>
-    <input type="date" id="fecha" name="fecha" required>
-    
     <label for="campo1">IMPORTE</label>
     <input type="number" id="campo1" name="campo1" required>
 
@@ -137,11 +129,7 @@
 
     <div class="nota">
       ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).</div>
-      <div class="clave-trabajador">
-      <strong>CT:</strong>
-      <span id="pdf-val7"></span>
-    </div>
-    </div>
+  </div>
 
   <script>
 
@@ -231,42 +219,30 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
 
       return resultado;
     }
-
 function generarPDF(event) {
     event.preventDefault();
 
     // Obtener valores del formulario
-    const fecha = document.getElementById("fecha").value;
     const importe = document.getElementById("campo1").value;
     const razonSocial = document.getElementById("campo2").value;
     const referencia = document.getElementById("campo4").value;
     const rfc = document.getElementById("campo3").value;
     const objeto = document.getElementById("campo5").value;
     const movimiento = document.getElementById("campo6").value;
-      const claveTrabajador = document.getElementById("campo7").value;
-       const clavesValidas = ["SANDY", "AMAIT"]; // Reemplazar 
-        const mostrarClave = clavesValidas.includes(claveTrabajador.toUpperCase()) ? 
-                        claveTrabajador : "EXTERNO";
-       
 
     // Validar campos
-    if (!fecha || !importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
+    if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
         alert("Por favor completa todos los campos.");
         return;
     }
 
-     if (!claveTrabajador) {
-        alert("Por favor completa la clave del trabajador.");
-        return;
-    }
-
-
-    
-
-
-    // Formatear fecha (convertir de YYYY-MM-DD a DD/MM/YYYY)
-    const [year, month, day] = fecha.split('-');
-    const fechaFormateada = `${day}/${month}/${year}`;
+    // Formatear fecha
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toLocaleDateString('es-MX', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
 
     // Asignar valores al PDF
     document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
@@ -277,7 +253,7 @@ function generarPDF(event) {
     document.getElementById("pdf-val5").textContent = objeto;
     document.getElementById("pdf-val6").textContent = movimiento;
     document.getElementById("pdf-fecha").textContent = fechaFormateada;
-    document.getElementById("pdf-val7").textContent = mostrarClave;
+
     // Generar datos para el QR
     const qrData = `Depósito Garantía\n` +
                    `Fecha: ${fechaFormateada}\n` +
@@ -286,7 +262,6 @@ function generarPDF(event) {
                    `RFC: ${rfc}\n` +
                    `Referencia: ${referencia}\n` +
                    `Movimiento: ${movimiento}`;
-                    `Clave Trabajador: ${claveTrabajador}`;
 
     // Generar código QR
     const qrElement = document.getElementById("qr-code");
@@ -341,10 +316,6 @@ function generarPDFFinal() {
           document.getElementById('theme-style').setAttribute('href', 'css/compdark.css');
           document.getElementById('theme-toggle').textContent = '☀️ Modo Diurno';
       }
-      
-      // Establecer fecha actual como valor por defecto
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById('fecha').value = today;
   });
 
 
