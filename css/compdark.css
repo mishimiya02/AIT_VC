@@ -1,3 +1,31 @@
+#pdf-content {
+    width: 210mm !important; /* Ancho A4 */
+    min-height: 297mm !important; /* Alto A4 */
+    padding: 15mm;
+    box-sizing: border-box;
+    margin: 0 auto;
+    background: white;
+    display: none;
+    overflow: hidden;
+}
+
+#pdf-content {
+  display: none;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#pdf-content {
+  page-break-inside: auto;
+}
+
+.seccion, .nota, .nota-clave {
+  page-break-inside: avoid;
+}
+
+
+
 /* Estilo para la cadena original */
 #pdf-cadena {
   font-size: 0.9em;  /* Tamaño reducido */
