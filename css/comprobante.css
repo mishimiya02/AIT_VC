@@ -1,10 +1,16 @@
 .clave-trabajador {
-    margin-top: 20px;
-    font-size: 1.1em;
+    margin-top: 10px;
+    font-size: 0.9em;
     text-align: right;
-    padding-right: 50px;
+    padding-right: 30px;
+    border: none !important;
+    text-decoration: none !important;
 }
 
+.clave-trabajador strong {
+    font-weight: bold;
+    display: inline;
+}
 
 
 

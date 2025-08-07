@@ -138,9 +138,8 @@
     <div class="nota">
       ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).</div>
  
-      <div class="seccion clave-trabajador">
-  <strong>CLAVE:</strong>
-  <span id="pdf-val7"></span>
+      <div class="nota-clave">
+  CP: <span id="pdf-val7"></span>
 </div>
     </div>
 
@@ -262,7 +261,7 @@ function generarPDF(event) {
 
 
     // Definir claves válidas
-    const clavesValidas = ['CLAVE1', 'CLAVE2']; // Reemplaza con tus claves reales
+    const clavesValidas = ['SANDY', 'AMAIT']; // Reemplaza con tus claves reales
 
     // Determinar el texto a mostrar
     const textoClave = clavesValidas.includes(claveTrabajador.toUpperCase()) 
