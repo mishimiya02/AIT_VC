@@ -1,5 +1,21 @@
-	/* barra de navegacion */
-
+.clave-trabajador {
+  position: absolute;
+  top: 800px;
+  right: 20px;
+  font-size: 12px;
+  text-align: right;
+}	
+  
+  
+  
+  /* barra de navegacion */
+pie-pagina {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 10px;
+    color: #555;
+  }
 
   /* Estilos para el contenido del PDF */
   #pdf-content {
@@ -35,8 +51,8 @@
     text-align: center;
     font-weight: bold;
     font-size: 14px;
-    margin: 10px 0; /* Reducido de 20px */
-    text-decoration: underline;
+    margin: 50px 0; /* Reducido de 20px */
+    
   }
   
   .seccion {

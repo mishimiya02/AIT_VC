@@ -39,6 +39,11 @@
   <h1>Comprobante de Depósito</h1>
 
   <form class="formulario" onsubmit="generarPDF(event)">
+
+<label for="campo7">CLAVE DEL TRABAJADOR:</label>
+<input type="text" id="campo7" name="campo7" required>
+
+
     <label for="fecha">FECHA:</label>
     <input type="date" id="fecha" name="fecha" required>
     
@@ -132,7 +137,11 @@
 
     <div class="nota">
       ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).</div>
-  </div>
+      <div class="clave-trabajador">
+      <strong>CT:</strong>
+      <span id="pdf-val7"></span>
+    </div>
+    </div>
 
   <script>
 
@@ -234,12 +243,26 @@ function generarPDF(event) {
     const rfc = document.getElementById("campo3").value;
     const objeto = document.getElementById("campo5").value;
     const movimiento = document.getElementById("campo6").value;
+      const claveTrabajador = document.getElementById("campo7").value;
+       const clavesValidas = ["SANDY", "AMAIT"]; // Reemplazar 
+        const mostrarClave = clavesValidas.includes(claveTrabajador.toUpperCase()) ? 
+                        claveTrabajador : "EXTERNO";
+       
 
     // Validar campos
     if (!fecha || !importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento) {
         alert("Por favor completa todos los campos.");
         return;
     }
+
+     if (!claveTrabajador) {
+        alert("Por favor completa la clave del trabajador.");
+        return;
+    }
+
+
+    
+
 
     // Formatear fecha (convertir de YYYY-MM-DD a DD/MM/YYYY)
     const [year, month, day] = fecha.split('-');
@@ -254,7 +277,7 @@ function generarPDF(event) {
     document.getElementById("pdf-val5").textContent = objeto;
     document.getElementById("pdf-val6").textContent = movimiento;
     document.getElementById("pdf-fecha").textContent = fechaFormateada;
-
+    document.getElementById("pdf-val7").textContent = mostrarClave;
     // Generar datos para el QR
     const qrData = `Depósito Garantía\n` +
                    `Fecha: ${fechaFormateada}\n` +
@@ -263,6 +286,7 @@ function generarPDF(event) {
                    `RFC: ${rfc}\n` +
                    `Referencia: ${referencia}\n` +
                    `Movimiento: ${movimiento}`;
+                    `Clave Trabajador: ${claveTrabajador}`;
 
     // Generar código QR
     const qrElement = document.getElementById("qr-code");
