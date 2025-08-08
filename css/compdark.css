@@ -28,8 +28,8 @@
 
 .seccion, .nota, .nota-clave {
   page-break-inside: avoid;
+  text-align: center;
 }
-
 
 
 /* Estilo para la cadena original */
@@ -42,7 +42,7 @@
 
 .nota-clave {
     font-size: 0.8em;
-    text-align: right;
+    text-align: center;
     padding-right: 15px;
     margin-top: 2px;
     color: #555;
