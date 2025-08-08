@@ -1,3 +1,13 @@
+
+  #pdf-content .seccion span {
+    display: block;
+    text-align: center;
+  }
+
+
+
+
+
 #pdf-content {
     width: 210mm !important; /* Ancho A4 */
     min-height: 297mm !important; /* Alto A4 */
