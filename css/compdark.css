@@ -36,10 +36,15 @@
 }
 /* Estilo para la cadena original */
 #pdf-cadena {
-  font-size: 0.9em;  /* Tamaño reducido */
+  font-size: 0.9em;                /* Tamaño reducido */
   font-family: 'Courier New', monospace; /* Fuente monoespaciada */
-  letter-spacing: 0.5px; /* Espaciado compacto */
-  word-break: break-all; /* Para evitar desbordamiento */
+  letter-spacing: 0.5px;           /* Espaciado compacto */
+  word-break: break-all;           /* Para evitar desbordamiento */
+  text-align: left;                /* Alineación izquierda */
+  display: block;                  /* Asegura que ocupe su propia línea */
+  width: 100%;                     /* Ocupa todo el ancho disponible */
+  margin: 0;                       /* Elimina márgenes predeterminados */
+  padding: 0;                      /* Elimina relleno predeterminado */
 }
 
 .nota-clave {
@@ -192,6 +197,10 @@
          
 }
 
+
+
+
+/* Estilo para el input de Razón Social */
 
 
     body {

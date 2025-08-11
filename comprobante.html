@@ -59,7 +59,7 @@
     name="campo1" 
     pattern="^\d+(\.\d{1,2})?$" 
     title="Ingresa un número válido con hasta 2 decimales (ejemplo: 1500.50)" 
-    required
+    required>
 
 
     <label for="campo2">RAZÓN SOCIAL:</label>
@@ -263,9 +263,9 @@ function numeroALetras(num) {
     
     // Frase para centavos (ej: "con 50 centavos")
     if (centavos > 0) {
-        resultado += ` con ${numeroALetrasCentavos(centavos)}`;
+        resultado += ` , ${numeroALetrasCentavos(centavos)}`;
     } else {
-        resultado += " con 00 centavos";
+        resultado += " , 00 CENTAVOS";
     }
     return resultado;
 }
