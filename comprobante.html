@@ -227,7 +227,7 @@ function numeroALetras(num) {
     // Asegurar que el número tenga 2 decimales
     const partes = parseFloat(num).toFixed(2).split(".");
     const entero = parseInt(partes[0]);
-    const centavos = parseInt(partes[1]);
+    const CENTAVOS = parseInt(partes[1]);
 
     function convertirMenor1000(n) {
         if (n === 100) return "CIEN";
@@ -262,8 +262,8 @@ function numeroALetras(num) {
     let resultado = convertirNumero(entero) + " PESOS";
     
     // Frase para centavos (ej: "con 50 centavos")
-    if (centavos > 0) {
-        resultado += ` , ${numeroALetrasCentavos(centavos)}`;
+    if (CENTAVOS > 0) {
+        resultado += ` , ${numeroALetrasCentavos(CENTAVOS)}`;
     } else {
         resultado += " , 00 CENTAVOS";
     }
@@ -275,13 +275,13 @@ function numeroALetrasCentavos(n) {
     const UNIDADES = ["", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
     const DECENAS = ["", "DIEZ", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
     
-    if (n < 10) return UNIDADES[n] + " centavos";
+    if (n < 10) return UNIDADES[n] + " CENTAVOS";
     if (n >= 10 && n <= 19) {
         const palabras = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
-        return palabras[n - 10] + " centavos";
+        return palabras[n - 10] + " CENTAVOS";
     }
-    if (n % 10 === 0) return DECENAS[Math.floor(n / 10)] + " centavos";
-    return DECENAS[Math.floor(n / 10)] + " Y " + UNIDADES[n % 10] + " centavos";
+    if (n % 10 === 0) return DECENAS[Math.floor(n / 10)] + " CENTAVOS";
+    return DECENAS[Math.floor(n / 10)] + " Y " + UNIDADES[n % 10] + " CENTAVOS";
 }
 
 
