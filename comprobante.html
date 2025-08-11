@@ -31,7 +31,7 @@
                 <a href='/tarifaxdia.html' target='_blank'>TARIFA PROPORCIONAL</a>
                 <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
                  <a href='/comparacion.html' target='_blank'>Comparación</a>
-                 <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                 <a href="comprobante.html">COMPROBANTE</a>
             </div>
         </div>
         
@@ -90,6 +90,7 @@
         FECHA <br></strong>
        <strong> <span id="pdf-fecha"></span></strong>
       </div>
+      
     </div>
 
     <br>
@@ -149,6 +150,9 @@
       <div class="nota-clave">
         <br><br><br>    <br><br><br>    <br><br><br>
   CP: <span id="pdf-val7"></span>
+   <div style="text-align:right;">
+  
+  </div>
 </div>
     </div>
 
@@ -243,6 +247,22 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
 
 function generarPDF(event) {
     event.preventDefault();
+
+
+ // === Generar folio continuo ===
+    let folioNum = parseInt(localStorage.getItem("folioDG") || "0") + 1;
+    localStorage.setItem("folioDG", folioNum);
+
+    let folioStr = "DG-" + folioNum.toString().padStart(3, "0");
+
+    // Mostrar el folio en el PDF
+    let folioElement = document.createElement("div");
+    folioElement.style.textAlign = "right";
+    folioElement.style.fontWeight = "bold";
+    folioElement.textContent = "Folio: " + folioStr;
+    document.getElementById("pdf-content").prepend(folioElement);
+
+
 
     // Obtener valores del formulario
     const importe = document.getElementById("campo1").value;
@@ -353,7 +373,7 @@ function generarCadenaOriginal() {
 
 
 
-function generarPDFFinal() {
+function generarPDFFinal(folioStr) {
     const { jsPDF } = window.jspdf;
     const pdfElement = document.getElementById("pdf-content");
     pdfElement.style.display = "block";
@@ -363,15 +383,13 @@ function generarPDFFinal() {
         const pdf = new jsPDF("p", "mm", "a4");
 
         const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
         const imgWidth = pageWidth;
         const imgHeight = canvas.height * imgWidth / canvas.width;
 
         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-        pdf.save("deposito_garantia.pdf");
+        pdf.save(`${folioStr}_deposito_garantia.pdf`);
         pdfElement.style.display = "none";
     });
-}
 
 // Cambio de tema
   document.getElementById('theme-toggle').addEventListener('click', function() {
@@ -398,7 +416,7 @@ function generarPDFFinal() {
           document.getElementById('theme-toggle').textContent = '☀️ Modo Diurno';
       }
   });
-
+}
 
   </script>
 </body>
