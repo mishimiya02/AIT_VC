@@ -256,11 +256,12 @@ function generarPDF(event) {
     let folioStr = "DG-" + folioNum.toString().padStart(3, "0");
 
     // Mostrar el folio en el PDF
-    let folioElement = document.createElement("div");
-    folioElement.style.textAlign = "right";
-    folioElement.style.fontWeight = "bold";
-    folioElement.textContent = "Folio: " + folioStr;
-    document.getElementById("pdf-content").prepend(folioElement);
+ let folioElement = document.createElement("div");
+folioElement.style.textAlign = "right";
+folioElement.style.fontWeight = "normal";  // Quitar negritas
+folioElement.style.color = "#999999";     // Color gris claro
+folioElement.textContent = "Folio: " + folioStr;
+document.getElementById("pdf-content").prepend(folioElement);
 
 
 
@@ -295,7 +296,7 @@ function generarPDF(event) {
     // Determinar el texto a mostrar
     const textoClave = clavesValidas.includes(claveTrabajador.toUpperCase()) 
         ? claveTrabajador 
-        : 'EXTERNO';
+        : 'INVALIDO';
 
     // Asignar valores al PDF (agregar la nueva asignación)
     document.getElementById("pdf-val7").textContent = textoClave;
@@ -353,17 +354,20 @@ function generarCadenaOriginal() {
                    `Movimiento: ${movimiento}`;
 
     // Generar código QR
-    const qrElement = document.getElementById("qr-code");
-    qrElement.innerHTML = ""; // Limpiar QR previo
-    QRCode.toCanvas(qrData, { width: 120 }, function(error, canvas) {
-        if (error) {
-            console.error("Error al generar QR:", error);
-            qrElement.innerHTML = "<p>Error en QR</p>";
-        } else {
-            qrElement.appendChild(canvas);
-            generarPDFFinal();
-        }
-    });
+   // Generar código QR
+const qrElement = document.getElementById("qr-code");
+qrElement.innerHTML = ""; // Limpiar QR previo
+QRCode.toCanvas(qrData, { width: 120 }, function(error, canvas) {
+    if (error) {
+        console.error("Error al generar QR:", error);
+        qrElement.innerHTML = "<p>Error en QR</p>";
+    } else {
+        qrElement.appendChild(canvas);
+        // Llamar a generarPDFFinal aquí, pasando el folioStr
+        generarPDFFinal(folioStr);
+    }
+});
+    
 }
 
 
@@ -390,6 +394,7 @@ function generarPDFFinal(folioStr) {
         pdf.save(`${folioStr}_deposito_garantia.pdf`);
         pdfElement.style.display = "none";
     });
+}
 
 // Cambio de tema
   document.getElementById('theme-toggle').addEventListener('click', function() {
@@ -416,7 +421,7 @@ function generarPDFFinal(folioStr) {
           document.getElementById('theme-toggle').textContent = '☀️ Modo Diurno';
       }
   });
-}
+
 
   </script>
 </body>
