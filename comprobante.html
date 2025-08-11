@@ -52,9 +52,15 @@
   <label for="campo8">CLAVE DEL TRABAJADOR:</label>
 <input type="text" id="campo8" name="campo8" required>
 
+<label for="campo1">IMPORTE:</label>
+<input 
+    type="text" 
+    id="campo1" 
+    name="campo1" 
+    pattern="^\d+(\.\d{1,2})?$" 
+    title="Ingresa un número válido con hasta 2 decimales (ejemplo: 1500.50)" 
+    required
 
-    <label for="campo1">IMPORTE</label>
-    <input type="number" id="campo1" name="campo1" required>
 
     <label for="campo2">RAZÓN SOCIAL:</label>
     <input type="text" id="campo2" name="campo2" required>
@@ -190,60 +196,88 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
     return true;
     });
 
-    function numeroALetras(num) {
-      const UNIDADES = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
-      const DECENAS = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
-      const DIEZ_A_DIECINUEVE = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
-      const CENTENAS = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
 
-      function convertirMenor1000(n) {
+
+document.getElementById('campo1').addEventListener('blur', function(e) {
+    const valor = e.target.value.trim();
+    
+    // Validar que sea un número con hasta 2 decimales
+    if (!/^\d+(\.\d{1,2})?$/.test(valor)) {
+        alert("Por favor ingresa un importe válido (ejemplo: 1500.50)");
+        e.target.value = "";
+        e.target.focus();
+        return;
+    }
+    
+    // Formatear a 2 decimales si no los tiene
+    if (!valor.includes('.')) {
+        e.target.value = valor + ".00";
+    } else if (valor.split('.')[1].length === 1) {
+        e.target.value = valor + "0"; // Añade un cero si solo hay un decimal
+    }
+});
+
+
+
+
+
+function numeroALetras(num) {
+    // Asegurar que el número tenga 2 decimales
+    const partes = parseFloat(num).toFixed(2).split(".");
+    const entero = parseInt(partes[0]);
+    const centavos = parseInt(partes[1]);
+
+    // Resto de la función (ya existente)...
+    const UNIDADES = ["", "UNO", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+    const DECENAS = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+    const DIEZ_A_DIECINUEVE = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
+    const CENTENAS = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
+
+    function convertirMenor1000(n) {
+        if (n === 100) return "CIEN";
         let output = "";
         const centenas = Math.floor(n / 100);
         const decenas = Math.floor((n % 100) / 10);
         const unidades = n % 10;
 
-        if (n === 100) return "CIEN";
-
         if (centenas) output += CENTENAS[centenas] + " ";
         if (n % 100 >= 10 && n % 100 <= 19) {
-          output += DIEZ_A_DIECINUEVE[n % 100 - 10];
+            output += DIEZ_A_DIECINUEVE[n % 100 - 10];
         } else {
-          if (decenas) output += DECENAS[decenas];
-          if (decenas && unidades) output += " Y ";
-          if (unidades && decenas !== 1) output += UNIDADES[unidades];
+            if (decenas) output += DECENAS[decenas];
+            if (decenas && unidades) output += " Y ";
+            if (unidades && decenas !== 1) output += UNIDADES[unidades];
         }
-
         return output.trim();
-      }
+    }
 
-      function convertirNumero(n) {
+    function convertirNumero(n) {
         if (n === 0) return "CERO";
-        if (n >= 1000000) return "UN MILLÓN"; // simplificado
-
+        if (n >= 1000000) return "UN MILLÓN"; // Simplificado para el ejemplo
         const miles = Math.floor(n / 1000);
         const resto = n % 1000;
         let letras = "";
-
         if (miles === 1) letras += "MIL ";
         else if (miles > 1) letras += convertirMenor1000(miles) + " MIL ";
-
         letras += convertirMenor1000(resto);
         return letras.trim();
-      }
-
-      const partes = num.toFixed(2).split(".");
-      const entero = parseInt(partes[0]);
-      const centavos = parseInt(partes[1]);
-
-      let resultado = convertirNumero(entero) + " PESOS";
-      if (centavos > 0) {
-        resultado += ` ${centavos}/100 M.N.`;
-      } else {
-        resultado += " 00/100 M.N.";
-      }
-
-      return resultado;
     }
+
+    let resultado = convertirNumero(entero) + " PESOS";
+    if (centavos > 0) {
+        resultado += ` ${centavos}/100 M.N.`;
+    } else {
+        resultado += " 00/100 M.N.";
+    }
+    return resultado;
+}
+
+
+
+
+
+    
+
 
 function generarPDF(event) {
     event.preventDefault();
@@ -266,7 +300,10 @@ document.getElementById("pdf-content").prepend(folioElement);
 
 
     // Obtener valores del formulario
-    const importe = document.getElementById("campo1").value;
+    const importe = parseFloat(document.getElementById("campo1").value).toFixed(2); // Fuerza 2 decimales
+document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+
+
     const razonSocial = document.getElementById("campo2").value;
     const referencia = document.getElementById("campo4").value;
     const rfc = document.getElementById("campo3").value;
