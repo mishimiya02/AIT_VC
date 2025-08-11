@@ -263,9 +263,9 @@ function numeroALetras(num) {
     
     // Frase para centavos (ej: "con 50 centavos")
     if (CENTAVOS > 0) {
-        resultado += ` , ${numeroALetrasCentavos(CENTAVOS)}`;
+        resultado += ` , Y ${numeroALetrasCentavos(CENTAVOS)}`;
     } else {
-        resultado += " , 00 CENTAVOS";
+        resultado += " , Y 00 CENTAVOS";
     }
     return resultado;
 }
