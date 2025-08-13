@@ -161,6 +161,7 @@ const aplicarLuzCompleto = document.getElementById('alicuota-luz-completa')?.che
 const aplicarMantenimientoCompleto = document.getElementById('alicuota-mantenimiento-completa')?.checked;
 const aplicarAguaCompleto = document.getElementById('alicuota-agua-completa')?.checked;
 
+
 // Calcular alícuotas según checkboxes
 const alicuotas = (aplicarLuzCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeAlicuotas;
 const mantenimiento = (aplicarMantenimientoCompleto ? importeBruto : importeBrutoProrrateado) * porcentajeMantenimiento;
