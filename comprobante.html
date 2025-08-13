@@ -296,19 +296,34 @@ function generarPDF(event) {
     event.preventDefault();
 
 
- // === Generar folio continuo ===
+    // Limpiar folios anteriores (si existen)
+    const folioAnterior = document.getElementById("folio-dg");
+    if (folioAnterior) {
+        folioAnterior.remove();
+    }
+
+    // Generar folio continuo
     let folioNum = parseInt(localStorage.getItem("folioDG") || "0") + 1;
     localStorage.setItem("folioDG", folioNum);
-
     let folioStr = "DG-" + folioNum.toString().padStart(3, "0");
 
-    // Mostrar el folio en el PDF
- let folioElement = document.createElement("div");
-folioElement.style.textAlign = "right";
-folioElement.style.fontWeight = "normal";  // Quitar negritas
-folioElement.style.color = "#999999";     // Color gris claro
-folioElement.textContent = "Folio: " + folioStr;
-document.getElementById("pdf-content").prepend(folioElement);
+    // Crear elemento folio con ID único
+    let folioElement = document.createElement("div");
+    folioElement.id = "folio-dg"; // Asignar ID para poder eliminarlo después
+    folioElement.style.textAlign = "right";
+    folioElement.style.fontWeight = "normal";
+    folioElement.style.color = "#999999";
+    folioElement.textContent = "Folio: " + folioStr;
+    
+    // Insertar al inicio del contenido PDF
+    document.getElementById("pdf-content").prepend(folioElement);
+
+
+
+
+
+
+
 
 
 
