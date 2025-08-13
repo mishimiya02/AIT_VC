@@ -357,15 +357,15 @@ document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLoca
 
     
 function generarCadenaOriginal() {
-    const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ234567890/*$#!?¡¿'; // Caracteres válidos (sin 1, 0, O, I)
-    let cadena = 'SAN'; // Inicia con SAN
+    const caracteres = 'ABCabcdeefghijklnmopqrstuvwxyzDEFGHJKLMNPQRSTUVWXYZ234567890/*$#!?¡¿+'; // Caracteres válidos (sin 1, 0, O, I)
+    let cadena = 'S4n'; // Inicia con SAN
     
     // Genera 94 caracteres aleatorios
     for (let i = 0; i < 94; i++) {
         cadena += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
     }
     
-    cadena += 'DY'; // Termina con DY
+    cadena += 'dY'; // Termina con DY
     return cadena;
 }
 
