@@ -217,7 +217,6 @@ document.getElementById('campo1').addEventListener('blur', function(e) {
     }
 });
 
-
 function numeroALetras(num) {
     const UNIDADES = ["", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
     const DECENAS = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
@@ -227,7 +226,7 @@ function numeroALetras(num) {
     // Asegurar que el número tenga 2 decimales
     const partes = parseFloat(num).toFixed(2).split(".");
     const entero = parseInt(partes[0]);
-    const CENTAVOS = parseInt(partes[1]);
+    const centavos = parseInt(partes[1]);
 
     function convertirMenor1000(n) {
         if (n === 100) return "CIEN";
@@ -261,29 +260,11 @@ function numeroALetras(num) {
 
     let resultado = convertirNumero(entero) + " PESOS";
     
-    // Frase para centavos (ej: "con 50 centavos")
-    if (CENTAVOS > 0) {
-        resultado += ` , Y ${numeroALetrasCentavos(CENTAVOS)}`;
-    } else {
-        resultado += " , Y 00 CENTAVOS";
-    }
+    // Formato para centavos: "XX/100 M.N."
+    resultado += ` ${centavos.toString().padStart(2, '0')}/100 M.N.`;
+    
     return resultado;
 }
-
-// Función auxiliar para convertir centavos a letras (ej: 50 → "cincuenta")
-function numeroALetrasCentavos(n) {
-    const UNIDADES = ["", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
-    const DECENAS = ["", "DIEZ", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
-    
-    if (n < 10) return UNIDADES[n] + " CENTAVOS";
-    if (n >= 10 && n <= 19) {
-        const palabras = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISÉIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
-        return palabras[n - 10] + " CENTAVOS";
-    }
-    if (n % 10 === 0) return DECENAS[Math.floor(n / 10)] + " CENTAVOS";
-    return DECENAS[Math.floor(n / 10)] + " Y " + UNIDADES[n % 10] + " CENTAVOS";
-}
-
 
 
 

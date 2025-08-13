@@ -1,174 +1,85 @@
-
-  #pdf-content .seccion span {
+#pdf-content .seccion span {
     display: block;
     text-align: center;
   }
 
-
-
-.clave-trabajador {
-    margin-top: 10px;
-    font-size: 0.9em;
-    text-align: right;
-    padding-right: 30px;
-    border: none !important;
-    text-decoration: none !important;
-}
-
-.clave-trabajador strong {
-    font-weight: bold;
-    display: inline;
-}
-
-
-
-
-
-
-  /* Estilos para el formulario */
-  .formulario {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: var(--form-bg);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  /* Estilos para los campos del formulario */
-  .formulario label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-
-  .formulario input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+#pdf-content {
+    width: 210mm !important; /* Ancho A4 */
+    min-height: 297mm !important; /* Alto A4 */
+    padding: 15mm;
     box-sizing: border-box;
-  }
-
-  /* Estilo específico para el campo de fecha */
-  .formulario input[type="date"] {
-    padding: 9px;
-  }
-
-  /* Contenedor de botones */
-  .botones-form {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-
-  /* Estilos para el PDF */
-  #pdf-content {
-    width: 210mm;
-    min-height: 297mm;
-    padding: 20mm;
     margin: 0 auto;
-    box-sizing: border-box;
     background: white;
     display: none;
-  }
-
-
-
-
-
-
-
-
-
-
-  
-  /* Estilos para el contenido del PDF */
-  #pdf-content {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.4;
-  }
-  
-  .encabezado {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 5px; /* Reducido de 20px */
-  }
-  
-  .encabezado img {
-    height: 60px;
-  }
-  
-  .encabezado div {
-    text-align: right;
-    font-size: 14px;
-  }
-  
-  h2 {
-    text-align: center;
-    font-size: 16px;
-    margin: 5px 0; /* Reducido de 15px */
-  }
-  
-  .titulo {
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    margin: 5px 0; /* Reducido de 20px */
-  
-  }
-  
-  pie-pagina {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    font-size: 10px;
-    color: #555;
-  }
-  .seccion {
-    margin: 8px 0; /* Reducido de 15px */
-    font-size: 12px;
-  }
-  
-  .centro {
-    text-align: center;
-    font-weight: bold;
-    margin: 15px 0; /* Reducido de 25px */
-  }
-  
-  .nota {
-    font-size: 10px;
-    text-align: justify;
-    margin-top: 5px; /* Reducido de 25px */
-  }
-  
-  .qr-container {
-    text-align: center;
-    margin: 5px 0; /* Reducido de 20px */
-  }
-  
-  .qr-caption {
-    font-size: 10px;
-    margin-top: 5px;
-  }
-
-
-
-
-
-
-
-
-
-
-/* barra de navegacion */
-  body, nav, .formulario {
-    transition: background-color 1s ease, color 1s ease; /* esto hace que la trancision sea despacito */
+    overflow: hidden;
 }
+
+#pdf-content {
+  display: none;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#pdf-content {
+  page-break-inside: auto;
+}
+
+.seccion, .nota, .nota-clave {
+  page-break-inside: avoid;
+  text-align: center;
+}
+
+.nota{
+  text-align: center;
+}
+/* Estilo para la cadena original */
+#pdf-cadena {
+  font-size: 1 em;                /* Tamaño reducido */
+  font-family: 'Courier New', monospace; /* Fuente monoespaciada */
+  letter-spacing: 0.5px;           /* Espaciado compacto */
+  word-break: break-all;           /* Para evitar desbordamiento */
+  text-align: left;                /* Alineación izquierda */
+  display: block;                  /* Asegura que ocupe su propia línea */
+  width: 100%;                     /* Ocupa todo el ancho disponible */
+  margin: 0;                       /* Elimina márgenes predeterminados */
+  padding: 0;                      /* Elimina relleno predeterminado */
+}
+
+.nota-clave {
+    font-size: 1 em;
+    text-align: center;
+    padding-right: 15px;
+    margin-top: 2px;
+    color: #555;
+    font-style: italic;
+    border: none;
+    background: none;
+    line-height: 1;
+}
+
+.centro{
+  text-align: center;
+     font-size: 1.1em;
+}
+ .nota {
+    font-size: 1em;
+    text-align: center;
+    padding-right: 15px;
+    margin-top: 2px;
+    color: #000000;
+    font-style: italic;
+    border: none;
+    background: none;
+    line-height: 2;
+    
+}
+
+
+
+
+
+  /* barra de navegacion */
 	  .boton-vaciar {
   padding: 20px 30px;
      font-size: 24px;
@@ -284,28 +195,38 @@
      transition: background-color 0.3s;
          
 }
-#theme-toggle:hover {
-    background: rgb(170, 2, 100);
-}
+
+
+
+
+/* Estilo para el input de Razón Social */
 
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
+      background-color: #f5f5f5;
       margin: 0;
    
     }
 
+    #theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
+
+
+    body, nav, .formulario {
+    transition: background-color 1s ease, color 1s ease;
+}
     h1 {
       text-align: center;
-      color: #333;
+      color: #1d009c;
       margin-bottom: 30px;
     }
 
     .formulario {
       max-width: 500px;
       margin: 0 auto;
-      background: white;
+      background: rgb(255, 255, 255);
       padding: 45px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -315,14 +236,14 @@
       display: block;
       margin-top: 15px;
       font-weight: 600;
-      color: #555;
+      color: #000000;
     }
 
     .formulario input {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid #251749;
       border-radius: 8px;
       transition: border 0.3s;
     }
@@ -351,7 +272,7 @@
 
     #pdf-content {
       display: none;
-      font-size: 12px;
+      font-size: 15px;
       color: #000;
       padding: 20px;
       width: 190mm;
@@ -377,7 +298,7 @@
       padding: 10px;
       margin-top: 20px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 17px;
     }
 /* Reemplaza los estilos de .seccion con estos nuevos */
 
