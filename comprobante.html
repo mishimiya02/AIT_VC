@@ -145,8 +145,7 @@
 </div>
 <br>
 <br>
-<br>
-<br>
+
 
     <div class="centro  style=font-size: 0.7 em">
       <strong>AIT CUENTAS POR COBRAR</strong>
@@ -156,7 +155,7 @@
   ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA<br> BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
 </div>
       <div class="nota-clave">
-        <br><br><br>    <br><br><br>    <br><br><br>
+        <br><br><br>    <br><br><br>    <br>
   CP: <span id="pdf-val7"></span>
    <div style="text-align:right;">
   
@@ -296,7 +295,7 @@ function generarPDF(event) {
     folioElement.style.textAlign = "right";
     folioElement.style.fontWeight = "normal";
     folioElement.style.color = "#999999";
-    folioElement.textContent = "Folio: " + folioStr;
+    folioElement.textContent = "FOLIO: " + folioStr;
     
     // Insertar al inicio del contenido PDF
     document.getElementById("pdf-content").prepend(folioElement);
@@ -358,7 +357,7 @@ document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLoca
 
     
 function generarCadenaOriginal() {
-    const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Caracteres válidos (sin 1, 0, O, I)
+    const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ234567890/*$#!?¡¿'; // Caracteres válidos (sin 1, 0, O, I)
     let cadena = 'SAN'; // Inicia con SAN
     
     // Genera 94 caracteres aleatorios
