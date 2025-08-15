@@ -36,15 +36,23 @@
 }
 /* Estilo para la cadena original */
 #pdf-cadena {
-  font-size: 1 em;                /* Tamaño reducido */
-  font-family: 'Courier New', monospace; /* Fuente monoespaciada */
-  letter-spacing: 0.5px;           /* Espaciado compacto */
-  word-break: break-all;           /* Para evitar desbordamiento */
-  text-align: left;                /* Alineación izquierda */
-  display: block;                  /* Asegura que ocupe su propia línea */
-  width: 100%;                     /* Ocupa todo el ancho disponible */
-  margin: 0;                       /* Elimina márgenes predeterminados */
-  padding: 0;                      /* Elimina relleno predeterminado */
+ font-size: 0.9em;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+  word-break: break-all;
+  text-align: center;
+  display: block;
+  width: 80%; /* Ocupa solo el 60% del ancho */
+  margin: 10px auto; /* Centrado horizontalmente */
+  padding: 5px;
+  border-bottom: none; /* Esto quita el subrayado */
+}
+
+
+.seccion-cadena {
+  text-align: center;
+  width: 100%;
+  margin: 5px 0;
 }
 
 .nota-clave {
@@ -61,10 +69,10 @@
 
 .centro{
   text-align: center;
-     font-size: 1.1em;
+     font-size: 1.2em;/*letra ait cuentas por cobrar*/
 }
  .nota {
-    font-size: 0.7em;
+    font-size: 0.9em;
     text-align: center;
     padding-right: 15px;
     margin-top: 2px;
@@ -361,19 +369,18 @@
     margin-top: 30px;
     text-align: center;
     padding: 15px;
-    border-top: 1px dashed #ccc;
+    /*border-top: 1px dashed #ccc;*/
 }
 
-#qr-code {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 10px;
-    padding: 5px;
-    border: 1px solid #eee;
+#qr-canvas {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    display: block;
 }
 
 .qr-caption {
     font-size: 10px;
     color: #666;
-    margin-top: 5px;
+    margin-top: 10px;
 }

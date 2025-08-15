@@ -134,6 +134,11 @@
       <span id="pdf-val5"></span>
     </div>
 
+<br>
+    <div class="centro  style=font-size: 2.5 em">
+      <strong>AIT CUENTAS POR COBRAR</strong>
+    </div>
+
     <div class="qr-container">
     <div id="qr-code"></div>
     <p class="qr-caption"></p>
@@ -145,17 +150,12 @@
 </div>
 <br>
 <br>
-
-
-    <div class="centro  style=font-size: 0.7 em">
-      <strong>AIT CUENTAS POR COBRAR</strong>
-    </div>
-
+<br>
    <div class="nota" style="font-size: 0.8 em; line-height: 1.2;">
-  ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO DE CUENTA<br> BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
+  ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE <br> LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO <br> DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
 </div>
       <div class="nota-clave">
-        <br><br><br>    <br><br><br>    <br>
+        <br>  <br><br><br>    <br>
   CP: <span id="pdf-val7"></span>
    <div style="text-align:right;">
   
@@ -309,25 +309,31 @@ function generarPDF(event) {
     if (folioAnterior) {
         folioAnterior.remove();
     }
-
-    // Generar folio continuo
+// Obtener valores necesarios
+    const claveTrabajador = document.getElementById("campo8").value.toUpperCase();
+    const fechaInput = document.getElementById("campo7").value;
+    
+    // Generar folio con nuevo formato
     let folioNum = parseInt(localStorage.getItem("folioDG") || "0") + 1;
     localStorage.setItem("folioDG", folioNum);
-    let folioStr = "DG-" + folioNum.toString().padStart(3, "0");
-
-    // Crear elemento folio con ID único
+    
+    // Formatear fecha actual (YYYYMMDD)
+    const fechaActual = new Date();
+    const fechaFolio = fechaActual.toISOString().slice(0,10).replace(/-/g, '');
+    
+    // Crear folio con nuevo formato: CLAVE-YYYYMMDD-00001
+    let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(5, "0")}`;
+    
+    // Crear elemento folio
     let folioElement = document.createElement("div");
-    folioElement.id = "folio-dg"; // Asignar ID para poder eliminarlo después
+    folioElement.id = "folio-dg";
     folioElement.style.textAlign = "right";
-    folioElement.style.fontWeight = "normal";
-    folioElement.style.color = "#999999";
-    folioElement.textContent = "FOLIO: " + folioStr;
+    folioElement.style.fontWeight = "bold";
+    folioElement.style.marginBottom = "10px";
+    folioElement.textContent = `FOLIO: ${folioStr}`;
     
     // Insertar al inicio del contenido PDF
     document.getElementById("pdf-content").prepend(folioElement);
-
-
-
 
 
 
@@ -345,8 +351,7 @@ document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLoca
     const rfc = document.getElementById("campo3").value;
     const objeto = document.getElementById("campo5").value;
     const movimiento = document.getElementById("campo6").value;
-    const fechaInput = document.getElementById("campo7").value;
-     const claveTrabajador = document.getElementById("campo8").value;
+ 
 
     // Validar campos
     if (!importe || !razonSocial || !referencia || !rfc || !objeto || !movimiento || !fechaInput) {
@@ -364,7 +369,7 @@ document.getElementById("pdf-val1").textContent = `$${parseFloat(importe).toLoca
 
 
     // Definir claves válidas
-    const clavesValidas = ['JR', 'RM','JM']; // Reemplaza con tus claves reales
+    const clavesValidas = ['JR', 'RM','JM', 'CXC']; // Reemplaza con tus claves reales
 
     // Determinar el texto a mostrar
     const textoClave = clavesValidas.includes(claveTrabajador.toUpperCase()) 
@@ -430,7 +435,7 @@ function generarCadenaOriginal() {
    // Generar código QR
 const qrElement = document.getElementById("qr-code");
 qrElement.innerHTML = ""; // Limpiar QR previo
-QRCode.toCanvas(qrData, { width: 120 }, function(error, canvas) {
+QRCode.toCanvas(qrData, { width: 190 }, function(error, canvas) {
     if (error) {
         console.error("Error al generar QR:", error);
         qrElement.innerHTML = "<p>Error en QR</p>";
