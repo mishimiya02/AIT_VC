@@ -315,13 +315,20 @@ function generarPDF(event) {
     event.preventDefault();
 
 // Validar clave de trabajador
-    const claveTrabajador = document.getElementById("campo8").value.toUpperCase();
-    if (!validarClaveTrabajador(claveTrabajador)) {
-        alert("CLAVE DE TRABAJADOR NO VÁLIDA\nLas claves válidas son: " + CLAVES_VALIDAS.join(', '));
+     // Validar clave de trabajador 
+    const claveTrabajador = document.getElementById("campo8").value.trim().toUpperCase();
+    if (!claveTrabajador) {
+        alert("❌ Debes ingresar una clave de trabajador");
         document.getElementById("campo8").focus();
         return false;
     }
 
+    if (!validarClaveTrabajador(claveTrabajador)) {
+        alert("❌ Clave de trabajador no reconocida\n\nPor favor verifica con el administrador");
+        document.getElementById("campo8").focus();
+        document.getElementById("campo8").select();
+        return false;
+    }
 
 
 
