@@ -1,4 +1,35 @@
+/* Estilo para el folio debajo del QR */
+.folio-qr {
+    margin-top: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    background-color: #f8f8f8;
+    padding: 8px;
+    border-radius: 4px;
+    word-break: break-word;
+}
 
+/* Ajuste para el contenedor QR */
+.qr-container {
+    margin: 20px auto;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px dashed #ccc;
+    max-width: 220px;
+}
+
+/* Estilo para la cadena (ahora va después del QR) */
+.seccion-cadena {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+  
+  
+  
   #pdf-content .seccion span {
     display: block;
     text-align: center;

@@ -142,6 +142,7 @@
     <div class="qr-container">
     <div id="qr-code"></div>
     <p class="qr-caption"></p>
+    <div id="folio-container" style="margin-top: 10px;"></div>
   </div>
 
     <div class="seccion">
@@ -324,17 +325,33 @@ function generarPDF(event) {
     // Crear folio con nuevo formato: CLAVE-YYYYMMDD-00001
     let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(5, "0")}`;
     
-    // Crear elemento folio
-    let folioElement = document.createElement("div");
-    folioElement.id = "folio-dg";
-    folioElement.style.textAlign = "right";
-    folioElement.style.fontWeight = "bold";
-    folioElement.style.marginBottom = "10px";
-    folioElement.textContent = `FOLIO: ${folioStr}`;
-    
-    // Insertar al inicio del contenido PDF
-    document.getElementById("pdf-content").prepend(folioElement);
+    // Crear
+    // Reemplaza la creación del folio con este código:
+let folioContainer = document.getElementById("folio-container");
+if (!folioContainer) {
+    folioContainer = document.createElement("div");
+    folioContainer.id = "folio-container";
+    folioContainer.className = "folio-qr";
+    document.querySelector(".qr-container").appendChild(folioContainer);
+}
 
+folioContainer.innerHTML = `
+    <div style="
+        font-family: 'Courier New', monospace;
+        font-size: 1em;
+        font-weight: bold;
+        text-align: center;
+        margin: 10px 0;
+        padding: 5px;
+        background-color: #f8f8f8;
+        border-radius: 4px;
+    ">
+        FOLIO: ${folioStr}
+    </div>
+`;
+
+// Elimina el código que insertaba el folio al inicio del PDF
+// (el que contiene document.getElementById("pdf-content").prepend(folioElement))
 
 
 
