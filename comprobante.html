@@ -166,6 +166,16 @@
 
   <script>
 
+
+
+const CLAVES_VALIDAS = ['JR', 'RM', 'JM', 'CXC']; // Añade todas las claves válidas
+
+function validarClaveTrabajador(clave) {
+    return CLAVES_VALIDAS.includes(clave.toUpperCase());
+}
+
+
+
 document.getElementById('campo3').addEventListener('input', function(e) {
     // Eliminar espacios y convertir a mayúsculas
     let rfc = e.target.value.toUpperCase().replace(/\s/g, '');
@@ -304,6 +314,18 @@ function numeroALetras(num) {
 function generarPDF(event) {
     event.preventDefault();
 
+// Validar clave de trabajador
+    const claveTrabajador = document.getElementById("campo8").value.toUpperCase();
+    if (!validarClaveTrabajador(claveTrabajador)) {
+        alert("CLAVE DE TRABAJADOR NO VÁLIDA\nLas claves válidas son: " + CLAVES_VALIDAS.join(', '));
+        document.getElementById("campo8").focus();
+        return false;
+    }
+
+
+
+
+
 
     // Limpiar folios anteriores (si existen)
     const folioAnterior = document.getElementById("folio-dg");
@@ -311,7 +333,7 @@ function generarPDF(event) {
         folioAnterior.remove();
     }
 // Obtener valores necesarios
-    const claveTrabajador = document.getElementById("campo8").value.toUpperCase();
+
     const fechaInput = document.getElementById("campo7").value;
     
     // Generar folio con nuevo formato
