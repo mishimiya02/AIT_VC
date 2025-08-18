@@ -1,4 +1,10 @@
-/* Estilo para el folio debajo del QR */
+/* Añade este estilo */
+.texto-azul {
+    color: #ffffff;
+    font-weight: bold;
+}/* Estilo para el folio debajo del QR */
+
+
 .folio-qr {
     margin-top: 15px;
     font-family: 'Courier New', monospace;
@@ -6,18 +12,23 @@
     font-weight: bold;
     color: #333;
     text-align: center;
-    background-color: #f8f8f8;
+    background-color: none;
     padding: 8px;
     border-radius: 4px;
     word-break: break-word;
+}
+
+
+.nota-clave span:first-child {
+    color: #ffffff;
+    font-weight: bold;
 }
 
 /* Ajuste para el contenedor QR */
 .qr-container {
     margin: 20px auto;
     text-align: center;
-    padding: 15px;
-    border-top: 1px dashed #ccc;
+    padding: 15px;   
     max-width: 220px;
 }
 

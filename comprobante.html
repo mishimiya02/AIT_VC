@@ -155,10 +155,11 @@
    <div class="nota" style="font-size: 0.8 em; line-height: 1.2;">
   ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE <br> LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO <br> DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
 </div>
-      <div class="nota-clave">
-        <br>  <br><br><br>    <br>
-  CP: <span id="pdf-val7"></span>
-   <div style="text-align:right;">
+<div class="nota-clave">
+    <br><br><br><br>
+    <span class="texto-azul">CP:</span> <span class="texto-azul" id="pdf-val7"></span>
+    <div style="text-align:right;"></div>
+</div>
   
   </div>
 </div>
@@ -335,6 +336,7 @@ if (!folioContainer) {
     document.querySelector(".qr-container").appendChild(folioContainer);
 }
 
+// Cambia el código que genera el folio a esto:
 folioContainer.innerHTML = `
     <div style="
         font-family: 'Courier New', monospace;
@@ -343,7 +345,6 @@ folioContainer.innerHTML = `
         text-align: center;
         margin: 10px 0;
         padding: 5px;
-        background-color: #f8f8f8;
         border-radius: 4px;
     ">
         FOLIO: ${folioStr}
