@@ -150,8 +150,7 @@
   <span id="pdf-cadena"></span>
 </div>
 <br>
-<br>
-<br>
+
    <div class="nota" style="font-size: 0.8 em; line-height: 1.2;">
   ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE <br> LA CANTIDAD SEÑALADA HA SIDO VALIDADA CONTRA EL ESTADO <br> DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
 </div>
@@ -334,7 +333,7 @@ function generarPDF(event) {
         randomChars += caracteresAleatorios.charAt(Math.floor(Math.random() * caracteresAleatorios.length));
     }
     // Crear folio con nuevo formato: CLAVE-YYYYMMDD-00001
-   let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(5, "0")}-${randomChars}`;
+   let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(4, "0")}-${randomChars}`;
     
     // Crear
     // Reemplaza la creación del folio con este código:
