@@ -319,37 +319,46 @@ function generarPDF(event) {
     let folioNum = parseInt(localStorage.getItem("folioDG") || "0") + 1;
     localStorage.setItem("folioDG", folioNum);
     
-    // Formatear fecha actual (YYYYMMDD)
-    const fechaActual = new Date();
-    const fechaFolio = fechaActual.toISOString().slice(0,10).replace(/-/g, '');
     
+    // Formatear fecha actual (YYMMDD) - usando solo últimos 2 dígitos del año
+    const fechaActual = new Date();
+    const yearShort = fechaActual.getFullYear().toString().slice(-2); // Obtiene solo los últimos 2 dígitos
+    const month = (fechaActual.getMonth() + 1).toString().padStart(2, "0");
+    const day = fechaActual.getDate().toString().padStart(2, "0");
+    const fechaFolio = `${yearShort}${month}${day}`;
+    
+    // Generar 3 caracteres aleatorios (letras mayúsculas y números)
+    const caracteresAleatorios = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randomChars = '';
+    for (let i = 0; i < 3; i++) {
+        randomChars += caracteresAleatorios.charAt(Math.floor(Math.random() * caracteresAleatorios.length));
+    }
     // Crear folio con nuevo formato: CLAVE-YYYYMMDD-00001
-    let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(5, "0")}`;
+   let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(5, "0")}-${randomChars}`;
     
     // Crear
     // Reemplaza la creación del folio con este código:
-let folioContainer = document.getElementById("folio-container");
-if (!folioContainer) {
-    folioContainer = document.createElement("div");
-    folioContainer.id = "folio-container";
-    folioContainer.className = "folio-qr";
-    document.querySelector(".qr-container").appendChild(folioContainer);
-}
+    let folioContainer = document.getElementById("folio-container");
+    if (!folioContainer) {
+        folioContainer = document.createElement("div");
+        folioContainer.id = "folio-container";
+        folioContainer.className = "folio-qr";
+        document.querySelector(".qr-container").appendChild(folioContainer);
+    }
 
-// Cambia el código que genera el folio a esto:
-folioContainer.innerHTML = `
-    <div style="
-        font-family: 'Courier New', monospace;
-        font-size: 1em;
-        font-weight: bold;
-        text-align: center;
-        margin: 10px 0;
-        padding: 5px;
-        border-radius: 4px;
-    ">
-        FOLIO: ${folioStr}
-    </div>
-`;
+    folioContainer.innerHTML = `
+        <div style="
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+            padding: 5px;
+            border-radius: 4px;
+        ">
+            FOLIO: ${folioStr}
+        </div>
+    `;
 
 // Elimina el código que insertaba el folio al inicio del PDF
 // (el que contiene document.getElementById("pdf-content").prepend(folioElement))
