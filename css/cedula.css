@@ -1,0 +1,214 @@
+ .form-container label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+     .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #251749;
+      border-radius: 8px;
+      transition: border 0.3s;
+    }
+
+     .form-container input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .form-container button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+     .form-container button:hover {
+      background-color: #0056b3;
+    }
+
+
+
+
+ 			nav {
+ 				background-color: #5552e6;
+        padding-left: 0;
+ 				display: flex;
+ 				justify-content: space-between;
+ 				align-items: stretch;
+ 				position: relative;
+ 				height: 100px; /* altura */
+ 			}
+
+          
+ 
+ 			.menu-center {
+ 				display: flex;
+ 				position: absolute;
+ 				left: 50%;
+ 				transform: translateX(-50%);
+ 				height: 100%;
+ 			}
+ 
+ 			nav a {
+ 				color: white;
+ 				font-weight: bold;
+ 				font-size: 25px;
+ 				padding: 0 25px;
+ 				text-decoration: none;
+ 				font-family: 'Segoe UI', sans-serif;
+ 				letter-spacing: 1px;
+ 				text-transform: uppercase;
+ 				/*display: flex;*/
+ 				align-items: center;
+ 				height: 100%;
+ 				transition: all 0.3s;
+                display: flex;
+ 			}
+ 
+ 			nav a:hover {
+ 				background-color: #f7793a;
+ 				color: white;
+ 			}
+ 
+ 			/* Estilos NUEVOS para el dropdown  */
+ 			.dropdown {
+ 				position: relative;
+ 				height: 100%;
+ 				display: flex;
+ 				align-items: center;
+ 			}
+ 
+ 			.dropdown-content {
+ 				display: none;
+ 				position: absolute;
+ 				top: 100%;
+ 				left: 0;
+ 				background-color: white;
+ 				min-width: 200px;
+ 				box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+ 				z-index: 1000;
+ 			}
+ 
+ 			.dropdown-content a {
+ 				padding: 15px 25px;
+ 				color: black;
+ 				font-size: 16px;
+ 				text-transform: uppercase;
+ 				border-bottom: 1px solid #f0f0f0;
+ 			}
+ 
+ 			.dropdown-content a:hover {
+ 				background-color: #dc3545; /* Rojo al hover */
+ 				color: white;
+ 			}
+ 
+ 			.dropdown:hover .dropdown-content {
+ 				display: block;
+ 			}
+ 
+ 			/* Mantener hover azul en el botón principal */
+ 			.dropdown:hover > .dropbtn {
+ 				background-color: #2f517c;
+ 				color: white;
+ 			}
+   h2 {
+             text-align: center;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #000000;
+			 font-size: 17px;
+         }
+#theme-toggle {
+   font-weight: bold;
+     font-size: 17px;
+     background-color: #5552e6;
+     color: white;
+     border: none;
+     cursor: pointer;
+     transition: background-color 0.3s;
+         
+}
+
+
+
+
+/* Estilo para el input de Razón Social */
+
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #212831;
+      margin: 0;
+   
+    }
+
+    #theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
+
+
+    body, nav, .formulario {
+    transition: background-color 1s ease, color 1s ease;
+}
+    h1 {
+      text-align: center;
+      color: #a0a0a0;
+      margin-bottom: 30px;
+    }
+
+    .formulario {
+      max-width: 500px;
+      margin: 0 auto;
+      background: rgb(0, 0, 0);
+      padding: 45px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .formulario label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .formulario input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #251749;
+      border-radius: 8px;
+      transition: border 0.3s;
+    }
+
+    .formulario input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .formulario button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .formulario button:hover {
+      background-color: #0056b3;
+    }

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Garantía</title>
+      <link rel="stylesheet" href="css/cedula.css" id="theme-style">
+
+</head>
+<body>
+     
+	  <!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+                <a href='/tarifaxdia.html' target='_blank'>TARIFA PROPORCIONAL</a>
+                     <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion.html' target='_blank'>COMPARACION</a>
+                <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                
+                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+            </div>
+        </div>
+        
+        <a href='/contacto'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
+    <h1>SELECCIONA INSTRUMENTO DE GARANTÍA</h1>
+    
+    <div class="form-container">
+        <div class="form-group">
+            <label for="instrumento">Instrumento de Garantía:</label>
+            <select id="instrumento">
+                <option value="deposito">DEPÓSITO EN GARANTÍA</option>
+                <option value="fianza">FIANZA</option>
+                <option value="otro">OTRO</option>
+            </select>
+        </div>
+        
+        <h2>CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR</h2>
+        
+        <div class="form-group">
+            <label for="contraprestacion">CONTRAPRESTACIÓN MENSUAL BRUTA:</label>
+            <input type="number" id="contraprestacion" step="0.01" value="2038.42">
+        </div>
+        
+        <div class="form-group">
+            <label for="alicuota">% ALICUOTAS:</label>
+            <input type="number" id="alicuota" value="15">
+        </div>
+        
+        <div class="calculation-row">
+            <span>SUBTOTAL:</span>
+            <span id="subtotal">2,341.88</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="iva">% IVA:</label>
+            <input type="number" id="iva" value="16">
+        </div>
+        
+        <div class="calculation-row">
+            <span>CONTRAPRESTACIÓN MENSUAL:</span>
+            <span id="contraprestacion-mensual">2,716.58</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="meses-garantia">MESES DE GARANTÍA*:</label>
+            <input type="number" id="meses-garantia" value="3">
+        </div>
+        
+        <div class="calculation-row">
+            <span>VALOR DE LA GARANTÍA:</span>
+            <span id="valor-garantia">8,149.74</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="garantia-vigente">GARANTÍA VIGENTE POR ESTE CONCEPTO:</label>
+            <input type="number" id="garantia-vigente" step="0.01" value="0">
+        </div>
+        
+        <div class="calculation-row total">
+            <span>TOTAL POR GARANTIZAR:</span>
+            <span id="total-garantizar">8,149.74</span>
+        </div>
+        
+        <button id="calcular">CALCULAR</button>
+        
+        <div class="disclaimer">
+            <p>*SEGÚN TÉRMINOS COMERCIALES, CONTRATO, VIGENCIA Y/O COMÚN ACUERDO ENTRE LAS PARTES.</p>
+            <p>EN DEPÓSITOS EN GARANTÍA LA FORMA DE PAGO ES TRANSFERENCIA BANCARIA.</p>
+            <p>EN CUALQUIER CASO FAVOR DE NOTIFICAR MEDIANTE CORREO ANEXANDO EL COMPROBANTE BANCARIO, CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO "DEPOSITO EN GARANTIA".</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calcular').addEventListener('click', function() {
+            // Obtener valores de los inputs
+            const contraprestacion = parseFloat(document.getElementById('contraprestacion').value);
+            const alicuota = parseFloat(document.getElementById('alicuota').value);
+            const iva = parseFloat(document.getElementById('iva').value);
+            const mesesGarantia = parseInt(document.getElementById('meses-garantia').value);
+            const garantiaVigente = parseFloat(document.getElementById('garantia-vigente').value);
+            
+            // Realizar cálculos
+            const subtotal = contraprestacion * (1 + alicuota/100);
+            const contraprestacionMensual = subtotal * (1 + iva/100);
+            const valorGarantia = contraprestacionMensual * mesesGarantia;
+            const totalGarantizar = valorGarantia - garantiaVigente;
+            
+            // Mostrar resultados
+            document.getElementById('subtotal').textContent = subtotal.toLocaleString('es-MX', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+            
+            document.getElementById('contraprestacion-mensual').textContent = contraprestacionMensual.toLocaleString('es-MX', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+            
+            document.getElementById('valor-garantia').textContent = valorGarantia.toLocaleString('es-MX', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+            
+            document.getElementById('total-garantizar').textContent = totalGarantizar.toLocaleString('es-MX', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+        });
+        
+        // Calcular automáticamente al cambiar cualquier valor
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('change', function() {
+                document.getElementById('calcular').click();
+            });
+        });
+    </script>
+</body>
+</html>
