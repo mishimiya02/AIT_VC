@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Garantía</title>
       <link rel="stylesheet" href="css/cedula.css" id="theme-style">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 
 
@@ -58,6 +58,19 @@
         <h2>CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR</h2>
         
         <div class="form-group">
+
+
+            <div class="form-group">
+    <label>TIPO DE GARANTÍA:</label>
+    <div class="tipo-garantia-group">
+        <div class="tipo-option selected" id="option-deposito">
+            <input type="radio" name="tipo-garantia" value="deposito" checked> DEPÓSITO EN GARANTÍA
+        </div>
+        <div class="tipo-option" id="option-fianza">
+            <input type="radio" name="tipo-garantia" value="fianza"> FIANZA
+        </div>
+    </div>
+</div>
             <label for="contraprestacion">CONTRAPRESTACIÓN MENSUAL BRUTA:</label>
             <input type="number" id="contraprestacion" step="0.01" value="2038.42">
         </div>
@@ -110,10 +123,134 @@
             <p>EN CUALQUIER CASO FAVOR DE NOTIFICAR MEDIANTE CORREO ANEXANDO EL COMPROBANTE BANCARIO, CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO "DEPOSITO EN GARANTIA".</p>
         </div>
     </div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tipoOptions = document.querySelectorAll('.tipo-option');
+    const mesesGarantia = document.getElementById('meses-garantia');
+    
+    // Función para cambiar tipo de garantía
+    tipoOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remover selección anterior
+            document.querySelector('.tipo-option.selected').classList.remove('selected');
+            
+            // Añadir selección actual
+            this.classList.add('selected');
+            
+            // Actualizar meses de garantía según selección
+            if (this.id === 'option-deposito') {
+                mesesGarantia.value = 3;
+            } else if (this.id === 'option-fianza') {
+                mesesGarantia.value = 12;
+            }
+            
+            // Recalcular valores
+            calcularValores();
+        });
+    });
+    
+    // Función para calcular todos los valores
+    function calcularValores() {
+        // Obtener valores de los inputs
+        const contraprestacion = parseFloat(document.getElementById('contraprestacion').value) || 0;
+        const alicuota = parseFloat(document.getElementById('alicuota').value) || 0;
+        const iva = parseFloat(document.getElementById('iva').value) || 0;
+        const meses = parseFloat(document.getElementById('meses-garantia').value) || 0;
+        const garantiaVigente = parseFloat(document.getElementById('garantia-vigente').value) || 0;
+        
+        // Calcular subtotal
+        const subtotal = contraprestacion * (1 + alicuota / 100);
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+
+
+        // Calcular IVA sobre la contraprestación inicial (no sobre el subtotal)
+    const ivaCalculado = contraprestacion * (iva / 100);
+
+        // Calcular contraprestación mensual (subtotal + IVA sobre contraprestación)
+    const contraprestacionMensual = subtotal + ivaCalculado;
+    document.getElementById('contraprestacion-mensual').textContent = contraprestacionMensual.toFixed(2);
+    
+        // Calcular valor de la garantía
+        const valorGarantia = contraprestacionMensual * meses;
+        document.getElementById('valor-garantia').textContent = valorGarantia.toFixed(2);
+        
+        // Calcular total por garantizar
+        const totalGarantizar = Math.max(0, valorGarantia - garantiaVigente);
+        document.getElementById('total-garantizar').textContent = totalGarantizar.toFixed(2);
+    }
+    
+    // Añadir event listeners para recalcular cuando cambien los valores
+    document.getElementById('contraprestacion').addEventListener('input', calcularValores);
+    document.getElementById('alicuota').addEventListener('input', calcularValores);
+    document.getElementById('iva').addEventListener('input', calcularValores);
+    document.getElementById('garantia-vigente').addEventListener('input', calcularValores);
+    
+    // Calcular valores iniciales
+    calcularValores();
+    
+    // Prevenir que el usuario modifique manualmente los meses de garantía
+    document.getElementById('meses-garantia').addEventListener('keydown', function(e) {
+        e.preventDefault();
+        return false;
+    });
+    
+    // Botón calcular (aunque ya se calcula automáticamente)
+    document.getElementById('calcular').addEventListener('click', calcularValores);
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
-
-
-
-
-   
