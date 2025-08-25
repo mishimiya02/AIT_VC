@@ -214,13 +214,11 @@ document.querySelector('.formulario').addEventListener('submit', function(e) {
 document.getElementById('campo1').addEventListener('blur', function(e) {
     const valor = e.target.value.trim();
     
-    // Validar que sea un número con hasta 2 decimales
-    if (!/^\d+(\.\d{1,2})?$/.test(valor)) {
-        alert("Por favor ingresa un importe válido (ejemplo: 1500.50)");
-        e.target.value = "";
-        e.target.focus();
-        return;
-    }
+   // Validar que sea un número con hasta 2 decimales
+   if (!/^\d+(\.\d{1,2})?$/.test(valor)) {
+    mostrarError('campo1', 'Por favor ingresa un importe válido (ejemplo: 1500.50)');
+    return;
+}
     
     // Formatear a 2 decimales si no los tiene
     if (!valor.includes('.')) {
