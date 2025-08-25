@@ -361,7 +361,8 @@ function generarPDF(event) {
         randomChars += caracteresAleatorios.charAt(Math.floor(Math.random() * caracteresAleatorios.length));
     }
     // Crear folio con nuevo formato: CLAVE-YYYYMMDD-00001
-   let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(4, "0")}-${randomChars}`;
+  /* let folioStr = `${claveTrabajador}-${fechaFolio}-${folioNum.toString().padStart(4, "0")}-${randomChars}`;*/
+   let folioStr = `${yearShort}${claveTrabajador}-${month}${randomChars}${day}`;
     
     // Crear
     // Reemplaza la creación del folio con este código:
