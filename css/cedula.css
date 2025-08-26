@@ -1,5 +1,5 @@
 :root {
-            --primary-color: #2c3e50;
+            --primary-color: #6db6ff;
             --secondary-color: #3498db;
             --accent-color: #e74c3c;
             --background-light: #f9f9f9;
@@ -125,8 +125,8 @@
             background-color: none;
             padding: 1rem;
             border-radius: 4px;
-            font-size: 0.85rem;
-            color: #6c757d;
+            font-size: 1.2rem;
+            color: #ffffff;
             margin-top: 2rem;
         }
 
