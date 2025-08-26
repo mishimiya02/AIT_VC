@@ -1,3 +1,13 @@
+/* Para que funcione correctamente en todos los casos */
+.menu-center {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    z-index: 1000; /* Asegurar que esté por encima */
+}
+
 :root {
             --primary-color: #6db6ff;
             --secondary-color: #3498db;

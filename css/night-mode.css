@@ -336,7 +336,15 @@ p {
     border: 1px solid #ccc;
   }
      
-
+/* Para que funcione correctamente en todos los casos */
+.menu-center {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    z-index: 1000; /* Asegurar que esté por encima */
+}
 
  					/* barra de navegacion */
  			nav {
@@ -347,6 +355,7 @@ p {
  				padding: 0;
  				position: relative;
  				height: 80px; /* altura */
+                 z-index: 999; /* Z-index para el nav */
  			}
  
  			.menu-center {
@@ -380,9 +389,10 @@ p {
  			/* Estilos NUEVOS para el dropdown  */
  			.dropdown {
  				position: relative;
- 				height: 100%;
- 				display: flex;
- 				align-items: center;
+                 height: 100%;
+                display: flex;
+            align-items: center;
+            z-index: 1000; /* Asegura que esté por encima */
  			}
  
  			.dropdown-content {
