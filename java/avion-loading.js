@@ -39,7 +39,7 @@
                 
                 <div class="avion-loader-content">
                     <h1>Aeropuerto Internacional</h1>
-                    <p>Preparando todo para su viaje</p>
+                    <p>Cargando...</p>
                     
                     <div class="airplane-container">
                         <div class="airplane">✈️</div>

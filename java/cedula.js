@@ -8,7 +8,7 @@
             let calculosRealizados = false;
             
             // Inicializar meses de garantía
-            mesesInfo.textContent = `Meses de garantía establecidos en: ${mesesGarantia.value}`;
+         /*   mesesInfo.textContent = `Meses de garantía establecidos en: ${mesesGarantia.value}`;*/
             
             // Función para cambiar tipo de garantía
             function cambiarTipoGarantia(option) {
@@ -25,7 +25,7 @@
                 // Actualizar meses de garantía según selección
                 const meses = option.getAttribute('data-meses');
                 mesesGarantia.value = meses;
-                mesesInfo.textContent = `Meses de garantía establecidos en: ${meses}`;
+               /* mesesInfo.textContent = `Meses de garantía establecidos en: ${meses}`;*/
                 
                 // Recalcular valores
                 calcularValores();
