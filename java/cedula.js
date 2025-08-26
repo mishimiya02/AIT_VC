@@ -1,3 +1,4 @@
+
  document.addEventListener('DOMContentLoaded', function() {
             const tipoOptions = document.querySelectorAll('.tipo-option');
             const mesesGarantia = document.getElementById('meses-garantia');
