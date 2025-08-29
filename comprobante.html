@@ -29,10 +29,20 @@
     
     #folio-container {
       margin-bottom: 2px !important; /* Reducido para acercar a la cadena */
+      margin-top: 5px !important; /* Espacio reducido arriba del folio */
     }
     
     #pdf-cadena {
       margin-top: 2px !important; /* Reducido para acercar al folio */
+      padding-top: 0 !important;
+      line-height: 1 !important; /* Reduce espacio entre líneas de la cadena */
+      font-size: 0.85em !important; /* Opcional: tamaño de fuente ligeramente menor */
+    }
+    
+    /* Estilo específico para la sección que contiene la cadena */
+    .seccion:has(#pdf-cadena) {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
     }
   </style>
 
