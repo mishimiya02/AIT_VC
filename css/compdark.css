@@ -1,12 +1,19 @@
-/* Para que funcione correctamente en todos los casos */
-.menu-center {
-    display: flex;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    z-index: 1000; /* Asegurar que esté por encima */
-}
+ .input-error {
+      border: 2px solid #ff0000 !important;
+      box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    }
+    
+    .error-message {
+      color: #ff0000;
+      font-size: 0.8em;
+      margin-top: 5px;
+      display: none;
+    }
+
+
+
+
+
 /* Añade este estilo */
 .texto-azul {
     color: #ffffff;

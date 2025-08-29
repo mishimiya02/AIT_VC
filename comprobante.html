@@ -14,6 +14,28 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 <script src="java/avion-loading.js"></script>
 
+
+
+  <style>
+    /* Estilos para reducir los espacios en el PDF */
+    .centro {
+      margin-bottom: 5px !important; /* Reducido de aproximadamente 20px a 5px */
+    }
+    
+    .qr-container {
+      margin-top: 5px !important; /* Reducido de aproximadamente 20px a 5px */
+      padding-top: 0 !important;
+    }
+    
+    #folio-container {
+      margin-bottom: 2px !important; /* Reducido para acercar a la cadena */
+    }
+    
+    #pdf-cadena {
+      margin-top: 2px !important; /* Reducido para acercar al folio */
+    }
+  </style>
+
  <script>
         // Mostrar el loader cuando la página comience a cargar
         document.addEventListener('DOMContentLoaded', function() {
@@ -165,7 +187,7 @@
  <!---- <strong>//</strong>-->
   <span id="pdf-cadena"></span>
 </div>
-<br>
+
 
    <div class="nota" style="font-size: 0.6 em; line-height: 1.2;">
   ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA  <br> CONTRA EL ESTADO  DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
