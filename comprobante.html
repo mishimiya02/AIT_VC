@@ -28,12 +28,12 @@
     }
     
     #folio-container {
-      margin-bottom: 2px !important; /* Reducido para acercar a la cadena */
-      margin-top: 5px !important; /* Espacio reducido arriba del folio */
+      margin-bottom: 1px !important; /* Reducido para acercar a la cadena */
+      margin-top: 1px !important; /* Espacio reducido arriba del folio */
     }
     
     #pdf-cadena {
-      margin-top: 2px !important; /* Reducido para acercar al folio */
+      margin-top: 1px !important; /* Reducido para acercar al folio */
       padding-top: 0 !important;
       line-height: 1 !important; /* Reduce espacio entre líneas de la cadena */
       font-size: 0.85em !important; /* Opcional: tamaño de fuente ligeramente menor */
@@ -412,7 +412,7 @@ function generarPDF(event) {
    let folioStr = `${yearShort}${claveTrabajador}-${month}${randomChars}${day}`;
     
     // Crear
-    // Reemplaza la creación del folio con este código:
+    // Reemplaza la creación del  código:
     let folioContainer = document.getElementById("folio-container");
     if (!folioContainer) {
         folioContainer = document.createElement("div");
@@ -427,7 +427,7 @@ function generarPDF(event) {
             font-size: 1em;
             font-weight: bold;
             text-align: center;
-            margin: 10px 0;
+            margin: 5px 0;
             padding: 5px;
             border-radius: 4px;
         ">

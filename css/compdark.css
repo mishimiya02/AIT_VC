@@ -18,6 +18,7 @@
 .texto-azul {
     color: #ffffff;
     font-weight: bold;
+   
 }/* Estilo para el folio debajo del QR */
 
 
@@ -29,7 +30,7 @@
     color: #333;
     text-align: center;
     background-color: none;
-    padding: 8px;
+    padding: 5px;
     border-radius: 4px;
     word-break: break-word;
 }
@@ -42,15 +43,16 @@
 
 /* Ajuste para el contenedor QR */
 .qr-container {
-    margin: 10px auto;
+    margin: 5px auto;
     text-align: center;
-    padding: 15px;   
+    padding: 5px;   
     max-width: 220px;
+    max-height: 210px;
 }
 
 /* Estilo para la cadena (ahora va después del QR) */
 .seccion-cadena {
-    margin-top: 50px;
+    margin-top: px;
     text-align: center;
     width: 100%;
 }
@@ -100,7 +102,7 @@
   word-break: break-all;
   text-align: center;
   display: block;
-  width: 80%; /* Ocupa solo el 60% del ancho */
+  width: 70%; /* Ocupa solo el 60% del ancho */
   margin: 10px auto; /* Centrado horizontalmente */
   padding: 5px;
   border-bottom: none; /* Esto quita el subrayado */
