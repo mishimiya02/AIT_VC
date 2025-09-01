@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Formatear valor según si es monetario o no
             let formattedValue = value;
             if (isMonetary) {
-                formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
+                formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MXN";
             }
             
             // Valor alineado a la derecha
@@ -260,19 +260,19 @@ document.addEventListener('DOMContentLoaded', function() {
             y += 2;
         }
         
-        agregarFila("CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
-        agregarFila("% ALICUOTAS:", alicuota + "%", false);
-        agregarFila("SUBTOTAL:", subtotal, true);
-        agregarFila("% IVA:", iva + "%", false);
-        agregarFila("CONTRAPRESTACIÓN MENSUAL:", contraprestacionMensual, true, true);
-        agregarFila("MESES DE GARANTÍA:", mesesGarantia, false);
-        agregarFila("VALOR DE LA GARANTÍA:", valorGarantia, true, true);
-        agregarFila("GARANTÍA VIGENTE POR ESTE CONCEPTO:", garantiaVigente, true);
+        agregarFila("= CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
+        agregarFila(" + % ALICUOTAS:", alicuota + "%", false);
+        agregarFila("= SUBTOTAL:", subtotal, true);
+        agregarFila("+ % IVA:", iva + "%", false);
+        agregarFila("= CONTRAPRESTACIÓN MENSUAL:", contraprestacionMensual, true, true);
+        agregarFila("X MESES DE GARANTÍA:", mesesGarantia, false);
+        agregarFila("= VALOR DE LA GARANTÍA:", valorGarantia, true, true);
+        agregarFila("- GARANTÍA VIGENTE POR ESTE CONCEPTO:", garantiaVigente, true);
         
         y += 4; // Espacio antes del total
         
         // Total por garantizar (destacado)
-        agregarFila("TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
+        agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
 
         y += 10;
         doc.setFontSize(8);
