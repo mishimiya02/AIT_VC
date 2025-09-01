@@ -107,7 +107,58 @@ document.addEventListener('DOMContentLoaded', function() {
         btnGenerarPDF.disabled = false;
     }
     
-    function generarPDF() {
+    // Función para cargar y agregar imagen
+    function loadAndAddImage(doc, url, x, y, width, height) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous"; // Para evitar problemas CORS
+            img.src = url;
+            
+            img.onload = function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    const dataURL = canvas.toDataURL('image/png');
+                    doc.addImage(dataURL, 'PNG', x, y, width, height);
+                    resolve(true);
+                } catch (e) {
+                    console.error("Error al agregar imagen:", e);
+                    resolve(false);
+                }
+            };
+            
+            img.onerror = function() {
+                console.error("Error al cargar la imagen:", url);
+                resolve(false);
+            };
+        });
+    }
+    
+    // Función para dividir texto en líneas que caben en el ancho del PDF
+    function splitTextIntoLines(doc, text, maxWidth) {
+        const lines = [];
+        const words = text.split(' ');
+        let currentLine = words[0];
+        
+        for (let i = 1; i < words.length; i++) {
+            const word = words[i];
+            const width = doc.getTextWidth(currentLine + ' ' + word);
+            if (width < maxWidth) {
+                currentLine += ' ' + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+    
+    async function generarPDF() {
         if (!calculosRealizados) {
             alert("Por favor, primero realiza los cálculos.");
             return;
@@ -131,14 +182,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const valorGarantia = document.getElementById('valor-garantia').textContent;
         const garantiaVigente = document.getElementById('garantia-vigente').value;
         const totalGarantizar = document.getElementById('total-garantizar').textContent;
+        
+        // Obtener valores de los campos opcionales
+        const banco = document.getElementById('banco') ? document.getElementById('banco').value.trim() : '';
+        const entidad = document.getElementById('entidad') ? document.getElementById('entidad').value.trim() : '';
 
-        let y = 20;
+        let y = 35; // Posición inicial más abajo para el logo
+
+        // Intentar agregar el logo
+        try {
+            const logoCargado = await loadAndAddImage(doc, 'img/logo2n.png', 5, 5, 35, 15);
+            
+            if (!logoCargado) {
+                // Fallback si no se puede cargar el logo
+                doc.setFillColor(240, 240, 240);
+                doc.rect(20, 15, 30, 15, "F");
+                doc.setFontSize(8);
+                doc.text("LOGO", 35, 23, { align: 'center' });
+            }
+        } catch (e) {
+            console.error("Error con el logo:", e);
+        }
 
         // Encabezado
         doc.setFontSize(16);
         doc.setFont(undefined, 'bold');
         doc.text("CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR", 105, y, { align: 'center' });
-        y += 15;
+        y += 10;
         
         // Línea separadora
         doc.setLineWidth(0.5);
@@ -176,6 +246,20 @@ document.addEventListener('DOMContentLoaded', function() {
         agregarFila("TIPO DE GARANTÍA:", tipoGarantia, false, true);
         y += 2; // Espacio adicional
         
+        // Agregar campos opcionales si tienen valor
+        if (banco) {
+            agregarFila("BANCO:", banco, false, false);
+        }
+        
+        if (entidad) {
+            agregarFila("ENTIDAD:", entidad, false, false);
+        }
+        
+        // Si se agregaron campos opcionales, añadir un espacio adicional
+        if (banco || entidad) {
+            y += 2;
+        }
+        
         agregarFila("CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
         agregarFila("% ALICUOTAS:", alicuota + "%", false);
         agregarFila("SUBTOTAL:", subtotal, true);
@@ -191,14 +275,36 @@ document.addEventListener('DOMContentLoaded', function() {
         agregarFila("TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
 
         y += 10;
-        doc.setFontSize(10);
+        doc.setFontSize(8);
         doc.setFont(undefined, 'italic');
+        
+        // Notas al pie
         doc.text("*SEGÚN TÉRMINOS COMERCIALES, CONTRATO, VIGENCIA Y/O COMÚN ACUERDO ENTRE LAS PARTES.", 20, y);
         y += 5;
-        doc.text("EN DEPÓSITOS EN GARANTÍA LA FORMA DE PAGO ES TRANSFERENCIA BANCARIA.", 20, y);
+        doc.text("EN DEPOSITOS EN GARANTÍA LA FORMA DE PAGO ES TRANSFERENCIA BANCARIA.", 20, y);
         y += 5;
-        doc.text("Documento generado el: " + new Date().toLocaleDateString('es-MX'), 20, y);
-
+        
+        // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
+        const notaCompleta = "NOTA: EN CUALQUIER CASO DE FAVOR DE NOTIFICARME MEDIANTE CORREO ANEXANDO DEL COMPROBANTE BANCARIO CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO DEPOSITO EN GARANTÍA. EN FUNCIÓN  DE CONTAR CON UNA GARANTÍA VIGENTE ES IMPORTANTE CONSIDERAR SU DEVOLUCIÓN PREVIA SOLICITUD POR ESCRITO MOTIVANDO LA DEVOLUCIÓN (EN ESTE CASO POR RENOVACIÓN ), INDICANDO NÚMERO DE CONTRATO Y ANEXANDO DEBIDAMENTE REQUISITADA LA SOLICITUD ADJUNTA ANEXANDO COPIA LEGIBLE DEL ESTADO DE CUENTA BANCARIA CON ANTIGUEDAD NO MAYOR A 3 MESES Y DONDE SE MUESTRE LA CLABE INTERBANCARIA , EN SU DEFECTO, SOLICITAR POR ESCRITO DEL RL Y/O EN LA REDACCIÓN DEL CONTRATO QUE SE DESCRIBA QUE SOLO SERÁ EXHIBIDA  LA DIFERENCIA Y BAJO ANEXO SE INCORPORE EL COMPROBANTE BANCARIO CORRESPONDIENTE ";
+        
+        // Dividir el texto en líneas que quepan en el ancho del PDF
+        const lineHeight = 5;
+        const maxWidth = 170; // Ancho máximo disponible
+        
+        doc.setFontSize(7);
+        const lines = doc.splitTextToSize(notaCompleta, maxWidth);
+        
+        // Agregar cada línea del párrafo
+        lines.forEach(line => {
+            if (y > 270) { // Si se acerca al final de la página
+                doc.addPage();
+                y = 20;
+            }
+            doc.text(line, 20, y);
+            y += lineHeight;
+        });
+        
+      
         // Guardar
         doc.save("cedula_garantia.pdf");
     }

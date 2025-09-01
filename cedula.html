@@ -138,7 +138,22 @@
             <span id="total-garantizar">8,149.74</span>
         </div>
         
-        <button id="generar-pdf">GENERAR PDF </button>
+
+ <!-- Nuevos campos opcionales -->
+        <div class="form-group optional">
+            <label for="banco">BANCO (opcional):</label>
+            <input type="text" id="banco" placeholder="Nombre del banco">
+         <!--compo para notas opcionales   <div class="optional-note">Este campo es opcional y solo aparecerá en el PDF si se completa</div>-->
+        </div>
+        
+        <div class="form-group optional">
+            <label for="entidad">CLABE (opcional):</label>
+            <input type="text" id="entidad" placeholder="Nombre de la entidad">
+
+
+        <button id="generar-pdf">GENERAR PDF </button>   
+		<button a href="#" onclick="location.reload(); return false;">vaciar formulario</a>  </button>
+           
         
         <div class="disclaimer">
             <p>*SEGÚN TÉRMINOS COMERCIALES, CONTRATO, VIGENCIA Y/O COMÚN ACUERDO ENTRE LAS PARTES.</p>
