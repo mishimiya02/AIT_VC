@@ -203,7 +203,7 @@
   ESTE COMPROBANTE SE EXTIENDE PARA HACER CONSTAR QUE LA CANTIDAD SEÑALADA HA SIDO VALIDADA  <br> CONTRA EL ESTADO  DE CUENTA BANCARIO CORRESPONDIENTE (MOVIMIENTO NO. <span id="pdf-val6"></span>).
 </div>
 <div class="nota-clave">
-    <br><br><br><br>
+ <!--AQUIIBAN BR   <br><br>-->
     <span class="texto-azul">CP:</span> <span class="texto-azul" id="pdf-val7"></span>
     <div style="text-align:right;"></div>
 </div>
@@ -544,7 +544,9 @@ QRCode.toCanvas(qrData, { width: 190 }, function(error, canvas) {
     } else {
         qrElement.appendChild(canvas);
         // Llamar a generarPDFFinal aquí, pasando el folioStr
-        generarPDFFinal(folioStr);
+    
+        generarPDFFinal(movimiento, folioStr);
+
     }
 });
     
@@ -554,10 +556,8 @@ QRCode.toCanvas(qrData, { width: 190 }, function(error, canvas) {
 
 
 
-
-
-
-function generarPDFFinal(folioStr) {
+// Y modificar la función generarPDFFinal:
+function generarPDFFinal(movimiento, folioStr) {
     const { jsPDF } = window.jspdf;
     const pdfElement = document.getElementById("pdf-content");
     pdfElement.style.display = "block";
@@ -571,11 +571,11 @@ function generarPDFFinal(folioStr) {
         const imgHeight = canvas.height * imgWidth / canvas.width;
 
         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-        pdf.save(`${folioStr}_deposito_garantia.pdf`);
+        // Cambiar el nombre del archivo aquí:
+        pdf.save(`${movimiento}-${folioStr}-Deposito_Garantia.pdf`);
         pdfElement.style.display = "none";
     });
 }
-
 // Cambio de tema
   document.getElementById('theme-toggle').addEventListener('click', function() {
       const themeStyle = document.getElementById('theme-style');

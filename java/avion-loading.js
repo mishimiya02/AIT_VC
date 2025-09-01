@@ -38,7 +38,7 @@
                 </div>
                 
                 <div class="avion-loader-content">
-                    <h1>Aeropuerto Internacional</h1>
+                    <h1>AMAIT</h1>
                     <p>Cargando...</p>
                     
                     <div class="airplane-container">
