@@ -214,60 +214,52 @@ document.addEventListener('DOMContentLoaded', function() {
         doc.setLineWidth(0.5);
         doc.line(20, y, 190, y);
         y += 10;
+// Función auxiliar para agregar filas con valores formateados
+function agregarFila(label, value, isMonetary = false, isBold = false, isHighlighted = false) {
+    doc.setFontSize(11);
+    
+    if (isHighlighted) {
+        doc.setFillColor(240, 240, 240);
+        doc.rect(20, y - 4, 170, 8, "F");
+    }
+    
+    // Separar el primer carácter (símbolo) del resto del texto
+    const primerCaracter = label.charAt(0);
+    const restoTexto = label.slice(1);
+    
+    // Texto de la etiqueta - primer carácter en verde y negrita
+    doc.setTextColor(0, 128, 0); // Verde
+    doc.setFont(undefined, 'bold');
+    doc.text(primerCaracter, 22, y);
+    
+    // Resto del texto en negro y formato normal/negrita según parámetro
+    const textWidth = doc.getTextWidth(primerCaracter);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont(undefined, isBold ? 'bold' : 'normal');
+    doc.text(restoTexto, 22 + textWidth, y);
+    
+    // Formatear valor según si es monetario o no
+    let formattedValue = value;
+    if (isMonetary) {
+        formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
+    }
+    
+    // Valor alineado a la derecha
+    doc.setFont(undefined, isBold ? 'bold' : 'normal');
+    doc.text(formattedValue, 188, y, { align: 'right' });
+    
+    y += 8;
+}
 
-        // Función auxiliar para agregar filas con valores formateados
-        function agregarFila(label, value, isMonetary = false, isBold = false, isHighlighted = false) {
-            doc.setFontSize(11);
-            
-            if (isHighlighted) {
-                doc.setFillColor(240, 240, 240);
-                doc.rect(20, y - 4, 170, 8, "F");
-            }
-            
-            // Texto de la etiqueta
-            doc.setTextColor(0, 0, 0);
-            doc.setFont(undefined, isBold ? 'bold' : 'normal');
-            doc.text(label, 22, y);
-            
-            // Formatear valor según si es monetario o no
-            let formattedValue = value;
-            if (isMonetary) {
-                formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MXN";
-            }
-            
-            // Valor alineado a la derecha
-            doc.setFont(undefined, isBold ? 'bold' : 'normal');
-            doc.text(formattedValue, 188, y, { align: 'right' });
-            
-            y += 8;
-        }
-
-        // Secciones
-        agregarFila("TIPO DE GARANTÍA:", tipoGarantia, false, true);
-        y += 2; // Espacio adicional
-        
-        // Agregar campos opcionales si tienen valor
-        if (banco) {
-            agregarFila("BANCO:", banco, false, false);
-        }
-        
-        if (entidad) {
-            agregarFila("ENTIDAD:", entidad, false, false);
-        }
-        
-        // Si se agregaron campos opcionales, añadir un espacio adicional
-        if (banco || entidad) {
-            y += 2;
-        }
-        
-        agregarFila("= CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
-        agregarFila(" + % ALICUOTAS:", alicuota + "%", false);
-        agregarFila("= SUBTOTAL:", subtotal, true);
-        agregarFila("+ % IVA:", iva + "%", false);
-        agregarFila("= CONTRAPRESTACIÓN MENSUAL:", contraprestacionMensual, true, true);
-        agregarFila("X MESES DE GARANTÍA:", mesesGarantia, false);
-        agregarFila("= VALOR DE LA GARANTÍA:", valorGarantia, true, true);
-        agregarFila("- GARANTÍA VIGENTE POR ESTE CONCEPTO:", garantiaVigente, true);
+// Luego, en las llamadas a agregarFila, cambiar las etiquetas:
+agregarFila("= CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
+agregarFila("+ % ALICUOTAS:", alicuota + "%", false);
+agregarFila("= SUBTOTAL:", subtotal, true);
+agregarFila("+ % IVA:", iva + "%", false);
+agregarFila("= CONTRAPRESTACIÓN MENSUAL:", contraprestacionMensual, true, true);
+agregarFila("× MESES DE GARANTÍA:", mesesGarantia, false);
+agregarFila("= VALOR DE LA GARANTÍA:", valorGarantia, true, true);
+agregarFila("- GARANTÍA VIGENTE POR ESTE CONCEPTO:", garantiaVigente, true);
         
         y += 4; // Espacio antes del total
         
