@@ -325,6 +325,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Vincular el evento click del botón a la función generarPDF
     btnGenerarPDF.addEventListener('click', generarPDF);
     
+
+
+
+
+// Reiniciar formulario en 0 al cargar la página
+document.getElementById('contraprestacion').value = 0;
+document.getElementById('alicuota').value = 0;
+document.getElementById('iva').value = 0;
+document.getElementById('garantia-vigente').value = 0;
+document.getElementById('meses-garantia').value = 0;
+
+// Calcular valores iniciales
+calcularValores();
+
+
     // Calcular valores iniciales
     calcularValores();
 });
