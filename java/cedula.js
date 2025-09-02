@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Agregar información del banco y CLABE si están disponibles
     if (banco || entidad) {
-        y += 10;
+        y += 5;
         doc.setFontSize(11);
         doc.setFont(undefined, 'bold');
         doc.setTextColor(0, 0, 0);
@@ -278,13 +278,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         doc.setFont(undefined, 'normal');
         if (banco) {
-            doc.text("Banco: " + banco, 20, y);
+            doc.text("BANCO: " + banco, 20, y);
             y += 7;
         }
         
         if (entidad) {
             doc.text("CLABE: " + entidad, 20, y);
-            y += 10;
+            y += 3;
         }
     }
 
