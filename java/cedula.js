@@ -159,147 +159,168 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     async function generarPDF() {
-        if (!calculosRealizados) {
-            alert("Por favor, primero realiza los cálculos.");
-            return;
-        }
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        
-        // Configurar fuente formal
-        doc.setFont("helvetica");
-        doc.setTextColor(0, 0, 0);
-
-        // Datos
-        const tipoGarantia = document.querySelector('input[name="tipo-garantia"]:checked').value.toUpperCase();
-        const contraprestacion = document.getElementById('contraprestacion').value;
-        const alicuota = document.getElementById('alicuota').value;
-        const subtotal = document.getElementById('subtotal').textContent;
-        const iva = document.getElementById('iva').value;
-        const contraprestacionMensual = document.getElementById('contraprestacion-mensual').textContent;
-        const mesesGarantia = document.getElementById('meses-garantia').value;
-        const valorGarantia = document.getElementById('valor-garantia').textContent;
-        const garantiaVigente = document.getElementById('garantia-vigente').value;
-        const totalGarantizar = document.getElementById('total-garantizar').textContent;
-        
-        // Obtener valores de los campos opcionales
-        const banco = document.getElementById('banco') ? document.getElementById('banco').value.trim() : '';
-        const entidad = document.getElementById('entidad') ? document.getElementById('entidad').value.trim() : '';
-
-        let y = 35; // Posición inicial más abajo para el logo
-
-        // Intentar agregar el logo
-        try {
-            const logoCargado = await loadAndAddImage(doc, 'img/logo2n.png', 5, 5, 35, 15);
-            
-            if (!logoCargado) {
-                // Fallback si no se puede cargar el logo
-                doc.setFillColor(240, 240, 240);
-                doc.rect(20, 15, 30, 15, "F");
-                doc.setFontSize(8);
-                doc.text("LOGO", 35, 23, { align: 'center' });
-            }
-        } catch (e) {
-            console.error("Error con el logo:", e);
-        }
-
-        // Encabezado
-        doc.setFontSize(16);
-        doc.setFont(undefined, 'bold');
-        doc.text("CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR", 105, y, { align: 'center' });
-        y += 10;
-        
-        // Línea separadora
-        doc.setLineWidth(0.5);
-        doc.line(20, y, 190, y);
-        y += 10;
-// Función auxiliar para agregar filas con valores formateados
-function agregarFila(label, value, isMonetary = false, isBold = false, isHighlighted = false) {
-    doc.setFontSize(11);
-    
-    if (isHighlighted) {
-        doc.setFillColor(240, 240, 240);
-        doc.rect(20, y - 4, 170, 8, "F");
+    if (!calculosRealizados) {
+        alert("Por favor, primero realiza los cálculos.");
+        return;
     }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
     
-    // Separar el primer carácter (símbolo) del resto del texto
-    const primerCaracter = label.charAt(0);
-    const restoTexto = label.slice(1);
-    
-    // Texto de la etiqueta - primer carácter en verde y negrita
-    doc.setTextColor(0, 128, 0); // Verde
-    doc.setFont(undefined, 'bold');
-    doc.text(primerCaracter, 22, y);
-    
-    // Resto del texto en negro y formato normal/negrita según parámetro
-    const textWidth = doc.getTextWidth(primerCaracter);
+    // Configurar fuente formal
+    doc.setFont("helvetica");
     doc.setTextColor(0, 0, 0);
-    doc.setFont(undefined, isBold ? 'bold' : 'normal');
-    doc.text(restoTexto, 22 + textWidth, y);
+
+    // Datos
+    const tipoGarantia = document.querySelector('input[name="tipo-garantia"]:checked').value.toUpperCase();
+    const contraprestacion = document.getElementById('contraprestacion').value;
+    const alicuota = document.getElementById('alicuota').value;
+    const subtotal = document.getElementById('subtotal').textContent;
+    const iva = document.getElementById('iva').value;
+    const contraprestacionMensual = document.getElementById('contraprestacion-mensual').textContent;
+    const mesesGarantia = document.getElementById('meses-garantia').value;
+    const valorGarantia = document.getElementById('valor-garantia').textContent;
+    const garantiaVigente = document.getElementById('garantia-vigente').value;
+    const totalGarantizar = document.getElementById('total-garantizar').textContent;
     
-    // Formatear valor según si es monetario o no
-    let formattedValue = value;
-    if (isMonetary) {
-        formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
+    // Obtener valores de los campos opcionales
+    const banco = document.getElementById('banco') ? document.getElementById('banco').value.trim() : '';
+    const entidad = document.getElementById('entidad') ? document.getElementById('entidad').value.trim() : '';
+
+    let y = 35; // Posición inicial más abajo para el logo
+
+    // Intentar agregar el logo
+    try {
+        const logoCargado = await loadAndAddImage(doc, 'img/logo2n.png', 5, 5, 35, 15);
+        
+        if (!logoCargado) {
+            // Fallback si no se puede cargar el logo
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, 15, 30, 15, "F");
+            doc.setFontSize(8);
+            doc.text("LOGO", 35, 23, { align: 'center' });
+        }
+    } catch (e) {
+        console.error("Error con el logo:", e);
     }
-    
-    // Valor alineado a la derecha
-    doc.setFont(undefined, isBold ? 'bold' : 'normal');
-    doc.text(formattedValue, 188, y, { align: 'right' });
-    
-    y += 8;
-}
 
-// Luego, en las llamadas a agregarFila, cambiar las etiquetas:
-agregarFila("= CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
-agregarFila("+ % ALICUOTAS:", alicuota + "%", false);
-agregarFila("= SUBTOTAL:", subtotal, true);
-agregarFila("+ % IVA:", iva + "%", false);
-agregarFila("= CONTRAPRESTACIÓN MENSUAL:", contraprestacionMensual, true, true);
-agregarFila("× MESES DE GARANTÍA:", mesesGarantia, false);
-agregarFila("= VALOR DE LA GARANTÍA:", valorGarantia, true, true);
-agregarFila("- GARANTÍA VIGENTE POR ESTE CONCEPTO:", garantiaVigente, true);
-        
-        y += 4; // Espacio antes del total
-        
-        // Total por garantizar (destacado)
-        agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
+    // Encabezado
+    doc.setFontSize(16);
+    doc.setFont(undefined, 'bold');
+    doc.text("CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR", 105, y, { align: 'center' });
+    y += 10;
+    
+    // Línea separadora
+    doc.setLineWidth(0.5);
+    doc.line(20, y, 190, y);
+    y += 10;
 
+    // Función auxiliar para agregar filas con valores formateados
+    function agregarFila(label, value, isMonetary = false, isBold = false, isHighlighted = false) {
+        doc.setFontSize(11);
+        
+        if (isHighlighted) {
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, y - 4, 170, 8, "F");
+        }
+        
+        // Separar el primer carácter (símbolo) del resto del texto
+        const primerCaracter = label.charAt(0);
+        const restoTexto = label.slice(1);
+        
+        // Texto de la etiqueta - primer carácter en verde y negrita
+        doc.setTextColor(0, 128, 0); // Verde
+        doc.setFont(undefined, 'bold');
+        doc.text(primerCaracter, 22, y);
+        
+        // Resto del texto en negro y formato normal/negrita según parámetro
+        const textWidth = doc.getTextWidth(primerCaracter);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont(undefined, isBold ? 'bold' : 'normal');
+        doc.text(restoTexto, 22 + textWidth, y);
+        
+        // Formatear valor según si es monetario o no
+        let formattedValue = value;
+        if (isMonetary) {
+            formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
+        }
+        
+        // Valor alineado a la derecha
+        doc.setFont(undefined, isBold ? 'bold' : 'normal');
+        doc.text(formattedValue, 188, y, { align: 'right' });
+        
+        y += 8;
+    }
+
+    // Luego, en las llamadas a agregarFila, cambiar las etiquetas:
+    agregarFila("= CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
+    agregarFila("+ % ALICUOTAS:", alicuota + "%", false);
+    agregarFila("= SUBTOTAL:", subtotal, true);
+    agregarFila("+ % IVA:", iva + "%", false);
+    agregarFila("= CONTRAPRESTACIÓN MENSUAL:", contraprestacionMensual, true, true);
+    agregarFila("× MESES DE GARANTÍA:", mesesGarantia, false);
+    agregarFila("= VALOR DE LA GARANTÍA:", valorGarantia, true, true);
+    agregarFila("- GARANTÍA VIGENTE POR ESTE CONCEPTO:", garantiaVigente, true);
+            
+    y += 4; // Espacio antes del total
+    
+    // Total por garantizar (destacado)
+    agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
+
+    // Agregar información del banco y CLABE si están disponibles
+    if (banco || entidad) {
         y += 10;
-        doc.setFontSize(8);
-        doc.setFont(undefined, 'italic');
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text("INFORMACIÓN BANCARIA:", 20, y);
+        y += 7;
         
-        // Notas al pie
-        doc.text("*SEGÚN TÉRMINOS COMERCIALES, CONTRATO, VIGENCIA Y/O COMÚN ACUERDO ENTRE LAS PARTES.", 20, y);
-        y += 5;
-        doc.text("EN DEPOSITOS EN GARANTÍA LA FORMA DE PAGO ES TRANSFERENCIA BANCARIA.", 20, y);
-        y += 5;
+        doc.setFont(undefined, 'normal');
+        if (banco) {
+            doc.text("Banco: " + banco, 20, y);
+            y += 7;
+        }
         
-        // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
-        const notaCompleta = "NOTA: EN CUALQUIER CASO DE FAVOR DE NOTIFICARME MEDIANTE CORREO ANEXANDO DEL COMPROBANTE BANCARIO CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO DEPOSITO EN GARANTÍA. EN FUNCIÓN  DE CONTAR CON UNA GARANTÍA VIGENTE ES IMPORTANTE CONSIDERAR SU DEVOLUCIÓN PREVIA SOLICITUD POR ESCRITO MOTIVANDO LA DEVOLUCIÓN (EN ESTE CASO POR RENOVACIÓN ), INDICANDO NÚMERO DE CONTRATO Y ANEXANDO DEBIDAMENTE REQUISITADA LA SOLICITUD ADJUNTA ANEXANDO COPIA LEGIBLE DEL ESTADO DE CUENTA BANCARIA CON ANTIGUEDAD NO MAYOR A 3 MESES Y DONDE SE MUESTRE LA CLABE INTERBANCARIA , EN SU DEFECTO, SOLICITAR POR ESCRITO DEL RL Y/O EN LA REDACCIÓN DEL CONTRATO QUE SE DESCRIBA QUE SOLO SERÁ EXHIBIDA  LA DIFERENCIA Y BAJO ANEXO SE INCORPORE EL COMPROBANTE BANCARIO CORRESPONDIENTE ";
-        
-        // Dividir el texto en líneas que quepan en el ancho del PDF
-        const lineHeight = 5;
-        const maxWidth = 170; // Ancho máximo disponible
-        
-        doc.setFontSize(7);
-        const lines = doc.splitTextToSize(notaCompleta, maxWidth);
-        
-        // Agregar cada línea del párrafo
-        lines.forEach(line => {
-            if (y > 270) { // Si se acerca al final de la página
-                doc.addPage();
-                y = 20;
-            }
-            doc.text(line, 20, y);
-            y += lineHeight;
-        });
-        
-      
-        // Guardar
-        doc.save("cedula_garantia.pdf");
+        if (entidad) {
+            doc.text("CLABE: " + entidad, 20, y);
+            y += 10;
+        }
     }
+
+    y += 5;
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'italic');
+    
+    // Notas al pie
+    doc.text("*SEGÚN TÉRMINOS COMERCIALES, CONTRATO, VIGENCIA Y/O COMÚN ACUERDO ENTRE LAS PARTES.", 20, y);
+    y += 5;
+    doc.text("EN DEPOSITOS EN GARANTÍA LA FORMA DE PAGO ES TRANSFERENCIA BANCARIA.", 20, y);
+    y += 5;
+    
+    // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
+    const notaCompleta = "NOTA: EN CUALQUIER CASO DE FAVOR DE NOTIFICARME MEDIANTE CORREO ANEXANDO DEL COMPROBANTE BANCARIO CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO DEPOSITO EN GARANTÍA. EN FUNCIÓN  DE CONTAR CON UNA GARANTÍA VIGENTE ES IMPORTANTE CONSIDERAR SU DEVOLUCIÓN PREVIA SOLICITUD POR ESCRITO MOTIVANDO LA DEVOLUCIÓN (EN ESTE CASO POR RENOVACIÓN ), INDICANDO NÚMERO DE CONTRATO Y ANEXANDO DEBIDAMENTE REQUISITADA LA SOLICITUD ADJUNTA ANEXANDO COPIA LEGIBLE DEL ESTADO DE CUENTA BANCARIA CON ANTIGUEDAD NO MAYOR A 3 MESES Y DONDE SE MUESTRE LA CLABE INTERBANCARIA , EN SU DEFECTO, SOLICITAR POR ESCRITO DEL RL Y/O EN LA REDACCIÓN DEL CONTRATO QUE SE DESCRIBA QUE SOLO SERÁ EXHIBIDA  LA DIFERENCIA Y BAJO ANEXO SE INCORPORE EL COMPROBANTE BANCARIO CORRESPONDIENTE ";
+    
+    // Dividir el texto en líneas que quepan en el ancho del PDF
+    const lineHeight = 5;
+    const maxWidth = 170; // Ancho máximo disponible
+    
+    doc.setFontSize(7);
+    const lines = doc.splitTextToSize(notaCompleta, maxWidth);
+    
+    // Agregar cada línea del párrafo
+    lines.forEach(line => {
+        if (y > 270) { // Si se acerca al final de la página
+            doc.addPage();
+            y = 20;
+        }
+        doc.text(line, 20, y);
+        y += lineHeight;
+    });
+    
+    // Guardar
+    doc.save("cedula_garantia.pdf");
+}
     
     // Vincular el evento click del botón a la función generarPDF
     btnGenerarPDF.addEventListener('click', generarPDF);
