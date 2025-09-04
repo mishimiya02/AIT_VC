@@ -215,46 +215,65 @@ document.addEventListener('DOMContentLoaded', function() {
     doc.line(20, y, 190, y);
     y += 10;
 
-    // Función auxiliar para agregar filas con valores formateados
-   function agregarFila(label, value, isMonetary = false, isBold = false, isHighlighted = false) {
+
+
+function agregarFila(label, value, isMonetary = false, isBold = false, isHighlighted = false) {
     doc.setFontSize(11);
-    
+
     if (isHighlighted) {
         doc.setFillColor(240, 240, 240);
         doc.rect(20, y - 4, 170, 8, "F");
     }
-    
-    // Separar el primer carácter (símbolo) del resto del texto
-    const primerCaracter = label.charAt(0);
-    const restoTexto = label.slice(1);
-    
-    // Texto de la etiqueta - primer carácter en verde y negrita
-    doc.setTextColor(0, 128, 0); 
-    doc.setFont(undefined, 'bold');
-    doc.text(primerCaracter, 22, y);
-    
-    // Resto del texto
-    const textWidth = doc.getTextWidth(primerCaracter);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont(undefined, isBold ? 'bold' : 'normal');
-    doc.text(restoTexto, 22 + textWidth, y);
-    
-    // Formatear valor
-    let formattedValue = value;
-    if (isMonetary) {
-        if (label.includes("TOTAL POR GARANTIZAR")) {
-            formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
-        } else {
+
+    // Caso especial: TOTAL POR GARANTIZAR → todo en verde
+    if (label.includes("TOTAL POR GARANTIZAR")) {
+        const formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
+        
+        doc.setTextColor(0, 128, 0);
+        doc.setFont(undefined, 'bold');
+        doc.text(label, 22, y);
+        doc.text(formattedValue, 188, y, { align: 'right' });
+        
+        doc.setTextColor(0, 0, 0); // restaurar para las demás filas
+    } else {
+        // Separar el primer carácter (símbolo) del resto
+        const primerCaracter = label.charAt(0);
+        const restoTexto = label.slice(1);
+
+        // Primer carácter en verde
+        doc.setTextColor(0, 128, 0);
+        doc.setFont(undefined, 'bold');
+        doc.text(primerCaracter, 22, y);
+
+        // Resto del texto
+        const textWidth = doc.getTextWidth(primerCaracter);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont(undefined, isBold ? 'bold' : 'normal');
+        doc.text(restoTexto, 22 + textWidth, y);
+
+        // Formatear valor
+        let formattedValue = value;
+        if (isMonetary) {
             formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 });
         }
+
+        doc.setFont(undefined, isBold ? 'bold' : 'normal');
+        doc.text(formattedValue, 188, y, { align: 'right' });
     }
-    
-    // Valor alineado a la derecha
-    doc.setFont(undefined, isBold ? 'bold' : 'normal');
-    doc.text(formattedValue, 188, y, { align: 'right' });
-    
+
     y += 8;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
     // Luego, en las llamadas a agregarFila, cambiar las etiquetas:
