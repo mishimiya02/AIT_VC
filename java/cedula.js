@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('subtotal').textContent = subtotal.toFixed(2);
 
         // Calcular IVA sobre la contraprestación inicial
-        const ivaCalculado = contraprestacion * (iva / 100);
+        const ivaCalculado = subtotal * (iva / 100);
 
         // Calcular contraprestación mensual (subtotal + IVA sobre contraprestación)
         const contraprestacionMensual = subtotal + ivaCalculado;
