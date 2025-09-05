@@ -227,7 +227,7 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
 
     // Caso especial: TOTAL POR GARANTIZAR → todo en verde
     if (label.includes("TOTAL POR GARANTIZAR")) {
-        const formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MNX";
+        const formattedValue = "$" + parseFloat(value).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + " MXN";
         
         doc.setTextColor(0, 128, 0);
         doc.setFont(undefined, 'bold');
