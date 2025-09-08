@@ -1,4 +1,72 @@
 
+    /* Contenedor principal de gráficas compactas */
+    .charts-compact {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 15px 0;
+        padding: 10px;
+    }
+    
+    /* Diseño responsive para pantallas más grandes */
+    @media (min-width: 768px) {
+        .charts-compact {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    
+    /* Caja individual para cada gráfica */
+    .chart-box {
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        padding: 12px;
+        height: 260px; /* Altura reducida */
+        position: relative;
+    }
+    
+    /* Título de la gráfica */
+    .chart-title {
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+    
+    /* Contenedor del canvas de la gráfica */
+    .chart-container {
+        position: relative;
+        height: 210px; /* Altura reducida del área de la gráfica */
+        width: 100%;
+    }
+    
+    /* Personalización adicional para Chart.js */
+    .chartjs-render-monitor {
+        max-height: 210px;
+    }
+    
+    /* Ajustes para los elementos de leyenda */
+    .chart-legend {
+        font-size: 11px !important;
+        margin-top: 8px;
+    }
+    
+    /* Estilos para tooltips más compactos */
+    .chartjs-tooltip {
+        font-size: 11px;
+        padding: 4px 6px;
+        border-radius: 3px;
+    }
+
+
+
+
+
+
+
+
+
 /* Para que funcione correctamente en todos los casos */
 .menu-center {
     display: flex;
