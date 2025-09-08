@@ -250,8 +250,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         switch(opcion) {
             case '1': // DGX3
-                resultado = monto * 3;
-                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
+                resultado = (monto * 3)+(monto*.16);
+                formula = `Monto de Garantía : $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
                 break;
             case '2': // FC - Monto manual
                 mostrarResultado = false;
@@ -261,16 +261,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 formula = 'Monto de Garantía: $0.00 (No aplica)';
                 break;
             case '4': // FCX3
-                resultado = monto * 3;
-                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
+                resultado = (monto * 3)+(monto*.16);
+                formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
                 break;
             case '5': // DGX1
-                resultado = monto * 1;
-                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 1)`;
+                resultado = (monto * 0.16) + monto;
+                formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 1)`;
                 break;
             case '6': // FCX12
-                resultado = monto * 12;
-                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 12)`;
+                resultado = (monto * 12)+((monto*12)*.16);
+                formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 12)`;
                 break;
             case '7': // FDX30 - Monto manual
                 mostrarResultado = false;
