@@ -62,7 +62,7 @@
             margin: 0 auto 3rem;
             transition: var(--transition);
           border: 3px solid transparent;
-border-image: linear-gradient(to right, #e100ff, #6db6ff, #e100ff);
+border-image: linear-gradient(to right, #e100ff, #6db6ff, #e100ff);/*borde degradado*/
 border-image-slice: 1;
         }
 

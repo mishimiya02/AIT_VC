@@ -1,4 +1,28 @@
 
+.cedula-container {
+    background-color: rgb(0, 0, 0);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    transition: var(--transition);
+    position: relative;
+}
+
+/* Crear el borde degradado con pseudoelementos */
+.cedula-container::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(to right, #17d1ff, #ff00c8, #9900ff,#17d1ff);
+    border-radius: 10px;
+    z-index: -1;
+}
+
      .cedula-container input:focus {
       border-color: #007bff;
       outline: none;
@@ -60,6 +84,7 @@
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', Arial, sans-serif;
+    
 }
 
 .cedula-title {

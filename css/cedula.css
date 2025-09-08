@@ -1,4 +1,40 @@
 /* Para que funcione correctamente en todos los casos */
+
+
+
+
+
+/* ESTILOS PARA CÉDULA CON BORDE DEGRADADO VERDE */
+.form-container {
+    background-color: rgb(0, 0, 0);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto 5rem;
+    transition: var(--transition);
+    position: relative;
+}
+
+/* Crear el borde degradado con pseudoelementos */
+.form-container::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(to right, #78b3ff, #003cff, #ffffff);
+    border-radius: 10px;
+    z-index: -1;
+}
+
+
+
+
+
+
+
 .menu-center {
     display: flex;
     position: absolute;
@@ -54,6 +90,7 @@
             max-width: 800px;
             margin: 0 auto 3rem;
             transition: var(--transition);
+            
         }
 
         .dark-mode .form-container {
