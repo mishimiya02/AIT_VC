@@ -1,3 +1,16 @@
+/* ESTILOS PARA DROPDOWN QUE SE SUPERPONE CORRECTAMENTE */
+
+/* Para que funcione correctamente en todos los casos */
+.menu-center {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    z-index: 1000; /* Asegurar que el dropdawn esté por encima copiar para cada nav */
+}
+
+
 
 .cedula-container {
     background-color: rgb(0, 0, 0);

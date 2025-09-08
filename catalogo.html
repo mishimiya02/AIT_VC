@@ -195,6 +195,12 @@
                     
                 </select>
 
+<div id="monto-manual-container" style="display: none; margin-top: 15px;">
+    <label for="monto-manual">Ingrese el monto de garantía manualmente:</label>
+    <input type="number" id="monto-manual" step="0.01" placeholder="Monto manual $">
+</div>
+
+
 
                 </div>
 
@@ -206,21 +212,92 @@
         <p class="form-note">Todos los campos  <span class="required">*</span> son obligatorios.</p>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const montoInput = document.getElementById('monto');
+    const garantiaSelect = document.getElementById('garantia');
+    
+    // Crear elemento para mostrar el resultado
+    const resultadoDiv = document.createElement('div');
+    resultadoDiv.id = 'resultado-garantia';
+    resultadoDiv.style.marginTop = '15px';
+    resultadoDiv.style.padding = '15px';
+    resultadoDiv.style.backgroundColor = '#e8f4fc';
+    resultadoDiv.style.borderRadius = '5px';
+    resultadoDiv.style.borderLeft = '4px solid #3498db';
+    resultadoDiv.style.display = 'none';
+    resultadoDiv.style.fontWeight = 'bold';
+    resultadoDiv.style.color = '#2c3e50';
+    
+    // Insertar después del select de garantía
+    garantiaSelect.parentNode.appendChild(resultadoDiv);
 
+    // Función para calcular la garantía
+    function calcularGarantia() {
+        const monto = parseFloat(montoInput.value);
+        const opcion = garantiaSelect.value;
+        
+        // Ocultar resultado si no hay monto válido
+        if (isNaN(monto) || monto <= 0) {
+            resultadoDiv.style.display = 'none';
+            return;
+        }
+        
+        let resultado = 0;
+        let formula = '';
+        let mostrarResultado = true;
+        
+        switch(opcion) {
+            case '1': // DGX3
+                resultado = monto * 3;
+                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
+                break;
+            case '2': // FC - Monto manual
+                mostrarResultado = false;
+                break;
+            case '3': // NA
+                resultado = 0;
+                formula = 'Monto de Garantía: $0.00 (No aplica)';
+                break;
+            case '4': // FCX3
+                resultado = monto * 3;
+                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
+                break;
+            case '5': // DGX1
+                resultado = monto * 1;
+                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 1)`;
+                break;
+            case '6': // FCX12
+                resultado = monto * 12;
+                formula = `Monto de Garantía: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 12)`;
+                break;
+            case '7': // FDX30 - Monto manual
+                mostrarResultado = false;
+                break;
+            case '8': // PromMensualopsX3 - Monto manual
+               mostrarResultado = false;
+               document.getElementById('monto-manual-container').style.display = 'block';
+               break;
+            default:
+    document.getElementById('monto-manual-container').style.display = 'none';
+            
+        }
+        
+        // Mostrar u ocultar resultado
+        if (mostrarResultado) {
+            resultadoDiv.textContent = formula;
+            resultadoDiv.style.display = 'block';
+        } else {
+            resultadoDiv.style.display = 'none';
+        }
+    }
+
+    // Event listeners para cambios
+    garantiaSelect.addEventListener('change', calcularGarantia);
+    montoInput.addEventListener('input', calcularGarantia);
+});
+</script>
 
 
   
