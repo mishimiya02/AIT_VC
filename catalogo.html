@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Garantía</title>
+      <link rel="stylesheet" href="css/cedula.css" id="theme-style">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="java/cedula.js"></script>
+<script src="java/avion-loading.js"></script>
+<script src="java/theme-switchercedula.js"></script>
+  <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+
+       
+    </script>
+</head>
+<body>
+     
+	  <!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+               
+                     <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion.html' target='_blank'>COMPARACION</a>
+                <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                
+                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+            </div>
+        </div>
+        
+        <a href='/contacto'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
+    
+        <h1>CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR</h1>
+ 
+    
+   <div class="form-container">
+        <h1>📋 Formulario de Encuesta</h1>
+        <form id="encuestaForm">
+            <!-- Pregunta 1 -->
+            <div class="question">
+                <div class="question-text">1. ¿Con qué frecuencia practicas actividad física?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta1" value="a"> Diariamente</label>
+                    <label><input type="radio" name="pregunta1" value="b"> 3-4 veces por semana</label>
+                    <label><input type="radio" name="pregunta1" value="c"> 1-2 veces por semana</label>
+                    <label><input type="radio" name="pregunta1" value="d"> Ocasionalmente</label>
+                    <label><input type="radio" name="pregunta1" value="e"> Nunca</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 2 -->
+            <div class="question">
+                <div class="question-text">2. ¿Cómo calificarías tu nivel de estrés actual?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta2" value="a"> Muy bajo</label>
+                    <label><input type="radio" name="pregunta2" value="b"> Bajo</label>
+                    <label><input type="radio" name="pregunta2" value="c"> Moderado</label>
+                    <label><input type="radio" name="pregunta2" value="d"> Alto</label>
+                    <label><input type="radio" name="pregunta2" value="e"> Muy alto</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 3 -->
+            <div class="question">
+                <div class="question-text">3. ¿Qué tipo de lectura prefieres?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta3" value="a"> Novelas de ficción</label>
+                    <label><input type="radio" name="pregunta3" value="b"> No ficción/Educativo</label>
+                    <label><input type="radio" name="pregunta3" value="c"> Noticias y actualidad</label>
+                    <label><input type="radio" name="pregunta3" value="d"> Revistas y blogs</label>
+                    <label><input type="radio" name="pregunta3" value="e"> No me gusta leer</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 4 -->
+            <div class="question">
+                <div class="question-text">4. ¿Cuál es tu preferencia para ver películas/series?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta4" value="a"> Cine</label>
+                    <label><input type="radio" name="pregunta4" value="b"> Streaming (Netflix, etc.)</label>
+                    <label><input type="radio" name="pregunta4" value="c"> Televisión tradicional</label>
+                    <label><input type="radio" name="pregunta4" value="d"> Dispositivos móviles</label>
+                    <label><input type="radio" name="pregunta4" value="e"> No veo películas/series</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 5 -->
+            <div class="question">
+                <div class="question-text">5. ¿Cómo sueles pasar tu tiempo libre?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta5" value="a"> Deportes y ejercicio</label>
+                    <label><input type="radio" name="pregunta5" value="b"> Ver TV/Series</label>
+                    <label><input type="radio" name="pregunta5" value="c"> Leer</label>
+                    <label><input type="radio" name="pregunta5" value="d"> Redes sociales</label>
+                    <label><input type="radio" name="pregunta5" value="e"> Salir con amigos</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 6 -->
+            <div class="question">
+                <div class="question-text">6. ¿Qué tan importante es para ti la alimentación saludable?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta6" value="a"> Extremadamente importante</label>
+                    <label><input type="radio" name="pregunta6" value="b"> Muy importante</label>
+                    <label><input type="radio" name="pregunta6" value="c"> Moderadamente importante</label>
+                    <label><input type="radio" name="pregunta6" value="d"> Poco importante</label>
+                    <label><input type="radio" name="pregunta6" value="e"> Nada importante</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 7 -->
+            <div class="question">
+                <div class="question-text">7. ¿Qué tipo de música prefieres?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta7" value="a"> Pop</label>
+                    <label><input type="radio" name="pregunta7" value="b"> Rock</label>
+                    <label><input type="radio" name="pregunta7" value="c"> Música clásica</label>
+                    <label><input type="radio" name="pregunta7" value="d"> Reggaeton/Urban</label>
+                    <label><input type="radio" name="pregunta7" value="e"> No tengo preferencia</label>
+                </div>
+            </div>
+
+            <!-- Pregunta 8 -->
+            <div class="question">
+                <div class="question-text">8. ¿Cómo te describes socialmente?</div>
+                <div class="options">
+                    <label><input type="radio" name="pregunta8" value="a"> Muy extrovertido</label>
+                    <label><input type="radio" name="pregunta8" value="b"> Algo extrovertido</label>
+                    <label><input type="radio" name="pregunta8" value="c"> Neutral</label>
+                    <label><input type="radio" name="pregunta8" value="d"> Algo introvertido</label>
+                    <label><input type="radio" name="pregunta8" value="e"> Muy introvertido</label>
+                </div>
+            </div>
+
+            <button type="submit">Enviar Respuestas</button>
+        </form>
+
+
+
+
+
+</body>
+
+
+
+  
+
+
+</html>

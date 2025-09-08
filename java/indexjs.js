@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
             const calcularBtn = document.getElementById('calcular');
             const exportarBtn = document.getElementById('exportar-excel');
-            const exportarword = document.getElementById('exportar-word');
-            const exportarpdf = document.getElementById('exportar-pdf');     
+              
             const inflacionCheckbox = document.getElementById('inflacion');
             const inflacionAniversarioContainer = document.getElementById('inflacion-aniversario-container');
             const descuentosCheckbox = document.getElementById('descuentos');
@@ -265,8 +264,7 @@ acumuladoTotal += totalMes;
                 
                 // Mostrar botón de exportar a Excel
                 exportarBtn.style.display = 'inline-block';
-                exportarword.style.display = 'inline-block';
-                exportarpdf.style.display = 'inline-block';
+              
                 
                 // Mostrar gráficos
                 mostrarGraficos(data);
@@ -667,72 +665,130 @@ exportarBtn.addEventListener('click', async function () {
             }
             
             // Función para mostrar gráficos
-            function mostrarGraficos(data) {
-                const chartsContainer = document.getElementById('charts-container');
-                chartsContainer.style.display = 'grid';
-                
-                // Preparar datos para los gráficos
-                const meses = data.map(row => `Mes ${row.consecutivo}`);
-                const totalesMensuales = data.map(row => row.totalMes);
-                const inflaciones = data.map(row => row.inflacionAcumulativa);
-                
-                // Gráfico de Evolución del Total Mensual
-                const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
-                new Chart(ctx1, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [ {
-                            label: 'Total Mensual',
-                            data: totalesMensuales,
-                            borderColor: '#003366',
-                            backgroundColor: 'rgba(0, 51, 102, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        } ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución del Total Mensual'
-                            }
-                        }
-                    }
-                });
-                
-                // Gráfico de Inflación Acumulativa por Mes
-                const ctx3 = document.getElementById('inflacionChart').getContext('2d');
-                new Chart(ctx3, {
-                    type: 'line',
-                    data: {
-                        labels: meses,
-                        datasets: [ {
-                            label: 'Inflación Acumulativa',
-                            data: inflaciones,
-                            borderColor: '#28a745',
-                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        } ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución de la Inflación Acumulativa'
-                            }
-                        }
-                    }
-                });
+
+
+           
+        // [Tu código JavaScript existente]
+        
+        // Función para mostrar gráficos - VERSIÓN CORREGIDA
+        function mostrarGraficos(data) {
+            const chartsContainer = document.getElementById('charts-container');
+            
+            // Asegurarse de que el contenedor sea visible
+            chartsContainer.style.display = 'grid';
+            
+            // Destruir gráficos existentes si los hay
+            if (window.totalMensualChartInstance) {
+                window.totalMensualChartInstance.destroy();
             }
-        });
-		
+            if (window.inflacionChartInstance) {
+                window.inflacionChartInstance.destroy();
+            }
+            
+            // Preparar datos para los gráficos
+            const meses = data.map(row => `Mes ${row.consecutivo}`);
+            const totalesMensuales = data.map(row => row.totalMes);
+            const inflaciones = data.map(row => row.inflacionAcumulativa);
+            
+            // Gráfico de Evolución del Total Mensual
+            const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
+            window.totalMensualChartInstance = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Total Mensual',
+                        data: totalesMensuales,
+                        borderColor: '#003366',
+                        backgroundColor: 'rgba(0, 51, 102, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Evolución del Total Mensual',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Monto ($)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Meses'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de Inflación Acumulativa
+            const ctx2 = document.getElementById('inflacionChart').getContext('2d');
+            window.inflacionChartInstance = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [{
+                        label: 'Inflación Acumulativa',
+                        data: inflaciones,
+                        backgroundColor: 'rgba(220, 53, 69, 0.7)',
+                        borderColor: 'rgba(220, 53, 69, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Inflación Acumulativa por Mes',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Porcentaje (%)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Meses'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    })
