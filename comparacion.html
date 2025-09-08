@@ -42,7 +42,7 @@
         <div class="dropdown">
             <a  class="dropbtn">Servicios</a>
             <div class="dropdown-content">
-                <a href='/tarifaxdia.html' target='_blank'>TARIFA PROPORCIONAL</a>
+               
                      <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
                  <a href='/comparacion.html' target='_blank'>COMPARACION</a>
                 <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
@@ -488,22 +488,13 @@ document.getElementById('cantidad-agua').addEventListener('input', function () {
                 </table>
             
             <div id="garantia-tabla-container" style="margin-top: 20px;">
-                <h3 style="color: white; text-align: center;">Resumen de garantías</h3>
+                <h3 style="color: white; text-align: center;"></h3>
                 <table class="guarantee-table" id="garantia-tabla">
                     <!-- Filas dinámicas -->
                 </table>
             </div>
             
-            <h3 style="color: white; text-align: center; margin-top: 30px;">Gráficas</h3>
-            
-            <div class="charts-container" id="charts-container" style="display: none;">
-                <div class="chart-box">
-                    <canvas id="totalMensualChart"></canvas>
-                </div>
-                <div class="chart-box">
-                    <canvas id="inflacionChart"></canvas>
-                </div>
-            </div>
+      
             <div id="resumen-valuaciones" style="margin-top: 20px;"></div>
             <div class="footer">
                 <div class="page-number" id="page-number"></div>
@@ -528,8 +519,8 @@ document.getElementById('cantidad-agua').addEventListener('input', function () {
     <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
     <button id="exportar-comparacion-excel" margin: 10px auto;">Exportar Comparación a Excel</button>
 
-	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
-    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     
+<!----	<button type="button"  id="exportar-word"  style="display: none" onclick="exportTableToWord('tabla-resultados', 'valuacion')">Exportar a Word</button>  
+    <button type="button"  id="exportar-pdf"   style="display: none;">Exportar a PDF</button>     -->
 
   <div id="modal-comparacion" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; color: white; padding: 20px; overflow: auto;">
   <div style="background: #333; max-width: 90%; margin: 50px auto; padding: 20px; border-radius: 10px; max-height: 90vh; overflow: hidden;">
