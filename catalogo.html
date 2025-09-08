@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Garantía</title>
-      <link rel="stylesheet" href="css/cedula.css" id="theme-style">
+      <link rel="stylesheet" href="css/catalogo.css" id="theme-style">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="java/cedula.js"></script>
 <script src="java/avion-loading.js"></script>
@@ -65,110 +65,147 @@
     </div>
 	</nav>
     
-        <h1>CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR</h1>
+        <h1>TITULO CUANDO LO TENGA*</h1>
  
-    
-   <div class="form-container">
-        <h1>📋 Formulario de Encuesta</h1>
-        <form id="encuestaForm">
-            <!-- Pregunta 1 -->
-            <div class="question">
-                <div class="question-text">1. ¿Con qué frecuencia practicas actividad física?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta1" value="a"> Diariamente</label>
-                    <label><input type="radio" name="pregunta1" value="b"> 3-4 veces por semana</label>
-                    <label><input type="radio" name="pregunta1" value="c"> 1-2 veces por semana</label>
-                    <label><input type="radio" name="pregunta1" value="d"> Ocasionalmente</label>
-                    <label><input type="radio" name="pregunta1" value="e"> Nunca</label>
-                </div>
-            </div>
+    <div class="cedula-container">
 
+  <div class="form-group">
+                <label for="instrumento">CONCEPTO:<span class="required">*</span></label>
+                <select id="instrumento" name="instrumento" required>
+            <option value="">- Selecciona un instrumento -</option>
+            <option value="1">HANGARES</option>
+            <option value="2">ACCESO A ZONA FEDERAL</option>
+            <option value="3">PLATAFORMA</option>
+            <option value="4">INCENTIVOS</option>
+            <option value="5">SERVICIOS AEROPORTUARIOS</option>
+            <option value="6">TUA</option>
+            <option value="7">REVISION / INSPECCIÓN DE EQUIPAJE DOCUMENTADO</option>
+            <option value="8">OFICINAS</option>
+            <option value="9">MÓDULOS</option>
+            <option value="10">PENSIONES E.P.</option>
+            <option value="11">MOSTRADORES</option>
+            <option value="12">LOCALES</option>
+            <option value="13">COMODATO DE OFICINAS</option>
+            <option value="14">OTROS INGRESOS </option>
+            <option value="15">ESPACIOS PUBLICITARIOS</option>
+            <option value="16">COMODATO DE ESPACIOS</option>
+            <option value="17">PERMUTA DE LOCAL</option>
+            <option value="18">COMODATO DE TERRENOS</option>
+            <option value="19">ALMACÉN</option>
+
+
+
+                </select>
+            </div>
+            
             <!-- Pregunta 2 -->
-            <div class="question">
-                <div class="question-text">2. ¿Cómo calificarías tu nivel de estrés actual?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta2" value="a"> Muy bajo</label>
-                    <label><input type="radio" name="pregunta2" value="b"> Bajo</label>
-                    <label><input type="radio" name="pregunta2" value="c"> Moderado</label>
-                    <label><input type="radio" name="pregunta2" value="d"> Alto</label>
-                    <label><input type="radio" name="pregunta2" value="e"> Muy alto</label>
-                </div>
+            <div class="form-group">
+                 <label for="PREMISA">PREMISA DE ACTUALIZACIÓN:<span class="required">*</span></label>
+                <select id="premisa" name="premisa" required>
+                    <option value="">- Selecciona -</option>
+                    <option value="1">SIN PREMISA</option>
+                    <option value="2">INPC-ACUERDO DG </option>
+                    <option value="3">DOF</option>
+                    <option value="4">INPC</option>
+                    <option value="5">DOF ACUERDO DG </option>
+                     <option value="6">CATÁLOGO </option>
+                </select>
+            </div>
+            
+
+             <div class="form-group">
+                 <label for="PERIOCIDAD">PERIOCIDAD DE ACTUALIZACIÓN:<span class="required">*</span></label>
+                <select id="periocidad" name="periocidad" required>
+                    <option value="">- Selecciona -</option>
+                    <option value="1">SIN PREMISA</option>
+                    <option value="2"> ANUALMENTE </option>
+                    <option value="3">TARIFA EN VIGOR</option>
+                    <option value="4">MENSUALMENTE</option>
+                    <option value="5">AL MOMENTO DE LA RENOVACION </option>
+                </select>
             </div>
 
-            <!-- Pregunta 3 -->
-            <div class="question">
-                <div class="question-text">3. ¿Qué tipo de lectura prefieres?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta3" value="a"> Novelas de ficción</label>
-                    <label><input type="radio" name="pregunta3" value="b"> No ficción/Educativo</label>
-                    <label><input type="radio" name="pregunta3" value="c"> Noticias y actualidad</label>
-                    <label><input type="radio" name="pregunta3" value="d"> Revistas y blogs</label>
-                    <label><input type="radio" name="pregunta3" value="e"> No me gusta leer</label>
-                </div>
+
+              <div class="form-group">
+                 <label for="PREMISA">METODOLOGÍA DE ACTUALIZACIÓN:<span class="required">*</span></label>
+                <select id="metodología" name="metodologia" required>
+                    <option value="">- Selecciona -</option>
+                    <option value="1">SIN PREMISA</option>
+                    <option value="2">A LA RENOVACIÓN(A PARTIR DEL INICIO DE VIGENCIA) </option>
+                    <option value="3">ACORDE A LA VIGENCIA DE LA PUBLICACIÓN DEL DOF</option>
+                    <option value="4">INFLACION(12 MESES)</option>
+                    <option value="5">TARIFA EN VIGOR  </option>
+                     <option value="4">TARIFA DEL CATÁLOGO "P&T" DEL AÑO EN CURSO (AUTORIZADO POR EL C. A.)</option>
+                    <option value="5">REVISIÓN AL MOMENTO DE LA RENOVACIÓN DEL INSTRUMENTO </option>
+                     <option value="4">INFLACIÓN ACUMULADA AL MOMENTO DE LA RENOVACIÓN</option>
+
+                </select>
             </div>
 
-            <!-- Pregunta 4 -->
-            <div class="question">
-                <div class="question-text">4. ¿Cuál es tu preferencia para ver películas/series?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta4" value="a"> Cine</label>
-                    <label><input type="radio" name="pregunta4" value="b"> Streaming (Netflix, etc.)</label>
-                    <label><input type="radio" name="pregunta4" value="c"> Televisión tradicional</label>
-                    <label><input type="radio" name="pregunta4" value="d"> Dispositivos móviles</label>
-                    <label><input type="radio" name="pregunta4" value="e"> No veo películas/series</label>
-                </div>
-            </div>
+              <div class="form-group">
+                 <label for="ubicación ">UBICACIÓN:<span class="required">*</span></label>
+                <select id="ubicacion" name="ubicacion" required>
+                    <option value="">- Selecciona -</option>
+                    <option value="1">AMAIT</option>
+                    <option value="2"> OAG</option>
+                    <option value="3">ADUANAS</option>
+                    <option value="4">FEDEX</option>
 
-            <!-- Pregunta 5 -->
-            <div class="question">
-                <div class="question-text">5. ¿Cómo sueles pasar tu tiempo libre?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta5" value="a"> Deportes y ejercicio</label>
-                    <label><input type="radio" name="pregunta5" value="b"> Ver TV/Series</label>
-                    <label><input type="radio" name="pregunta5" value="c"> Leer</label>
-                    <label><input type="radio" name="pregunta5" value="d"> Redes sociales</label>
-                    <label><input type="radio" name="pregunta5" value="e"> Salir con amigos</label>
-                </div>
-            </div>
+                </select>
+                   
 
-            <!-- Pregunta 6 -->
-            <div class="question">
-                <div class="question-text">6. ¿Qué tan importante es para ti la alimentación saludable?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta6" value="a"> Extremadamente importante</label>
-                    <label><input type="radio" name="pregunta6" value="b"> Muy importante</label>
-                    <label><input type="radio" name="pregunta6" value="c"> Moderadamente importante</label>
-                    <label><input type="radio" name="pregunta6" value="d"> Poco importante</label>
-                    <label><input type="radio" name="pregunta6" value="e"> Nada importante</label>
-                </div>
-            </div>
 
-            <!-- Pregunta 7 -->
-            <div class="question">
-                <div class="question-text">7. ¿Qué tipo de música prefieres?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta7" value="a"> Pop</label>
-                    <label><input type="radio" name="pregunta7" value="b"> Rock</label>
-                    <label><input type="radio" name="pregunta7" value="c"> Música clásica</label>
-                    <label><input type="radio" name="pregunta7" value="d"> Reggaeton/Urban</label>
-                    <label><input type="radio" name="pregunta7" value="e"> No tengo preferencia</label>
-                </div>
-            </div>
 
-            <!-- Pregunta 8 -->
-            <div class="question">
-                <div class="question-text">8. ¿Cómo te describes socialmente?</div>
-                <div class="options">
-                    <label><input type="radio" name="pregunta8" value="a"> Muy extrovertido</label>
-                    <label><input type="radio" name="pregunta8" value="b"> Algo extrovertido</label>
-                    <label><input type="radio" name="pregunta8" value="c"> Neutral</label>
-                    <label><input type="radio" name="pregunta8" value="d"> Algo introvertido</label>
-                    <label><input type="radio" name="pregunta8" value="e"> Muy introvertido</label>
-                </div>
+                    
+                   
             </div>
+  <div class="form-group">
+                 <label for="PREMISA">DETALLE:<span class="required">*</span></label>
+                <select id="detalle" name="detalle" required>
+                    <option value="">- Selecciona -</option>
+                    <option value="1"> COMBUSTIBLES ASA</option>
+                    <option value="2"> HANGAR FEDEX</option>
+                    <option value="3">HANGARES ZONA NORTE</option>
+                    <option value="4">HANGARES ZONA OAG</option>
+                    <option value="5">LADO AIRE </option>
+                     <option value="6"> LADO TIERRA</option>
+                      <option value="7">LADO TIERRA ADUANA</option>
+                    <option value="8"> PARCELAS INMEDIACIONES DEL AIT</option>
+                    <option value="9">RECINTOS FICALES (ADUANA TOLUCA)</option>
+                    <option value="10">RESERVA TERRITORIAL AMAIT (POLÍGONO)</option>
+                          </select>
+            </div>
+  <div class="form-group">
+                 <label for="garantia">GARANTIA:<span class="required">*</span></label>
+                <select id="garantia" name="garantia" required>
+                    <option value="">- Selecciona -</option>
+                    <option value="1">DGX3</option>
+                    <option value="2"> FC</option>
+                    <option value="3">NA</option>
+                    <option value="4">FCX3</option>
+                    <option value="5"> DGX1</option>
+                     <option value="6"> FCX12</option>
+                      <option value="7">FDX30</option>
+                    <option value="8">PROMEDIO MENSUAL X3 </option>
+                </select>
+                </div>
 
-            <button type="submit">Enviar Respuestas</button>
+            <div class="btn-container">
+                <button type="submit" class="btn">Enviar Formulario</button>
+            </div>
         </form>
+        
+        <p class="form-note">Todos los campos  <span class="required">*</span> son obligatorios.</p>
+    </div>
+
+
+
+
+
+
+
+
+
 
 
 
