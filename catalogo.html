@@ -195,10 +195,7 @@
                     
                 </select>
 
-<div id="monto-manual-container" style="display: none; margin-top: 15px;">
-    <label for="monto-manual">Ingrese el monto de garantía manualmente:</label>
-    <input type="number" id="monto-manual" step="0.01" placeholder="Monto manual $">
-</div>
+
 
 
 
@@ -251,10 +248,11 @@ document.addEventListener('DOMContentLoaded', function() {
         switch(opcion) {
             case '1': // DGX3
                 resultado = (monto * 3)+(monto*.16);
-                formula = `Monto de Garantía : $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
+                formula = `Monto de Garantía : $${resultado.toFixed(2)}`;
                 break;
             case '2': // FC - Monto manual
-                mostrarResultado = false;
+                resultado = (monto * 1);
+                 formula = `Monto de Garantía : $${resultado.toFixed(2)} `;
                 break;
             case '3': // NA
                 resultado = 0;
@@ -273,11 +271,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 12)`;
                 break;
             case '7': // FDX30 - Monto manual
-                mostrarResultado = false;
+                resultado = monto;
+               formula = `Monto de Garantía : $${resultado.toFixed(2)} `;
                 break;
             case '8': // PromMensualopsX3 - Monto manual
-               mostrarResultado = false;
-               document.getElementById('monto-manual-container').style.display = 'block';
+               resultado = monto;
+            
+             formula = `Monto de Garantía : $${resultado.toFixed(2)} `;
                break;
             default:
     document.getElementById('monto-manual-container').style.display = 'none';
