@@ -69,7 +69,7 @@
     <p id="statusMessage" class="status-message"></p>
 
     
-        <h1>REGISTRAR3*</h1>
+        <h1>REGISTRAR4*</h1>
         
  <form id="registrationForm"   >
     <div class="cedula-container">
@@ -144,11 +144,11 @@
                 
                 try {
                     // Crear FormData desde el formulario
-                    const formData = new FormData(form);
+                    const formData = new FormData("registrationForm");
                     formData.append("action", "add");
                     
                     // Enviar datos
-                    const response = await fetch(scriptURL, {
+                    const response = await fetch( "https://script.google.com/macros/s/AKfycbwbsC8zykyHvd1VjOL_zY9_wQmZba7RdyRErypX5kfwotRgUv44F7VZsl49abQCUNpy4g/exec", {
                         method: "POST",
                         body: formData
                     });
