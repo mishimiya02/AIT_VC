@@ -120,108 +120,48 @@
 
 
 
-
-  <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.getElementById("registrationForm");
-            const scriptURL = "https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec";
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("registrationForm");
+        const scriptURL = "https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec";
             
-            // Validación en tiempo real
-            const inputs = form.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('blur', () => validateField(input));
-            });
-            
-            // Función para validar campos individuales
-            function validateField(field) {
-                const errorElement = document.getElementById(field.id + 'Error');
+        // Envío del formulario
+        form.addEventListener("submit", async e => {
+            e.preventDefault();
                 
-                if (!field.value.trim()) {
-                    errorElement.style.display = 'block';
-                    return false;
-                }
-                
-                if (field.id === 'rfc' && !isValidRFC(field.value)) {
-                    errorElement.style.display = 'block';
-                    return false;
-                }
-                
-                if (field.id === 'postalCode' && !/^\d{5}$/.test(field.value)) {
-                    errorElement.style.display = 'block';
-                    return false;
-                }
-                
-                if (field.id === 'email' && !isValidEmail(field.value)) {
-                    errorElement.style.display = 'block';
-                    return false;
-                }
-                
-                errorElement.style.display = 'none';
-                return true;
+            // Mostrar loader
+            if (typeof AvionLoading !== 'undefined') {
+                AvionLoading.mostrar();
             }
-            
-            // Función para validar RFC
-            function isValidRFC(rfc) {
-                const pattern = /^[A-ZÑ&]{3,4}\d{6}[A-V1-9][A-Z1-9][0-9A]$/;
-                return pattern.test(rfc);
-            }
-            
-            // Función para validar email
-            function isValidEmail(email) {
-                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return pattern.test(email);
-            }
-            
-            // Envío del formulario
-            form.addEventListener("submit", async e => {
-                e.preventDefault();
                 
-                // Validar todos los campos antes de enviar
-                let isValid = true;
-                inputs.forEach(input => {
-                    if (!validateField(input)) {
-                        isValid = false;
-                    }
+            try {
+                const formData = new FormData(form);
+                formData.append("action", "add");
+                    
+                const response = await fetch(scriptURL, { 
+                    method: "POST", 
+                    body: formData 
                 });
-                
-                if (!isValid) {
-                    alert("Por favor, complete todos los campos correctamente.");
-                    return;
+                    
+                const result = await response.text();
+                alert(result);
+                    
+                // Limpiar formulario después de enviar exitosamente
+                if (result.includes("agregado")) {
+                    form.reset();
                 }
-                
-                // Mostrar loader
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error al enviar el formulario: " + error.message);
+            } finally {
+                // Ocultar loader
                 if (typeof AvionLoading !== 'undefined') {
-                    AvionLoading.mostrar();
+                    setTimeout(() => AvionLoading.ocultar(), 500);
                 }
-                
-                try {
-                    const formData = new FormData(form);
-                    formData.append("action", "add");
-                    
-                    const response = await fetch(scriptURL, { 
-                        method: "POST", 
-                        body: formData 
-                    });
-                    
-                    const result = await response.text();
-                    alert(result);
-                    
-                    // Limpiar formulario después de enviar exitosamente
-                    if (result.includes("agregado")) {
-                        form.reset();
-                    }
-                } catch (error) {
-                    console.error("Error:", error);
-                    alert("Error al enviar el formulario: " + error.message);
-                } finally {
-                    // Ocultar loader
-                    if (typeof AvionLoading !== 'undefined') {
-                        setTimeout(() => AvionLoading.ocultar(), 500);
-                    }
-                }
-            });
+            }
         });
-    </script>
+    });
+</script>
 
 
 
