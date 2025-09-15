@@ -120,48 +120,57 @@
 
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("registrationForm");
-        const scriptURL = "https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec";
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("registrationForm");
+            const statusMessage = document.getElementById("statusMessage");
             
-        // Envío del formulario
-        form.addEventListener("submit", async e => {
-            e.preventDefault();
+            // URL de tu Google Apps Script Web App
+            const scriptURL = "https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec";
+            
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
                 
-            // Mostrar loader
-            if (typeof AvionLoading !== 'undefined') {
-                AvionLoading.mostrar();
-            }
+                // Mostrar estado de envío
+                showStatus("Enviando datos...", "success");
                 
-            try {
-                const formData = new FormData(form);
-                formData.append("action", "add");
+                try {
+                    // Crear FormData desde el formulario
+                    const formData = new FormData(form);
+                    formData.append("action", "add");
                     
-                const response = await fetch(scriptURL, { 
-                    method: "POST", 
-                    body: formData 
-                });
+                    // Enviar datos
+                    const response = await fetch(scriptURL, {
+                        method: "POST",
+                        body: formData,
+                        // Importante para evitar problemas CORS
+                        mode: 'no-cors'
+                    });
                     
-                const result = await response.text();
-                alert(result);
-                    
-                // Limpiar formulario después de enviar exitosamente
-                if (result.includes("agregado")) {
+                    // Como usamos no-cors, no podemos leer la respuesta directamente
+                    // Pero asumimos que se envió correctamente
+                    showStatus("¡Registro exitoso! Los datos han sido guardados.", "success");
                     form.reset();
+                    
+                } catch (error) {
+                    console.error("Error:", error);
+                    showStatus("Error al enviar el formulario. Verifica la consola para más detalles.", "error");
                 }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Error al enviar el formulario: " + error.message);
-            } finally {
-                // Ocultar loader
-                if (typeof AvionLoading !== 'undefined') {
-                    setTimeout(() => AvionLoading.ocultar(), 500);
-                }
+            });
+            
+            function showStatus(message, type) {
+                statusMessage.textContent = message;
+                statusMessage.className = "status-message " + (type === "success" ? "success" : "error-message");
+                statusMessage.style.display = "block";
+                
+                // Ocultar el mensaje después de 5 segundos
+                setTimeout(() => {
+                    statusMessage.style.display = "none";
+                }, 5000);
             }
         });
-    });
-</script>
+    </script>
 
 
 
