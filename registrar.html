@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Garantía</title>
+      <link rel="stylesheet" href="registrar.css" id="theme-style">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="java/avion-loading.js"></script>
+<!--<script src="java/theme-switchercedula.js"></script>-->
+  <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+
+       
+    </script>
+</head>
+<body>
+     
+	  <!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+               
+                     <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion.html' target='_blank'>COMPARACION</a>
+                <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                  <a href="catalogo.html">Catalogo</a>
+                
+                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+            </div>
+        </div>
+        
+        <a href='/contacto.html'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+
+    </div>
+	</nav>
+    
+        <h1>REGISTRAR*</h1>
+        
+ <form id="registrationForm"  method="post" >
+    <div class="cedula-container">
+
+
+         <div class="form-group">
+                <label for="accountNumber">Número de cuenta <span class="required">*</span></label>
+                <input type="text" id="accountNumber" name="accountNumber" required>
+                <div class="error" id="accountNumberError">Por favor ingrese un número de cuenta válido</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="businessName">Razón social <span class="required">*</span></label>
+                <input type="text" id="businessName" name="businessName" required>
+                <div class="error" id="businessNameError">Por favor ingrese la razón social</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="rfc">RFC <span class="required">*</span></label>
+                <input type="text" id="rfc" name="rfc" required>
+                <div class="error" id="rfcError">Por favor ingrese un RFC válido</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="postalCode">Código postal <span class="required">*</span></label>
+                <input type="text" id="postalCode" name="postalCode" required maxlength="5">
+                <div class="error" id="postalCodeError">Por favor ingrese un código postal válido (5 dígitos)</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo electrónico <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError">Por favor ingrese un correo electrónico válido</div>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn">Enviar Formulario</button>
+            </div>
+        </form>
+        
+        <p class="form-note">Todos los campos  <span class="required">*</span> son obligatorios.</p>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+const scriptURL ="https://script.google.com/macros/s/AKfycbxQwmkSpLM1aRG1Yno_hvdIkRNuxRpiyWhHIbmXOQtv5rZ4J-Wo2oLuFcyaD4zuttaiaQ/exec"; // tu URL del paso 3
+const form = document.getElementById("registrationForm");
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const formData = new FormData(form);
+
+  // Agregar la acción "add"
+  formData.append("action", "add");
+
+  fetch(scriptURL, { method: "POST", body: formData })
+    .then(res => res.text())
+    .then(txt => alert(txt))
+    .catch(err => alert("Error: " + err));
+});
+</script>
+
+
+
+</body>
+  
+
+
+</html>
