@@ -122,8 +122,8 @@
 
 
 <script>
-const scriptURL ="https://script.google.com/macros/s/AKfycbxQwmkSpLM1aRG1Yno_hvdIkRNuxRpiyWhHIbmXOQtv5rZ4J-Wo2oLuFcyaD4zuttaiaQ/exec"; // tu URL del paso 3
-const form = document.getElementById("registrationForm");
+const scriptURL =" https://script.google.com/macros/s/AKfycbwlJCFAtjgta_dNpVXqouNcLVYzssCBpY7B1LTyhrIc/dev"; // tu URL del paso 3
+                
 
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -132,7 +132,7 @@ form.addEventListener("submit", e => {
   // Agregar la acción "add"
   formData.append("action", "add");
 
-  fetch("https://script.google.com/macros/s/AKfycbxQwmkSpLM1aRG1Yno_hvdIkRNuxRpiyWhHIbmXOQtv5rZ4J-Wo2oLuFcyaD4zuttaiaQ/exec", { method: "POST", body: formData })
+  fetch("https://script.google.com/macros/s/AKfycbwlJCFAtjgta_dNpVXqouNcLVYzssCBpY7B1LTyhrIc/dev", { method: "POST", body: formData })
     .then(res => res.text())
     .then(txt => alert(txt))
     .catch(err => alert("Error: " + err));
