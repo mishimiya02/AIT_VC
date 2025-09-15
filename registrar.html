@@ -65,6 +65,9 @@
 
     </div>
 	</nav>
+
+    <p id="statusMessage" class="status-message"></p>
+
     
         <h1>REGISTRAR1*</h1>
         
@@ -125,7 +128,7 @@
             const statusMessage = document.getElementById("statusMessage");
             
             // URL de tu Google Apps Script Web App
-            const scriptURL = "https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec";
+            const scriptURL = "const scriptURL = /.netlify/functions/proxy";
             
             // Verificar que los elementos existan
             if (!form) {
