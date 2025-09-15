@@ -122,6 +122,7 @@
 
 
 <script>
+    document.addEventListener("DOMContentLoaded", () => {
 const scriptURL =" https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec"; // tu URL del paso 3
                 
 
@@ -137,6 +138,7 @@ form.addEventListener("submit", e => {
     .then(txt => alert(txt))
     .catch(err => alert("Error: " + err));
 });
+    });
 </script>
 
 
