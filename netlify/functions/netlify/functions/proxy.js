@@ -26,7 +26,7 @@ export async function handler(event, context) {
     return {
       statusCode: 500,
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://ornate-cobbler-e6a6a4.netlify.app",
       },
       body: JSON.stringify({ error: error.message })
     };
