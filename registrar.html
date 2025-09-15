@@ -69,7 +69,7 @@
     <p id="statusMessage" class="status-message"></p>
 
     
-        <h1>REGISTRAR5*</h1>
+        <h1>REGISTRAR6*</h1>
         
  <form id="registrationForm"   >
     <div class="cedula-container">
@@ -138,15 +138,25 @@ document.addEventListener("DOMContentLoaded", () => {
         showStatus("Enviando datos...", "success");
         
         try {
-            // Crear FormData desde el formulario CORRECTAMENTE
-            const formData = new FormData(form);
-            formData.append("action", "add");
-            
-            // Enviar datos al Apps Script
-            const response = await fetch(scriptURL, {
-                method: "POST",
-                body: formData
-            });
+           // Crear FormData desde el formulario
+const formData = new FormData(form);
+formData.append("action", "add");
+
+// Convertir a URLSearchParams para enviar correctamente
+const searchParams = new URLSearchParams();
+formData.forEach((value, key) => {
+  searchParams.append(key, value);
+});
+
+// Enviar datos al proxy
+const response = await fetch("/.netlify/functions/proxy", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  body: searchParams.toString()
+});
+
             
             if (response.ok) {
                 const result = await response.text();
