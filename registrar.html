@@ -127,7 +127,7 @@ const scriptURL =" https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEW
 
 form.addEventListener("submit", e => {
   e.preventDefault();
-  const formData = new FormData(form);
+  const form = document.getElementById("registrationForm"); 
 
   // Agregar la acción "add"
   formData.append("action", "add");
