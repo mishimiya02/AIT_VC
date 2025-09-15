@@ -66,7 +66,7 @@
     </div>
 	</nav>
     
-        <h1>REGISTRAR*</h1>
+        <h1>REGISTRAR1*</h1>
         
  <form id="registrationForm"   >
     <div class="cedula-container">
@@ -119,15 +119,19 @@
 
 
 
-
-
-    <script>
+<script>
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("registrationForm");
             const statusMessage = document.getElementById("statusMessage");
             
             // URL de tu Google Apps Script Web App
             const scriptURL = "https://script.google.com/macros/s/AKfycbym04WtoOWQWAEapnKXEWphWe0FikY0rxYdXeyL_1hRKED03AYjrQNnfS6d838EVNUShA/exec";
+            
+            // Verificar que los elementos existan
+            if (!form) {
+                console.error("No se encontró el formulario con id 'registrationForm'");
+                return;
+            }
             
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
@@ -143,15 +147,17 @@
                     // Enviar datos
                     const response = await fetch(scriptURL, {
                         method: "POST",
-                        body: formData,
-                        // Importante para evitar problemas CORS
-                        mode: 'no-cors'
+                        body: formData
                     });
                     
-                    // Como usamos no-cors, no podemos leer la respuesta directamente
-                    // Pero asumimos que se envió correctamente
-                    showStatus("¡Registro exitoso! Los datos han sido guardados.", "success");
-                    form.reset();
+                    // Procesar la respuesta
+                    if (response.ok) {
+                        const result = await response.text();
+                        showStatus("¡Registro exitoso! Los datos han sido guardados.", "success");
+                        form.reset();
+                    } else {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
                     
                 } catch (error) {
                     console.error("Error:", error);
@@ -160,13 +166,22 @@
             });
             
             function showStatus(message, type) {
+                // Verificar que el elemento existe antes de intentar modificarlo
+                if (!statusMessage) {
+                    console.error("No se encontró el elemento con id 'statusMessage'");
+                    alert(`${type === "success" ? "Éxito" : "Error"}: ${message}`);
+                    return;
+                }
+                
                 statusMessage.textContent = message;
                 statusMessage.className = "status-message " + (type === "success" ? "success" : "error-message");
                 statusMessage.style.display = "block";
                 
                 // Ocultar el mensaje después de 5 segundos
                 setTimeout(() => {
-                    statusMessage.style.display = "none";
+                    if (statusMessage) {
+                        statusMessage.style.display = "none";
+                    }
                 }, 5000);
             }
         });
