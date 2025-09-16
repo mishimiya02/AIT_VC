@@ -135,7 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         
         // Mostrar estado de envío
-        showStatus("Enviando datos...", "success");
+        showStatus("Enviando datos", "loading");
+
         
         try {
            // Crear FormData desde el formulario
@@ -172,30 +173,31 @@ const response = await fetch("/.netlify/functions/proxy", {
         }
     });
 
+
     function showStatus(message, type) {
-        if (!statusMessage) {
-            console.error("No se encontró el elemento con id 'statusMessage'");
-            alert(`${type === "success" ? "Éxito" : "Error"}: ${message}`);
-            return;
-        }
+    if (!statusMessage) return;
 
-        statusMessage.textContent = message;
-        statusMessage.className = "status-message " + (type === "success" ? "success" : "error-message");
-        statusMessage.style.display = "block";
+    statusMessage.textContent = message;
+    statusMessage.className = "status-message"; // limpiar clases previas
+    statusMessage.style.display = "block";
 
+    if (type === "loading") {
+        statusMessage.classList.add("loading");
+    } else if (type === "success") {
+        statusMessage.classList.add("success");
+    } else if (type === "error") {
+        statusMessage.classList.add("error-message");
+    }
+
+    // Ocultar después de 5s (menos cuando es "loading")
+    if (type !== "loading") {
         setTimeout(() => {
-            if (statusMessage) {
-                statusMessage.style.display = "none";
-            }
+            statusMessage.style.display = "none";
         }, 5000);
     }
-});
+}
+})
 </script>
-
-
-
-
-
 
 </body>
   
