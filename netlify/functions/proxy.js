@@ -1,6 +1,6 @@
 // netlify/functions/proxy.js
 export async function handler(event, context) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyf3FvZvpjJUfVUe3Vfmbwnctr_b0fKCkfs5W51sBHaul6MSFkP4QfgK57cXN6GYUNpsg/exec";/*cambiar url*/
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzhFMBLZQz5aUp9NCXzPmwoTD5RGxlwbqBTGDOSN9K0M1Yy5yKE5PeISgeXvtBPwpswcg/exec";/*cambiar url*/
 
   try {
     // Reenviar al Apps Script
@@ -12,21 +12,22 @@ export async function handler(event, context) {
       body: event.body
     });
 
-    const text = await response.text();
+    const data = await response.text();
 
     return {
       statusCode: 200,
       headers: {
-        "Access-Control-Allow-Origin":"https://ornate-cobbler-e6a6a4.netlify.app", // o tu dominio específico
-        "Content-Type": "text/plain"
+        "Access-Control-Allow-Origin": "https://ornate-cobbler-e6a6a4.netlify.app",
+        "Content-Type": "application/json"
       },
-      body: text
+      body: data
     };
   } catch (error) {
     return {
       statusCode: 500,
       headers: {
         "Access-Control-Allow-Origin": "https://ornate-cobbler-e6a6a4.netlify.app",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ error: error.message })
     };

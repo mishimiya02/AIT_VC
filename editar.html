@@ -104,7 +104,7 @@
                 <a class="dropbtn">BD CLIENTES</a>
                 <div class="dropdown-content">
                     <a href='registrar.html'>REGISTRAR</a>
-                    <a href='faq.html'>EDITSR</a>
+                    <a href='editar.html'>EDITAR</a>
                 </div>
             </div>
 
@@ -128,7 +128,6 @@
             </div>
         </div>
              
-    <p class="form-note">Todos los campos <span class="required">*</span> son obligatorios.</p>
     
     </form>
    
@@ -138,13 +137,17 @@
         <div id="resultsContainer"></div>
     </div>
 
+    
     <script>
+        // URL de tu función proxy de Netlify
+        const PROXY_URL = '/.netlify/functions/proxy';
+        
         document.addEventListener('DOMContentLoaded', function() {
             const searchForm = document.getElementById('searchForm');
             const resultsContainer = document.getElementById('resultsContainer');
             const searchResults = document.getElementById('searchResults');
             
-            searchForm.addEventListener('submit', function(e) {
+            searchForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const accountNumber = document.getElementById('accountNumber').value.trim();
@@ -158,30 +161,48 @@
                 resultsContainer.innerHTML = '<div class="loading">Buscando...</div>';
                 searchResults.style.display = 'block';
                 
-                // Llamar a Google Apps Script
-                google.script.run
-                    .withSuccessHandler(displayResults)
-                    .withFailureHandler(showError)
-                    .buscarPorNumeroCuenta(accountNumber);
+                try {
+                    // Llamar al proxy de Netlify
+                    const response = await fetch(PROXY_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            action: 'buscarPorNumeroCuenta',
+                            numeroCuenta: accountNumber
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+                    
+                    const resultados = await response.json();
+                    displayResults(resultados);
+                    
+                } catch (error) {
+                    showError(error);
+                }
             });
             
-            function displayResults(result) {
-                if (result && result.length > 0) {
-                    let html = '';
+            function displayResults(resultados) {
+                if (resultados && resultados.length > 0) {
+                    let html = '<p>Se encontraron ' + resultados.length + ' resultado(s):</p>';
                     
-                    result.forEach(record => {
+                    resultados.forEach((fila, index) => {
                         html += '<div class="result-item">';
+                        html += '<h4>Resultado #' + (index + 1) + '</h4>';
                         
-                        // Asumiendo que el resultado es un array de valores
-                        // Puedes personalizar esto según la estructura de tus datos
-                        for (let i = 0; i < record.length; i++) {
+                        // Mostrar cada campo
+                        fila.forEach((valor, i) => {
                             html += `
                                 <div class="result-field">
-                                    <span class="field-name">Campo ${i+1}:</span>
-                                    <span>${record[i] || 'N/A'}</span>
+                                    <span class="field-name">Campo ${i + 1}:</span>
+                                    <span>${valor || 'N/A'}</span>
                                 </div>
                             `;
-                        }
+                        });
                         
                         html += '</div>';
                     });
@@ -193,7 +214,8 @@
             }
             
             function showError(error) {
-                resultsContainer.innerHTML = `<div class="no-results">Error: ${error.message || 'Ocurrió un error durante la búsqueda'}</div>`;
+                resultsContainer.innerHTML = '<div class="no-results">Error: ' + (error.message || 'Ocurrió un error durante la búsqueda') + '</div>';
+                console.error('Error:', error);
             }
         });
     </script>
