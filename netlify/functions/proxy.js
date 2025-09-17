@@ -1,7 +1,7 @@
 // netlify/functions/proxy.js
 // netlify/functions/proxy.js
 export async function handler(event, context) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyf3FvZvpjJUfVUe3Vfmbwnctr_b0fKCkfs5W51sBHaul6MSFkP4QfgK57cXN6GYUNpsg/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbw6bmTnOc9MbaDQ8qdeNXYuX8nhl08enudANnz1ZpEmaCjoAnp71opILqBRVjQ4zFUMpw/exec";/*cambiar url*/
 
   try {
     // Reenviar al Apps Script
