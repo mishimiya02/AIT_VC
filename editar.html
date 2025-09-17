@@ -139,85 +139,97 @@
 
     
     <script>
-        // URL de tu función proxy de Netlify
-        const PROXY_URL = '/.netlify/functions/proxy';
+// URL de tu función proxy de Netlify
+const PROXY_URL = '/.netlify/functions/proxy';
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.getElementById('searchForm');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const searchResults = document.getElementById('searchResults');
+    
+    searchForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchForm = document.getElementById('searchForm');
-            const resultsContainer = document.getElementById('resultsContainer');
-            const searchResults = document.getElementById('searchResults');
-            
-            searchForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const accountNumber = document.getElementById('accountNumber').value.trim();
-                
-                if (!accountNumber) {
-                    alert('Por favor ingrese un número de cuenta');
-                    return;
-                }
-                
-                // Mostrar estado de carga
-                resultsContainer.innerHTML = '<div class="loading">Buscando...</div>';
-                searchResults.style.display = 'block';
-                
-                try {
-                    // Llamar al proxy de Netlify
-                    const response = await fetch(PROXY_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: new URLSearchParams({
-                            action: 'buscarPorNumeroCuenta',
-                            numeroCuenta: accountNumber
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`Error HTTP: ${response.status}`);
-                    }
-                    
-                    const resultados = await response.json();
-                    displayResults(resultados);
-                    
-                } catch (error) {
-                    showError(error);
-                }
+        const accountNumber = document.getElementById('accountNumber').value.trim();
+        
+        if (!accountNumber) {
+            alert('Por favor ingrese un número de cuenta');
+            return;
+        }
+        
+        // Mostrar estado de carga
+        resultsContainer.innerHTML = '<div class="loading">Buscando...</div>';
+        searchResults.style.display = 'block';
+        
+        try {
+            // Llamar al proxy de Netlify
+            const response = await fetch(PROXY_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'buscarPorNumeroCuenta',
+                    numeroCuenta: accountNumber
+                })
             });
             
-            function displayResults(resultados) {
-                if (resultados && resultados.length > 0) {
-                    let html = '<p>Se encontraron ' + resultados.length + ' resultado(s):</p>';
-                    
-                    resultados.forEach((fila, index) => {
-                        html += '<div class="result-item">';
-                        html += '<h4>Resultado #' + (index + 1) + '</h4>';
-                        
-                        // Mostrar cada campo
-                        fila.forEach((valor, i) => {
-                            html += `
-                                <div class="result-field">
-                                    <span class="field-name">Campo ${i + 1}:</span>
-                                    <span>${valor || 'N/A'}</span>
-                                </div>
-                            `;
-                        });
-                        
-                        html += '</div>';
-                    });
-                    
-                    resultsContainer.innerHTML = html;
-                } else {
-                    resultsContainer.innerHTML = '<div class="no-results">No se encontraron resultados para el número de cuenta proporcionado.</div>';
-                }
+            // DEBUG: Ver qué está devolviendo exactamente
+            const responseText = await response.text();
+            console.log('Respuesta cruda:', responseText);
+            
+            // Intentar parsear como JSON
+            let resultados;
+            try {
+                resultados = JSON.parse(responseText);
+            } catch (parseError) {
+                console.error('Error parseando JSON:', parseError);
+                throw new Error('El servidor devolvió HTML en lugar de JSON. Verifica la configuración del proxy.');
             }
             
-            function showError(error) {
-                resultsContainer.innerHTML = '<div class="no-results">Error: ' + (error.message || 'Ocurrió un error durante la búsqueda') + '</div>';
-                console.error('Error:', error);
+            if (!response.ok) {
+                throw new Error(`Error HTTP: ${response.status}`);
             }
-        });
-    </script>
+            
+            displayResults(resultados);
+            
+        } catch (error) {
+            showError(error);
+        }
+    });
+    
+    function displayResults(resultados) {
+        if (resultados && resultados.length > 0) {
+            let html = '<p>Se encontraron ' + resultados.length + ' resultado(s):</p>';
+            
+            resultados.forEach((fila, index) => {
+                html += '<div class="result-item">';
+                html += '<h4>Resultado #' + (index + 1) + '</h4>';
+                
+                // Mostrar cada campo
+                fila.forEach((valor, i) => {
+                    html += `
+                        <div class="result-field">
+                            <span class="field-name">Campo ${i + 1}:</span>
+                            <span>${valor || 'N/A'}</span>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            });
+            
+            resultsContainer.innerHTML = html;
+        } else {
+            resultsContainer.innerHTML = '<div class="no-results">No se encontraron resultados para el número de cuenta proporcionado.</div>';
+        }
+    }
+    
+    function showError(error) {
+        resultsContainer.innerHTML = '<div class="no-results">Error: ' + (error.message || 'Ocurrió un error durante la búsqueda') + '</div>';
+        console.error('Error:', error);
+    }
+});
+</script>
 </body>
 </html>

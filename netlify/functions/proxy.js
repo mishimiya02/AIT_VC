@@ -1,11 +1,12 @@
 // netlify/functions/proxy.js
+// netlify/functions/proxy.js
 export async function handler(event, context) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzhFMBLZQz5aUp9NCXzPmwoTD5RGxlwbqBTGDOSN9K0M1Yy5yKE5PeISgeXvtBPwpswcg/exec";/*cambiar url*/
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyf3FvZvpjJUfVUe3Vfmbwnctr_b0fKCkfs5W51sBHaul6MSFkP4QfgK57cXN6GYUNpsg/exec";
 
   try {
     // Reenviar al Apps Script
     const response = await fetch(scriptURL, {
-      method: event.httpMethod,
+      method: 'POST', // Siempre usar POST para evitar problemas de CORS
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -13,6 +14,22 @@ export async function handler(event, context) {
     });
 
     const data = await response.text();
+    console.log('Respuesta de Apps Script:', data);
+
+    // Verificar si la respuesta es HTML (error)
+    if (data.trim().startsWith('<!DOCTYPE') || data.trim().startsWith('<html')) {
+      return {
+        statusCode: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "https://ornate-cobbler-e6a6a4.netlify.app",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+          error: "Apps Script devolvió HTML en lugar de JSON",
+          details: "Verifica la URL y la configuración de doPost"
+        })
+      };
+    }
 
     return {
       statusCode: 200,
