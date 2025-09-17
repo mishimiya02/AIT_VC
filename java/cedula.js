@@ -323,25 +323,41 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     y += 5;
     
     // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
-    const notaCompleta = "NOTA: EN CUALQUIER CASO DE FAVOR DE NOTIFICARME MEDIANTE CORREO ANEXANDO DEL COMPROBANTE BANCARIO CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO DEPOSITO EN GARANTÍA. EN FUNCIÓN  DE CONTAR CON UNA GARANTÍA VIGENTE ES IMPORTANTE CONSIDERAR SU DEVOLUCIÓN PREVIA SOLICITUD POR ESCRITO MOTIVANDO LA DEVOLUCIÓN (EN ESTE CASO POR RENOVACIÓN ), INDICANDO NÚMERO DE CONTRATO Y ANEXANDO DEBIDAMENTE REQUISITADA LA SOLICITUD ADJUNTA ANEXANDO COPIA LEGIBLE DEL ESTADO DE CUENTA BANCARIA CON ANTIGUEDAD NO MAYOR A 3 MESES Y DONDE SE MUESTRE LA CLABE INTERBANCARIA , EN SU DEFECTO, SOLICITAR POR ESCRITO DEL RL Y/O EN LA REDACCIÓN DEL CONTRATO QUE SE DESCRIBA QUE SOLO SERÁ EXHIBIDA  LA DIFERENCIA Y BAJO ANEXO SE INCORPORE EL COMPROBANTE BANCARIO CORRESPONDIENTE ";
-    
-    // Dividir el texto en líneas que quepan en el ancho del PDF
-    const lineHeight = 5;
-    const maxWidth = 170; // Ancho máximo disponible
-    
-    doc.setFontSize(7);
-    const lines = doc.splitTextToSize(notaCompleta, maxWidth);
-    
-    // Agregar cada línea del párrafo
-    lines.forEach(line => {
-        if (y > 270) { // Si se acerca al final de la página
-            doc.addPage();
-            y = 20;
-        }
-        doc.text(line, 20, y);
-        y += lineHeight;
-    });
-    
+    // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
+const notaCompleta = "NOTA: EN CUALQUIER CASO FAVOR DE NOTIFICAR MEDIANTE CORREO ELECTRONICO ADJUNTANDO EL COMPROBANTE BANCARIO CUYO CONCEPTO DEBERÁ INCLUIR EL TEXTO DEPOSITO EN GARANTÍA.";
+// SEGUNDO PÁRRAFO
+const segundoParrafo ="EN FUNCIÓN DE CONTAR CON UNA GARANTÍA VIGENTE ES IMPORTANTE CONSIDERAR SU DEVOLUCIÓN PREVIA SOLICITUD POR ESCRITO, MOTIVANDO LA DEVOLUCIÓN (EN ESTE CASO POR RENOVACIÓN), INDICANDO NÚMERO DE CONTRATO Y ANEXANDO DEBIDAMENTE REQUISITADA LA SOLICITUD ADJUNTA, COPIA LEGIBLE DEL ESTADO DE CUENTA BANCARIA CON ANTIGUEDAD NO MAYOR A 3 MESES Y DONDE SE MUESTRE LA CLABE INTERBANCARIA, EN SU DEFECTO, SOLICITAR POR ESCRITO DEL RL Y/O EN LA REDACCIÓN DEL CONTRATO QUE SE DESCRIBA QUE SOLO SERÁ EXHIBIDA LA DIFERENCIA Y BAJO ANEXO SE INCORPORE EL COMPROBANTE BANCARIO CORRESPONDIENTE";
+
+// Dividir el texto en líneas que quepan en el ancho del PDF
+const lineHeight = 5;
+const maxWidth = 170; // Ancho máximo disponible
+
+doc.setFontSize(7);
+
+// Primer párrafo
+const lines1 = doc.splitTextToSize(notaCompleta, maxWidth);
+lines1.forEach(line => {
+    if (y > 270) { // Si se acerca al final de la página
+        doc.addPage();
+        y = 20;
+    }
+    doc.text(line, 20, y);
+    y += lineHeight;
+});
+
+// Espacio entre párrafos
+y += 2;
+
+// Segundo párrafo
+const lines2 = doc.splitTextToSize(segundoParrafo, maxWidth);
+lines2.forEach(line => {
+    if (y > 270) { // Si se acerca al final de la página
+        doc.addPage();
+        y = 20;
+    }
+    doc.text(line, 20, y);
+    y += lineHeight;
+});
     // Guardar
     doc.save("cedula_garantia.pdf");
 }
