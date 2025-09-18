@@ -1,21 +1,16 @@
 // netlify/functions/proxy.js
 // netlify/functions/proxy.js
-// netlify/functions/proxy.js
 export async function handler(event, context) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw6bmTnOc9MbaDQ8qdeNXYuX8nhl08enudANnz1ZpEmaCjoAnp71opILqBRVjQ4zFUMpw/exec"; /* cambiar url */
+  const scriptURL = "https://script.google.com/macros/s/AKfycbw6bmTnOc9MbaDQ8qdeNXYuX8nhl08enudANnz1ZpEmaCjoAnp71opILqBRVjQ4zFUMpw/exec";/*cambiar url*/
 
   try {
-    // Convertir JSON a URLSearchParams
-    const bodyObj = JSON.parse(event.body); // event.body llega como string JSON
-    const params = new URLSearchParams(bodyObj);
-
     // Reenviar al Apps Script
     const response = await fetch(scriptURL, {
-      method: 'POST',
+      method: 'POST', // Siempre usar POST para evitar problemas de CORS
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: params.toString()
+      body: event.body
     });
 
     const data = await response.text();
