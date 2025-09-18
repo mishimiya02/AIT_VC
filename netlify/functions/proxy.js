@@ -1,7 +1,7 @@
 // netlify/functions/proxy.js
 // netlify/functions/proxy.js
 export async function handler(event, context) {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw6bmTnOc9MbaDQ8qdeNXYuX8nhl08enudANnz1ZpEmaCjoAnp71opILqBRVjQ4zFUMpw/exec"; /* cambiar url */
+  const scriptURL = "https://script.google.com/macros/s/AKfycbz7HIUBYwFg7dhm0Bj1dX5FFcSAQKtLxeQCUKbfxxawxAY0EMGYiFYYrHeIJZmtwoDm/exec"; /* cambiar url  aqui y en registrar*/
 
   try {
     let bodyToSend = event.body;
