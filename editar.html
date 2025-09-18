@@ -138,7 +138,8 @@
     </div>
 
     
-    <script>
+    
+<script>
 // URL de tu función proxy de Netlify
 const PROXY_URL = '/.netlify/functions/proxy';
 
@@ -162,34 +163,25 @@ document.addEventListener('DOMContentLoaded', function() {
         searchResults.style.display = 'block';
         
         try {
-            // Llamar al proxy de Netlify
+            // Llamar al proxy de Netlify enviando JSON
             const response = await fetch(PROXY_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
-                body: new URLSearchParams({
+                body: JSON.stringify({
                     action: 'buscarPorNumeroCuenta',
                     numeroCuenta: accountNumber
                 })
             });
             
-            // DEBUG: Ver qué está devolviendo exactamente
-            const responseText = await response.text();
-            console.log('Respuesta cruda:', responseText);
-            
-            // Intentar parsear como JSON
-            let resultados;
-            try {
-                resultados = JSON.parse(responseText);
-            } catch (parseError) {
-                console.error('Error parseando JSON:', parseError);
-                throw new Error('El servidor devolvió HTML en lugar de JSON. Verifica la configuración del proxy.');
-            }
-            
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);
             }
+            
+            // Obtener JSON directamente
+            const resultados = await response.json();
+            console.log("Respuesta parseada:", resultados);
             
             displayResults(resultados);
             
@@ -206,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 html += '<div class="result-item">';
                 html += '<h4>Resultado #' + (index + 1) + '</h4>';
                 
-                // Mostrar cada campo
+                // Mostrar cada campo de la fila
                 fila.forEach((valor, i) => {
                     html += `
                         <div class="result-field">
@@ -231,5 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
 </body>
 </html>
