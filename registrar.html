@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Garantía</title>
-      <link rel="stylesheet" href="css/registrar.css" id="theme-style">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script src="java/avion-loading.js"></script>
-<!--<script src="java/theme-switchercedula.js"></script>-->
-  <script>
+    <link rel="stylesheet" href="css/registrar.css" id="theme-style">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="java/avion-loading.js"></script>
+    <script>
         // Mostrar el loader cuando la página comience a cargar
         document.addEventListener('DOMContentLoaded', function() {
             AvionLoading.mostrar();
@@ -34,59 +32,56 @@
                 }, 500);
             }
         });
-
-       
     </script>
+    
 </head>
 <body>
-     
-	  <!-- Barra de navegación -->
+    <!-- Barra de navegación -->
     <nav class="clearfix">
-    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
-    <div class="menu-center">  
-        <a href='/'>Inicio</a>
-        
-        <!-- Dropdown de Servicios -->
-        <div class="dropdown">
-            <a  class="dropbtn">Servicios</a>
-            <div class="dropdown-content">
-               
-                     <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                 <a href='/comparacion.html' target='_blank'>COMPARACION</a>
-                <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
-                  <a href="catalogo.html">Catalogo</a>
-                
-                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+        <img src="img/logo2.png" alt="Logo" class="logo">
+        <div class="menu-center">  
+            <a href='/'>Inicio</a>
+            
+            <!-- Dropdown de Servicios -->
+            <div class="dropdown">
+                <a class="dropbtn">Servicios</a>
+                <div class="dropdown-content">
+                    <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                    <a href='/comparacion.html' target='_blank'>COMPARACION</a>
+                    <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                    <a href="catalogo.html">Catalogo</a>
+                    <a href="cedula.html" target="_blank">CEDULA DE DETERMINACIÓN</a>
+                </div>
             </div>
-        </div>
 
-         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+            <!-- Segundo Dropdown de Recursos -->
             <div class="dropdown">
                 <a class="dropbtn">BD CLIENTES</a>
                 <div class="dropdown-content">
                     <a href='registrar.html'>REGISTRAR</a>
                     <a href='editar.html'>EDITAR</a>
-                   
                 </div>
             </div>
 
-        
-        <a href='/contacto.html'>Contacto</a>
-        <button id="theme-toggle">🌙 Modo Nocturno</button>
-
-    </div>
-	</nav>
+            <a href='/contacto.html'>Contacto</a>
+            <button id="theme-toggle">🌙 Modo Nocturno</button>
+        </div>
+    </nav>
 
     <p id="statusMessage" class="status-message"></p>
-
     
-        <h1>REGISTRAR10*</h1>
+    <h1>REGISTRAR</h1>
         
- <form id="registrationForm"   >
-    <div class="cedula-container">
-
-
-         <div class="form-group">
+    <form id="registrationForm">
+        <div class="cedula-container">
+            <!-- Nuevo campo para clave trabajador -->
+            <div class="form-group worker-key-group">
+                <label for="workerKey">Clave de trabajador <span class="required">*</span></label>
+                <input type="password" id="workerKey" name="workerKey" required>
+                <div class="error worker-key-error" id="workerKeyError">Clave de trabajador incorrecta</div>
+            </div>
+            
+            <div class="form-group">
                 <label for="accountNumber">Número de cuenta <span class="required">*</span></label>
                 <input type="text" id="accountNumber" name="accountNumber" required>
                 <div class="error" id="accountNumberError">Por favor ingrese un número de cuenta válido</div>
@@ -117,101 +112,129 @@
             </div>
 
             <div class="btn-container">
-                <button type="submit" class="btn">Enviar Formulario</button>
+                <button type="submit" class="btn" id="submitButton" disabled>Enviar Formulario</button>
             </div>
-        </form>
+        </div>
+    </form>
         
-        <p class="form-note">Todos los campos  <span class="required">*</span> son obligatorios.</p>
-    </div>
+    <p class="form-note">Todos los campos <span class="required">*</span> son obligatorios.</p>
 
-
-
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("registrationForm");
-    const statusMessage = document.getElementById("statusMessage");
-
-    // URL de tu Google Apps Script Web App o proxy
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw6bmTnOc9MbaDQ8qdeNXYuX8nhl08enudANnz1ZpEmaCjoAnp71opILqBRVjQ4zFUMpw/exec"; /*cambiar url */
-    
-    // Verificar que los elementos existan
-    if (!form) {
-        console.error("No se encontró el formulario con id 'registrationForm'");
-        return;
-    }
-
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        
-        // Mostrar estado de envío
-        showStatus("Enviando datos", "loading");
-
-        
-        try {
-           // Crear FormData desde el formulario
-const formData = new FormData(form);
-formData.append("action", "add");
-
-// Convertir a URLSearchParams para enviar correctamente
-const searchParams = new URLSearchParams();
-formData.forEach((value, key) => {
-  searchParams.append(key, value);
-});
-
-// Enviar datos al proxy
-const response = await fetch("/.netlify/functions/proxy", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: searchParams.toString()
-});
-
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("registrationForm");
+            const statusMessage = document.getElementById("statusMessage");
+            const workerKeyInput = document.getElementById("workerKey");
+            const workerKeyError = document.getElementById("workerKeyError");
+            const submitButton = document.getElementById("submitButton");
             
-            if (response.ok) {
-                const result = await response.text();
-                showStatus("¡Registro exitoso! Los datos han sido guardados.", "success");
-                form.reset();
-            } else {
-                throw new Error(`Error HTTP: ${response.status}`);
+            // Definir las claves válidas (cambia estos valores por las claves reales)
+            const validKeys = ["AMAIT", "JM"];
+            
+            // URL de tu Google Apps Script Web App o proxy
+            const scriptURL = "https://script.google.com/macros/s/AKfycbw6bmTnOc9MbaDQ8qdeNXYuX8nhl08enudANnz1ZpEmaCjoAnp71opILqBRVjQ4zFUMpw/exec"; /*cambiar url */
+            
+            // Verificar que los elementos existan
+            if (!form) {
+                console.error("No se encontró el formulario con id 'registrationForm'");
+                return;
             }
-
-        } catch (error) {
-            console.error("Error:", error);
-            showStatus("Error al enviar el formulario. Verifica la consola para más detalles.", "error");
-        }
-    });
-
-
-    function showStatus(message, type) {
-    if (!statusMessage) return;
-
-    statusMessage.textContent = message;
-    statusMessage.className = "status-message"; // limpiar clases previas
-    statusMessage.style.display = "block";
-
-    if (type === "loading") {
-        statusMessage.classList.add("loading");
-    } else if (type === "success") {
-        statusMessage.classList.add("success");
-    } else if (type === "error") {
-        statusMessage.classList.add("error-message");
-    }
-
-    // Ocultar después de 5s (menos cuando es "loading")
-    if (type !== "loading") {
-        setTimeout(() => {
-            statusMessage.style.display = "none";
-        }, 5000);
-    }
-}
-})
-</script>
-
+            
+            // Validar la clave de trabajador en tiempo real
+            workerKeyInput.addEventListener("input", () => {
+                validateWorkerKey();
+            });
+            
+            // Función para validar la clave de trabajador
+            function validateWorkerKey() {
+                const key = workerKeyInput.value.trim();
+                
+                if (key === "") {
+                    workerKeyError.style.display = "none";
+                    submitButton.disabled = true;
+                    return false;
+                }
+                
+                if (validKeys.includes(key)) {
+                    workerKeyError.style.display = "none";
+                    submitButton.disabled = false;
+                    return true;
+                } else {
+                    workerKeyError.style.display = "block";
+                    submitButton.disabled = true;
+                    return false;
+                }
+            }
+            
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                // Validar clave antes de enviar
+                if (!validateWorkerKey()) {
+                    showStatus("Clave de trabajador incorrecta", "error");
+                    return;
+                }
+                
+                // Mostrar estado de envío
+                showStatus("Enviando datos", "loading");
+                
+                try {
+                    // Crear FormData desde el formulario
+                    const formData = new FormData(form);
+                    formData.append("action", "add");
+                    
+                    // Convertir a URLSearchParams para enviar correctamente
+                    const searchParams = new URLSearchParams();
+                    formData.forEach((value, key) => {
+                        searchParams.append(key, value);
+                    });
+                    
+                    // Enviar datos al proxy
+                    const response = await fetch("/.netlify/functions/proxy", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: searchParams.toString()
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.text();
+                        showStatus("¡Registro exitoso! Los datos han sido guardados.", "success");
+                        form.reset();
+                        submitButton.disabled = true; // Deshabilitar botón después de enviar
+                    } else {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+                    
+                } catch (error) {
+                    console.error("Error:", error);
+                    showStatus("Error al enviar el formulario. Verifica la consola para más detalles.", "error");
+                }
+            });
+            
+            function showStatus(message, type) {
+                if (!statusMessage) return;
+                
+                statusMessage.textContent = message;
+                statusMessage.className = "status-message"; // limpiar clases previas
+                statusMessage.style.display = "block";
+                
+                if (type === "loading") {
+                    statusMessage.classList.add("loading");
+                } else if (type === "success") {
+                    statusMessage.classList.add("success");
+                } else if (type === "error") {
+                    statusMessage.classList.add("error-message");
+                }
+                
+                // Ocultar después de 5s (menos cuando es "loading")
+                if (type !== "loading") {
+                    setTimeout(() => {
+                        statusMessage.style.display = "none";
+                    }, 5000);
+                }
+            }
+        });
+    </script>
 </body>
-  
-
-
 </html>

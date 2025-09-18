@@ -510,3 +510,35 @@ body.dark-mode .dropdown1-content a:hover {
         box-shadow: none;
     }
 }
+
+        /* Estilos para el nuevo campo de clave trabajador */
+        .worker-key-group {
+            margin-bottom: 20px;
+        }
+        
+        .worker-key-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .worker-key-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .worker-key-error {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    
