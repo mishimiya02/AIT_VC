@@ -538,7 +538,12 @@ body.dark-mode .dropdown1-content a:hover {
         }
         
         .btn:disabled {
-            background-color: #cccccc;
+            background-color: #ac0000;
+            cursor: not-allowed;
+        }
+    
+        .btn:disabled:hover {
+            background-color: #ff0000;
             cursor: not-allowed;
         }
     
