@@ -84,7 +84,7 @@
             <div class="form-group">
                 <label for="accountNumber">Número de cuenta <span class="required">*</span></label>
                 <input type="text" id="accountNumber" name="accountNumber" required>
-                <div class="error" id="accountNumberError">Por favor ingrese un número de cuenta válido</div>
+                <div class="error" id="accountNumberError">Por favor ingrese un número de cuenta válido (solo números)</div>
             </div>
             
             <div class="form-group">
@@ -124,7 +124,11 @@
             const form = document.getElementById("registrationForm");
             const statusMessage = document.getElementById("statusMessage");
             const workerKeyInput = document.getElementById("workerKey");
+            const accountNumberInput = document.getElementById("accountNumber");
+            const postalCodeInput = document.getElementById("postalCode");
             const workerKeyError = document.getElementById("workerKeyError");
+            const accountNumberError = document.getElementById("accountNumberError");
+            const postalCodeError = document.getElementById("postalCodeError");
             const submitButton = document.getElementById("submitButton");
             
             // Definir las claves válidas (cambia estos valores por las claves reales)
@@ -142,6 +146,27 @@
             // Validar la clave de trabajador en tiempo real
             workerKeyInput.addEventListener("input", () => {
                 validateWorkerKey();
+                validateForm();
+            });
+            
+            // Validar número de cuenta en tiempo real (solo números)
+            accountNumberInput.addEventListener("input", () => {
+                // Solo permitir números
+                accountNumberInput.value = accountNumberInput.value.replace(/\D/g, '');
+                validateAccountNumber();
+                validateForm();
+            });
+            
+            // Validar código postal en tiempo real (solo números, máximo 5 dígitos)
+            postalCodeInput.addEventListener("input", () => {
+                // Solo permitir números
+                postalCodeInput.value = postalCodeInput.value.replace(/\D/g, '');
+                // Limitar a 5 caracteres
+                if (postalCodeInput.value.length > 5) {
+                    postalCodeInput.value = postalCodeInput.value.slice(0, 5);
+                }
+                validatePostalCode();
+                validateForm();
             });
             
             // Función para validar la clave de trabajador
@@ -150,27 +175,99 @@
                 
                 if (key === "") {
                     workerKeyError.style.display = "none";
-                    submitButton.disabled = true;
                     return false;
                 }
                 
                 if (validKeys.includes(key)) {
                     workerKeyError.style.display = "none";
-                    submitButton.disabled = false;
                     return true;
                 } else {
                     workerKeyError.style.display = "block";
-                    submitButton.disabled = true;
                     return false;
                 }
             }
             
+            // Función para validar número de cuenta (solo números)
+            function validateAccountNumber() {
+                const accountNumber = accountNumberInput.value.trim();
+                
+                if (accountNumber === "") {
+                    accountNumberError.style.display = "none";
+                    return false;
+                }
+                
+                // Validar que solo contenga números
+                const numberRegex = /^\d+$/;
+                if (numberRegex.test(accountNumber)) {
+                    accountNumberError.style.display = "none";
+                    return true;
+                } else {
+                    accountNumberError.style.display = "block";
+                    return false;
+                }
+            }
+            
+            // Función para validar código postal (exactamente 5 dígitos)
+            function validatePostalCode() {
+                const postalCode = postalCodeInput.value.trim();
+                
+                if (postalCode === "") {
+                    postalCodeError.style.display = "none";
+                    return false;
+                }
+                
+                // Validar que tenga exactamente 5 dígitos
+                const postalCodeRegex = /^\d{5}$/;
+                if (postalCodeRegex.test(postalCode)) {
+                    postalCodeError.style.display = "none";
+                    return true;
+                } else {
+                    postalCodeError.style.display = "block";
+                    return false;
+                }
+            }
+            
+            // Función para validar todo el formulario
+            function validateForm() {
+                const isWorkerKeyValid = validateWorkerKey();
+                const isAccountNumberValid = validateAccountNumber();
+                const isPostalCodeValid = validatePostalCode();
+                
+                // También verificar que los campos obligatorios no estén vacíos
+                const isBusinessNameValid = document.getElementById("businessName").value.trim() !== "";
+                const isRfcValid = document.getElementById("rfc").value.trim() !== "";
+                const isEmailValid = document.getElementById("email").value.trim() !== "";
+                
+                // Habilitar el botón solo si todos los campos son válidos
+                if (isWorkerKeyValid && isAccountNumberValid && isPostalCodeValid && 
+                    isBusinessNameValid && isRfcValid && isEmailValid) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+            
+            // Añadir validación en tiempo real para los otros campos
+            document.getElementById("businessName").addEventListener("input", validateForm);
+            document.getElementById("rfc").addEventListener("input", validateForm);
+            document.getElementById("email").addEventListener("input", validateForm);
+            
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
                 
-                // Validar clave antes de enviar
+                // Validar todos los campos antes de enviar
                 if (!validateWorkerKey()) {
                     showStatus("Clave de trabajador incorrecta", "error");
+                    return;
+                }
+                
+                if (!validateAccountNumber()) {
+                    showStatus("Número de cuenta inválido. Solo se permiten números.", "error");
+                    return;
+                }
+                
+                if (!validatePostalCode()) {
+                    showStatus("Código postal inválido. Debe tener 5 dígitos.", "error");
                     return;
                 }
                 
