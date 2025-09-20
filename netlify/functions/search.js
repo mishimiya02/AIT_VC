@@ -30,7 +30,7 @@ export async function handler(event, context) {
 
     console.log("Número recibido:", numeroCuenta);
 
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfyc.../exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7HIUBYwFg7dhm0Bj1dX5FFcSAQKtLxeQCUKbfxxawxAY0EMGYiFYYrHeIJZmtwoDm/exec";
 
     const response = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
