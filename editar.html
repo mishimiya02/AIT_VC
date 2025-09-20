@@ -70,7 +70,7 @@
         </div>
     </nav>
     
-    <h1>CONSULTAR3</h1>
+    <h1>CONSULTAR44</h1>
         
     <form id="searchForm">
         <div class="cedula-container">
@@ -98,7 +98,8 @@
     
 <script>
 // URL de tu función proxy de Netlify
-const PROXY_URL = '/.netlify/functions/search';
+const PROXY_URL = 'https://TU-SITIO.netlify.app/.netlify/functions/search';
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -122,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             // Llamar al proxy de Netlify enviando JSON
-            const response = await fetch(netlify/functions/search.js, {
+            const response = await fetch(PROXY_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
