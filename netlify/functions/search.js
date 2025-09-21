@@ -50,3 +50,44 @@ export async function handler(event, context) {
 }
 
 
+// netlify/functions/search.js
+exports.handler = async (event, context) => {
+  // Manejo del preflight (OPTIONS)
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // 👈 cámbialo por tu dominio si quieres
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      },
+      body: "OK",
+    };
+  }
+
+  try {
+    // Aquí va tu lógica original del search
+    const body = JSON.parse(event.body || "{}");
+    const result = { success: true, query: body.query || "" };
+
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // 👈 muy importante
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(result),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({ error: err.message }),
+    };
+  }
+};
+
+
+
