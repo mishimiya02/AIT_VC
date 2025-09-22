@@ -1,82 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar por Número de Cuenta</title>
-    <link rel="stylesheet" href="css/editar.css" id="theme-style">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="java/avion-loading.js"></script>
-   
-    <script>
-        // Mostrar el loader cuando la página comience a cargar
-        document.addEventListener('DOMContentLoaded', function() {
-            AvionLoading.mostrar();
-        });
-
-        // Ocultar el loader cuando todo esté cargado
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                AvionLoading.ocultar();
-            }, 2000); // 2 segundos de demostración
-        });
-
-        // También puedes usarlo para transiciones entre páginas
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.href) {
-                e.preventDefault();
-                AvionLoading.mostrar();
-                
-                // Navegar después de mostrar el loader
-                setTimeout(function() {
-                    window.location.href = e.target.href;
-                }, 500);
-            }
-        });
-       
-    </script>
+  <meta charset="UTF-8">
+  <title>Buscar con Google Sheets API</title>
 </head>
 <body>
-     
-    <!-- Barra de navegación -->
-    <nav class="clearfix">
-        <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
-        <div class="menu-center">  
-            <a href='/'>Inicio</a>
-            
-            <!-- Dropdown de Servicios -->
-            <div class="dropdown">
-                <a class="dropbtn">Servicios</a>
-                <div class="dropdown-content">
-                    <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                    <a href='/comparacion.html' target='_blank'>COMPARACION</a>
-                    <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
-                    <a href="catalogo.html">Catalogo</a>
-                    <a href="cedula.html" target="_blank">CEDULA DE DETERMINACIÓN</a>
-                </div>
-            </div>
-
-            <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
-            <div class="dropdown">
-                <a class="dropbtn">BD CLIENTES</a>
-                <div class="dropdown-content">
-                    <a href='registrar.html'>REGISTRAR</a>
-                    <a href='editar.html'>EDITAR</a>
-                </div>
-            </div>
-
-            <a href='/contacto.html'>Contacto</a>
-            <button id="theme-toggle">🌙 Modo Nocturno</button>
-        </div>
-    </nav>
-     <form id="searchForm">
-        <div class="cedula-container">
   <h2>Buscar por ID</h2>
   <input type="text" id="buscarId" placeholder="Escribe un ID">
   <button onclick="buscar()">Buscar</button>
-        </form>
-    </div>
+
   <pre id="resultado"></pre>
 
   <script>
