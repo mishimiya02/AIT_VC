@@ -186,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Obtener valores de los campos opcionales
     const banco = document.getElementById('banco') ? document.getElementById('banco').value.trim() : '';
     const entidad = document.getElementById('entidad') ? document.getElementById('entidad').value.trim() : '';
+     const beneficiario = document.getElementById('beneficiario') ? document.getElementById('beneficiario').value.trim() : '';
 
     let y = 35; // Posición inicial más abajo para el logo
 
@@ -292,7 +293,7 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
 
     // Agregar información del banco y CLABE si están disponibles
-    if (banco || entidad) {
+    if (banco || entidad || beneficiario) {
         y += 5;
         doc.setFontSize(11);
         doc.setFont(undefined, 'bold');
@@ -308,22 +309,25 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
         
         if (entidad) {
             doc.text("CLABE: " + entidad, 20, y);
-            y += 3;
+            y += 7;
+        }
+        if (beneficiario) {
+            doc.text("BENEFICIARIO: " + beneficiario, 20, y);
+            y += 4;
         }
     }
 
-    y += 5;
+    y += 2;
     doc.setFontSize(7);
     doc.setFont(undefined, 'italic');
     
     // Notas al pie
-    doc.text("DETERMINACIÓN ELABORADA SEGÚN TÉRMINOS: COMERCIALES, CONTRATO,Y/O COMÚN", 20, y);
+    doc.text("DETERMINACIÓN ELABORADA SEGÚN TÉRMINOS: COMERCIALES, CONTRATO,Y/O COMÚN ACUERDO ENTRE LAS PARTES.", 20, y);
     y += 5;
-     doc.text("ACUERDO ENTRE LAS PARTES.", 20, y);
+
+    doc.text("NOTA(S): NOTIFICAR EL CUMPLIMIENTO DE EXHIBICION DE GARANTÍA MEDIANTE CORREO ELECTRONICO ADJUNTANDO EL", 20, y);
     y += 5;
-    doc.text("NOTA(S): NOTIFICAR EL CUMPLIMIENTO DE EXHIBICION DE GARANTÍA MEDIANTE CORREO ELECTRONICO", 20, y);
-    y += 5;
-     doc.text("ADJUNTANDO EL COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO:DEPOSITO EN GARANTÍA", 20, y);
+     doc.text(" COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO:DEPOSITO EN GARANTÍA", 20, y);
     y += 5;
    
     // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
