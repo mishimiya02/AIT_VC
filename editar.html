@@ -3,24 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <title>Buscar con Google Sheets API</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    input {
+      width: 70%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #0078d7;
+      box-shadow: 0 0 4px #0078d7;
+    }
+
+    button {
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      margin-left: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      background: #0078d7;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #005bb5;
+    }
+
+    pre {
+      text-align: left;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f9fafc;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
 </head>
 <body>
-  <h2>Buscar por ID</h2>
-  <input type="text" id="buscarId" placeholder="Escribe un ID">
-  <button onclick="buscar()">Buscar</button>
+  <div class="container">
+    <h2>🔍 Buscar por ID</h2>
+    <input type="text" id="buscarId" placeholder="Escribe un ID">
+    <button onclick="buscar()">Buscar</button>
 
-  <pre id="resultado"></pre>
+    <pre id="resultado">Esperando búsqueda...</pre>
+  </div>
 
   <script>
-    const sheetID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk";   // reemplaza con tu ID de hoja
-    const apiKey = "AIzaSyDF19wfT_gt1so2fEzqtpetQuOLm5-vHdo";       // tu API Key
-    const range = "respuestas!A:Z";         // lee hasta la columna Z (ajusta según tu hoja)
+    const sheetID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk";   // ID de tu hoja
+    const apiKey = "AIzaSyDF19wfT_gt1so2fEzqtpetQuOLm5-vHdo";        // tu API Key
+    const range = "respuestas!A:Z";  
 
     async function buscar() {
-      const id = document.getElementById("buscarId").value;
-
+      const id = document.getElementById("buscarId").value.trim();
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
       
+      document.getElementById("resultado").textContent = "⏳ Buscando...";
+
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -30,11 +104,9 @@
           return;
         }
 
-        // La primera fila son encabezados
         const headers = data.values[0];
         const rows = data.values.slice(1);
 
-        // Buscar la fila que tenga el ID en la primera columna
         const row = rows.find(r => r[0] === id);
 
         if (row) {
@@ -43,10 +115,7 @@
             result[h] = row[i] || "";
           });
 
-          // Mostrar
           document.getElementById("resultado").textContent = JSON.stringify(result, null, 2);
-
-          // Guardar en localStorage
           localStorage.setItem("datosUsuario", JSON.stringify(result));
         } else {
           document.getElementById("resultado").textContent = "❌ No se encontró ese ID.";
