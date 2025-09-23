@@ -21,6 +21,28 @@
 }
 
 
+  /* Estilo para borde degradado */
+  .container {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 20px;
+    background: #fff;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .container::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 0px;
+    background: linear-gradient(135deg, #ffae00, #ffd900);
+    z-index: -1;
+  }
+
 
  			nav {
  				background-color: #ffa705;

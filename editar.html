@@ -5,29 +5,7 @@
   <title>Buscar con Google Sheets API</title>
   <link rel="stylesheet" href="css/editar.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-  /* Estilo para borde degradado */
-  .container {
-    border: 2px solid transparent;
-    border-radius: 5px;
-    padding: 20px;
-    background: #fff;
-    background-clip: padding-box;
-    position: relative;
-  }
 
-  .container::before {
-    content: "";
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border-radius: 0px;
-    background: linear-gradient(135deg, #ffae00, #ffd900);
-    z-index: -1;
-  }
-</style>
 </head>
 <body>
 
@@ -121,6 +99,36 @@
 
           document.getElementById("resultado").textContent = JSON.stringify(result, null, 2);
           localStorage.setItem("datosUsuario", JSON.stringify(result));
+          Swal.fire({
+  title: '✅ Datos guardados',
+  text: 'La información se almacenó correctamente.',
+  icon: 'success',
+  confirmButtonText: 'Aceptar'
+});
+
+
+if (row) {
+  let result = {};
+  headers.forEach((h, i) => {
+    result[h] = row[i] || "";
+  });
+
+  document.getElementById("resultado").textContent = JSON.stringify(result, null, 2);
+  localStorage.setItem("datosUsuario", JSON.stringify(result));
+
+  // Alerta bonita
+  Swal.fire({
+    title: '✅ Datos guardados',
+    text: 'La información se almacenó correctamente.',
+    icon: 'success',
+    confirmButtonText: 'Aceptar'
+  });
+
+} else {
+  document.getElementById("resultado").textContent = "❌ No se encontró ese ID.";
+}
+
+
         } else {
           document.getElementById("resultado").textContent = "❌ No se encontró ese ID.";
         }
