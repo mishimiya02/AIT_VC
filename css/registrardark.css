@@ -92,7 +92,7 @@
     box-shadow: var(--shadow);
     padding: 2rem;
     max-width: 800px;
-    margin: 0 auto 9rem;
+    margin: 0 auto 5rem;
     transition: var(--transition);
     position: relative;
 }
@@ -105,7 +105,7 @@
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(to right, #ff6600, #ff0000, #ffbb00,#ffc117);
+    background: linear-gradient(to right, #17d1ff, #ff00c8, #9900ff,#17d1ff);
     border-radius: 10px;
     z-index: -1;
 }
@@ -145,7 +145,7 @@
       display: block;
       margin-top: 15px;
       font-weight: 600;
-      color: #000000;/*color de letra*/
+      color: #ffffff;/*color de letra*/
     }
             .cedula-container {
                 padding: 1.5rem;
@@ -167,7 +167,7 @@
     max-width: 600px;
     margin: 20px auto;
     padding: 25px;
-    background: rgb(255, 255, 255);/*color de formulario*/
+    background: rgb(0, 0, 0);/*color de formulario*/
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -274,7 +274,7 @@
 
 
  			nav {
- 				background-color: #ff8800;
+ 				background-color: #5552e6;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -310,7 +310,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #e26600;
+ 				background-color: #f7793a;
  				color: white;
  			}
  
@@ -342,7 +342,7 @@
  			}
  
  			.dropdown-content a:hover {
- 				background-color: #fa973b; /* Rojo al hover */
+ 				background-color: #dc3545; /* Rojo al hover */
  				color: white;
  			}
  
@@ -352,7 +352,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #c00d00;
+ 				background-color: #2f517c;
  				color: white;
  			}
    h2 {
@@ -365,7 +365,7 @@
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #ec0000;
+     background-color: #5552e6;
      color: white;
      border: none;
      cursor: pointer;
@@ -381,7 +381,7 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f0f0;
+      background-color: #212831;
       margin: 0;
    
     }
@@ -393,7 +393,7 @@
 
     h1 {
       text-align: center;
-      color: #000000;
+      color: #ffffff;
       margin-bottom: 30px;
     }
 
@@ -401,7 +401,6 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-             color: #000000;
             color: var(--primary-color);
         }
 
@@ -431,7 +430,7 @@
       display: block;
       margin-top: 15px;
       font-weight: 600;
-      color: #000000;
+      color: #ffffff;
     }
 
     .cedula-form-group input {

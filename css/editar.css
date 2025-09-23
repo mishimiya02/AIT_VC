@@ -113,7 +113,7 @@
  			}
  
  			.dropdown-content a:hover {
- 				background-color: #ffd518; /* Rojo al hover */
+ 				background-color: #ffd000; /* Rojo al hover */
  				color: white;
  			}
  
@@ -123,7 +123,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #ffe601;
+ 				background-color: #ffd000;
  				color: white;
  			}
    h2 {
@@ -205,6 +205,9 @@
       background: #005bb5;
     }
 
+    #theme-toggle:hover {
+    background: rgb(211, 68, 1);
+}
     pre {
       text-align: left;
       margin-top: 1.5rem;
@@ -217,3 +220,37 @@
       word-wrap: break-word;
     }
   
+  #resultado {
+    margin-top: 20px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    color: #333;
+    white-space: pre-wrap; /* Ajusta el texto para que no se desborde */
+    word-break: break-word;
+    border-left: 5px solid #2575fc; /* Color acento */
+  }
+
+  /* Estado de búsqueda */
+  .buscando {
+    background: #eaf2ff;
+    border-left-color: #6a11cb;
+    color: #444;
+  }
+
+  /* Estado de error */
+  .error {
+    background: #fff5f5;
+    border-left-color: #e63946;
+    color: #b71c1c;
+  }
+
+  /* Estado de éxito */
+  .exito {
+    background: #f0fff4;
+    border-left-color: #38a169;
+    color: #22543d;
+  }
