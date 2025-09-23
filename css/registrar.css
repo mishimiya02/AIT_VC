@@ -310,7 +310,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #e26600;
+ 				background-color: #e22200;
  				color: white;
  			}
  
@@ -365,7 +365,7 @@
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #ec0000;
+     background-color: #ff8800;
      color: white;
      border: none;
      cursor: pointer;
