@@ -1,15 +1,29 @@
 
+/* Para que funcione correctamente en todos los casos */
+.menu-center {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    z-index: 1000; /* Asegurar que el dropdawn esté por encima copiar para cada nav */
+}
+
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f9;
+    
       margin: 0;
       padding: 0;
-    }
+    
+    background: linear-gradient(135deg, #e7e7e7 0%, #ececec 100%);
+    min-height: 100vh;
+  
+}
 
 
 
  			nav {
- 				background-color: #5552e6;
+ 				background-color: #ffa705;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -45,7 +59,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #f7793a;
+ 				background-color: #ffd000;
  				color: white;
  			}
  
@@ -77,7 +91,7 @@
  			}
  
  			.dropdown-content a:hover {
- 				background-color: #dc3545; /* Rojo al hover */
+ 				background-color: #ffd518; /* Rojo al hover */
  				color: white;
  			}
  
@@ -87,7 +101,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #2f517c;
+ 				background-color: #ffe601;
  				color: white;
  			}
    h2 {
@@ -100,7 +114,7 @@
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #5552e6;
+     background-color: #ffa705;
      color: white;
      border: none;
      cursor: pointer;
@@ -108,6 +122,14 @@
          
 }
 
+
+#theme-toggle :hover {
+     background-color: #ff1b1b;
+     color: white;
+     cursor: pointer;
+     transition: background-color 0.3s;
+         
+}
 
 
     /* CONTENEDOR */
@@ -119,6 +141,10 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       max-width: 500px;
       text-align: center;
+      
+    }
+    .container:before{
+    background: linear-gradient(to right, #ff7b00, #ffd000, #ff7b00,#ff1717, #ff0000, #ff7b00);
     }
 
     h2 {
