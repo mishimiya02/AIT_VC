@@ -66,77 +66,75 @@
     <pre id="resultado">Esperando búsqueda...</pre>
   </div>
 
+
+
   <script>
-    const sheetID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk"; /*la id de la hoja*/
-    const apiKey = "AIzaSyDF19wfT_gt1so2fEzqtpetQuOLm5-vHdo";  /*la url de la api*/
-    const range = "respuestas!A:Z";   /*el nombre de la hoja exacta */
+  const sheetID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk"; /*la id de la hoja*/
+  const apiKey = "AIzaSyDF19wfT_gt1so2fEzqtpetQuOLm5-vHdo";  /*la url de la api*/
+  const range = "respuestas!A:Z";   /*el nombre de la hoja exacta */
 
-    async function buscar() {
-      const id = document.getElementById("buscarId").value.trim();
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
-      
-      document.getElementById("resultado").textContent = "⏳ 🚁 Buscando...";
+  async function buscar() {
+    const id = document.getElementById("buscarId").value.trim();
+    const resultado = document.getElementById("resultado");
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
+    
+    // Estado de búsqueda
+    resultado.className = "buscando";
+    resultado.textContent = "⏳ 🚁 Buscando...";
 
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
 
-        if (!data.values) {
-          document.getElementById("resultado").textContent = "⚠️ No se encontraron datos.🚩";
-          return;
-        }
-
-        const headers = data.values[0];
-        const rows = data.values.slice(1);
-
-        const row = rows.find(r => r[0] === id);
-
-        if (row) {
-          let result = {};
-          headers.forEach((h, i) => {
-            result[h] = row[i] || "";
-          });
-
-          document.getElementById("resultado").textContent = JSON.stringify(result, null, 2);
-          localStorage.setItem("datosUsuario", JSON.stringify(result));
-          Swal.fire({
-  title: '✅ Datos guardados',
-  text: 'La información se almacenó correctamente.',
-  icon: 'success',
-  confirmButtonText: 'Aceptar'
-});
-
-
-if (row) {
-  let result = {};
-  headers.forEach((h, i) => {
-    result[h] = row[i] || "";
-  });
-
-  document.getElementById("resultado").textContent = JSON.stringify(result, null, 2);
-  localStorage.setItem("datosUsuario", JSON.stringify(result));
-
-  // Alerta bonita
-  Swal.fire({
-    title: '✅🛩️ Datos guardados',
-    text: 'La información ha sido rectificada.',
-    icon: 'success',
-    confirmButtonText: 'Aceptar'
-  });
-
-} else {
-  document.getElementById("resultado").textContent = "❌ No se encontró ese ID.";
-}
-
-
-        } else {
-          document.getElementById("resultado").textContent = "❌ No se encontró ese ID.";
-        }
-      } catch (err) {
-        console.error(err);
-        document.getElementById("resultado").textContent = "⚠️ Error al consultar la API.";
+      if (!data.values) {
+        resultado.className = "error";
+        resultado.textContent = "⚠️ No se encontraron datos.🚩";
+        return;
       }
+
+      const headers = data.values[0];
+      const rows = data.values.slice(1);
+
+      const row = rows.find(r => r[0] === id);
+
+      if (row) {
+        let result = {};
+        headers.forEach((h, i) => {
+          result[h] = row[i] || "";
+        });
+resultado.className = "exito";
+
+// Crear lista bonita en HTML
+let html = "<ul>";
+for (const [key, value] of Object.entries(result)) {
+  html += `<li><strong>${key}:</strong> ${value || "—"}</li>`;
+}
+html += "</ul>";
+
+resultado.innerHTML = html;
+
+        // Guardar en localStorage
+        localStorage.setItem("datosUsuario", JSON.stringify(result));
+
+        // Alerta bonita
+        Swal.fire({
+          title: '✅🛩️ Datos guardados',
+          text: 'La información ha sido rectificada.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+
+      } else {
+        resultado.className = "error";
+        resultado.textContent = "❌ No se encontró ese ID.";
+      }
+    } catch (err) {
+      console.error(err);
+      resultado.className = "error";
+      resultado.textContent = "⚠️ Error al consultar la API.";
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>

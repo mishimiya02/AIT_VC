@@ -547,3 +547,6 @@ body.dark-mode .dropdown1-content a:hover {
             cursor: not-allowed;
         }
     
+    body, nav, .formulario {
+    transition: background-color 1s ease, color 1s ease;
+}
