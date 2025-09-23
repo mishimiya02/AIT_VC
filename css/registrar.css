@@ -105,7 +105,7 @@
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(to right, #ff6600, #ff0000, #ffbb00,#ffc117);
+    background: linear-gradient(to right, #1900ff, #001bbB);
     border-radius: 10px;
     z-index: -1;
 }
@@ -539,7 +539,7 @@ body.dark-mode .dropdown1-content a:hover {
         }
         
         .btn:disabled {
-            background-color: #ac0000;
+            background-color: #525252;
             cursor: not-allowed;
         }
     
