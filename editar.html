@@ -74,43 +74,23 @@
   const sheetID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk"; /*la id de la hoja*/
   const apiKey = "AIzaSyDF19wfT_gt1so2fEzqtpetQuOLm5-vHdo";  /*la url de la api*/
   const range = "respuestas!A:Z";   /*el nombre de la hoja exacta */
-
- async function buscar() {
+async function buscar() {
   const id = document.getElementById("buscarId").value.trim();
   const resultado = document.getElementById("resultado");
 
-  // Estado de búsqueda
   resultado.className = "buscando";
   resultado.textContent = "⏳ 🚁 Buscando...";
 
   try {
-    let rows, headers;
+    const headers = JSON.parse(localStorage.getItem("cacheHeaders"));
+    const rows = JSON.parse(localStorage.getItem("cacheFilas"));
 
-    // Verificar si ya tenemos los datos en localStorage
-    if (localStorage.getItem("cacheFilas") && localStorage.getItem("cacheHeaders")) {
-      headers = JSON.parse(localStorage.getItem("cacheHeaders"));
-      rows = JSON.parse(localStorage.getItem("cacheFilas"));
-    } else {
-      // Descargar de la API solo si no están en memoria local
-      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
-      const res = await fetch(url);
-      const data = await res.json();
-
-      if (!data.values) {
-        resultado.className = "error";
-        resultado.textContent = "⚠️ No se encontraron datos.🚩";
-        return;
-      }
-
-      headers = data.values[0];
-      rows = data.values.slice(1);
-
-      // Guardar en memoria local (cache)
-      localStorage.setItem("cacheHeaders", JSON.stringify(headers));
-      localStorage.setItem("cacheFilas", JSON.stringify(rows));
+    if (!headers || !rows) {
+      resultado.className = "error";
+      resultado.textContent = "⚠️ No hay datos cargados.";
+      return;
     }
 
-    // Buscar el ID dentro de las filas (ya sea cacheadas o recién descargadas)
     const row = rows.find(r => r[0] === id);
 
     if (row) {
@@ -121,7 +101,6 @@
 
       resultado.className = "exito";
 
-      // Mostrar en lista bonita
       let html = "<ul>";
       for (const [key, value] of Object.entries(result)) {
         html += `<li><strong>${key}:</strong> ${value || "—"}</li>`;
@@ -129,10 +108,8 @@
       html += "</ul>";
       resultado.innerHTML = html;
 
-      // Guardar el resultado puntual
       localStorage.setItem("datosUsuario", JSON.stringify(result));
 
-      // Alerta bonita
       Swal.fire({
         title: '✅🛩️ Datos guardados',
         text: 'La información ha sido rectificada.',
@@ -143,11 +120,10 @@
       resultado.className = "error";
       resultado.textContent = "❌ No se encontró ese ID.";
     }
-
   } catch (err) {
     console.error(err);
     resultado.className = "error";
-    resultado.textContent = "⚠️ Error al consultar la API.";
+    resultado.textContent = "⚠️ Error al consultar los datos en memoria.";
   }
 }
 
@@ -175,6 +151,36 @@
     }
   });
 });
+async function cargarHoja() {
+  const resultado = document.getElementById("resultado");
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.values) {
+      resultado.className = "error";
+      resultado.textContent = "⚠️ No se pudieron cargar los datos iniciales.";
+      return;
+    }
+
+    const headers = data.values[0];
+    const rows = data.values.slice(1);
+
+    // Guardar en cache
+    localStorage.setItem("cacheHeaders", JSON.stringify(headers));
+    localStorage.setItem("cacheFilas", JSON.stringify(rows));
+
+    console.log("✅ Hoja cargada en memoria local");
+  } catch (err) {
+    console.error("Error al cargar hoja:", err);
+    resultado.className = "error";
+    resultado.textContent = "⚠️ Error al precargar la hoja.";
+  }
+}
+// Precargar la hoja apenas se abra la página
+window.addEventListener("load", cargarHoja);
+
 
 </script>
 
