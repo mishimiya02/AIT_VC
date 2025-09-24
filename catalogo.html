@@ -113,6 +113,11 @@
                 <div class="error" id="emailError">Por favor ingrese un correo electrónico válido</div>
             </div>
 
+               <div class="form-group">
+                <label for="email">REGIMEN: <span class="required">*</span></label>
+                <input type="text" id="regimen" name="regimen" required>
+                </div>
+
 
 
 
@@ -288,7 +293,32 @@
 
 </body>
 
-  
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const datos = JSON.parse(localStorage.getItem("datosUsuario"));
+
+  if (datos) {
+    // Mapeo: aquí pones la relación entre las claves del JSON y tus campos
+    document.getElementById("accountNumber").value = datos["CUENTA"] || "";
+    document.getElementById("businessName").value = datos["RAZON SOCIAL"] || "";
+    document.getElementById("rfc").value = datos["RFC"] || "";
+    document.getElementById("postalCode").value = datos["CP"] || "";
+    document.getElementById("regimen").value = datos["REGIMEN"] || "";
+
+    // Para selects, intentamos seleccionar la opción si coincide el valor
+    const tipoSelect = document.getElementById("tipo");
+    if (datos["TIPO"]) {
+      for (let option of tipoSelect.options) {
+        if (option.text.trim().toLowerCase() === datos["TIPO"].trim().toLowerCase()) {
+          option.selected = true;
+          break;
+        }
+      }
+    }
+  }
+});
+</script>
+
 
 
 </html>
