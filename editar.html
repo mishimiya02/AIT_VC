@@ -75,16 +75,24 @@
   const apiKey = "AIzaSyDF19wfT_gt1so2fEzqtpetQuOLm5-vHdo";  /*la url de la api*/
   const range = "respuestas!A:Z";   /*el nombre de la hoja exacta */
 
-  async function buscar() {
-    const id = document.getElementById("buscarId").value.trim();
-    const resultado = document.getElementById("resultado");
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
-    
-    // Estado de búsqueda
-    resultado.className = "buscando";
-    resultado.textContent = "⏳ 🚁 Buscando...";
+ async function buscar() {
+  const id = document.getElementById("buscarId").value.trim();
+  const resultado = document.getElementById("resultado");
 
-    try {
+  // Estado de búsqueda
+  resultado.className = "buscando";
+  resultado.textContent = "⏳ 🚁 Buscando...";
+
+  try {
+    let rows, headers;
+
+    // Verificar si ya tenemos los datos en localStorage
+    if (localStorage.getItem("cacheFilas") && localStorage.getItem("cacheHeaders")) {
+      headers = JSON.parse(localStorage.getItem("cacheHeaders"));
+      rows = JSON.parse(localStorage.getItem("cacheFilas"));
+    } else {
+      // Descargar de la API solo si no están en memoria local
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
       const res = await fetch(url);
       const data = await res.json();
 
@@ -94,48 +102,55 @@
         return;
       }
 
-      const headers = data.values[0];
-      const rows = data.values.slice(1);
+      headers = data.values[0];
+      rows = data.values.slice(1);
 
-      const row = rows.find(r => r[0] === id);
-
-      if (row) {
-        let result = {};
-        headers.forEach((h, i) => {
-          result[h] = row[i] || "";
-        });
-resultado.className = "exito";
-
-// Crear lista bonita en HTML
-let html = "<ul>";
-for (const [key, value] of Object.entries(result)) {
-  html += `<li><strong>${key}:</strong> ${value || "—"}</li>`;
-}
-html += "</ul>";
-
-resultado.innerHTML = html;
-
-        // Guardar en localStorage
-        localStorage.setItem("datosUsuario", JSON.stringify(result));
-
-        // Alerta bonita
-        Swal.fire({
-          title: '✅🛩️ Datos guardados',
-          text: 'La información ha sido rectificada.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        });
-
-      } else {
-        resultado.className = "error";
-        resultado.textContent = "❌ No se encontró ese ID.";
-      }
-    } catch (err) {
-      console.error(err);
-      resultado.className = "error";
-      resultado.textContent = "⚠️ Error al consultar la API.";
+      // Guardar en memoria local (cache)
+      localStorage.setItem("cacheHeaders", JSON.stringify(headers));
+      localStorage.setItem("cacheFilas", JSON.stringify(rows));
     }
+
+    // Buscar el ID dentro de las filas (ya sea cacheadas o recién descargadas)
+    const row = rows.find(r => r[0] === id);
+
+    if (row) {
+      let result = {};
+      headers.forEach((h, i) => {
+        result[h] = row[i] || "";
+      });
+
+      resultado.className = "exito";
+
+      // Mostrar en lista bonita
+      let html = "<ul>";
+      for (const [key, value] of Object.entries(result)) {
+        html += `<li><strong>${key}:</strong> ${value || "—"}</li>`;
+      }
+      html += "</ul>";
+      resultado.innerHTML = html;
+
+      // Guardar el resultado puntual
+      localStorage.setItem("datosUsuario", JSON.stringify(result));
+
+      // Alerta bonita
+      Swal.fire({
+        title: '✅🛩️ Datos guardados',
+        text: 'La información ha sido rectificada.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+    } else {
+      resultado.className = "error";
+      resultado.textContent = "❌ No se encontró ese ID.";
+    }
+
+  } catch (err) {
+    console.error(err);
+    resultado.className = "error";
+    resultado.textContent = "⚠️ Error al consultar la API.";
   }
+}
+
 
   document.getElementById("borrarDatos").addEventListener("click", () => {
   Swal.fire({
