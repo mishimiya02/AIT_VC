@@ -64,6 +64,8 @@
     <button onclick="buscar()">Buscar</button>
 
     <pre id="resultado">Esperando búsqueda...</pre>
+    <button id="borrarDatos" style="margin-top:15px;">🗑️ Borrar datos guardados</button>
+
   </div>
 
 
@@ -134,6 +136,31 @@ resultado.innerHTML = html;
       resultado.textContent = "⚠️ Error al consultar la API.";
     }
   }
+
+  document.getElementById("borrarDatos").addEventListener("click", () => {
+  Swal.fire({
+    title: '⚠️ ¿Seguro?',
+    text: "Borrar en caso de hacer otra búsqueda.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, borrar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("datosUsuario"); // solo borra lo que guardamos
+      document.getElementById("resultado").innerHTML = "🗑️ Datos eliminados.";
+      document.getElementById("resultado").className = "error";
+      Swal.fire(
+        '✅ Listo',
+        'Los datos han sido eliminados.',
+        'success'
+      );
+    }
+  });
+});
+
 </script>
 
 </body>
