@@ -82,33 +82,36 @@
     <div class="cedula-container">
 
 <!--Datos previamente guardados-->
+
  <div class="form-group">
-                 <label >FOLIO:<span class="required">*</span></label>
-                   <input type="text" id="folio" placeholder="Ingrese el folio">
-                </select>
+                <label for="accountNumber">Número de cuenta <span class="required">*</span></label>
+                <input type="text" id="accountNumber" name="accountNumber" required>
+                <div class="error" id="accountNumberError">Por favor ingrese un número de cuenta válido (solo números)</div>
             </div>
-<div class="form-group">
-                 <label >FOLIO:<span class="required">*</span></label>
-                   <input type="text" id="folio" placeholder="Ingrese el folio">
-                </select>
+            
+            <div class="form-group">
+                <label for="businessName">Razón social <span class="required">*</span></label>
+                <input type="text" id="businessName" name="businessName" required>
+                <div class="error" id="businessNameError">Por favor ingrese la razón social</div>
             </div>
-<div class="form-group">
-                 <label >FOLIO:<span class="required">*</span></label>
-                   <input type="text" id="folio" placeholder="Ingrese el folio">
-                </select>
+            
+            <div class="form-group">
+                <label for="rfc">RFC <span class="required">*</span></label>
+                <input type="text" id="rfc" name="rfc" required>
+                <div class="error" id="rfcError">Por favor ingrese un RFC válido</div>
             </div>
-<div class="form-group">
-                 <label >FOLIO:<span class="required">*</span></label>
-                   <input type="text" id="folio" placeholder="Ingrese el folio">
-                </select>
-            </div>            
-<div class="form-group">
-                 <label >FOLIO:<span class="required">*</span></label>
-                   <input type="text" id="folio" placeholder="Ingrese el folio">
-                </select>
+            
+            <div class="form-group">
+                <label for="postalCode">Código postal <span class="required">*</span></label>
+                <input type="text" id="postalCode" name="postalCode" required maxlength="5">
+                <div class="error" id="postalCodeError">Por favor ingrese un código postal válido (5 dígitos)</div>
             </div>
-
-
+            
+            <div class="form-group">
+                <label for="email">Correo electrónico <span class="required">*</span></label>
+                <input type="email" id="email" name="email" required>
+                <div class="error" id="emailError">Por favor ingrese un correo electrónico válido</div>
+            </div>
 
 
 
@@ -284,95 +287,6 @@
     </div>
 
 </body>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const montoInput = document.getElementById('monto');
-    const garantiaSelect = document.getElementById('garantia');
-    
-    // Crear elemento para mostrar el resultado
-    const resultadoDiv = document.createElement('div');
-    resultadoDiv.id = 'resultado-garantia';
-    resultadoDiv.style.marginTop = '15px';
-    resultadoDiv.style.padding = '15px';
-    resultadoDiv.style.backgroundColor = '#e8f4fc';
-    resultadoDiv.style.borderRadius = '5px';
-    resultadoDiv.style.borderLeft = '4px solid #3498db';
-    resultadoDiv.style.display = 'none';
-    resultadoDiv.style.fontWeight = 'bold';
-    resultadoDiv.style.color = '#2c3e50';
-    
-    // Insertar después del select de garantía
-    garantiaSelect.parentNode.appendChild(resultadoDiv);
-
-    // Función para calcular la garantía
-    function calcularGarantia() {
-        const monto = parseFloat(montoInput.value);
-        const opcion = garantiaSelect.value;
-        
-        // Ocultar resultado si no hay monto válido
-        if (isNaN(monto) || monto <= 0) {
-            resultadoDiv.style.display = 'none';
-            return;
-        }
-        
-        let resultado = 0;
-        let formula = '';
-        let mostrarResultado = true;
-        
-        switch(opcion) {
-            case '1': // DGX3
-                resultado = (monto * 3)+(monto*.16);
-                formula = `Monto de Garantía : $${resultado.toFixed(2)}`;
-                break;
-            case '2': // FC - Monto manual
-                resultado = (monto * 1);
-                 formula = `Monto de Garantía : $${resultado.toFixed(2)} `;
-                break;
-            case '3': // NA
-                resultado = 0;
-                formula = 'Monto de Garantía: $0.00 (No aplica)';
-                break;
-            case '4': // FCX3
-                resultado = (monto * 3)+(monto*.16);
-                formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 3)`;
-                break;
-            case '5': // DGX1
-                resultado = (monto * 0.16) + monto;
-                formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 1)`;
-                break;
-            case '6': // FCX12
-                resultado = (monto * 12)+((monto*12)*.16);
-                formula = `Monto de Garantía con IVA incluido: $${resultado.toFixed(2)} (${monto.toFixed(2)} × 12)`;
-                break;
-            case '7': // FDX30 - Monto manual
-                resultado = monto;
-               formula = `Monto de Garantía : $${resultado.toFixed(2)} `;
-                break;
-            case '8': // PromMensualopsX3 - Monto manual
-               resultado = monto;
-            
-             formula = `Monto de Garantía : $${resultado.toFixed(2)} `;
-               break;
-            default:
-    document.getElementById('monto-manual-container').style.display = 'none';
-            
-        }
-        
-        // Mostrar u ocultar resultado
-        if (mostrarResultado) {
-            resultadoDiv.textContent = formula;
-            resultadoDiv.style.display = 'block';
-        } else {
-            resultadoDiv.style.display = 'none';
-        }
-    }
-
-    // Event listeners para cambios
-    garantiaSelect.addEventListener('change', calcularGarantia);
-    montoInput.addEventListener('input', calcularGarantia);
-});
-</script>
-
 
   
 
