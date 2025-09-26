@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Buscar con Google Sheets API</title>
+  <title>Buscar CLIENTE</title>
   <link rel="stylesheet" href="css/editar.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -65,6 +65,10 @@
 
     <pre id="resultado">Esperando búsqueda...</pre>
     <button id="borrarDatos" style="margin-top:15px;">🗑️ Borrar datos guardados</button>
+    <button id="actualizarHoja" style="margin:15px 0; padding:8px 15px; border:none; border-radius:8px; background:#2575fc; color:#fff; cursor:pointer;">
+🔄 Actualizar hoja de cálculo
+</button>
+
 
   </div>
 
@@ -181,6 +185,41 @@ async function cargarHoja() {
 // Precargar la hoja apenas se abra la página
 window.addEventListener("load", cargarHoja);
 
+
+
+
+document.getElementById("actualizarHoja").addEventListener("click", async () => {
+  Swal.fire({
+    title: '⏳ Actualizando...',
+    text: 'Descargando la hoja de cálculo, por favor espera.',
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?key=${apiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (!data.values) {
+      Swal.fire('⚠️ Error', 'No se pudieron actualizar los datos.', 'error');
+      return;
+    }
+
+    const headers = data.values[0];
+    const rows = data.values.slice(1);
+
+    localStorage.setItem("cacheHeaders", JSON.stringify(headers));
+    localStorage.setItem("cacheFilas", JSON.stringify(rows));
+
+    Swal.fire('✅ Listo', 'La hoja se actualizó correctamente.', 'success');
+  } catch (err) {
+    console.error("Error al actualizar hoja:", err);
+    Swal.fire('⚠️ Error', 'Ocurrió un problema al actualizar la hoja.', 'error');
+  }
+});
 
 </script>
 
