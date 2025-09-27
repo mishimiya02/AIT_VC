@@ -318,23 +318,24 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     }
 
     y += 2;
-    doc.setFontSize(7);
+    doc.setFontSize(8);
     doc.setFont(undefined, 'italic');
     
     // Notas al pie
-    doc.text("DETERMINACIÓN ELABORADA SEGÚN TÉRMINOS: COMERCIALES, CONTRATO,Y/O COMÚN ACUERDO ENTRE LAS PARTES.", 20, y);
+    doc.text("La determinación del monto de garantía es elaborada según las condiciones definidas en términos comerciales,contrato y/o ", 20, y);
     y += 5;
 
-    doc.text("NOTA(S): NOTIFICAR EL CUMPLIMIENTO DE EXHIBICION DE GARANTÍA MEDIANTE CORREO ELECTRONICO ADJUNTANDO EL", 20, y);
+    doc.text(" instrumento similar.", 20, y);
     y += 5;
-     doc.text(" COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO:DEPOSITO EN GARANTÍA", 20, y);
+    
+   doc.text(" NOTA(S):", 20, y);
     y += 5;
    
     // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
     // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
-const notaCompleta = "-EN CASO DE RENOVACIONES, AL CONTAR CON NA GARANTÍA VIGENTE CONSIDERAR PREFERENTEMENTE SU DEVOLUCIÓN PREVIA SOLICITUD POR ESCRITO DEL REPRESENTANTE LEGAL, INCLUYENDO MOTIVACIÓN,NÚMERO DE CONTRATO Y VIGENCIA, EN SU DEFECTO MANIFESTAR EN EL ESCRITO LA INTENCIÓN DE EXHIBIR EL DIFERENCIAL POR GARANTIZAR.";
-// SEGUNDO PÁRRAFO
-const segundoParrafo ="-EN TODOS LOS EVENTOS ANEXAR COPIA LEGIBLE DEL ESTADO DE CUENTA BANCARIA CON UNA ANTIGUEDAD NO MAYOR A 3 MESES Y EN DONDE SE MUESTRE LA CLABE INTERBANCARIA.";
+const notaCompleta = "*Notificar el cumplimiento de exhibición de garantía mediante correo electrónico, adjuntando el comprobante bancario cuyo concepto debe incluir el texto: Depósito en garantía.";
+// SEGUNDO PÁRRAFO0
+const segundoParrafo ="*En caso de renovaciones, al contar con una garantía vigente, considerar preferentemente su devolución previa solicitud por escrito del representante legal, incluyendo motivación, número de contrato y vigencia. En su defecto, manifestar en el escrito la intención de exhibir el diferencial por garantizar. En cualquier situación, anexar copia legible del estado de cuenta bancaria con una antigüedad no mayor a tres meses y donde se muestre la CLABE interbancaria.";
 
 // Dividir el texto en líneas que quepan en el ancho del PDF
 const lineHeight = 5
@@ -342,7 +343,7 @@ const lineHeight = 5
 
 const maxWidth = 170; // Ancho máximo disponible
 
-doc.setFontSize(7);
+doc.setFontSize(8);
 
 // Primer párrafo
 const lines1 = doc.splitTextToSize(notaCompleta, maxWidth);
