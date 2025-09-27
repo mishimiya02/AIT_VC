@@ -328,7 +328,7 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     doc.text(" instrumento similar.", 20, y);
     y += 5;
     
-   doc.text(" NOTA(S):", 20, y);
+   doc.text(" Notas:", 20, y);
     y += 5;
    
     // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
