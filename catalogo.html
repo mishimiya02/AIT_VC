@@ -321,7 +321,46 @@ document.addEventListener("DOMContentLoaded", () => {
   fin.addEventListener("change", calcularVigencia);
 
 
+const tarifa = document.getElementById("tarifa");
 
+  const alicuotas = document.getElementById("alicuotas");
+  const luzResultado = document.getElementById("luzResultado");
+
+  const mantenimientoFijo = document.getElementById("mantenimientoFijo");
+  const mantenimientoResultado = document.getElementById("mantenimientoResultado");
+
+  const aguaFijo = document.getElementById("aguaFijo");
+  const aguaResultado = document.getElementById("aguaResultado");
+
+  const subtotalDiv = document.getElementById("subtotal");
+
+  function calcularMontos() {
+    const t = parseFloat(tarifa.value) || 0;
+
+    // Luz
+    const luzPorcentaje = parseFloat(alicuotas.value) || 0;
+    const luzMonto = (t * luzPorcentaje) / 100;
+    luzResultado.innerHTML = `💡 Energía eléctrica: <strong>${luzMonto.toFixed(2)}</strong>`;
+
+    // Mantenimiento
+    const mantPorcentaje = parseFloat(mantenimientoFijo.value) || 0;
+    const mantMonto = (t * mantPorcentaje) / 100;
+    mantenimientoResultado.innerHTML = `🛠️ Mantenimiento: <strong>${mantMonto.toFixed(2)}</strong>`;
+
+    // Agua
+    const aguaPorcentaje = parseFloat(aguaFijo.value) || 0;
+    const aguaMonto = (t * aguaPorcentaje) / 100;
+    aguaResultado.innerHTML = `💧 Agua: <strong>${aguaMonto.toFixed(2)}</strong>`;
+
+    // Subtotal
+    const subtotal = t + luzMonto + mantMonto + aguaMonto;
+    subtotalDiv.innerHTML = `<strong>${subtotal.toFixed(2)}</strong>`;
+  }
+
+  // Escuchar cambios en todos los campos
+  [tarifa, alicuotas, mantenimientoFijo, aguaFijo].forEach(input => {
+    input.addEventListener("input", calcularMontos);
+  });
 
 
 
