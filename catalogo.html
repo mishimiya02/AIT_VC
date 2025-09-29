@@ -426,6 +426,57 @@ document.getElementById("tarifa").addEventListener("input", function() {
   calcularMontos(); // Primero recalcula el subtotal
   setTimeout(calcularGarantia, 100); // Luego recalcula la garantía
 });
+
+
+const incentivoInput = document.getElementById("incentivo");
+const variableInput = document.getElementById("aguaVariable");
+const penalizacionInput = document.getElementById("penalizacionContrato");
+
+const totalDiv = document.getElementById("total");
+
+function calcularTotal() {
+  // Garantía actual calculada
+  const garantiaText = garantiaResultado.innerText.replace(/[^\d.-]/g, "");
+  const garantia = parseFloat(garantiaText) || 0;
+
+  // Incentivo (se resta directamente)
+  const incentivo = parseFloat(incentivoInput.value) || 0;
+
+  // Variable (% sobre garantía)
+  const variablePct = parseFloat(variableInput.value) || 0;
+  const variableMonto = (garantia * variablePct) / 100;
+
+  // Penalización (% sobre garantía)
+  const penalPct = parseFloat(penalizacionInput.value) || 0;
+  const penalMonto = (garantia * penalPct) / 100;
+
+  // Total
+  const total = garantia - incentivo + variableMonto + penalMonto;
+
+  totalDiv.innerHTML = `<strong>${total.toFixed(2)}</strong>`;
+}
+
+// Escuchar cambios en todos los campos que afectan el total
+[incentivoInput, variableInput, penalizacionInput, montoManual, tgar, tarifa, alicuotas, mantenimientoFijo, aguaFijo].forEach(input => {
+  input.addEventListener("input", () => {
+    calcularMontos();
+    calcularGarantia();
+    calcularTotal();
+  });
+});
+
+// Calcular al inicio por si ya hay datos
+window.addEventListener("DOMContentLoaded", () => {
+  calcularMontos();
+  calcularGarantia();
+  calcularTotal();
+});
+
+
+
+
+
+
 </script>
 
 
