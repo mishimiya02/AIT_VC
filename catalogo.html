@@ -261,12 +261,28 @@
     
     <h3>TOTAL:</h3> <div id="total"></div>
 
+<button id="btnResumen" type="button">📑 GUARDAR</button>
+			
 
- <button type="button" id="guardar">GUARDAR </button>
-			     
+
+<div id="resumenContainer" style="margin-top:20px; display:none;">
+  <h2>📋 Resumen del Contrato</h2>
+  <table border="1" cellpadding="6" style="border-collapse:collapse; width:100%;">
+    <thead>
+      <tr style="background:#f2f2f2;">
+        <th>Campo</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody id="tablaResumen"></tbody>
+  </table>
+</div>
 
 
  </div>
+
+
+
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -478,6 +494,54 @@ window.addEventListener("DOMContentLoaded", () => {
   calcularTotal();
 });
 
+
+document.getElementById("btnResumen").addEventListener("click", () => {
+  const datos = {
+    "NO. CLIENTE": document.getElementById("CUENTA").value,
+    "NO. DCTO. SAP": document.getElementById("numsap").value,
+    "NO. CONTRATO": document.getElementById("numcontrato").value,
+    "TIPO CONTRATO": document.getElementById("tipo").selectedOptions[0].text,
+    "RAZÓN SOCIAL": document.getElementById("businessName").value,
+    "NOMBRE COMERCIAL": document.getElementById("nomcom").value,
+    "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
+    "UNIDADES/ELEMENTOS/M2": document.getElementById("unidades").value,
+    "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
+    "INICIO VIGENCIA": document.getElementById("fecha-inicio").value,
+    "FIN VIGENCIA": document.getElementById("fecha-fin").value,
+    "TARIFA": document.getElementById("tarifa").value,
+    "% MTTO": document.getElementById("mantenimientoFijo").value,
+    "% LUZ": document.getElementById("alicuotas").value,
+    "% AGUA": document.getElementById("aguaFijo").value,
+    "$ MTTO": document.getElementById("mantenimientoResultado").innerText,
+    "$ LUZ": document.getElementById("luzResultado").innerText,
+    "$ AGUA": document.getElementById("aguaResultado").innerText,
+    "SUBTOTAL": document.getElementById("subtotal").innerText,
+    "% INCENTIVO": document.getElementById("incentivo").value,
+    "% VARIABLE": document.getElementById("aguaVariable").value,
+    "% PENALIZACIÓN": document.getElementById("penalizacionContrato").value,
+    "GARANTÍA": document.getElementById("tgar").selectedOptions[0].text,
+    "MONTO GARANTÍA": document.getElementById("garantiaResultado").innerText,
+    "TOTAL": document.getElementById("total").innerText,
+    "CORREO ELECTRÓNICO SAP": document.getElementById("CORREO").value,
+    "STATUS DE VIGENCIA": document.getElementById("estatus").innerText,
+    "DIAS X VENCER": document.getElementById("porvencer").innerText,
+    "DIAS VENCIDOS": document.getElementById("vencidos").innerText,
+    "VIGENCIA (DÍAS)": document.getElementById("vigencia").innerText,
+    "INTERES": document.getElementById("intereses").selectedOptions[0].text,
+  };
+
+  // Renderizar la tabla
+  const tbody = document.getElementById("tablaResumen");
+  tbody.innerHTML = "";
+  for (let [campo, valor] of Object.entries(datos)) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td><strong>${campo}</strong></td><td>${valor || "-"}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  // Mostrar contenedor
+  document.getElementById("resumenContainer").style.display = "block";
+});
 
 
 
