@@ -91,11 +91,20 @@
       <label for="CORREO">Correo electrónico <span class="required">*</span></label>
       <input type="email" id="CORREO" name="CORREO" required>
        </div>
+        <div class="form-group">
+      <label for="objeto">OBJETO <span class="required">*</span></label>
+      <input type="text" id="objeto" name="objeto" required>
+       </div>
  
 
    <div class="form-group">
       <label for="businessName">Razón social <span class="required">*</span></label>
       <input type="text" id="businessName" name="businessName" required>
+    </div>
+
+    <div class="form-group">
+      <label for="id">ID <span class="required">*</span></label>
+      <input type="text" id="id" name="id" required>
     </div>
 
     <div class="form-group">
@@ -225,9 +234,6 @@
   <input type="number" id="montoManual" step="0.01">
 </div>
 
-
-
-
     <div class="form-group">
       <label for="intereses">INTERESES:<span class="required">*</span></label>
       <select id="intereses" name="interese" required>
@@ -240,11 +246,38 @@
         <option value="6">NO APLICA</option>
     </select>
     </div>
-    
+   
+    <div class="form-group">
+      <label for="intereses">PREMISA:<span class="required">*</span></label>
+      <select id="premisa" name="premisa" required>
+        <option value="">- Selecciona -</option>
+        <option value="1"> S/PREMISA</option>
+        <option value="2">INPC-ACUERDO DG </option>
+        <option value="3">INPC-ACUERDO DG</option>
+        <option value="4">DOF</option>
+        <option value="5">INPC</option>
+        <option value="6">DOF-ACUERDO DG</option>
+        <option value="6">CATALOGO</option>
+    </select>
+    </div> 
+
+     <div class="form-group">
+      <label for="estatusfac">ESTATUS DE FACTURACIÓN:<span class="required">*</span></label>
+      <select id="estatusfac" name="estatusfac" required>
+        <option value="">- Selecciona -</option>
+        <option value="1"> VIGENTE</option>
+        <option value="2">CONCLUIDO </option>
+    </select>
+    </div> 
+   
 
 
 
 
+<div class="form-group">
+      <label for="dcredito">Días de crédito <span class="required">*</span></label>
+      <input type="number" id="dcredito" name="dcredito" required>
+    </div>
 
 
     <div class="form-group">
@@ -266,6 +299,18 @@
     <div id="penalizacionResultado"></div>
     
     <h3>TOTAL:</h3> <div id="total"></div>
+
+
+
+    <div class="form-group">
+      <label for="enlace">ENLACE <span class="required">*</span></label>
+      <input type="email" id="enlace" name="enlace" required>
+       </div>
+
+        <div class="form-group">
+      <label for="observaciones">OBSERVACIONES <span class="required">*</span></label>
+      <input type="text" id="observaciones" name="observaciones" required>
+       </div>
 
 <button id="btnResumen" type="button">📑 GUARDAR</button>
 			
@@ -503,7 +548,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("btnResumen").addEventListener("click", () => {
   const datos = {
+    
+    "ID": document.getElementById("id").value,
     "NO. CLIENTE": document.getElementById("CUENTA").value,
+    "ENLACE": document.getElementById("enlace").value,
+    "CORREO": document.getElementById("CORREO").value,
+    "OBJETO": document.getElementById("objeto").value,
+    "OBSERVACIONES": document.getElementById("observaciones").value,
     "NO. DCTO. SAP": document.getElementById("numsap").value,
     "NO. CONTRATO": document.getElementById("numcontrato").value,
     "TIPO CONTRATO": document.getElementById("tipo").selectedOptions[0].text,
@@ -518,7 +569,6 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "% MTTO": document.getElementById("mantenimientoFijo").value,
     "% LUZ": document.getElementById("alicuotas").value,
     "% AGUA": document.getElementById("aguaFijo").value,
-    // SOLO MOSTRAR LOS VALORES NUMÉRICOS, NO LOS LABELS CON EMOJIS
     "$ MTTO": extraerNumero(document.getElementById("mantenimientoResultado").innerText),
     "$ LUZ": extraerNumero(document.getElementById("luzResultado").innerText),
     "$ AGUA": extraerNumero(document.getElementById("aguaResultado").innerText),
@@ -532,12 +582,14 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "TOTAL": extraerNumero(document.getElementById("total").innerText),
     "CORREO ELECTRÓNICO SAP": document.getElementById("CORREO").value,
     // SOLO EL TEXTO DEL ESTATUS SIN LOS EMOJIS
+     "DIAS DE CRÉDITO": document.getElementById("dcredito").value,
     "STATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
     "DIAS X VENCER": extraerTexto(document.getElementById("porvencer").innerText),
     "DIAS VENCIDOS": extraerTexto(document.getElementById("vencidos").innerText),
     "VIGENCIA (DÍAS)": extraerNumero(document.getElementById("vigencia").innerText),
     "INTERES": document.getElementById("intereses").selectedOptions[0].text,
-  
+     "PREMISA": document.getElementById("premisa").selectedOptions[0].text,
+      "ESTATUS DE FACTURACIÓN": document.getElementById("estatusfac").selectedOptions[0].text,
   };
 
   // Renderizar la tabla
@@ -587,7 +639,5 @@ document.addEventListener("DOMContentLoaded", function() {
   tarifam2Input.addEventListener("input", calcularTotalTarifa);
 });
 </script>
-
-
 
 </html>
