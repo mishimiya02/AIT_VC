@@ -261,6 +261,53 @@
     </select>
     </div> 
 
+       <div class="form-group">
+      <label for="intereses">METODOLOGÍA DE ACTUALIZACIÓN<span class="required">*</span></label>
+      <select id="metact" name="metact" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">SIN PREMISA</option>
+        <option value="2">A LA RENOVACIÓN (A PARTIR DE INICIO VIG.) </option>
+        <option value="3">ACORDE A LA VIGENCIA DE LA PUBLICACIÓN DEL DOF</option>
+        <option value="4">INFLACIÓN 12 MESES</option>
+        <option value="5">TARIFA EN VIGOR</option>
+        <option value="6">TARIFA DEL CATÁLOGO "P&T" DEL AÑO EN CURSO (AUTORIZADO POR EL CONSEJO DE ADMINISTRACIÓN)</option>
+        <option value="6">REVISIÓN AL MOMENTO DE LA RENOVACIÓN DEL INSTRUMENTO</option>
+         <option value="6">INFLACIÓN ACUMULADA AL MOMENTO DE LA RENOVACIÓN</option>
+    </select>
+    </div> 
+
+     <div class="form-group">
+      <label for="ubicacion">UBICACIÓN<span class="required">*</span></label>
+      <select id="ubicacion" name="ubicacion" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">AMAIT</option>
+        <option value="2">OAG </option>
+        <option value="3">ADUANAS</option>
+        <option value="4">FEDEX</option>
+    </select>
+    </div> 
+
+     <div class="form-group">
+      <label for="detubi">DETALLE DE UBICACIÓN<span class="required">*</span></label>
+      <select id="detubi" name="detubi" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">COMBUSTIBLES ASA</option>
+        <option value="2"> HANGAR FEDEX</option>
+        <option value="3">HANGARES ZONA NORTE</option>
+        <option value="4">HANGARES ZONA OAG</option>
+        <option value="5">LADO AIRE</option>
+        <option value="6">LADO TIERRA</option>
+        <option value="7">LADO TIERRA ADUANA</option>
+         <option value="8">PARCELAS INMEDIACIONES DEL AIT</option>
+          <option value="9">RECINTOS FICALES (ADUANA TOLUCA)</option>
+    </select>
+    </div> 
+
+
+
+
+
+
      <div class="form-group">
       <label for="estatusfac">ESTATUS DE FACTURACIÓN:<span class="required">*</span></label>
       <select id="estatusfac" name="estatusfac" required>
@@ -589,6 +636,10 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "VIGENCIA (DÍAS)": extraerNumero(document.getElementById("vigencia").innerText),
     "INTERES": document.getElementById("intereses").selectedOptions[0].text,
      "PREMISA": document.getElementById("premisa").selectedOptions[0].text,
+ "METODOLOGÍA DE ACTUALIZACIÓN": document.getElementById("metact").selectedOptions[0].text,
+  "UBICACIÓN": document.getElementById("ubicacion").selectedOptions[0].text,
+   "DETALLE DE UBICACIÓN": document.getElementById("detubi").selectedOptions[0].text,
+
       "ESTATUS DE FACTURACIÓN": document.getElementById("estatusfac").selectedOptions[0].text,
   };
 
