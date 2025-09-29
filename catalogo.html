@@ -396,10 +396,10 @@ function calcularGarantia() {
       break;
     case "2": // FC
       manualInput.style.display = "block";
-      resultado = parseFloat(montoManual.value) || 0;
+      resultado = parseFloat(montoManual.value) + subtotal || 0;
       break;
     case "3": // NA
-      resultado = 0;
+      resultado = subtotal;
       break;
     case "4": // FCX3
       resultado = (subtotal * (1 + IVA)) * 3;
@@ -411,7 +411,7 @@ function calcularGarantia() {
       resultado = (subtotal * (1 + IVA)) * 12;
       break;
     default:
-      resultado = 0;
+      resultado = subtotal;
   }
 
   garantiaResultado.innerHTML = `🔒 Garantía calculada: <strong>${resultado.toFixed(2)}</strong>`;
