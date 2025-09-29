@@ -158,6 +158,12 @@
       <label for="unidades">Unidades/Elementos/m2 <span class="required">*</span></label>
       <input type="number" id="unidades" name="unidades" required>
     </div>
+    <div class="form-group">
+      <label for="tarifam2"> TARIFA PARA UNIDADES/ELEMENTOS/m2 <span class="required">*</span></label>
+      <input type="number" id="tarifam2" name="tarifam2" required>
+       <div id="totalTarifa" style="margin-top: 5px; font-weight: bold;"></div>
+    </div>
+
 
     <!-- Fechas -->
     <div class="form-group">
@@ -323,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Calcular días de vigencia total
     const diffMs = fechaFin - fechaInicio;
-    const diasVigencia = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    const diasVigencia = Math.ceil(diffMs / (1000 * 60 * 60 * 24)) +1;
 
     // Calcular días restantes
     const diffRestante = fechaFin - hoy;
@@ -505,7 +511,7 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "NOMBRE COMERCIAL": document.getElementById("nomcom").value,
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
     "UNIDADES/ELEMENTOS/M2": document.getElementById("unidades").value,
-    "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
+    "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifam2").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
     "INICIO VIGENCIA": document.getElementById("fecha-inicio").value,
     "FIN VIGENCIA": document.getElementById("fecha-fin").value,
     "TARIFA": document.getElementById("tarifa").value,
@@ -544,9 +550,29 @@ document.getElementById("btnResumen").addEventListener("click", () => {
 });
 
 
+// Cálculo automático de unidades * tarifa
 
-
-
+// Cálculo automático informativo de unidades * tarifa
+document.addEventListener("DOMContentLoaded", function() {
+  const unidadesInput = document.getElementById("unidades");
+  const tarifam2Input = document.getElementById("tarifam2");
+  const totalTarifaDiv = document.getElementById("totalTarifa");
+  
+  function calcularTotalTarifa() {
+    const unidades = parseFloat(unidadesInput.value) || 0;
+    const tarifa = parseFloat(tarifam2Input.value) || 0;
+    const total = unidades * tarifa;
+    
+    if (unidades > 0 && tarifa > 0) {
+      totalTarifaDiv.innerHTML = `💰 Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
+    } else {
+      totalTarifaDiv.innerHTML = "";
+    }
+  }
+  
+  unidadesInput.addEventListener("input", calcularTotalTarifa);
+  tarifam2Input.addEventListener("input", calcularTotalTarifa);
+});
 </script>
 
 
