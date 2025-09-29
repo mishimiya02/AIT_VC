@@ -511,29 +511,33 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "NOMBRE COMERCIAL": document.getElementById("nomcom").value,
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
     "UNIDADES/ELEMENTOS/M2": document.getElementById("unidades").value,
-    "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifam2").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
+    "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
     "INICIO VIGENCIA": document.getElementById("fecha-inicio").value,
     "FIN VIGENCIA": document.getElementById("fecha-fin").value,
     "TARIFA": document.getElementById("tarifa").value,
     "% MTTO": document.getElementById("mantenimientoFijo").value,
     "% LUZ": document.getElementById("alicuotas").value,
     "% AGUA": document.getElementById("aguaFijo").value,
-    "$ MTTO": document.getElementById("mantenimientoResultado").innerText,
-    "$ LUZ": document.getElementById("luzResultado").innerText,
-    "$ AGUA": document.getElementById("aguaResultado").innerText,
-    "SUBTOTAL": document.getElementById("subtotal").innerText,
+    // SOLO MOSTRAR LOS VALORES NUMÉRICOS, NO LOS LABELS CON EMOJIS
+    "$ MTTO": extraerNumero(document.getElementById("mantenimientoResultado").innerText),
+    "$ LUZ": extraerNumero(document.getElementById("luzResultado").innerText),
+    "$ AGUA": extraerNumero(document.getElementById("aguaResultado").innerText),
+    "SUBTOTAL": extraerNumero(document.getElementById("subtotal").innerText),
     "% INCENTIVO": document.getElementById("incentivo").value,
     "% VARIABLE": document.getElementById("aguaVariable").value,
     "% PENALIZACIÓN": document.getElementById("penalizacionContrato").value,
     "GARANTÍA": document.getElementById("tgar").selectedOptions[0].text,
-    "MONTO GARANTÍA": document.getElementById("garantiaResultado").innerText,
-    "TOTAL": document.getElementById("total").innerText,
+    // SOLO EL VALOR NUMÉRICO DE LA GARANTÍA
+    "MONTO GARANTÍA": extraerNumero(document.getElementById("garantiaResultado").innerText),
+    "TOTAL": extraerNumero(document.getElementById("total").innerText),
     "CORREO ELECTRÓNICO SAP": document.getElementById("CORREO").value,
-    "STATUS DE VIGENCIA": document.getElementById("estatus").innerText,
-    "DIAS X VENCER": document.getElementById("porvencer").innerText,
-    "DIAS VENCIDOS": document.getElementById("vencidos").innerText,
-    "VIGENCIA (DÍAS)": document.getElementById("vigencia").innerText,
+    // SOLO EL TEXTO DEL ESTATUS SIN LOS EMOJIS
+    "STATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
+    "DIAS X VENCER": extraerTexto(document.getElementById("porvencer").innerText),
+    "DIAS VENCIDOS": extraerTexto(document.getElementById("vencidos").innerText),
+    "VIGENCIA (DÍAS)": extraerNumero(document.getElementById("vigencia").innerText),
     "INTERES": document.getElementById("intereses").selectedOptions[0].text,
+  
   };
 
   // Renderizar la tabla
@@ -549,7 +553,16 @@ document.getElementById("btnResumen").addEventListener("click", () => {
   document.getElementById("resumenContainer").style.display = "block";
 });
 
+// Función para extraer solo el número de los textos con emojis
+function extraerNumero(texto) {
+  const match = texto.match(/[\d,.]+/);
+  return match ? match[0] : "0.00";
+}
 
+// Función para extraer solo el texto sin emojis
+function extraerTexto(texto) {
+  return texto.replace(/[^\w\sáéíóúÁÉÍÓÚñÑ():.,]/g, '').trim();
+}
 // Cálculo automático de unidades * tarifa
 
 // Cálculo automático informativo de unidades * tarifa
