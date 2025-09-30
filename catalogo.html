@@ -246,7 +246,13 @@
         <option value="6">NO APLICA</option>
     </select>
     </div>
-   
+
+      <div class="form-group">
+      <label for="tipovigencia">TIPO DE VIGENCIA: <span class="required">*</span></label>
+      <input type="text" id="tipovigencia" name="tipovigencia" required>
+       </div>
+       
+    
     <div class="form-group">
       <label for="intereses">PREMISA:<span class="required">*</span></label>
       <select id="premisa" name="premisa" required>
@@ -260,6 +266,34 @@
         <option value="6">CATALOGO</option>
     </select>
     </div> 
+
+
+  <div class="form-group">
+      <label for="basepremisa">BASE DE LA PREMISA: <span class="required">*</span></label>
+      <input type="text" id="basepremisa" name="basepremisa" required>
+       </div>
+   
+
+  <div class="form-group">
+      <label for="perioricidad">PERIORICIDAD: <span class="required">*</span></label>
+      <input type="text" id="perioricidad" name="perioricidad" required>
+       </div>
+   
+      <label for="fechaactualizacion" class="required-field">FECHA DE ACTUALIZACIÓN</label>
+      <input type="date" id="fechaactualizacion">
+
+
+       <div class="form-group">
+      <label for="cactualizacion">C. ACTUALIZACIÓN <span class="required">*</span></label>
+      <input type="text" id="cactualizacion" name="cactualizacion" required>
+       </div>
+
+
+
+       <div class="form-group">
+      <label for="comunicado">COMUNICADO <span class="required">*</span></label>
+      <input type="text" id="comunicado" name="comunicado" required>
+       </div>
 
        <div class="form-group">
       <label for="intereses">METODOLOGÍA DE ACTUALIZACIÓN<span class="required">*</span></label>
@@ -303,7 +337,20 @@
     </select>
     </div> 
 
-
+<!---
+ <div class="form-group">
+      <label for="clave">CLAVE<span class="required">*</span></label>
+      <select id="clave" name="clave" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">CM </option>
+        <option value="2"> CP</option>
+         <option value="3">CT </option>
+          <option value="4">TC </option>
+           <option value="5">PC </option>
+            <option value="7">C</option>
+    </select>
+    </div> 
+  -->
 
 
 
@@ -598,20 +645,19 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     
     "ID": document.getElementById("id").value,
     "NO. CLIENTE": document.getElementById("CUENTA").value,
-    "ENLACE": document.getElementById("enlace").value,
-    "CORREO": document.getElementById("CORREO").value,
-    "OBJETO": document.getElementById("objeto").value,
-    "OBSERVACIONES": document.getElementById("observaciones").value,
     "NO. DCTO. SAP": document.getElementById("numsap").value,
     "NO. CONTRATO": document.getElementById("numcontrato").value,
-    "TIPO CONTRATO": document.getElementById("tipo").selectedOptions[0].text,
+   "TIPO CONTRATO": document.getElementById("tipo").selectedOptions[0].text,
     "RAZÓN SOCIAL": document.getElementById("businessName").value,
     "NOMBRE COMERCIAL": document.getElementById("nomcom").value,
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
     "UNIDADES/ELEMENTOS/M2": document.getElementById("unidades").value,
-    "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
+     "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
     "INICIO VIGENCIA": document.getElementById("fecha-inicio").value,
     "FIN VIGENCIA": document.getElementById("fecha-fin").value,
+     "DÍAS X VENCER": Math.floor(extraerNumero(document.getElementById("porvencer").innerText)),
+ "DÍAS VENCIDOS": Math.floor(extraerNumero(document.getElementById("vencidos").innerText)),
+  "STATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
     "TARIFA": document.getElementById("tarifa").value,
     "% MTTO": document.getElementById("mantenimientoFijo").value,
     "% LUZ": document.getElementById("alicuotas").value,
@@ -623,22 +669,29 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "% INCENTIVO": document.getElementById("incentivo").value,
     "% VARIABLE": document.getElementById("aguaVariable").value,
     "% PENALIZACIÓN": document.getElementById("penalizacionContrato").value,
+    
+    "VIGENCIA (DÍAS)": Math.floor(extraerNumero(document.getElementById("vigencia").innerText)),
+       "TIPO VIGENCIA": document.getElementById("tipovigencia").value,
+          "PREMISA": document.getElementById("premisa").value,
+      "BASE DE PREMISA": document.getElementById("basepremisa").value,
+      "PERIORICIDAD": document.getElementById("perioricidad").value,
+ "METODOLOGÍA DE ACTUALIZACIÓN": document.getElementById("metact").selectedOptions[0].text,
+  "PROXIMA FECHA DE ACTUALIZACIÓN": document.getElementById("fechaactualizacion").value,
+"C. ACTUALIZACIÓN": document.getElementById("cactualizacion").value,
+"COMUNICADO": document.getElementById("comunicado").value,
+ "INTERES": document.getElementById("intereses").selectedOptions[0].text,
+    "DIAS DE CRÉDITO": document.getElementById("dcredito").value,
     "GARANTÍA": document.getElementById("tgar").selectedOptions[0].text,
-    // SOLO EL VALOR NUMÉRICO DE LA GARANTÍA
     "MONTO GARANTÍA": extraerNumero(document.getElementById("garantiaResultado").innerText),
+    "OBSERVACIONES": document.getElementById("observaciones").value,
+    "OBJETO": document.getElementById("objeto").value,   
+
     "TOTAL": extraerNumero(document.getElementById("total").innerText),
     "CORREO ELECTRÓNICO SAP": document.getElementById("CORREO").value,
-    // SOLO EL TEXTO DEL ESTATUS SIN LOS EMOJIS
-     "DIAS DE CRÉDITO": document.getElementById("dcredito").value,
-    "STATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
-    "DIAS X VENCER": extraerTexto(document.getElementById("porvencer").innerText),
-    "DIAS VENCIDOS": extraerTexto(document.getElementById("vencidos").innerText),
-    "VIGENCIA (DÍAS)": extraerNumero(document.getElementById("vigencia").innerText),
-    "INTERES": document.getElementById("intereses").selectedOptions[0].text,
-     "PREMISA": document.getElementById("premisa").selectedOptions[0].text,
- "METODOLOGÍA DE ACTUALIZACIÓN": document.getElementById("metact").selectedOptions[0].text,
   "UBICACIÓN": document.getElementById("ubicacion").selectedOptions[0].text,
    "DETALLE DE UBICACIÓN": document.getElementById("detubi").selectedOptions[0].text,
+   "ENLACE": document.getElementById("enlace").value,
+    "CORREO": document.getElementById("CORREO").value,
 
       "ESTATUS DE FACTURACIÓN": document.getElementById("estatusfac").selectedOptions[0].text,
   };
