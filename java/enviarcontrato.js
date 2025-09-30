@@ -56,16 +56,17 @@ document.getElementById("btnEnviar").addEventListener("click", function () {
   };
 
   fetch("https://script.google.com/macros/s/AKfycbxwe9T7jFnCnA1xH_Ky8PCmbvZYj-hbv1PvKR75SZofyB22k5iwplGmiVA11A3kNc-m3Q/exec", {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  })
-  .then(() => {
-    alert("✅ Datos enviados correctamente");
-  })
-  .catch(err => {
-    console.error("Error al enviar", err);
-    alert("❌ Ocurrió un error, revisa la consola");
-  });
+  method: "POST",
+  mode: "no-cors",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(data)
+})
+.then(() => {
+  mostrarMensaje("✅ Datos enviados correctamente", "exito");
+})
+.catch(err => {
+  console.error("Error al enviar", err);
+  mostrarMensaje("❌ Ocurrió un error al enviar los datos", "error");
+});
+
 });

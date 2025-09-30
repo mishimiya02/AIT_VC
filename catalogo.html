@@ -743,7 +743,32 @@ document.addEventListener("DOMContentLoaded", function() {
   unidadesInput.addEventListener("input", calcularTotalTarifa);
   tarifam2Input.addEventListener("input", calcularTotalTarifa);
 });
+
+
+function mostrarMensaje(texto, tipo = "exito") {
+  const mensaje = document.getElementById("mensaje");
+  
+  mensaje.innerText = texto;
+  mensaje.style.display = "block";
+  
+  if(tipo === "exito") {
+    mensaje.style.backgroundColor = "#4caf50"; // verde
+  } else if(tipo === "error") {
+    mensaje.style.backgroundColor = "#f44336"; // rojo
+  } else if(tipo === "info") {
+    mensaje.style.backgroundColor = "#2196f3"; // azul
+  }
+
+  // Ocultar después de 3 segundos
+  setTimeout(() => {
+    mensaje.style.display = "none";
+  }, 3000);
+}
+
 </script>
 
 <script src="java/enviarcontrato.js"></script>
+<div id="mensaje" style="position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; display: none; font-weight: bold; color: #fff; z-index: 999;"></div>
+
+</body>
 </html>
