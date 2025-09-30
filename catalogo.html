@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- SweetAlert2 CSS y JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Garantía</title>
@@ -408,7 +411,7 @@
        </div>
 
 <button id="btnResumen" type="button">📑 GUARDAR</button>
-			<button type="button" id="btnEnviar">Enviar a Google Sheets</button>
+			<button type="button" id="btnEnviar">🚁Enviar a Google Sheets🚁</button>
 
 
 <div id="resumenContainer" style="margin-top:20px; display:none;">
@@ -752,7 +755,7 @@ function mostrarMensaje(texto, tipo = "exito") {
   mensaje.style.display = "block";
   
   if(tipo === "exito") {
-    mensaje.style.backgroundColor = "#4caf50"; // verde
+    mensaje.style.backgroundColor = "#12FF1B"; // verde
   } else if(tipo === "error") {
     mensaje.style.backgroundColor = "#f44336"; // rojo
   } else if(tipo === "info") {

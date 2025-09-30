@@ -62,11 +62,23 @@ document.getElementById("btnEnviar").addEventListener("click", function () {
   body: JSON.stringify(data)
 })
 .then(() => {
-  mostrarMensaje("✅ Datos enviados correctamente", "exito");
+  Swal.fire({
+    icon: 'success',
+    title: '¡Enviado!',
+    text: 'Los datos se han guardado correctamente en Google Sheets.',
+    timer: 2500,
+    timerProgressBar: true,
+    showConfirmButton: false
+  });
 })
 .catch(err => {
   console.error("Error al enviar", err);
-  mostrarMensaje("❌ Ocurrió un error al enviar los datos", "error");
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Ocurrió un error al enviar los datos.',
+    showConfirmButton: true
+  });
 });
 
 });
