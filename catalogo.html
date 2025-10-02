@@ -10,6 +10,7 @@
       <link rel="stylesheet" href="css/catalogo.css" id="theme-style">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="java/avion-loading.js"></script>
+<script src="java/theme-switchercatalogo.js"></script>
 
 <!--<script src="java/theme-switchercedula.js"></script>-->
   <script>
@@ -86,6 +87,7 @@
   <div class="cedula-container">
 
     <h3>DATOS GENERALES</h3>
+    <div class="form-grid-2">
     <div class="form-group">
       <label for="CUENTA">Número de cuenta <span class="required">*</span></label>
       <input type="text" id="CUENTA" name="CUENTA" required>
@@ -121,6 +123,13 @@
       <input type="text" id="numcontrato" name="numcontrato" required>
     </div>
 
+
+ <div class="form-group">
+      <label for="nomcom">Nombre Comercial <span class="required">*</span></label>
+      <input type="text" id="nomcom" name="nomcom" required>
+    </div>
+
+
     <div class="form-group">
       <label for="tipo">TIPO:<span class="required">*</span></label>
       <select id="tipo" name="tipo" required>
@@ -136,11 +145,7 @@
 
    
 
-    <div class="form-group">
-      <label for="nomcom">Nombre Comercial <span class="required">*</span></label>
-      <input type="text" id="nomcom" name="nomcom" required>
-    </div>
-
+   
     <div class="form-group">
       <label for="instrumento">CONCEPTO:<span class="required">*</span></label>
       <select id="instrumento" name="instrumento" required>
@@ -177,7 +182,7 @@
        <div id="totalTarifa" style="margin-top: 5px; font-weight: bold;"></div>
     </div>
 
-
+</div>
     <!-- Fechas -->
     <div class="form-group">
       <label for="fecha-inicio" class="required-field">Fecha inicio de vigencia:</label>
@@ -237,7 +242,7 @@
   <label for="montoManual">Ingrese monto manual:</label>
   <input type="number" id="montoManual" step="0.01">
 </div>
-
+    <div class="form-grid-2">
     <div class="form-group">
       <label for="intereses">INTERESES:<span class="required">*</span></label>
       <select id="intereses" name="interese" required>
@@ -282,17 +287,7 @@
       <label for="perioricidad">PERIORICIDAD: <span class="required">*</span></label>
       <input type="text" id="perioricidad" name="perioricidad" required>
        </div>
-   
-      <label for="fechaactualizacion" class="required-field">FECHA DE ACTUALIZACIÓN</label>
-      <input type="date" id="fechaactualizacion">
-
-
-       <div class="form-group">
-      <label for="cactualizacion">C. ACTUALIZACIÓN <span class="required">*</span></label>
-      <input type="text" id="cactualizacion" name="cactualizacion" required>
-       </div>
-
-
+  
 
        <div class="form-group">
       <label for="comunicado">COMUNICADO <span class="required">*</span></label>
@@ -341,24 +336,6 @@
     </select>
     </div> 
 
-<!---
- <div class="form-group">
-      <label for="clave">CLAVE<span class="required">*</span></label>
-      <select id="clave" name="clave" required>
-        <option value="">- Selecciona -</option>
-        <option value="1">CM </option>
-        <option value="2"> CP</option>
-         <option value="3">CT </option>
-          <option value="4">TC </option>
-           <option value="5">PC </option>
-            <option value="7">C</option>
-    </select>
-    </div> 
-  -->
-
-
-
-
      <div class="form-group">
       <label for="estatusfac">ESTATUS DE FACTURACIÓN:<span class="required">*</span></label>
       <select id="estatusfac" name="estatusfac" required>
@@ -382,6 +359,17 @@
       <label for="incentivo">Incentivo <span class="required">*</span></label>
       <input type="number" id="incentivo" name="incentivo" required>
     </div>
+</div>
+
+ <label for="fechaactualizacion" class="required-field">FECHA DE ACTUALIZACIÓN</label>
+      <input type="date" id="fechaactualizacion">
+
+
+   <div class="form-group">
+      <label for="cactualizacion">C. ACTUALIZACIÓN <span class="required">*</span></label>
+      <input type="text" id="cactualizacion" name="cactualizacion" required>
+       </div>
+
 
     <h3>CONTRAPRESTACIONES VARIABLES</h3>
     <div class="form-group">

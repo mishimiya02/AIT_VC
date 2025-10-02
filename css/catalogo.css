@@ -11,13 +11,31 @@
 }
 
 
+/* Grid de 2 columnas solo para los primeros 4 campos */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 columnas iguales */
+  gap: 20px; /* espacio entre columnas */
+}
 
+/* Para pantallas pequeñas (celular), que se apilen en 1 columna */
+@media (max-width: 768px) {
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-grid-2 input {
+  max-width: 95%;   /* menos anchos */
+  padding: 8px 10px;
+  font-size: 14px;
+}
 .cedula-container {
     background-color: rgb(255, 255, 255);
     border-radius: 8px;
     box-shadow: var(--shadow);
     padding: 2rem;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto 5rem;
     transition: var(--transition);
     position: relative;
@@ -90,7 +108,7 @@
             transition: var(--transition);
         }
 .cedula-container {
-    max-width: 600px;
+  
     margin: 20px auto;
     padding: 25px;
     background: rgb(255, 255, 255);/*color de formulario*/
