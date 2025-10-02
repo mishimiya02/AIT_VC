@@ -10,7 +10,6 @@
       <link rel="stylesheet" href="css/catalogo.css" id="theme-style">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="java/avion-loading.js"></script>
-<script src="java/theme-switchercatalogo.js"></script>
 
 <!--<script src="java/theme-switchercedula.js"></script>-->
   <script>
@@ -202,19 +201,19 @@
     </div>
 
     <div class="form-group">
-      <label for="alicuotas" class="required-field">Porcentaje energía eléctrica (%):</label>
+      <label for="alicuotas" class="required-field">Porcentaje energía eléctrica (decimal):</label>
       <input type="number" id="alicuotas" step="0.01" required>    
     </div>
     <div id="luzResultado"></div>
 
     <div class="form-group">
-      <label for="mantenimientoFijo" class="required-field">Porcentaje para mantenimiento (%):</label>
+      <label for="mantenimientoFijo" class="required-field">Porcentaje para mantenimiento (decimal):</label>
       <input type="number" id="mantenimientoFijo" step="0.01" required>   
     </div>
     <div id="mantenimientoResultado"></div>
 
     <div class="form-group">
-      <label for="aguaFijo" class="required-field">Porcentaje para agua (%):</label>
+      <label for="aguaFijo" class="required-field">Porcentaje para agua (decimal):</label>
       <input type="number" id="aguaFijo" step="0.01" required>
     </div>
     <div id="aguaResultado"></div>
@@ -508,17 +507,17 @@ const tarifa = document.getElementById("tarifa");
 
     // Luz
     const luzPorcentaje = parseFloat(alicuotas.value) || 0;
-    const luzMonto = (t * luzPorcentaje) / 100;
+    const luzMonto = (t * luzPorcentaje) ;
     luzResultado.innerHTML = `💡 Energía eléctrica: <strong>${luzMonto.toFixed(2)}</strong>`;
 
     // Mantenimiento
     const mantPorcentaje = parseFloat(mantenimientoFijo.value) || 0;
-    const mantMonto = (t * mantPorcentaje) / 100;
+    const mantMonto = (t * mantPorcentaje) ;
     mantenimientoResultado.innerHTML = `🛠️ Mantenimiento: <strong>${mantMonto.toFixed(2)}</strong>`;
 
     // Agua
     const aguaPorcentaje = parseFloat(aguaFijo.value) || 0;
-    const aguaMonto = (t * aguaPorcentaje) / 100;
+    const aguaMonto = (t * aguaPorcentaje) ;
     aguaResultado.innerHTML = `💧 Agua: <strong>${aguaMonto.toFixed(2)}</strong>`;
 
     // Subtotal
@@ -761,5 +760,6 @@ function mostrarMensaje(texto, tipo = "exito") {
 <script src="java/enviarcontrato.js"></script>
 <div id="mensaje" style="position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; display: none; font-weight: bold; color: #fff; z-index: 999;"></div>
 
+<script src="java/theme-switchercatalogo.js"></script>
 </body>
 </html>
