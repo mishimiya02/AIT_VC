@@ -20,7 +20,7 @@ document.getElementById('theme-toggle').addEventListener('click', function() {
 window.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('themePreference');
     if(savedTheme === 'dark') {
-        document.getElementById('theme-style').setAttribute('href', 'css/compdark.css');
+        document.getElementById('theme-style').setAttribute('href', 'css/catalogo.css');
         document.getElementById('theme-toggle').textContent = '☀️ Modo Diurno';
     }
 });
