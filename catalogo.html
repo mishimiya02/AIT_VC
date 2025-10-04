@@ -196,19 +196,19 @@
     </div>
 
     <div class="form-group">
-      <label for="alicuotas" class="required-field">Porcentaje energía eléctrica (decimal):</label>
+      <label for="alicuotas" class="required-field">Porcentaje energía eléctrica (%):</label>
       <input type="number" id="alicuotas" step="0.01" required>    
     </div>
     <div id="luzResultado"></div>
 
     <div class="form-group">
-      <label for="mantenimientoFijo" class="required-field">Porcentaje para mantenimiento (decimal):</label>
+      <label for="mantenimientoFijo" class="required-field">Porcentaje para mantenimiento (%):</label>
       <input type="number" id="mantenimientoFijo" step="0.01" required>   
     </div>
     <div id="mantenimientoResultado"></div>
 
     <div class="form-group">
-      <label for="aguaFijo" class="required-field">Porcentaje para agua (decimal):</label>
+      <label for="aguaFijo" class="required-field">Porcentaje para agua (%):</label>
       <input type="number" id="aguaFijo" step="0.01" required>
     </div>
     <div id="aguaResultado"></div>
@@ -228,13 +228,13 @@
 
     <h2>CONTRAPRESTACIONES VARIABLES</h2>
     <div class="form-group">
-      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA LA TARIFA INICIAL:</label>
+      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR  TIPO:</label>
       <input type="number" id="aguaVariable" step="0.01" required>
     </div>
     <div id="variableContrato"></div>
 
     <div class="form-group">
-      <label for="penalizacionContrato" class="required-field">Penalización (%):</label>
+      <label for="penalizacionContrato" class="required-field">Penalización (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCONAR TIPO:</label>
       <input type="number" id="penalizacionContrato" step="0.01" required>
     </div>
     <div id="penalizacionResultado"></div>
@@ -623,22 +623,26 @@ function calcularTotal() {
   const garantiaText = garantiaResultado.innerText.replace(/[^\d.-]/g, "");
   const garantia = parseFloat(garantiaText) || 0;
 
+  // Tarifa inicial
+  const tarifaBase = parseFloat(document.getElementById("tarifa").value) || 0;
+
   // Incentivo (se resta directamente)
   const incentivo = parseFloat(incentivoInput.value) || 0;
 
-  // Variable (% sobre garantía)
+  // Variable (% sobre la tarifa inicial)
   const variablePct = parseFloat(variableInput.value) || 0;
-  const variableMonto = (garantia * variablePct) / 100;
+  const variableMonto = (tarifaBase * variablePct) / 100;
 
   // Penalización (% sobre garantía)
   const penalPct = parseFloat(penalizacionInput.value) || 0;
-  const penalMonto = (garantia * penalPct) / 100;
+  const penalMonto = (tarifaBase * penalPct) / 100;
 
   // Total
   const total = garantia - incentivo + variableMonto + penalMonto;
 
   totalDiv.innerHTML = `<strong>${total.toFixed(2)}</strong>`;
 }
+
 
 // Escuchar cambios en todos los campos que afectan el total
 [incentivoInput, variableInput, penalizacionInput, montoManual, tgar, tarifa, alicuotas, mantenimientoFijo, aguaFijo].forEach(input => {
