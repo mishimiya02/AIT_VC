@@ -85,7 +85,7 @@
 
   <div class="cedula-container">
 
-    <h3>DATOS GENERALES</h3>
+    <h2>DATOS GENERALES</h2>
     <div class="form-grid-2">
 
   <div class="form-group">
@@ -220,88 +220,39 @@
       <input type="number" id="incentivo" name="incentivo" required>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     <div class="form-group">
-      <label for="CORREO">Correo electrónico <span class="required">*</span></label>
-      <input type="email" id="CORREO" name="CORREO" required>
-       </div>
-        <div class="form-group">
-      <label for="objeto">OBJETO <span class="required">*</span></label>
-      <input type="text" id="objeto" name="objeto" required>
-       </div>
- 
-
-
-
-
-
-
-
-
-
-
   <div class="form-group">
-      <label for="tgar">TIPO DE GARANTIA:<span class="required">*</span></label>
-      <select id="tgar" name="tgar" required>
-        <option value="">- Selecciona -</option>
-        <option value="1">DGX3</option>
-        <option value="2">FC</option>
-        <option value="3">NA</option>
-        <option value="4">FCX3</option>
-        <option value="5">DGX1</option>
-        <option value="6">FCX12</option>
-        <option value="6">FDX30DÍAS</option>
-        <option value="6">PromMensualopsX3</option>  
-    </select>
-    </div>
+      <label for="comunicado">COMUNICADO <span class="required">*</span></label>
+      <input type="text" id="comunicado" name="comunicado" required>
+       </div>
+<br>
 
-<div id="garantiaResultado"></div>
-<div id="manualInput" style="display:none; margin-top:10px;">
-  <label for="montoManual">Ingrese monto manual:</label>
-  <input type="number" id="montoManual" step="0.01">
-</div>
-    <div class="form-grid-2">
+    <h2>CONTRAPRESTACIONES VARIABLES</h2>
     <div class="form-group">
-      <label for="intereses">INTERESES:<span class="required">*</span></label>
-      <select id="intereses" name="interese" required>
-        <option value="">- Selecciona -</option>
-        <option value="1">TIIE 28 POR 4 ENTRE 360</option>
-        <option value="2">3% MENSUAL </option>
-        <option value="3">TIIE 28 POR 2 ENTRE 360</option>
-        <option value="4">TIIE 28 POR 2.5 ENTRE 360</option>
-        <option value="5">5% MENSUAL</option>
-        <option value="6">NO APLICA</option>
-    </select>
+      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA LA TARIFA INICIAL:</label>
+      <input type="number" id="aguaVariable" step="0.01" required>
     </div>
+    <div id="variableContrato"></div>
 
-      <div class="form-group">
+    <div class="form-group">
+      <label for="penalizacionContrato" class="required-field">Penalización (%):</label>
+      <input type="number" id="penalizacionContrato" step="0.01" required>
+    </div>
+    <div id="penalizacionResultado"></div>
+<br>
+<h2>ESTATUS ACTUALIZACIÓN</h2>
+
+<div class="form-group">
       <label for="tipovigencia">TIPO DE VIGENCIA: <span class="required">*</span></label>
       <input type="text" id="tipovigencia" name="tipovigencia" required>
        </div>
-       
-    
-    <div class="form-group">
-      <label for="intereses">PREMISA:<span class="required">*</span></label>
+      
+  <div class="form-group">
+      <label for="basepremisa">PREMISA DE ACTUALIZACIÓN: <span class="required">*</span></label>
+      <input type="text" id="basepremisa" name="basepremisa" required>
+       </div>
+   
+ <div class="form-group">
+      <label for="premisa"> BASE DE PREMISA:<span class="required">*</span></label>
       <select id="premisa" name="premisa" required>
         <option value="">- Selecciona -</option>
         <option value="1"> S/PREMISA</option>
@@ -316,20 +267,18 @@
 
 
   <div class="form-group">
-      <label for="basepremisa">BASE DE LA PREMISA: <span class="required">*</span></label>
-      <input type="text" id="basepremisa" name="basepremisa" required>
-       </div>
-   
-
-  <div class="form-group">
       <label for="perioricidad">PERIORICIDAD: <span class="required">*</span></label>
       <input type="text" id="perioricidad" name="perioricidad" required>
        </div>
   
 
-       <div class="form-group">
-      <label for="comunicado">COMUNICADO <span class="required">*</span></label>
-      <input type="text" id="comunicado" name="comunicado" required>
+ <label for="fechaactualizacion" class="required-field">FECHA DE ACTUALIZACIÓN</label>
+      <input type="date" id="fechaactualizacion">
+
+
+   <div class="form-group">
+      <label for="cactualizacion">C. ACTUALIZACIÓN <span class="required">*</span></label>
+      <input type="text" id="cactualizacion" name="cactualizacion" required>
        </div>
 
        <div class="form-group">
@@ -346,7 +295,68 @@
          <option value="6">INFLACIÓN ACUMULADA AL MOMENTO DE LA RENOVACIÓN</option>
     </select>
     </div> 
+<br>
+<h2>ITEMS DE SEGUIMIENTO EN COBRANZA</h2>
 
+  <div class="form-grid-2">
+    <div class="form-group">
+      <label for="intereses">INTERESES:<span class="required">*</span></label>
+      <select id="intereses" name="interese" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">TIIE 28 POR 4 ENTRE 360</option>
+        <option value="2">3% MENSUAL </option>
+        <option value="3">TIIE 28 POR 2 ENTRE 360</option>
+        <option value="4">TIIE 28 POR 2.5 ENTRE 360</option>
+        <option value="5">5% MENSUAL</option>
+        <option value="6">NO APLICA</option>
+    </select>
+    </div>
+
+
+
+<div class="form-group">
+      <label for="dcredito">Días de crédito <span class="required">*</span></label>
+      <input type="number" id="dcredito" name="dcredito" required>
+    </div>
+    
+</div>
+
+  <div class="form-group">
+      <label for="tgar">TIPO DE GARANTIA:<span class="required">*</span></label>
+      <select id="tgar" name="tgar" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">DGX3 (Multiplica por 3 veces, el subtotal + IVA)</option>
+        <option value="2">FC( INGRESE UN MONTO)</option>
+        <option value="3">NO APLICA</option>
+        <option value="4">FCX3(Multiplica por 3 veces, el subtotal + IVA)</option>
+        <option value="5">DGX1(el subtotal + IVA)</option>
+        <option value="6">FCX12(Multiplica por 12 veces, el subtotal + IVA)</option>
+        <option value="6">FDX30DÍAS( INGRESE UN MONTO )</option>
+        <option value="6">PromMensualopsX3(INGRESE UN MONTO)</option>  
+    </select>
+    </div>
+
+
+
+<div id="garantiaResultado"></div>
+<div id="manualInput" style="display:none; margin-top:10px;">
+  <label for="montoManual">Ingrese monto manual:</label>
+  <input type="number" id="montoManual" step="0.01">
+</div>
+  
+
+
+    <div class="form-group">
+      <label for="observaciones">OBSERVACIONES <span class="required">*</span></label>
+      <input type="text" id="observaciones" name="observaciones" required>
+       </div>
+
+
+ <div class="form-group">
+      <label for="objeto">OBJETO <span class="required">*</span></label>
+      <input type="text" id="objeto" name="objeto" required>
+       </div>
+      
      <div class="form-group">
       <label for="ubicacion">UBICACIÓN<span class="required">*</span></label>
       <select id="ubicacion" name="ubicacion" required>
@@ -374,6 +384,19 @@
     </select>
     </div> 
 
+
+    <div class="form-group">
+      <label for="enlace">ENLACE <span class="required">*</span></label>
+      <input type="email" id="enlace" name="enlace" required>
+       </div>
+
+
+     <div class="form-group">
+      <label for="CORREO">Correo electrónico <span class="required">*</span></label>
+      <input type="email" id="CORREO" name="CORREO" required>
+       </div>
+       
+   
      <div class="form-group">
       <label for="estatusfac">ESTATUS DE FACTURACIÓN:<span class="required">*</span></label>
       <select id="estatusfac" name="estatusfac" required>
@@ -387,51 +410,11 @@
 
 
 
-<div class="form-group">
-      <label for="dcredito">Días de crédito <span class="required">*</span></label>
-      <input type="number" id="dcredito" name="dcredito" required>
-    </div>
-
-
-    
-</div>
-
- <label for="fechaactualizacion" class="required-field">FECHA DE ACTUALIZACIÓN</label>
-      <input type="date" id="fechaactualizacion">
-
-
-   <div class="form-group">
-      <label for="cactualizacion">C. ACTUALIZACIÓN <span class="required">*</span></label>
-      <input type="text" id="cactualizacion" name="cactualizacion" required>
-       </div>
-
-
-    <h3>CONTRAPRESTACIONES VARIABLES</h3>
-    <div class="form-group">
-      <label for="aguaVariable" class="required-field">Variable (%):</label>
-      <input type="number" id="aguaVariable" step="0.01" required>
-    </div>
-    <div id="variableContrato"></div>
-
-    <div class="form-group">
-      <label for="penalizacionContrato" class="required-field">Penalización (%):</label>
-      <input type="number" id="penalizacionContrato" step="0.01" required>
-    </div>
-    <div id="penalizacionResultado"></div>
-    
-    <h3>TOTAL:</h3> <div id="total"></div>
 
 
 
-    <div class="form-group">
-      <label for="enlace">ENLACE <span class="required">*</span></label>
-      <input type="email" id="enlace" name="enlace" required>
-       </div>
 
-        <div class="form-group">
-      <label for="observaciones">OBSERVACIONES <span class="required">*</span></label>
-      <input type="text" id="observaciones" name="observaciones" required>
-       </div>
+    <h3>TOTAL:</h3> <div id="total"></div>    
 
 <button id="btnResumen" type="button">📑 GUARDAR</button>
 			<button type="button" id="btnEnviar">🚁Enviar a Google Sheets🚁</button>
