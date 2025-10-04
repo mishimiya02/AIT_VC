@@ -674,7 +674,7 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "FIN VIGENCIA": document.getElementById("fecha-fin").value,
      "DÍAS X VENCER": Math.floor(extraerNumero(document.getElementById("porvencer").innerText)),
  "DÍAS VENCIDOS": Math.floor(extraerNumero(document.getElementById("vencidos").innerText)),
-  "STATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
+  "ESTATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
     "TARIFA": document.getElementById("tarifa").value,
     "% MTTO": document.getElementById("mantenimientoFijo").value,
     "% LUZ": document.getElementById("alicuotas").value,
@@ -734,8 +734,12 @@ function extraerNumero(texto) {
 
 // Función para extraer solo el texto sin emojis
 function extraerTexto(texto) {
-  return texto.replace(/[^\w\sáéíóúÁÉÍÓÚñÑ():.,]/g, '').trim();
+  return texto
+    .replace(/[^\w\sáéíóúÁÉÍÓÚñÑ():.,]/g, '') // limpia emojis o símbolos
+    .replace(/ESTATUS\s*:?/i, '')              // quita la palabra ESTATUS o estatus:
+    .trim();
 }
+
 // Cálculo automático de unidades * tarifa
 
 // Cálculo automático informativo de unidades * tarifa
