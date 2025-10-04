@@ -216,7 +216,7 @@
     <h3>SUBTOTAL:</h3> <div id="subtotal"></div>
 
     <div class="form-group">
-      <label for="incentivo">Incentivo <span class="required">*</span></label>
+      <label for="incentivo">INCENTIVO (ESTA CANTIDAD SE LE RESTARA AL TOTAL) <span class="required">*</span></label>
       <input type="number" id="incentivo" name="incentivo" required>
     </div>
 
@@ -332,12 +332,12 @@
       <label for="tgar">TIPO DE GARANTIA:<span class="required">*</span></label>
       <select id="tgar" name="tgar" required>
         <option value="">- Selecciona -</option>
-        <option value="1">DGX3 (Multiplica por 3 veces, el subtotal + IVA)</option>
+        <option value="1">DGX3 ( (3 * subtotal) + IVA 16%)</option>
         <option value="2">FC( INGRESE UN MONTO)</option>
         <option value="3">NO APLICA</option>
-        <option value="4">FCX3(Multiplica por 3 veces, el subtotal + IVA)</option>
+        <option value="4">FCX3((3 * el subtotal) + IVA)</option>
         <option value="5">DGX1(el subtotal + IVA)</option>
-        <option value="6">FCX12(Multiplica por 12 veces, el subtotal + IVA)</option>
+        <option value="6">FCX12(( 12 * subtotal) + IVA)</option>
         <option value="6">FDX30DÍAS( INGRESE UN MONTO )</option>
         <option value="6">PromMensualopsX3(INGRESE UN MONTO)</option>  
     </select>
