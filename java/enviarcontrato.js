@@ -30,9 +30,9 @@ document.getElementById("btnEnviar").addEventListener("click", function () {
     
     "VIGENCIA (DÍAS)": Math.floor(extraerNumero(document.getElementById("vigencia").innerText)),
        "TIPO VIGENCIA": document.getElementById("tipovigencia").value,
-          "PREMISA": document.getElementById("premisa").value,
+          "PREMISA": document.getElementById("premisa").selectedOptions[0].text,
       "BASE DE PREMISA": document.getElementById("basepremisa").value,
-      "PERIORICIDAD": document.getElementById("perioricidad").value,
+      "PERIORICIDAD": document.getElementById("perioricidad").selectedOptions[0].text,
  "METODOLOGÍA DE ACTUALIZACIÓN": document.getElementById("metact").selectedOptions[0].text,
   "PROXIMA FECHA DE ACTUALIZACIÓN": document.getElementById("fechaactualizacion").value,
 "C. ACTUALIZACIÓN": document.getElementById("cactualizacion").value,
