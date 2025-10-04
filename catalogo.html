@@ -769,6 +769,58 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
+
+// ✅ Función para validar que todos los campos requeridos estén llenos
+function validarCamposObligatorios() {
+  let camposVacios = [];
+
+  // Selecciona todos los inputs, selects y textareas requeridos
+  const campos = document.querySelectorAll("input[required], select[required], textarea[required]");
+
+  campos.forEach(campo => {
+    if (!campo.value.trim()) {
+      camposVacios.push(campo);
+      campo.style.border = "2px solid red"; // resalta el campo vacío
+    } else {
+      campo.style.border = ""; // limpia si ya está lleno
+    }
+  });
+
+  if (camposVacios.length > 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "⚠️ Campos obligatorios vacíos",
+      text: "Por favor, completa todos los campos requeridos antes de continuar.",
+      confirmButtonText: "Entendido"
+    });
+    // desplazarse al primer campo vacío
+    camposVacios[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    camposVacios[0].focus();
+    return false; // ❌ detiene el envío
+  }
+
+  return true; // ✅ todo lleno
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function mostrarMensaje(texto, tipo = "exito") {
   const mensaje = document.getElementById("mensaje");
   
