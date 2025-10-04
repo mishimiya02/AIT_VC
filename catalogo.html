@@ -528,28 +528,28 @@ const tarifa = document.getElementById("tarifa");
 
   const subtotalDiv = document.getElementById("subtotal");
 
-  function calcularMontos() {
-    const t = parseFloat(tarifa.value) || 0;
+ function calcularMontos() {
+  const t = parseFloat(tarifa.value) || 0;
 
-    // Luz
-    const luzPorcentaje = parseFloat(alicuotas.value) || 0;
-    const luzMonto = (t * luzPorcentaje) ;
-    luzResultado.innerHTML = `💡 Energía eléctrica: <strong>${luzMonto.toFixed(2)}</strong>`;
+  // Luz (% ingresado normal, ej: 20)
+  const luzPorcentaje = (parseFloat(alicuotas.value) || 0) / 100;
+  const luzMonto = t * luzPorcentaje;
+  luzResultado.innerHTML = `💡 Energía eléctrica: <strong>${luzMonto.toFixed(2)}</strong>`;
 
-    // Mantenimiento
-    const mantPorcentaje = parseFloat(mantenimientoFijo.value) || 0;
-    const mantMonto = (t * mantPorcentaje) ;
-    mantenimientoResultado.innerHTML = `🛠️ Mantenimiento: <strong>${mantMonto.toFixed(2)}</strong>`;
+  // Mantenimiento (% ingresado normal, ej: 10)
+  const mantPorcentaje = (parseFloat(mantenimientoFijo.value) || 0) / 100;
+  const mantMonto = t * mantPorcentaje;
+  mantenimientoResultado.innerHTML = `🛠️ Mantenimiento: <strong>${mantMonto.toFixed(2)}</strong>`;
 
-    // Agua
-    const aguaPorcentaje = parseFloat(aguaFijo.value) || 0;
-    const aguaMonto = (t * aguaPorcentaje) ;
-    aguaResultado.innerHTML = `💧 Agua: <strong>${aguaMonto.toFixed(2)}</strong>`;
+  // Agua (% ingresado normal, ej: 5)
+  const aguaPorcentaje = (parseFloat(aguaFijo.value) || 0) / 100;
+  const aguaMonto = t * aguaPorcentaje;
+  aguaResultado.innerHTML = `💧 Agua: <strong>${aguaMonto.toFixed(2)}</strong>`;
 
-    // Subtotal
-    const subtotal = t + luzMonto + mantMonto + aguaMonto;
-    subtotalDiv.innerHTML = `<strong>${subtotal.toFixed(2)}</strong>`;
-  }
+  // Subtotal
+  const subtotal = t + luzMonto + mantMonto + aguaMonto;
+  subtotalDiv.innerHTML = `<strong>${subtotal.toFixed(2)}</strong>`;
+}
 
   // Escuchar cambios en todos los campos
   [tarifa, alicuotas, mantenimientoFijo, aguaFijo].forEach(input => {
