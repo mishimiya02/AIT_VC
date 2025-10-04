@@ -48,6 +48,8 @@
     <nav class="clearfix">
     <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
     <div class="menu-center">  
+      <button id="logoutBtn" style="margin-left:12px;padding:6px 10px;border-radius:6px;">Cerrar sesión</button>
+
         <a href='/'>Inicio</a>
         
         <!-- Dropdown de Servicios -->
@@ -447,6 +449,30 @@
 
 
 <script>
+
+
+
+// === PROTECCIÓN BÁSICA: si no hay sesión, redirigir a login ===
+(function protegerPagina() {
+  // permitir abrir localmente para debugging si abres desde file://? (opcional)
+  const logged = sessionStorage.getItem("loggedIn");
+  if (!logged || logged !== "true") {
+    // redirigir a la página de login
+    alert("Acceso restringido. Serás redirigido a la página de login.");
+    window.location.href = "login.html";
+  }
+})();
+
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario")) || {};
 
@@ -771,39 +797,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-// ✅ Función para validar que todos los campos requeridos estén llenos
-function validarCamposObligatorios() {
-  let camposVacios = [];
-
-  // Selecciona todos los inputs, selects y textareas requeridos
-  const campos = document.querySelectorAll("input[required], select[required], textarea[required]");
-
-  campos.forEach(campo => {
-    if (!campo.value.trim()) {
-      camposVacios.push(campo);
-      campo.style.border = "2px solid red"; // resalta el campo vacío
-    } else {
-      campo.style.border = ""; // limpia si ya está lleno
-    }
-  });
-
-  if (camposVacios.length > 0) {
-    Swal.fire({
-      icon: "warning",
-      title: "⚠️ Campos obligatorios vacíos",
-      text: "Por favor, completa todos los campos requeridos antes de continuar.",
-      confirmButtonText: "Entendido"
-    });
-    // desplazarse al primer campo vacío
-    camposVacios[0].scrollIntoView({ behavior: "smooth", block: "center" });
-    camposVacios[0].focus();
-    return false; // ❌ detiene el envío
-  }
-
-  return true; // ✅ todo lleno
-}
-
-
 
 
 
@@ -840,6 +833,15 @@ function mostrarMensaje(texto, tipo = "exito") {
     mensaje.style.display = "none";
   }, 3000);
 }
+
+
+
+document.getElementById("logoutBtn")?.addEventListener("click", () => {
+  sessionStorage.removeItem("loggedIn");
+  sessionStorage.removeItem("loggedUser");
+  location.href = "login.html";
+});
+
 
 </script>
 
