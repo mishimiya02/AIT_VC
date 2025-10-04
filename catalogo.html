@@ -190,14 +190,35 @@
     </div>
 
 
+    <div class="form-group">
+      <label for="tarifa">Tarifa <span class="required">*</span></label>
+      <input type="number" id="tarifa" name="tarifa" required>
+    </div>
 
+    <div class="form-group">
+      <label for="alicuotas" class="required-field">Porcentaje energía eléctrica (decimal):</label>
+      <input type="number" id="alicuotas" step="0.01" required>    
+    </div>
+    <div id="luzResultado"></div>
 
+    <div class="form-group">
+      <label for="mantenimientoFijo" class="required-field">Porcentaje para mantenimiento (decimal):</label>
+      <input type="number" id="mantenimientoFijo" step="0.01" required>   
+    </div>
+    <div id="mantenimientoResultado"></div>
 
+    <div class="form-group">
+      <label for="aguaFijo" class="required-field">Porcentaje para agua (decimal):</label>
+      <input type="number" id="aguaFijo" step="0.01" required>
+    </div>
+    <div id="aguaResultado"></div>
 
+    <h3>SUBTOTAL:</h3> <div id="subtotal"></div>
 
-
-
-
+    <div class="form-group">
+      <label for="incentivo">Incentivo <span class="required">*</span></label>
+      <input type="number" id="incentivo" name="incentivo" required>
+    </div>
 
 
 
@@ -230,30 +251,13 @@
        </div>
  
 
-    <div class="form-group">
-      <label for="tarifa">Tarifa <span class="required">*</span></label>
-      <input type="number" id="tarifa" name="tarifa" required>
-    </div>
 
-    <div class="form-group">
-      <label for="alicuotas" class="required-field">Porcentaje energía eléctrica (decimal):</label>
-      <input type="number" id="alicuotas" step="0.01" required>    
-    </div>
-    <div id="luzResultado"></div>
 
-    <div class="form-group">
-      <label for="mantenimientoFijo" class="required-field">Porcentaje para mantenimiento (decimal):</label>
-      <input type="number" id="mantenimientoFijo" step="0.01" required>   
-    </div>
-    <div id="mantenimientoResultado"></div>
 
-    <div class="form-group">
-      <label for="aguaFijo" class="required-field">Porcentaje para agua (decimal):</label>
-      <input type="number" id="aguaFijo" step="0.01" required>
-    </div>
-    <div id="aguaResultado"></div>
 
-    <h3>SUBTOTAL:</h3> <div id="subtotal"></div>
+
+
+
 
 
   <div class="form-group">
@@ -389,10 +393,7 @@
     </div>
 
 
-    <div class="form-group">
-      <label for="incentivo">Incentivo <span class="required">*</span></label>
-      <input type="number" id="incentivo" name="incentivo" required>
-    </div>
+    
 </div>
 
  <label for="fechaactualizacion" class="required-field">FECHA DE ACTUALIZACIÓN</label>
