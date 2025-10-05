@@ -3,88 +3,97 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Acceso - Panel</title>
-  <link rel="stylesheet" href="css/catalogo.css">
+  <title>Acceso al sistema</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;background:#f4f7fb}
-    .card{width:360px;background:#fff;padding:24px;border-radius:10px;box-shadow:0 6px 20px rgba(20,20,40,.08)}
-    h2{margin:0 0 12px;font-size:20px}
-    label{display:block;margin-top:10px;font-size:13px;color:#333}
-    input{width:100%;padding:10px;margin-top:6px;border:1px solid #dcdfe6;border-radius:6px}
-    button{margin-top:16px;width:100%;padding:10px;border:0;border-radius:8px;background:#2575fc;color:#fff;font-weight:700;cursor:pointer}
-    .small{font-size:13px;color:#666;margin-top:8px;text-align:center}
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.1);
+      text-align: center;
+      width: 350px;
+    }
+    h2 { margin-bottom: 15px; }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #2575fc;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>Accede al panel</h2>
-
-    <label for="usuario">Usuario</label>
-    <input id="usuario" autocomplete="username" />
-
-    <label for="password">Contraseña</label>
-    <input id="password" type="password" autocomplete="current-password" />
-
-    <button id="btnLogin">Ingresar</button>
-
-    <div class="small">Si olvidas la contraseña, cámbiala editando <code>login.html</code> (solo local).</div>
+    <h2>🔒 Acceso restringido</h2>
+    <p>Introduce tu nombre de usuario autorizado:</p>
+    <input type="text" id="usuario" placeholder="Ej: admin01" />
+    <button id="btnLogin">Entrar</button>
   </div>
 
-<script>
-/*
-  SIMPLE LOGIN (cliente):
-  - Cambia USERNAME_ALLOWED y PASSWORD_ALLOWED_PLAIN por tus credenciales.
-  - El script convierte la contraseña a SHA-256 y la compara con el hash interno.
-  - Si el login es correcto crea sessionStorage.loggedIn = 'true' y redirige a catalogo.html
-  - En catalogo.html incluiremos un check al cargar para proteger la página.
-*/
+  <script>
+    // Lista de usuarios permitidos
+    const USUARIOS_PERMITIDOS = [
+      "admin01",
+      "merlina",
+      "soporteAIT",
+      "gerencia",
+      "invitado"
+    ];
 
-// --- CONFIG: cambia estos valores si quieres ---
-const USERNAME_ALLOWED = "admin";            // usuario permitido
-const PASSWORD_ALLOWED_PLAIN = "pass123";   // contraseña (tu la pones, se hashea en runtime)
-// --- FIN CONFIG ---
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const usuario = document.getElementById("usuario").value.trim().toLowerCase();
 
-// calc SHA-256 hex
-async function sha256hex(message) {
-  const enc = new TextEncoder();
-  const data = enc.encode(message);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  const bytes = new Uint8Array(hash);
-  return Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join('');
-}
+      if (!usuario) {
+        Swal.fire("⚠️ Ingresa un nombre de usuario.");
+        return;
+      }
 
-(async function prepare() {
-  // precomputar el hash permitido (se hace en runtime para evitar poner hash "a mano")
-  const PASSWORD_ALLOWED_HASH = await sha256hex(PASSWORD_ALLOWED_PLAIN);
+      if (USUARIOS_PERMITIDOS.includes(usuario)) {
+        sessionStorage.setItem("loggedUser", usuario);
+        sessionStorage.setItem("loggedIn", "true");
+        Swal.fire({
+          icon: "success",
+          title: "✅ Bienvenido " + usuario,
+          timer: 1200,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = "catalogo.html";
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "❌ Usuario no autorizado",
+          text: "No tienes permiso para acceder a esta sección."
+        });
+      }
+    });
 
-  document.getElementById("btnLogin").addEventListener("click", async () => {
-    const u = document.getElementById("usuario").value.trim();
-    const p = document.getElementById("password").value;
-
-    if (!u || !p) {
-      Swal.fire({ icon: "warning", title: "Completa usuario y contraseña" });
-      return;
-    }
-
-    const pHash = await sha256hex(p);
-
-    if (u === USERNAME_ALLOWED && pHash === PASSWORD_ALLOWED_HASH) {
-      // crear token de sesión (puede ser un simple flag)
-      sessionStorage.setItem("loggedIn", "true");
-      sessionStorage.setItem("loggedUser", u);
-      Swal.fire({ icon: "success", title: "Acceso concedido", timer: 900, showConfirmButton:false })
-        .then(() => location.href = "catalogo.html");
-    } else {
-      Swal.fire({ icon: "error", title: "Credenciales incorrectas" });
-    }
-  });
-
-  // permitir ENTER en el password
-  document.getElementById("password").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") document.getElementById("btnLogin").click();
-  });
-})();
-</script>
+    // Permitir Enter
+    document.getElementById("usuario").addEventListener("keydown", e => {
+      if (e.key === "Enter") document.getElementById("btnLogin").click();
+    });
+  </script>
 </body>
 </html>

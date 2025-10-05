@@ -48,7 +48,8 @@
     <nav class="clearfix">
     <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
     <div class="menu-center">  
-      <button id="logoutBtn" style="margin-left:12px;padding:6px 10px;border-radius:6px;">Cerrar sesión</button>
+      <button id="logoutBtn">🚪 Salir</button>
+
 
         <a href='/'>Inicio</a>
         
@@ -450,18 +451,17 @@
 
 <script>
 
-
-
-// === PROTECCIÓN BÁSICA: si no hay sesión, redirigir a login ===
+// === Verificación de acceso ===
 (function protegerPagina() {
-  // permitir abrir localmente para debugging si abres desde file://? (opcional)
   const logged = sessionStorage.getItem("loggedIn");
-  if (!logged || logged !== "true") {
-    // redirigir a la página de login
-    alert("Acceso restringido. Serás redirigido a la página de login.");
+  const user = sessionStorage.getItem("loggedUser");
+
+  if (!logged || logged !== "true" || !user) {
+    alert("Acceso restringido. Redirigiendo a la página de login...");
     window.location.href = "login.html";
   }
 })();
+
 
 
 
@@ -835,11 +835,16 @@ function mostrarMensaje(texto, tipo = "exito") {
 }
 
 
-
 document.getElementById("logoutBtn")?.addEventListener("click", () => {
-  sessionStorage.removeItem("loggedIn");
-  sessionStorage.removeItem("loggedUser");
-  location.href = "login.html";
+  sessionStorage.clear();
+  Swal.fire({
+    icon: "info",
+    title: "Cerrando sesión...",
+    timer: 1000,
+    showConfirmButton: false
+  }).then(() => {
+    window.location.href = "login.html";
+  });
 });
 
 
