@@ -48,8 +48,7 @@
     <nav class="clearfix">
     <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
     <div class="menu-center">  
-      <button id="logoutBtn">🚪 Salir</button>
-
+     
 
         <a href='/'>Inicio</a>
         
@@ -79,6 +78,34 @@
 
         <a href='/contacto.html'>Contacto</a>
         <button id="theme-toggle">🌙 Modo Nocturno</button>
+
+
+        <div id="userInfo" style="
+  position:absolute;
+  top:10px;
+  right:20px;
+  font-size:14px;
+  color:#fff;
+  background:#2575fc;
+  padding:6px 12px;
+  border-radius:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  display:none;
+">
+  👤 Usuario:
+  <span id="nombreUsuario" style="font-weight:bold;"></span>
+  <button id="logoutBtn" style="
+    margin-left:10px;
+    background:#fff;
+    color:#2575fc;
+    border:none;
+    border-radius:15px;
+    padding:3px 8px;
+    font-size:12px;
+    cursor:pointer;
+  ">Salir</button>
+</div>
+
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
 	</nav>
@@ -462,6 +489,33 @@
   }
 })();
 
+// === Mostrar usuario actual si hay sesión ===
+document.addEventListener("DOMContentLoaded", () => {
+  const user = sessionStorage.getItem("loggedUser");
+  const userInfo = document.getElementById("userInfo");
+  const nombreUsuario = document.getElementById("nombreUsuario");
+
+  if (user) {
+    nombreUsuario.textContent = user;
+    userInfo.style.display = "inline-flex";
+  } else {
+    userInfo.style.display = "none";
+  }
+
+  // Botón de cerrar sesión
+  const logoutBtn = document.getElementById("logoutBtn");
+  logoutBtn?.addEventListener("click", () => {
+    Swal.fire({
+      icon: "info",
+      title: "Cerrando sesión...",
+      timer: 1000,
+      showConfirmButton: false
+    }).then(() => {
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    });
+  });
+});
 
 
 
