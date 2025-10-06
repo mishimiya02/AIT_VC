@@ -94,7 +94,7 @@
  
   font-size:18px;
 ">
-  <span style="font-size:22px; margin-right:10px;">👤</span>
+  <span style="font-size:22px; margin-right:10px;">👨🏻‍💼</span>
   <span id="nombreUsuario" style="font-weight:bold; font-size:18px;"></span>
   <button id="logoutBtn" style="
     margin-left:15px;
@@ -458,8 +458,9 @@
 
 <button id="btnResumen" type="button">📑 GUARDAR</button>
 			<button type="button" id="btnEnviar">🚁Enviar a Google Sheets🚁</button>
-<button onclick="window.open('https://docs.google.com/spreadsheets/d/1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk/edit?usp=sharing', '_blank')">
-  Ver hoja de Google Sheets
+
+<button id="btnSheets" style="display: none;" onclick="window.open('//docs.google.com/spreadsheets/d/1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk/edit?usp=sharing', '_blank')">
+  📄 Abrir Google Sheets
 </button>
 
 
@@ -909,7 +910,21 @@ document.getElementById("logoutBtn")?.addEventListener("click", () => {
     window.location.href = "login.html";
   });
 });
+document.addEventListener("DOMContentLoaded", function() {
+  // Suponiendo que el login guarda el usuario actual en localStorage
+  const usuarioActual = sessionStorage.getItem("loggedUser");
 
+
+  // Obtiene el botón
+  const botonSheets = document.getElementById("btnSheets");
+
+  // Verifica si es el usuario autorizado
+  if (usuarioActual === "adminait") {
+    botonSheets.style.display = "inline-block"; // lo muestra
+  } else {
+    botonSheets.style.display = "none"; // se oculta para los demás
+  }
+});
 
 </script>
 
