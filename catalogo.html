@@ -588,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
       vencidos.innerHTML = `⛔ Vencido hace <strong>${Math.abs(diasRestantes)}</strong> días`;
       porvencer.innerHTML = "";
       estatus.innerHTML = "<span style='color:red; font-weight:bold;'>ESTATUS: VENCIDO ❌</span>";
-    } else if (diasRestantes <= 10) {
+    } else if (diasRestantes <= 60) {
       porvencer.innerHTML = `⚠️ Por vencer en <strong>${diasRestantes}</strong> días`;
       vencidos.innerHTML = "";
       estatus.innerHTML = "<span style='color:orange; font-weight:bold;'>ESTATUS: POR VENCER ⚠️</span>";
