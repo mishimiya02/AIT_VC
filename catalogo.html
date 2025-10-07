@@ -964,5 +964,47 @@ document.addEventListener("DOMContentLoaded", () => {
 <div id="mensaje" style="position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; display: none; font-weight: bold; color: #fff; z-index: 999;"></div>
 
 <script src="java/theme-switchercatalogo.js"></script>
+
+
+
+<script>
+function cargarOpciones() {
+  const script = document.createElement('script');
+  script.src = 'https://script.google.com/macros/s/AKfycbz_BH1G1Aqvi6aMLMqHr8IGst_XDVvv77XIyczFCBWuS0daM8nwKIGqwR34B_eMQAiFUg/exec?callback=llenarSelects';
+  document.body.appendChild(script);
+}
+
+function llenarSelects(data) {
+  const selects = [
+    "tipo", "instrumento", "premisa", "perioricidad",
+    "metact", "intereses", "tgar", "ubicacion",
+    "detubi"
+  ];
+
+  selects.forEach(id => {
+    const select = document.getElementById(id);
+    if (!select || !data[id]) return;
+
+    // Limpia las opciones existentes (deja solo la primera)
+    select.options.length = 1;
+
+    data[id].forEach(valor => {
+      const option = document.createElement("option");
+      option.value = valor;
+      option.textContent = valor;
+      select.appendChild(option);
+    });
+  });
+
+  console.log("Opciones cargadas desde Google Sheets ✅");
+}
+
+document.addEventListener("DOMContentLoaded", cargarOpciones);
+</script>
+
+
+
+
+
 </body>
 </html>
