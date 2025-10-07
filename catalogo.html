@@ -157,15 +157,15 @@
 
 
     <div class="form-group">
-      <label for="tipo">TIPO DE CONTRATO:<span class="required">*</span></label>
-      <select id="tipo" name="tipo" required>
-        <option value="">- Selecciona -</option>
-        <option value="1">Contrato C</option>
+      <label for="tipoContrato">TIPO DE CONTRATO:<span class="required">*</span></label>
+      <select id="tipoContrato" name="tipoContrato" required>
+     <!----   <option value="">- Selecciona -</option>
+        <option value="1">tipo de contrato*</option>
         <option value="2">Convenio Modificatorio CM</option>
         <option value="3">Convenio de Pago CP</option>
         <option value="4">Convenio de Terminación CT</option>
         <option value="5">Términos Comerciales TC</option>
-        <option value="6">Instrumentos Permuta/Comodato PC</option>
+        <option value="6">Instrumentos Permuta/Comodato PC</option>-->
       </select>
     </div>
 
@@ -173,11 +173,11 @@
 
    
     <div class="form-group">
-      <label for="instrumento">CONCEPTO:<span class="required">*</span></label>
+      <label for="instrumento">CONCEPTO / INSTRUMENTO:<span class="required">*</span></label>
       <select id="instrumento" name="instrumento" required>
-        <option value="">- Selecciona un instrumento -</option>
-        <option value="1">HANGARES</option>
-        <option value="2">ACCESO A ZONA FEDERAL</option>
+      <!--  <option value="">- Selecciona un instrumento -</option>
+        <option value="1">concepto*</option>
+       <option value="2">ACCESO A ZONA FEDERAL</option>
         <option value="3">PLATAFORMA</option>
         <option value="4">INCENTIVOS</option>
         <option value="5">SERVICIOS AEROPORTUARIOS</option>
@@ -194,7 +194,7 @@
         <option value="16">COMODATO DE ESPACIOS</option>
         <option value="17">PERMUTA DE LOCAL</option>
         <option value="18">COMODATO DE TERRENOS</option>
-        <option value="19">ALMACÉN</option>
+        <option value="19">ALMACÉN</option>-->
       </select>
     </div>
 
@@ -367,7 +367,7 @@
       <select id="tgar" name="tgar" required>
         <option value="">- Selecciona -</option>
         <option value="1">DGX3 ( (3 * subtotal) + IVA 16%)</option>
-        <option value="2">FC( INGRESE UN MONTO)</option>
+        <option value="2">FC( INGRESE UN MONTO MANUALMENTE Y SE LE SUMARA A SUBTOTAL)</option>
         <option value="3">NO APLICA</option>
         <option value="4">FCX3((3 * el subtotal) + IVA)</option>
         <option value="5">DGX1(el subtotal + IVA)</option>
@@ -759,7 +759,7 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "NO. CLIENTE": document.getElementById("CUENTA").value,
     "NO. DCTO. SAP": document.getElementById("numsap").value,
     "NO. CONTRATO": document.getElementById("numcontrato").value,
-   "TIPO CONTRATO": document.getElementById("tipo").selectedOptions[0].text,
+   "TIPO CONTRATO": document.getElementById("tipoContrato").selectedOptions[0].text,
     "RAZÓN SOCIAL": document.getElementById("businessName").value,
     "NOMBRE COMERCIAL": document.getElementById("nomcom").value,
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
@@ -976,7 +976,7 @@ function cargarOpciones() {
 
 function llenarSelects(data) {
   const selects = [
-    "tipo", "instrumento", "premisa", "perioricidad",
+    "tipoContrato", "instrumento", "premisa", "perioricidad",
     "metact", "intereses", "tgar", "ubicacion",
     "detubi"
   ];

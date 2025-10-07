@@ -71,7 +71,7 @@ function validarCamposObligatorios() {
     "NO. CLIENTE": document.getElementById("CUENTA").value,
     "NO. DCTO. SAP": document.getElementById("numsap").value,
     "NO. CONTRATO": document.getElementById("numcontrato").value,
-   "TIPO CONTRATO": document.getElementById("tipo").selectedOptions[0].text,
+   "TIPO CONTRATO": document.getElementById("tipoContrato").selectedOptions[0].text,
     "RAZÓN SOCIAL": document.getElementById("businessName").value,
     "NOMBRE COMERCIAL": document.getElementById("nomcom").value,
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
