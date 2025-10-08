@@ -133,8 +133,8 @@ document.getElementById("updateForm").addEventListener("submit", async function(
   const formData = new FormData(this);
   const data = Object.fromEntries(formData.entries());
   data.action = "update";
-
-  const response = await fetch(WEB_APP_URL, {
+/*url de appscript contratos a modificar al actualizar aqui y en enviar contratojs*/
+  const response = await fetch("https://script.google.com/macros/s/AKfycbz0zyRdNQgVyg9mi1v7KCXTKI41TcYIbPc_KvdgC_l8KvI7RAAl2elWxsaqegfXXzAqeg/exec", {
     method: "POST",
     body: JSON.stringify(data)
   });
