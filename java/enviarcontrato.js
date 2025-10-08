@@ -121,7 +121,7 @@ function validarCamposObligatorios() {
 
   };
 /*url a actualizar de apps script de contratos aqui y en modificar */
-  fetch("https://script.google.com/macros/s/AKfycbz0zyRdNQgVyg9mi1v7KCXTKI41TcYIbPc_KvdgC_l8KvI7RAAl2elWxsaqegfXXzAqeg/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwdCdlclZCH8UjHwkMJypioA-n7M1h2s5CaFWMXkLrENbUmbrt7QVrA0KRxRnblpnkm8Q/exec", {
   method: "POST",
   mode: "no-cors",
   headers: { "Content-Type": "application/json" },
