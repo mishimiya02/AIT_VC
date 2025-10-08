@@ -96,8 +96,8 @@
   <button type="submit">Actualizar Registro</button>
 </form>
 
-<script>
-const WEB_APP_URL = "TU_URL_DE_WEB_APP";
+<script>/*urs appscript modificar aqui y abajo*/
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz0zyRdNQgVyg9mi1v7KCXTKI41TcYIbPc_KvdgC_l8KvI7RAAl2elWxsaqegfXXzAqeg/exec";
 
 // Función para cargar datos en el formulario
 function cargarDatosRegistro(data) {
@@ -133,7 +133,7 @@ document.getElementById("updateForm").addEventListener("submit", async function(
   const formData = new FormData(this);
   const data = Object.fromEntries(formData.entries());
   data.action = "update";
-/*url de appscript contratos a modificar al actualizar aqui y en enviar contratojs*/
+/*url de appscript contratos a modificar al actualizar aqui y arriba, tambien en enviar contratojs*/
   const response = await fetch("https://script.google.com/macros/s/AKfycbz0zyRdNQgVyg9mi1v7KCXTKI41TcYIbPc_KvdgC_l8KvI7RAAl2elWxsaqegfXXzAqeg/exec", {
     method: "POST",
     body: JSON.stringify(data)
