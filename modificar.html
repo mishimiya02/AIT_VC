@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscar CLIENTE</title>
+ 
+  <link id="theme-style" rel="stylesheet" href="css/editar.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+               
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion.html' target='_blank'>Comparación</a>
+                 <a href="comprobante.html">COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+            <div class="dropdown">
+                <a class="dropbtn">BD CLIENTES</a>
+                <div class="dropdown-content">
+                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
+                    <a href='editar.html'>CONSULTAR CLIENTE </a>
+                     <a href='catalogo.html'>REGISTRAR CONTRATO</a>
+                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                   
+                   
+                </div>
+            </div>
+
+        <a href='/contacto.html'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+<h1>Modificar Registro</h1>
+<h1>Modificar Registro</h1>
+
+<!-- Formulario para buscar el registro por ID -->
+<div style="max-width: 800px; margin: auto; margin-bottom: 2rem;">
+  <label for="buscarID">Ingrese el ID a modificar:</label>
+  <input type="text" id="buscarID" placeholder="ID del registro">
+  <button id="btnBuscar">Buscar</button>
+</div>
+
+<form id="updateForm" style="display:none;">
+  <div class="form-group">
+    <label for="ID">ID</label>
+    <input type="text" id="ID" name="ID" readonly>
+  </div>
+  <div class="form-group">
+    <label for="NO_CLIENTE">No. Cliente</label>
+    <input type="text" id="NO_CLIENTE" name="NO. CLIENTE">
+  </div>
+  <div class="form-group">
+    <label for="NO_CONTRATO">No. Contrato</label>
+    <input type="text" id="NO_CONTRATO" name="NO. CONTRATO">
+  </div>
+  <div class="form-group">
+    <label for="TIPO_CONTRATO">Tipo Contrato</label>
+    <input type="text" id="TIPO_CONTRATO" name="TIPO CONTRATO">
+  </div>
+  <div class="form-group">
+    <label for="RAZON_SOCIAL">Razón Social</label>
+    <input type="text" id="RAZON_SOCIAL" name="RAZÓN SOCIAL">
+  </div>
+
+  <button type="submit">Actualizar Registro</button>
+</form>
+
+<script>
+const WEB_APP_URL = "TU_URL_DE_WEB_APP";
+
+// Función para cargar datos en el formulario
+function cargarDatosRegistro(data) {
+  for (const key in data) {
+    const input = document.querySelector(`[name="${key}"]`);
+    if (input) input.value = data[key];
+  }
+  document.getElementById("updateForm").style.display = "block";
+}
+
+// Buscar registro por ID
+document.getElementById("btnBuscar").addEventListener("click", async () => {
+  const id = document.getElementById("buscarID").value.trim();
+  if (!id) return alert("Por favor ingresa un ID.");
+
+  // Llamada a tu Web App para obtener datos del ID
+  const response = await fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify({ action: "get", ID: id })
+  });
+  const result = await response.json();
+
+  if (result.status === "success") {
+    cargarDatosRegistro(result.data);
+  } else {
+    alert(result.message);
+  }
+});
+
+// Enviar formulario de actualización
+document.getElementById("updateForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+  data.action = "update";
+
+  const response = await fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+  const result = await response.json();
+  alert(result.message);
+});
+</script>
+
+</body>
+</html>

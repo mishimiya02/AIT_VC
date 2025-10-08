@@ -120,8 +120,8 @@ function validarCamposObligatorios() {
       "ESTATUS DE FACTURACIÓN": document.getElementById("estatusfac").selectedOptions[0].text,
 
   };
-
-  fetch("https://script.google.com/macros/s/AKfycbxwe9T7jFnCnA1xH_Ky8PCmbvZYj-hbv1PvKR75SZofyB22k5iwplGmiVA11A3kNc-m3Q/exec", {
+/*url a actualizar de apps script de contratos aqui y en modificar */
+  fetch("https://script.google.com/macros/s/AKfycbz0zyRdNQgVyg9mi1v7KCXTKI41TcYIbPc_KvdgC_l8KvI7RAAl2elWxsaqegfXXzAqeg/exec", {
   method: "POST",
   mode: "no-cors",
   headers: { "Content-Type": "application/json" },
