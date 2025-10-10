@@ -250,7 +250,8 @@
                 h1 {
                     margin-bottom: 30px;
                     font-weight: 900;
-                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.93);
+                    color: rgba(255, 255, 255, 1);
                 }
 
                 p {
