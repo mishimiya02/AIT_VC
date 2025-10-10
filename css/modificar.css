@@ -161,13 +161,20 @@
       margin: 3rem auto;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
+      max-width: 800px;
       text-align: center;
       
     }
     .container:before{
     background: linear-gradient(to right, #2b00a0,#0011ff);
     }
+
+.container-input {
+  max-width: 30%;   /* menos anchos */
+  padding: 8px 40px;
+  font-size: 14px;
+}
+
 
     h2 {
       margin-bottom: 1.5rem;
