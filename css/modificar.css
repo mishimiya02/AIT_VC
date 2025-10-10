@@ -169,11 +169,6 @@
     background: linear-gradient(to right, #2b00a0,#0011ff);
     }
 
-.container-input {
-  max-width: 30%;   /* menos anchos */
-  padding: 8px 40px;
-  font-size: 14px;
-}
 
 
     h2 {
@@ -182,8 +177,9 @@
     }
 
     input {
-      width: 70%;
+      width: 60%;/*ajustar tamaño aqui de los inputs*/
       padding: 0.7rem;
+      margin:0.6rem ;
       font-size: 1rem;
       border: 1px solid #ccc;
       border-radius: 8px;

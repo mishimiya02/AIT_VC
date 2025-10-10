@@ -57,27 +57,25 @@
 
 
 
-
-
-
-
+  <!-- CONTENEDOR DE BÚSQUEDA -->
+  <div class="container">
+    
 
 <h1>Modificar Registro</h1>
 
-  <!-- CONTENEDOR DE BÚSQUEDA -->
-  <div class="container">
 <!-- Formulario para buscar el registro por ID -->
 <div style="max-width: 800px; margin: auto; margin-bottom: 2rem;">
   <label for="buscarID">Ingrese el ID a modificar:</label>
-  <input type="text" id="buscarID" placeholder="ID del registro">
-  <button id="btnBuscar">Buscar</button>
+  <input type="text" id="buscarID" placeholder="ID del registro"><br>
+ <br> <button id="btnBuscar">Buscar</button>
 </div>
-
+<br>
 <form id="updateForm" style="display:none;">
   <div class="form-group"><!--si regresa--->
      <label for="ID">ID (el ID no se puede modificar)</label>
     <input type="text" id="ID" name="ID" readonly>
   </div>
+  <br>
   <div class="form-group">
     <label for="CUENTA">No. Cliente</label>
     <input type="text" id="CUENTA" name="NUM CLIENTE">
@@ -99,7 +97,7 @@
   </div>
 
  <div class="form-group">
-      <label for="nomcom">Nombre Comercial <span class="required">*</span></label>
+      <label for="nomcom">Nombre Comercial </label>
        <input type="text" id="nomcom" name="NOMBRE COMERCIAL"><!--debe coincidir el name con el encabezado de las columans--->
     </div>
 
@@ -119,7 +117,7 @@
       <input type="number" id="unidades" name="UNIDADES / M2" required>
     </div>
     <div class="form-group">
-      <label for="tarifam2"> TARIFA PARA UNIDADES/ELEMENTOS/m2 <span class="required">*</span></label><!--si regresa--->
+      <label for="tarifam2"> TARIFA  U/ELEMENTOS/m2 </label><!--si regresa--->
       <input type="number" id="tarifam2" name=" TARIFA M2/UNIDADES" required>
     </div>
 
@@ -127,7 +125,7 @@
 <div class="form-group">
   <label for="fecha-inicio" class="required-field">Fecha inicio de vigencia:</label>
   <input type="date" id="fecha-inicio" name="FECHA INICIO">
-
+<br>
   <label for="fecha-fin" class="required-field">Fecha de fin de vigencia:</label>
   <input type="date" id="fecha-fin" name="FECHA FIN">
 </div>
