@@ -166,7 +166,7 @@
       
     }
     .container:before{
-    background: linear-gradient(to right, #2b00a0,#0011ff);
+    background: linear-gradient(to right,#ff0606, #ff5100,#cc0077,#ff3aa6);/*colores de degradado borde*/
     }
 
 
