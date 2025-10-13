@@ -234,13 +234,12 @@ document.getElementById("updateForm").addEventListener("submit", async function(
 
 // 🔁 Función para calcular días y estatus
 
-// 🔁 Función para calcular días y estatus
 function calcularEstado() {
   const hoy = new Date();
   const fechaInicio = new Date(document.getElementById("fecha-inicio").value);
   const fechaFin = new Date(document.getElementById("fecha-fin").value);
 
-  // Normalizar horas (evitar errores de zona)
+  // Normalizar horas
   hoy.setHours(0, 0, 0, 0);
   fechaInicio.setHours(0, 0, 0, 0);
   fechaFin.setHours(0, 0, 0, 0);
@@ -254,37 +253,37 @@ function calcularEstado() {
     const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
 
     if (diferenciaDias > 0) {
-      // Faltan X días
-      diasPorVencer = diferenciaDias;
+      // 🔹 Por vencer → sumamos 1 para incluir el día final
+      diasPorVencer = diferenciaDias + 1;
       diasVencidos = 0;
       estatus = "POR VENCER";
     } else if (diferenciaDias < 0) {
-      // Ya venció
+      // 🔹 Vencido → restamos 1 para no contar el día actual
       diasPorVencer = 0;
-      diasVencidos = Math.abs(diferenciaDias);
+      diasVencidos = Math.abs(diferenciaDias) - 1;
+      if (diasVencidos < 0) diasVencidos = 0; // seguridad
       estatus = "VENCIDO";
     } else {
-      // Hoy vence
+      // 🔹 Hoy vence
       diasPorVencer = 0;
       diasVencidos = 0;
       estatus = "VIGENTE";
     }
   } else {
-    // Si no hay fecha fin, todo queda en cero
     diasPorVencer = 0;
     diasVencidos = 0;
     estatus = "";
   }
 
-  // 👇 Mostrar resultados en el HTML
-  document.getElementById("porVencer").value = diasPorVencer + 1;
+  document.getElementById("porVencer").value = diasPorVencer;
   document.getElementById("vencidos").value = diasVencidos;
   document.getElementById("estatus").value = estatus;
 }
 
-// 🧩 Escuchar cambios de fechas
 document.getElementById("fecha-inicio").addEventListener("change", calcularEstado);
 document.getElementById("fecha-fin").addEventListener("change", calcularEstado);
+
+
 
 </script>
 
