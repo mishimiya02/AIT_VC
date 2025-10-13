@@ -134,16 +134,16 @@
 
  <div class="form-group">
       <label for="estatus">Estatus:<span class="required">*</span></label><!--si regresa--->
-         <input type="text" id="eatatus" name="ESTATUS  VIGENCIA">
+         <input type="text" id="estatus" name="ESTATUS  VIGENCIA"  readonly>
     </div>
 
  <div class="form-group">
       <label for="vencidos">Días vencidos</label><!--no regresa--->
-      <input type="number" id="vencidos" name="DIAS VENCIDOS " required>
+      <input type="number" id="vencidos" name="DIAS VENCIDOS " readonly>
     </div>
     <div class="form-group">
       <label for="porVencer"> Días por vencer </label><!--si regresa--->
-      <input type="number" id="porVencer" name="DIAS POR VENCER" required>
+      <input type="number" id="porVencer" name="DIAS POR VENCER" readonly>
     </div>
 
 
@@ -217,53 +217,79 @@ document.getElementById("updateForm").addEventListener("submit", async function(
   alert(result.message);
 });
 
-// 🔁 Calcula días por vencer, vencidos y estatus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 🔁 Función para calcular días y estatus
+
+// 🔁 Función para calcular días y estatus
 function calcularEstado() {
   const hoy = new Date();
   const fechaInicio = new Date(document.getElementById("fecha-inicio").value);
   const fechaFin = new Date(document.getElementById("fecha-fin").value);
 
-  let diasPorVencer = "";
-  let diasVencido = "";
+  // Normalizar horas (evitar errores de zona)
+  hoy.setHours(0, 0, 0, 0);
+  fechaInicio.setHours(0, 0, 0, 0);
+  fechaFin.setHours(0, 0, 0, 0);
+
+  let diasPorVencer = 0;
+  let diasVencidos = 0;
   let estatus = "";
 
   if (!isNaN(fechaFin)) {
     const diferenciaMs = fechaFin - hoy;
-    const diferenciaDias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
+    const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
 
     if (diferenciaDias > 0) {
+      // Faltan X días
       diasPorVencer = diferenciaDias;
-      diasVencido = "";
+      diasVencidos = 0;
       estatus = "POR VENCER";
     } else if (diferenciaDias < 0) {
-      diasPorVencer = "";
-      diasVencido = Math.abs(diferenciaDias);
+      // Ya venció
+      diasPorVencer = 0;
+      diasVencidos = Math.abs(diferenciaDias);
       estatus = "VENCIDO";
     } else {
+      // Hoy vence
       diasPorVencer = 0;
-      diasVencido = 0;
+      diasVencidos = 0;
       estatus = "VIGENTE";
     }
   } else {
-    // Si aún no hay fecha fin
-    diasPorVencer = "";
-    diasVencido = "";
+    // Si no hay fecha fin, todo queda en cero
+    diasPorVencer = 0;
+    diasVencidos = 0;
     estatus = "";
   }
 
-  // 👇 Muestra los valores calculados en los inputs del HTML
-  document.getElementById("porVencer").value = diasPorVencer;
-  document.getElementById("vencido").value = diasVencido;
+  // 👇 Mostrar resultados en el HTML
+  document.getElementById("porVencer").value = diasPorVencer + 1;
+  document.getElementById("vencidos").value = diasVencidos;
   document.getElementById("estatus").value = estatus;
 }
 
-// 🧩 Escuchar cuando cambian las fechas
+// 🧩 Escuchar cambios de fechas
 document.getElementById("fecha-inicio").addEventListener("change", calcularEstado);
 document.getElementById("fecha-fin").addEventListener("change", calcularEstado);
 
-
-
 </script>
+
+
+
 
 </body>
 </html>
