@@ -169,17 +169,22 @@
 
         <div class="form-group">
       <label for="luz"> Energía eléctrica ($):</label>
-      <input type="number" id="luz" name="$LUZ">    
+      <input type="number" id="luz$" name="$LUZ">    
     </div>
 
      <div class="form-group">
       <label for="agua"> Agua ($):</label>
-      <input type="number" id="agua" name="$AGUA">    
+      <input type="number" id="agua$" name="$AGUA">    
     </div>
 
  <div class="form-group">
       <label for="mantenimiento"> Mantenimiento ($):</label>
-      <input type="number" id="mantenimiento" name="$ MANTENIMIENTO">    
+      <input type="number" id="mantenimiento$" name="$ MANTENIMIENTO">    
+    </div>
+
+    <div class="form-group">
+      <label for="incentivo"> INCENTIVO %:</label>
+      <input type="number" id="incentivo" name="INCENTIVO %">    
     </div>
 
 
@@ -314,6 +319,32 @@ function calcularEstado() {
 
 document.getElementById("fecha-inicio").addEventListener("change", calcularEstado);
 document.getElementById("fecha-fin").addEventListener("change", calcularEstado);
+
+
+// Función general para recalcular montos
+function recalcularMontos() {
+  const tarifa = parseFloat(document.getElementById('tarifa').value) || 0;
+
+  const luzPorc = parseFloat(document.getElementById('luz').value) || 0;
+  const aguaPorc = parseFloat(document.getElementById('agua').value) || 0;
+  const mantPorc = parseFloat(document.getElementById('mantenimiento').value) || 0;
+
+  // Calculamos los valores en pesos
+  const luzMonto = (tarifa * luzPorc) / 100;
+  const aguaMonto = (tarifa * aguaPorc) / 100;
+  const mantMonto = (tarifa * mantPorc) / 100;
+
+  // Actualizamos los campos de monto
+  document.getElementById('luz$').value = luzMonto.toFixed(2);
+  document.getElementById('agua$').value = aguaMonto.toFixed(2);
+  document.getElementById('mantenimiento$').value = mantMonto.toFixed(2);
+}
+
+// Detectar cambios en tarifa o porcentajes
+['tarifa', 'luz', 'agua', 'mantenimiento'].forEach(id => {
+  document.getElementById(id).addEventListener('input', recalcularMontos);
+});
+
 
 
 
