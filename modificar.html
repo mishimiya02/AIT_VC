@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -131,6 +132,24 @@
   <input type="date" id="fecha-fin" name="FECHA FIN">
 </div>
 
+ <div class="form-group">
+      <label for="estatus">Estatus:<span class="required">*</span></label><!--si regresa--->
+         <input type="text" id="eatatus" name="ESTATUS  VIGENCIA">
+    </div>
+
+ <div class="form-group">
+      <label for="vencidos">Días vencidos</label><!--no regresa--->
+      <input type="number" id="vencidos" name="DIAS VENCIDOS " required>
+    </div>
+    <div class="form-group">
+      <label for="porVencer"> Días por vencer </label><!--si regresa--->
+      <input type="number" id="porVencer" name="DIAS POR VENCER" required>
+    </div>
+
+
+
+
+
 
   <button type="submit">Actualizar Registro</button>
 </form>
@@ -197,6 +216,53 @@ document.getElementById("updateForm").addEventListener("submit", async function(
   const result = await response.json();
   alert(result.message);
 });
+
+// 🔁 Calcula días por vencer, vencidos y estatus
+function calcularEstado() {
+  const hoy = new Date();
+  const fechaInicio = new Date(document.getElementById("fecha-inicio").value);
+  const fechaFin = new Date(document.getElementById("fecha-fin").value);
+
+  let diasPorVencer = "";
+  let diasVencido = "";
+  let estatus = "";
+
+  if (!isNaN(fechaFin)) {
+    const diferenciaMs = fechaFin - hoy;
+    const diferenciaDias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
+
+    if (diferenciaDias > 0) {
+      diasPorVencer = diferenciaDias;
+      diasVencido = "";
+      estatus = "POR VENCER";
+    } else if (diferenciaDias < 0) {
+      diasPorVencer = "";
+      diasVencido = Math.abs(diferenciaDias);
+      estatus = "VENCIDO";
+    } else {
+      diasPorVencer = 0;
+      diasVencido = 0;
+      estatus = "VIGENTE";
+    }
+  } else {
+    // Si aún no hay fecha fin
+    diasPorVencer = "";
+    diasVencido = "";
+    estatus = "";
+  }
+
+  // 👇 Muestra los valores calculados en los inputs del HTML
+  document.getElementById("porVencer").value = diasPorVencer;
+  document.getElementById("vencido").value = diasVencido;
+  document.getElementById("estatus").value = estatus;
+}
+
+// 🧩 Escuchar cuando cambian las fechas
+document.getElementById("fecha-inicio").addEventListener("change", calcularEstado);
+document.getElementById("fecha-fin").addEventListener("change", calcularEstado);
+
+
+
 </script>
 
 </body>
