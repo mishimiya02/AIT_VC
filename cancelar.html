@@ -87,7 +87,8 @@
 
     </div>
 
-<script type="module">
+
+    <script type="module">
 import { PDFDocument, rgb, StandardFonts, degrees } from 'https://cdn.skypack.dev/pdf-lib';
 
 document.getElementById('cancelar').addEventListener('click', async () => {
@@ -103,25 +104,30 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const { width, height } = firstPage.getSize();
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-  // ✅ Rotación correcta
+  // 🟥 Escribimos la leyenda "CANCELADO" en diagonal
   firstPage.drawText('CANCELADO', {
     x: width / 4,
-    y: height / 3,
-    size: 80,
+    y: height / 4,
+    size: 90,
     font,
     color: rgb(1, 0, 0),
-    rotate: degrees(45)
+    rotate: degrees(45),
   });
+
+  // 🧠 Obtener el nombre original y agregar "_CANCELADO"
+  const originalName = file.name.replace(/\.pdf$/i, ""); // quita la extensión .pdf si existe
+  const newFileName = `${originalName}_CANCELADO.pdf`;
 
   // Guardar PDF modificado
   const pdfBytes = await pdfDoc.save();
   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = 'cancelado.pdf';
+  link.download = newFileName; // usa el nuevo nombre dinámico
   link.click();
 });
 </script>
+
 
 
 
