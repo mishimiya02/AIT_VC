@@ -85,38 +85,79 @@
         
 <input type="file" id="fileInput" accept="application/pdf">
 <button id="cancelar">Marcar como Cancelado</button>
+  <div class="form-group">
+      <label for="fecha"> FECHA DE CANCELACIÓN:</label>
+      <input type="date" id="fecha" name="fecha">    
+    </div>
+   <div class="form-group">
+      <label for="observaciones"> MOTIVO DE CANCELACIÓN:</label>
+      <input type="text" id="observaciones" name="observaciones">    
+    </div>
+
 
     </div>
 
 
-    <script type="module">
+<script type="module">
 import { PDFDocument, rgb, StandardFonts, degrees } from 'https://cdn.skypack.dev/pdf-lib';
 
 document.getElementById('cancelar').addEventListener('click', async () => {
   const fileInput = document.getElementById('fileInput');
-  if (!fileInput.files.length) return alert("Selecciona un PDF primero");
+  const fechaInput = document.getElementById('fecha').value;
+  const motivoInput = document.getElementById('observaciones').value;
+
+  if (!fileInput.files.length) return alert("Selecciona un PDF.");
+  if (!fechaInput) return alert("Por favor ingresa la fecha de cancelación.");
+  if (!motivoInput.trim()) return alert("Por favor ingresa el motivo de cancelación.");
 
   const file = fileInput.files[0];
   const arrayBuffer = await file.arrayBuffer();
   const pdfDoc = await PDFDocument.load(arrayBuffer);
   const pages = pdfDoc.getPages();
-  const firstPage = pages[0];
-
-  const { width, height } = firstPage.getSize();
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-  // 🟥 Escribimos la leyenda "CANCELADO" en diagonal
-  firstPage.drawText('CANCELADO', {
-    x: width / 4,
-    y: height / 4,
-    size: 90,
-    font,
-    color: rgb(1, 0, 0),
-    rotate: degrees(45),
-  });
+  // 🔴 Propiedades visuales
+  const colorRojo = rgb(0, 0, 0);
+  const transparencia = 0.25; // Más bajo = más transparente
 
-  // 🧠 Obtener el nombre original y agregar "_CANCELADO"
-  const originalName = file.name.replace(/\.pdf$/i, ""); // quita la extensión .pdf si existe
+  // 🟥 Escribimos en todas las páginas
+  for (const page of pages) {
+    const { width, height } = page.getSize();
+
+    // Marca de agua "CANCELADO"
+    page.drawText('CANCELADO', {
+      x: width / 4.2,
+      y: height / 5.5,
+      size: 110,
+      font,
+      color: colorRojo,
+      rotate: degrees(55),
+      opacity: transparencia
+    });
+
+      // Fecha
+    page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
+      x: 50,
+      y: 80,
+      size: 20,
+      font,
+      color: rgb(0, 0, 0),
+      opacity: 0.5
+    });
+
+    // Motivo
+    page.drawText(`MOTIVO: ${motivoInput}`, {
+      x: 50,
+      y: 60,
+      size: 20,
+      font,
+      color: rgb(0, 0, 0),
+      opacity: 0.5
+    });
+  }
+
+  // 🧠 Nombre nuevo del PDF
+  const originalName = file.name.replace(/\.pdf$/i, "");
   const newFileName = `${originalName}_CANCELADO.pdf`;
 
   // Guardar PDF modificado
@@ -124,10 +165,11 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = newFileName; // usa el nuevo nombre dinámico
+  link.download = newFileName;
   link.click();
 });
 </script>
+
 
 
 
