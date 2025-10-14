@@ -344,13 +344,13 @@
 /* Botón flotante */
 .toggle-btn {
   position: fixed;
-  top: 205px;
+  top: 102px;
   left: 15px;
   z-index: 1000;
   background: #1e1e28;
   color: #fff;
   border: none;
-  font-size: 22px;
+  font-size: 15px;
   cursor: pointer;
   padding: 10px 14px;
   border-radius: 8px;
