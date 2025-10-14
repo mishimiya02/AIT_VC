@@ -4,7 +4,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Buscar CLIENTE</title>
+  <title>MODIFICAR REGISTRO</title>
  
   <link id="theme-style" rel="stylesheet" href="css/modificar.css">
 
@@ -190,16 +190,16 @@
 
 
     <div class="form-group">
-      <label for="incentivo"> INCENTIVO %:</label>
+      <label for="incentivo"> INCENTIVO $:</label>
       <input type="number" id="incentivo" name="INCENTIVO %">    
     </div>
 
       <div class="form-group">
-      <label for="variable"> Variable %:</label>
+      <label for="variable"> Variable % *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR TIPO:</label>
       <input type="number" id="variable" name="%VARIABLE">    
     </div>
       <div class="form-group">
-      <label for="penalizacion"> Penalización %:</label>
+      <label for="penalizacion"> Penalización %  *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR TIPO:</label>
       <input type="number" id="penalizacion" name="%PENALIZACIÓN">    
     </div>
 
@@ -384,19 +384,6 @@ document.getElementById("updateForm").addEventListener("submit", async function(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 🔁 Función para calcular días y estatus
 
 function calcularEstado() {
@@ -473,6 +460,21 @@ function recalcularMontos() {
   document.getElementById(id).addEventListener('input', recalcularMontos);
 });
 
+// 🧮 Función para calcular el subtotal
+function calcularSubtotal() {
+  const tarifa = parseFloat(document.getElementById('tarifa').value) || 0;
+  const luzMonto = parseFloat(document.getElementById('luz$').value) || 0;
+  const aguaMonto = parseFloat(document.getElementById('agua$').value) || 0;
+  const mantMonto = parseFloat(document.getElementById('mantenimiento$').value) || 0;
+
+  const subtotal = tarifa + luzMonto + aguaMonto + mantMonto;
+  document.getElementById('subtotal').value = subtotal.toFixed(2);
+}
+
+// 🔁 Actualizar subtotal cuando cambien los montos o la tarifa
+['tarifa', 'luz$', 'agua$', 'mantenimiento$'].forEach(id => {
+  document.getElementById(id).addEventListener('input', calcularSubtotal);
+});
 
 
 
@@ -483,3 +485,5 @@ function recalcularMontos() {
 
 </body>
 </html>
+
+
