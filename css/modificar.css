@@ -19,8 +19,6 @@
     min-height: 100vh;
   
 }
-
-
   /* Estilo para borde degradado */
   .container {
     border: 2px solid transparent;
@@ -361,4 +359,10 @@
 
 .toggle-btn:hover {
   background: #4fc3f7;
+}
+
+.form-group1 select {
+  max-width: 70%;   /* menos anchos */
+  padding: 8px 10px;
+  font-size: 14px;
 }

@@ -59,20 +59,30 @@
 <div id="sidebar" class="sidebar">
   <div class="sidebar-header">
     <img src="img/logo2.png" alt="Logo" class="sidebar-logo">
-    <h2>Panel de Control</h2>
+    <h2>COMPROBAR GARANTÍA</h2>
   </div>
-  <ul class="sidebar-menu">
-    <li><a href="/">🏠 Inicio</a></li>
-    <li><a href="/comparacion" target="_blank">📊 Comparación</a></li>
-    <li><a href="/comprobante">📄 Comprobantes</a></li>
-    <li><a href="/cedula" target="_blank">📑 Cédula</a></li>
-    <li><a href="/cancelar.html" target="_blank">❌ Cancelación</a></li>
-    <li><a href="/registrar">🧾 Registrar Cliente</a></li>
-    <li><a href="/editar">🔍 Consultar Cliente</a></li>
-    <li><a href="/catalogo">📁 Registrar Contrato</a></li>
-    <li><a href="/modificar" class="active">⚙️ Modificar Contrato</a></li>
-    <li><a href="/contacto">📬 Contacto</a></li>
-  </ul>
+  
+  <div class="form-group">
+      <label for="importebruto"> SUBTOTAL:</label>
+      <input type="number" id="subtotal" name="importebruto">    
+    
+  <div class="form-group1">
+      <label for="tgar">TIPO DE GARANTIA:<span class="required">*</span></label>
+      <select id="tgar" name="tgar" required>
+        <option value="">- Selecciona -</option>
+        <option value="1">DGX3 ( (3 * subtotal) + IVA 16%)</option>
+        <option value="2">FC( INGRESE UN MONTO MANUALMENTE Y SE LE SUMARA A SUBTOTAL)</option>
+        <option value="3">NO APLICA</option>
+        <option value="4">FCX3((3 * el subtotal) + IVA)</option>
+        <option value="5">DGX1(el subtotal + IVA)</option>
+        <option value="6">FCX12(( 12 * subtotal) + IVA)</option>
+        <option value="6">FDX30DÍAS( INGRESE UN MONTO )</option>
+        <option value="6">PromMensualopsX3(INGRESE UN MONTO)</option>  
+    </select>
+    </div>  
+    
+    </div>
+  
 </div>
 
 <!-- Botón flotante para abrir/cerrar -->
