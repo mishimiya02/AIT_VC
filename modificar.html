@@ -55,6 +55,28 @@
 	</nav>
 
 
+<!-- 🌙 BONIS SIDEBAR -->
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <img src="img/logo2.png" alt="Logo" class="sidebar-logo">
+    <h2>Panel de Control</h2>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="/">🏠 Inicio</a></li>
+    <li><a href="/comparacion" target="_blank">📊 Comparación</a></li>
+    <li><a href="/comprobante">📄 Comprobantes</a></li>
+    <li><a href="/cedula" target="_blank">📑 Cédula</a></li>
+    <li><a href="/cancelar.html" target="_blank">❌ Cancelación</a></li>
+    <li><a href="/registrar">🧾 Registrar Cliente</a></li>
+    <li><a href="/editar">🔍 Consultar Cliente</a></li>
+    <li><a href="/catalogo">📁 Registrar Contrato</a></li>
+    <li><a href="/modificar" class="active">⚙️ Modificar Contrato</a></li>
+    <li><a href="/contacto">📬 Contacto</a></li>
+  </ul>
+</div>
+
+<!-- Botón flotante para abrir/cerrar -->
+<button id="toggleSidebar" class="toggle-btn">☰</button>
 
 
 
@@ -477,6 +499,14 @@ function calcularSubtotal() {
 });
 
 
+const sidebar = document.getElementById("sidebar");
+  const toggleBtn = document.getElementById("toggleSidebar");
+
+  toggleBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    // Cambia el icono ☰ ↔ ✖
+    toggleBtn.textContent = sidebar.classList.contains("open") ? "✖" : "☰";
+  });
 
 </script>
 

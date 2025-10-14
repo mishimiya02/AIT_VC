@@ -274,4 +274,91 @@
 
     body, nav, .formulario {
     transition: background-color 1s ease, color 1s ease;
+}/* 🌙 Bonis Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -260px; /* Oculta inicialmente */
+  width: 260px;
+  height: 100%;
+  background: rgba(30, 30, 40, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  transition: left 0.3s ease;
+  z-index: 999;
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-header {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-logo {
+  width: 80px;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+  color: #f1f1f1;
+}
+
+.sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 1rem 0;
+}
+
+.sidebar-menu li {
+  margin: 10px 0;
+}
+
+.sidebar-menu a {
+  display: block;
+  padding: 0.8rem 1.2rem;
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.sidebar-menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #6cf;
+  color: #fff;
+}
+
+.sidebar-menu a.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #4fc3f7;
+  color: #fff;
+}
+
+/* Botón flotante */
+.toggle-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  background: #1e1e28;
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.toggle-btn:hover {
+  background: #4fc3f7;
 }
