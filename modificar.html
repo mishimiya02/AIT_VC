@@ -605,6 +605,49 @@ document.getElementById('subtotal').addEventListener('input', actualizarImporteB
 document.getElementById('ope').addEventListener('change', calcularGarantia);
 
 
+// 🧮 Calcular total con variable %, penalización % e incentivo $
+function calcularTotalFinal() {
+  const garantia = parseFloat(document.getElementById('montoGARANTÍA').value) || 0;
+  const variablePorc = parseFloat(document.getElementById('variable').value) || 0;
+  const penalPorc = parseFloat(document.getElementById('penalizacion').value) || 0;
+  const incentivo = parseFloat(document.getElementById('incentivo').value) || 0;
+
+  // Calcular valores en $
+  const variableMonto = (garantia * variablePorc) / 100;
+  const penalMonto = (garantia * penalPorc) / 100;
+
+  // Calcular total final
+  const total = garantia + variableMonto + penalMonto - incentivo;
+
+  // Actualizar el campo de total
+  const campoTotal = document.getElementById('total');
+  if (campoTotal) {
+    campoTotal.value = total.toFixed(2);
+  }
+
+  // (Opcional) Mostrar desglose en consola para depuración
+  console.log({
+    garantia,
+    variablePorc,
+    penalPorc,
+    incentivo,
+    variableMonto,
+    penalMonto,
+    total
+  });
+}
+
+// 🔁 Detectar cambios en los campos relevantes
+['variable', 'penalizacion', 'incentivo', 'montoGARANTÍA'].forEach(id => {
+  const campo = document.getElementById(id);
+  if (campo) {
+    campo.addEventListener('input', calcularTotalFinal);
+  }
+});
+
+
+
+
 
 </script>
 
