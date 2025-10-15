@@ -645,6 +645,114 @@ function calcularTotalFinal() {
   }
 });
 
+ 
+// 🧩 Función para copiar el subtotal al campo "importebruto"
+function actualizarImporteBruto() {
+  const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
+  document.getElementById('importebruto').value = subtotal.toFixed(2);
+
+  // ⚡ Si no se ha seleccionado un tipo de garantía, montoGARANTÍA = subtotal
+  const tipo = document.getElementById('ope').value;
+  const campoGarantia = document.getElementById('montoGARANTÍA');
+  if (campoGarantia && (tipo === "" || tipo === null)) {
+    campoGarantia.value = subtotal.toFixed(2);
+    calcularTotalFinal(); // recalcular total automáticamente
+  }
+}
+
+// 🧮 Función para calcular la garantía según el tipo seleccionado
+function calcularGarantia() {
+  const subtotal = parseFloat(document.getElementById('importebruto').value) || 0;
+  const tipo = document.getElementById('ope').value;
+  const IVA = 0.16; // 16%
+
+  let resultado = subtotal; // valor por defecto = subtotal
+
+  switch (tipo) {
+    case "1": // DGX3
+      resultado = (subtotal * 3) * (1 + IVA);
+      break;
+    case "2": // FC (monto manual)
+      const montoExtra = parseFloat(prompt("Ingrese el monto adicional:")) || 0;
+      resultado = subtotal + montoExtra;
+      break;
+    case "3": // NO APLICA
+      resultado = subtotal;
+      break;
+    case "4": // FCX3
+      resultado = (subtotal * 3) * (1 + IVA);
+      break;
+    case "5": // DGX1
+      resultado = subtotal * (1 + IVA);
+      break;
+    case "6": // FCX12
+      resultado = (subtotal * 12) * (1 + IVA);
+      break;
+    case "7": // FDX30DÍAS (monto manual)
+      const monto30 = parseFloat(prompt("Ingrese el monto de la garantía 30 días:")) || 0;
+      resultado = monto30;
+      break;
+    case "8": // PromMensualopsX3
+      const montoProm = parseFloat(prompt("Ingrese el monto promedio mensual:")) || 0;
+      resultado = montoProm * 3;
+      break;
+  }
+
+  // 🟢 Mostrar el resultado en la sidebar
+  let resultadoCampo = document.getElementById('resultadoGarantia');
+  if (!resultadoCampo) {
+    resultadoCampo = document.createElement('div');
+    resultadoCampo.id = 'resultadoGarantia';
+    resultadoCampo.style.marginTop = '10px';
+    resultadoCampo.style.fontWeight = 'bold';
+    document.getElementById('sidebar').appendChild(resultadoCampo);
+  }
+  resultadoCampo.textContent = `💰 Monto de Garantía: $${resultado.toFixed(2)}`;
+
+  // 🟣 Copiar el resultado al campo #montoGARANTÍA
+  const campoGarantia = document.getElementById('montoGARANTÍA');
+  if (campoGarantia) {
+    campoGarantia.value = resultado.toFixed(2);
+  }
+
+  calcularTotalFinal(); // recalcular total automáticamente
+}
+
+// 🔁 Detectar cambios
+document.getElementById('subtotal').addEventListener('input', actualizarImporteBruto);
+document.getElementById('ope').addEventListener('change', calcularGarantia);
+
+// 🔁 Detectar cambios en campos para total final
+['variable', 'penalizacion', 'incentivo', 'montoGARANTÍA'].forEach(id => {
+  const campo = document.getElementById(id);
+  if (campo) {
+    campo.addEventListener('input', calcularTotalFinal);
+  }
+});
+
+// 🔹 Inicializar tipo de garantía en NO APLICA al cargar
+window.addEventListener('DOMContentLoaded', () => {
+  const ope = document.getElementById('ope');
+  if (ope) {
+    ope.value = "3"; // NO APLICA
+  }
+  actualizarImporteBruto(); // inicializar montoGARANTÍA con el subtotal
+});
+
+// 🧩 Función para copiar el subtotal al campo "importebruto"
+function actualizarImporteBruto() {
+  const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
+  document.getElementById('importebruto').value = subtotal.toFixed(2);
+
+  // ⚡ Si el tipo es NO APLICA, actualizar montoGARANTÍA
+  const tipo = document.getElementById('ope').value;
+  const campoGarantia = document.getElementById('montoGARANTÍA');
+  if (campoGarantia && tipo === "3") {
+    campoGarantia.value = subtotal.toFixed(2);
+    calcularTotalFinal();
+  }
+}
+
 
 
 
