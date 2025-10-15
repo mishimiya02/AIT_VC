@@ -97,7 +97,6 @@
 
     </div>
 
-
 <script type="module">
 import { PDFDocument, rgb, StandardFonts, degrees } from 'https://cdn.skypack.dev/pdf-lib';
 
@@ -116,51 +115,75 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const pages = pdfDoc.getPages();
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-  // 🔴 Propiedades visuales
-  const colorRojo = rgb(0, 0, 0);
-  const transparencia = 0.25; // Más bajo = más transparente
+  // 🔴 Propiedades visuales del patrón
+  const colorRojo = rgb(0.9, 0.1, 0.1); // Rojo más visible
+  const transparencia = 0.15; // Más transparente para patrón
+  const textoMarca = 'CANCELADO';
 
-  // 🟥 Escribimos en todas las páginas
+  // 🟥 Función para crear patrón en toda la página
+  const crearPatronMarcaAgua = (page) => {
+    const { width, height } = page.getSize();
+    
+    // Configuración del patrón
+    const tamanoTexto = 40;
+    const espacioHorizontal = tamanoTexto * 5.5;
+    const espacioVertical = tamanoTexto * 5.5;
+    const angulo = degrees(45); // Diagonal
+    
+    // Calcular cuántas repeticiones caben
+    const columnas = Math.ceil(width / espacioHorizontal) + 2;
+    const filas = Math.ceil(height / espacioVertical) + 2;
+    
+    // Crear patrón en grid
+    for (let fila = -1; fila <= filas; fila++) {
+      for (let columna = -1; columna <= columnas; columna++) {
+        const x = columna * espacioHorizontal;
+        const y = fila * espacioVertical;
+        
+        // Dibujar texto en posición diagonal
+        page.drawText(textoMarca, {
+          x: x,
+          y: y,
+          size: tamanoTexto,
+          font: font,
+          color: colorRojo,
+          rotate: angulo,
+          opacity: transparencia
+        });
+      }
+    }
+  };
+
+  // 📄 Aplicar a todas las páginas
   for (const page of pages) {
     const { width, height } = page.getSize();
+    
+    // Crear patrón de fondo
+    crearPatronMarcaAgua(page);
 
-    // Marca de agua "CANCELADO"
-    page.drawText('CANCELADO', {
-      x: width / 4.2,
-      y: height / 5.5,
-      size: 110,
-      font,
-      color: colorRojo,
-      rotate: degrees(55),
-      opacity: transparencia
-    });
-
-      // Fecha
+    // Información de cancelación (mantener visible)
     page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
       x: 50,
-      y: 80,
-      size: 20,
-      font,
+      y: height - 40, // Parte superior
+      size: 12,
+      font: font,
       color: rgb(0, 0, 0),
-      opacity: 0.5
+      opacity: 0.8
     });
 
-    // Motivo
     page.drawText(`MOTIVO: ${motivoInput}`, {
       x: 50,
-      y: 60,
-      size: 20,
-      font,
+      y: height - 60,
+      size: 12,
+      font: font,
       color: rgb(0, 0, 0),
-      opacity: 0.5
+      opacity: 0.8
     });
   }
 
-  // 🧠 Nombre nuevo del PDF
+  // 💾 Guardar PDF
   const originalName = file.name.replace(/\.pdf$/i, "");
   const newFileName = `${originalName}_CANCELADO.pdf`;
-
-  // Guardar PDF modificado
   const pdfBytes = await pdfDoc.save();
   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const link = document.createElement('a');
@@ -169,10 +192,6 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   link.click();
 });
 </script>
-
-
-
-
 
 </body>
 </html>
