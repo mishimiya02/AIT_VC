@@ -467,7 +467,6 @@ function calcularEstado() {
 document.getElementById("fecha-inicio").addEventListener("change", calcularEstado);
 document.getElementById("fecha-fin").addEventListener("change", calcularEstado);
 
-
 // Función general para recalcular montos
 function recalcularMontos() {
   const tarifa = parseFloat(document.getElementById('tarifa').value) || 0;
@@ -485,6 +484,9 @@ function recalcularMontos() {
   document.getElementById('luz$').value = luzMonto.toFixed(2);
   document.getElementById('agua$').value = aguaMonto.toFixed(2);
   document.getElementById('mantenimiento$').value = mantMonto.toFixed(2);
+
+  // 🔹 Llamar a calcularSubtotal después de actualizar los montos
+  calcularSubtotal();
 }
 
 // Detectar cambios en tarifa o porcentajes
@@ -493,6 +495,7 @@ function recalcularMontos() {
 });
 
 // 🧮 Función para calcular el subtotal
+// 🧮 Función para calcular el subtotal y actualizar la sidebar
 function calcularSubtotal() {
   const tarifa = parseFloat(document.getElementById('tarifa').value) || 0;
   const luzMonto = parseFloat(document.getElementById('luz$').value) || 0;
@@ -501,22 +504,34 @@ function calcularSubtotal() {
 
   const subtotal = tarifa + luzMonto + aguaMonto + mantMonto;
   document.getElementById('subtotal').value = subtotal.toFixed(2);
+
+  // 🟢 Actualizar automáticamente el campo de la sidebar si existe
+  const importebruto = document.getElementById('importebruto');
+  if (importebruto) {
+    importebruto.value = subtotal.toFixed(2);
+  }
+
+  // 🔁 Si ya se seleccionó un tipo de garantía, recalcularla también
+  const ope = document.getElementById('ope');
+  if (ope && ope.value) {
+    calcularGarantia();
+  }
 }
 
-// 🔁 Actualizar subtotal cuando cambien los montos o la tarifa
+
+// 🔁 Actualizar subtotal cuando cambien manualmente los montos o la tarifa
 ['tarifa', 'luz$', 'agua$', 'mantenimiento$'].forEach(id => {
   document.getElementById(id).addEventListener('input', calcularSubtotal);
 });
 
-
+// --- Sidebar toggle ---
 const sidebar = document.getElementById("sidebar");
-  const toggleBtn = document.getElementById("toggleSidebar");
+const toggleBtn = document.getElementById("toggleSidebar");
 
-  toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("open");
-    // Cambia el icono ☰ ↔ ✖
-    toggleBtn.textContent = sidebar.classList.contains("open") ? "✖" : "☰";
-  });
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+  toggleBtn.textContent = sidebar.classList.contains("open") ? "✖" : "☰";
+});
 
 
 
@@ -538,43 +553,35 @@ function calcularGarantia() {
     case "1": // DGX3
       resultado = (subtotal * 3) * (1 + IVA);
       break;
-
-    case "2": // FC - suma un monto manual al subtotal
+    case "2": // FC (monto manual)
       const montoExtra = parseFloat(prompt("Ingrese el monto adicional:")) || 0;
       resultado = subtotal + montoExtra;
       break;
-
     case "3": // NO APLICA
       resultado = subtotal;
       break;
-
     case "4": // FCX3
       resultado = (subtotal * 3) * (1 + IVA);
       break;
-
     case "5": // DGX1
       resultado = subtotal * (1 + IVA);
       break;
-
     case "6": // FCX12
       resultado = (subtotal * 12) * (1 + IVA);
       break;
-
     case "7": // FDX30DÍAS (monto manual)
       const monto30 = parseFloat(prompt("Ingrese el monto de la garantía 30 días:")) || 0;
       resultado = monto30;
       break;
-
     case "8": // PromMensualopsX3
       const montoProm = parseFloat(prompt("Ingrese el monto promedio mensual:")) || 0;
       resultado = montoProm * 3;
       break;
-
     default:
       resultado = subtotal;
   }
 
-  // Mostrar el resultado en la sidebar (creamos un campo dinámico si no existe)
+  // 🟢 Mostrar el resultado en la sidebar
   let resultadoCampo = document.getElementById('resultadoGarantia');
   if (!resultadoCampo) {
     resultadoCampo = document.createElement('div');
@@ -583,9 +590,15 @@ function calcularGarantia() {
     resultadoCampo.style.fontWeight = 'bold';
     document.getElementById('sidebar').appendChild(resultadoCampo);
   }
-
   resultadoCampo.textContent = `💰 Monto de Garantía: $${resultado.toFixed(2)}`;
+
+  // 🟣 Copiar el resultado al campo #montoGARANTÍA del formulario principal
+  const campoGarantia = document.getElementById('montoGARANTÍA');
+  if (campoGarantia) {
+    campoGarantia.value = resultado.toFixed(2);
+  }
 }
+
 
 // 🔁 Detectar cambios en subtotal y tipo de garantía
 document.getElementById('subtotal').addEventListener('input', actualizarImporteBruto);
