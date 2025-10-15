@@ -116,7 +116,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
   // 🔴 Propiedades visuales del patrón
-  const colorRojo = rgb(0.9, 0.1, 0.1); // Rojo más visible
+  const colorRojo = rgb(0.0, 0.0, 0.0); // Rojo más visible
   const transparencia = 0.15; // Más transparente para patrón
   const textoMarca = 'CANCELADO';
 
@@ -161,11 +161,11 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     // Crear patrón de fondo
     crearPatronMarcaAgua(page);
 
-    // Información de cancelación (mantener visible)
+    // ✅ SOLO agregar información en el pie de página (parte inferior)
     page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
       x: 50,
-      y: height - 40, // Parte superior
-      size: 12,
+      y: 40, // Parte inferior - posición baja
+      size: 10,
       font: font,
       color: rgb(0, 0, 0),
       opacity: 0.8
@@ -173,8 +173,8 @@ document.getElementById('cancelar').addEventListener('click', async () => {
 
     page.drawText(`MOTIVO: ${motivoInput}`, {
       x: 50,
-      y: height - 60,
-      size: 12,
+      y: 20, // Parte inferior - posición más baja
+      size: 10,
       font: font,
       color: rgb(0, 0, 0),
       opacity: 0.8
