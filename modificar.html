@@ -64,11 +64,11 @@
   
   <div class="form-group">
       <label for="importebruto"> SUBTOTAL:</label>
-      <input type="number" id="subtotal" name="importebruto">    
+      <input type="number" id="importebruto" name="importebruto">    
     
   <div class="form-group1">
-      <label for="tgar">TIPO DE GARANTIA:<span class="required">*</span></label>
-      <select id="tgar" name="tgar" required>
+      <label for="ope">TIPO DE GARANTIA:<span class="required">*</span></label>
+      <select id="ope" name="ope" required>
         <option value="">- Selecciona -</option>
         <option value="1">DGX3 ( (3 * subtotal) + IVA 16%)</option>
         <option value="2">FC( INGRESE UN MONTO MANUALMENTE Y SE LE SUMARA A SUBTOTAL)</option>
@@ -517,6 +517,81 @@ const sidebar = document.getElementById("sidebar");
     // Cambia el icono ☰ ↔ ✖
     toggleBtn.textContent = sidebar.classList.contains("open") ? "✖" : "☰";
   });
+
+
+
+// 🧩 Función para copiar el subtotal al campo "importebruto"
+function actualizarImporteBruto() {
+  const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
+  document.getElementById('importebruto').value = subtotal.toFixed(2);
+}
+
+// 🧮 Función para calcular la garantía según el tipo seleccionado
+function calcularGarantia() {
+  const subtotal = parseFloat(document.getElementById('importebruto').value) || 0;
+  const tipo = document.getElementById('ope').value;
+  const IVA = 0.16; // 16%
+
+  let resultado = 0;
+
+  switch (tipo) {
+    case "1": // DGX3
+      resultado = (subtotal * 3) * (1 + IVA);
+      break;
+
+    case "2": // FC - suma un monto manual al subtotal
+      const montoExtra = parseFloat(prompt("Ingrese el monto adicional:")) || 0;
+      resultado = subtotal + montoExtra;
+      break;
+
+    case "3": // NO APLICA
+      resultado = subtotal;
+      break;
+
+    case "4": // FCX3
+      resultado = (subtotal * 3) * (1 + IVA);
+      break;
+
+    case "5": // DGX1
+      resultado = subtotal * (1 + IVA);
+      break;
+
+    case "6": // FCX12
+      resultado = (subtotal * 12) * (1 + IVA);
+      break;
+
+    case "7": // FDX30DÍAS (monto manual)
+      const monto30 = parseFloat(prompt("Ingrese el monto de la garantía 30 días:")) || 0;
+      resultado = monto30;
+      break;
+
+    case "8": // PromMensualopsX3
+      const montoProm = parseFloat(prompt("Ingrese el monto promedio mensual:")) || 0;
+      resultado = montoProm * 3;
+      break;
+
+    default:
+      resultado = subtotal;
+  }
+
+  // Mostrar el resultado en la sidebar (creamos un campo dinámico si no existe)
+  let resultadoCampo = document.getElementById('resultadoGarantia');
+  if (!resultadoCampo) {
+    resultadoCampo = document.createElement('div');
+    resultadoCampo.id = 'resultadoGarantia';
+    resultadoCampo.style.marginTop = '10px';
+    resultadoCampo.style.fontWeight = 'bold';
+    document.getElementById('sidebar').appendChild(resultadoCampo);
+  }
+
+  resultadoCampo.textContent = `💰 Monto de Garantía: $${resultado.toFixed(2)}`;
+}
+
+// 🔁 Detectar cambios en subtotal y tipo de garantía
+document.getElementById('subtotal').addEventListener('input', actualizarImporteBruto);
+document.getElementById('ope').addEventListener('change', calcularGarantia);
+
+
 
 </script>
 
