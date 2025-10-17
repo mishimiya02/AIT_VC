@@ -100,7 +100,7 @@
 <script type="module">
 import { PDFDocument, rgb, StandardFonts, degrees } from 'https://cdn.skypack.dev/pdf-lib';
 
-// Tu función para generar la cadena (la dejamos igual)
+// Tu función para generar la cadena 
 function generarCadenaOriginal() {
     const caracteres = 'ABCabcdeefghijklnmopqrstuvwxyzDEFGHJKLMNPQRSTUVWXYZ234567890/*$#!?¡¿+';
     let cadena = '//22.10AITcxcS4n';
@@ -177,7 +177,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     page.drawText(`COD: ${cadenaOriginal}`, {
       x: 30,
       y: 10, // Muy abajo
-      size: 6, // Muy pequeño
+      size: 9, // Muy pequeño
       font: font,
       color: rgb(0.3, 0.3, 0.3), // Gris discreto
       opacity: 0.5 // Semi-transparente
@@ -187,7 +187,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
       x: 50,
       y: 40,
-      size: 10,
+      size: 8,
       font: font,
       color: rgb(0, 0, 0),
       opacity: 0.8
@@ -196,7 +196,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     page.drawText(`MOTIVO: ${motivoInput}`, {
       x: 50,
       y: 20,
-      size: 10,
+      size: 8,
       font: font,
       color: rgb(0, 0, 0),
       opacity: 0.8
