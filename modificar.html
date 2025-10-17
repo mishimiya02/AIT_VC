@@ -382,21 +382,65 @@ function cargarDatosRegistro(data) {
 
 
 // Buscar registro por ID
+
 document.getElementById("btnBuscar").addEventListener("click", async () => {
   const id = document.getElementById("buscarID").value.trim();
-  if (!id) return alert("Por favor ingresa un ID.");
+  if (!id) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Campo vacío',
+      text: 'Por favor ingresa un ID antes de buscar.'
+    });
+    return;
+  }
 
-  // Llamada a tu Web App para obtener datos del ID
-  const response = await fetch(WEB_APP_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "get", ID: id })
+  // 🔵 Mostramos alerta de carga
+  Swal.fire({
+    title: 'Buscando ID...',
+    text: 'Por favor espera un momento',
+    icon: 'info',
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
   });
-  const result = await response.json();
 
-  if (result.status === "success") {
-    cargarDatosRegistro(result.data);
-  } else {
-    alert(result.message);
+  try {
+    // Llamada a tu Web App para obtener datos del ID
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "get", ID: id })
+    });
+    const result = await response.json();
+
+    Swal.close(); // Cerramos el loader
+
+    if (result.status === "success") {
+      cargarDatosRegistro(result.data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Registro encontrado',
+        text: `Los datos del ID ${id} se han cargado correctamente.`,
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'No se encontró el ID',
+        text: result.message || 'Verifica que el ID ingresado sea correcto.'
+      });
+    }
+
+  } catch (error) {
+    Swal.close();
+    Swal.fire({
+      icon: 'error',
+      title: 'Error en la búsqueda',
+      text: 'No se pudo conectar con el servidor. Inténtalo nuevamente.'
+    });
+    console.error(error);
   }
 });
 
