@@ -143,6 +143,11 @@ display: flex;
   justify-content: center;
   align-items: center;
 }
+.centrado2 {
+display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
