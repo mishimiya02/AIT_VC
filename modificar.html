@@ -102,43 +102,44 @@
 <div style="max-width: 800px; margin: auto; margin-bottom: 2rem;">
   <label for="buscarID">Ingrese el ID a modificar:</label>
   <input type="text" id="buscarID" placeholder="ID del registro"><br>
+<div class="centrado">
  <br> <button id="btnBuscar">Buscar</button>
 </div>
 <br>
 <form id="updateForm" style="display:none;">
   <div class="form-group"><!--si regresa--->
-     <label for="ID">ID (el ID no se puede modificar)</label>
+     <label for="ID">ID (NO SE MODIFICA )</label>
     <input type="text" id="ID" name="ID" readonly>
   </div>
   <br>
   <div class="form-group">
-    <label for="CUENTA">No. Cliente</label>
+    <label for="CUENTA">No. CLIENTE</label>
     <input type="text" id="CUENTA" name="NUM CLIENTE">
   </div>
 
 <div class="form-group">
-      <label for="numsap">Número de doc. SAP </label>
+      <label for="numsap">No. DOC. SAP </label>
       <input type="numsap" id="numsap" name="NUM DCT SAP">
     </div>
 
   <div class="form-group">
-    <label for="numcontrato">No. Contrato</label>
+    <label for="numcontrato">No. CONTRATO</label>
      <input type="text" id="numcontrato" name="NUM CONTRATO">
     </div>
 
  <div class="form-group">
-    <label for="businessName">Razón Social</label>
+    <label for="businessName">RAZÓN SOCIAL</label>
      <input type="text" id="businessName" name="RAZON SOCIAL">
   </div>
 
  <div class="form-group">
-      <label for="nomcom">Nombre Comercial </label>
+      <label for="nomcom">NOMBRE COMERCIAL </label>
        <input type="text" id="nomcom" name="NOMBRE COMERCIAL"><!--debe coincidir el name con el encabezado de las columans--->
     </div>
 
 
   <div class="form-group">
-    <label for="tipoContrato">Tipo Contrato</label><!--si regresa--->
+    <label for="tipoContrato">TIPO CONTRATO</label><!--si regresa--->
     <input type="text" id="tipoContrato" name="TIPO CONTRATO">
   </div>
  
@@ -148,7 +149,7 @@
     </div>
 
  <div class="form-group">
-      <label for="unidades">Unidades/Elementos/m2 <span class="required">*</span></label><!--si regresa--->
+      <label for="unidades">UNIDADES/ELEMENTOS/m2 <span class="required">*</span></label><!--si regresa--->
       <input type="number" id="unidades" name="UNIDADES / M2" required>
     </div>
     <div class="form-group">
@@ -158,49 +159,49 @@
 
     <!-- Fechas -->
 <div class="form-group">
-  <label for="fecha-inicio" class="required-field">Fecha inicio de vigencia:</label>
+  <label for="fecha-inicio" class="required-field"> INICIO DE VIGENCIA:</label>
   <input type="date" id="fecha-inicio" name="FECHA INICIO">
 <br>
-  <label for="fecha-fin" class="required-field">Fecha de fin de vigencia:</label>
+  <label for="fecha-fin" class="required-field">FIN DE VIGENCIA:</label>
   <input type="date" id="fecha-fin" name="FECHA FIN">
 </div>
 
  <div class="form-group">
-      <label for="estatus">Estatus:<span class="required">*</span></label><!--si regresa--->
+      <label for="estatus">ESTATUS:</label><!--si regresa--->
          <input type="text" id="estatus" name="ESTATUS  VIGENCIA"  readonly>
     </div>
 
  <div class="form-group">
-      <label for="vencidos">Días vencidos</label><!--no regresa--->
+      <label for="vencidos">DÍAS VENCIDOS</label><!--no regresa--->
       <input type="number" id="vencidos" name="DIAS VENCIDOS " readonly>
     </div>
     <div class="form-group">
-      <label for="porVencer"> Días por vencer </label><!--si regresa--->
+      <label for="porVencer"> DÍAS POR VENCER </label><!--si regresa--->
       <input type="number" id="porVencer" name="DIAS POR VENCER" readonly>
     </div>
 
  <div class="form-group">
-      <label for="tarifa">Tarifa <span class="required">*</span></label>
+      <label for="tarifa">TARIFA <span class="required">*</span></label>
       <input type="number" id="tarifa" name="TARIFA">
     </div>
 
     <div class="form-group">
-      <label for="luz"> Energía eléctrica (%):</label>
+      <label for="luz"> ENERGÍA ELECTRICA (%):</label>
       <input type="number" id="luz" name="LUZ %">    
     </div>
 
      <div class="form-group">
-      <label for="agua"> Agua (%):</label>
+      <label for="agua"> AGUA (%):</label>
       <input type="number" id="agua" name="AGUA%">    
     </div>
 
  <div class="form-group">
-      <label for="mantenimiento"> Mantenimiento (%):</label>
+      <label for="mantenimiento"> MANTENIMIENTO (%):</label>
       <input type="number" id="mantenimiento" name="MANTENIMIENTO %">    
     </div>
 
         <div class="form-group">
-      <label for="luz"> Energía eléctrica ($):</label>
+      <label for="luz"> ENERGÍA ELECTRICA ($):</label>
       <input type="float" id="luz$" name="$LUZ">    
     </div>
 
@@ -210,7 +211,7 @@
     </div>
 
  <div class="form-group">
-      <label for="mantenimiento"> Mantenimiento ($):</label>
+      <label for="mantenimiento"> MANTENMIENTO ($):</label>
       <input type="float" id="mantenimiento$" name="$ MANTENIMIENTO">    
     </div>
 
@@ -227,21 +228,21 @@
     </div>
 
       <div class="form-group">
-      <label for="variable"> Variable % *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR TIPO:</label>
+      <label for="variable"> VARIABLE % *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR TIPO:</label>
       <input type="number" id="variable" name="%VARIABLE">    
     </div>
       <div class="form-group">
-      <label for="penalizacion"> Penalización %  *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR TIPO:</label>
+      <label for="penalizacion"> PENALIZACIÓN %  *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR TIPO:</label>
       <input type="number" id="penalizacion" name="%PENALIZACIÓN">    
     </div>
 
 
  <div class="form-group">
-      <label for="diasvigencia"> Días de Vigencia:</label>
+      <label for="diasvigencia"> DÍAS DE VIGENCIA :</label>
       <input type="number" id="diasVigencia" name="DÍAS VIGENCIA">    
     </div>
       <div class="form-group">
-      <label for="tipovigencia"> Tipo de vigencia:</label>
+      <label for="tipovigencia"> TIPO DE VIGENCIA :</label>
       <input type="text" id="tipovigencia" name="TIPO DE VIGENCIA">    
     </div>
 
@@ -257,7 +258,7 @@
 
 
 <div class="form-group">
-      <label for="perioricidad">Perioricidad</label>
+      <label for="perioricidad">PERIORICIDAD</label>
       <input type="text" id="perioricidad" name="PERIORICIDAD">    
     </div>
       <div class="form-group">
@@ -266,7 +267,7 @@
     </div>
 
 <div class="form-group">
-      <label for="fechaactualizacion">Proxima fecha de actualización:</label>
+      <label for="fechaactualizacion">PRÓXIMA FECHA DE ACT:</label>
       <input type="date" id="fechaactualizacion" name="PROX. FEC. ACTUALIZACIÓN">    
     </div>
       <div class="form-group">
@@ -284,7 +285,7 @@
 
 
  <div class="form-group">
-      <label for="diascredito"> Días de crédito:</label>
+      <label for="diascredito"> DÍAS DE CRÉDITO:</label>
       <input type="num" id="diascredito" name="DÍAS DE CRÉDITO">    
     </div>
 
