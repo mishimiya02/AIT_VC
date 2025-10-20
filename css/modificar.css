@@ -509,8 +509,14 @@ form {
 }
 
 
-/* Sidebar derecha */
-/* Sidebar derecha */
+
+
+
+
+
+
+
+/* Sidebar derecha - estado por defecto: cerrada (oculta hacia la derecha) */
 .sidebar2 {
   width: 300px;
   background-color: #ffffff;
@@ -519,10 +525,10 @@ form {
   box-sizing: border-box;
   height: 100vh;
   position: fixed;
-  right: -320px; /* Oculta fuera de pantalla al inicio */
-  top: 0;
+  right: -320px;    /* oculto fuera de pantalla */
+  top: 0;           /* ocupa desde el top */
   overflow-y: auto;
-  transition: right 0.3s ease;
+  transition: right 0.35s ease, top 0.2s ease;
   z-index: 1000;
 }
 
@@ -531,40 +537,31 @@ form {
   right: 0;
 }
 
-    .sidebar2 {
-      width: 300px;
-      background-color: #ffffff;
-      border-left: 4px solid #ff0000;
-      padding: 20px;
-      border-left: 4px solid #ff0000;
-      box-sizing: border-box;
-      height: 400vh;
-      position: fixed;
-      right: 0;
-      top: 100px;
-      overflow-y: auto;
-    }
+/* Ajustes internos */
+.sidebar2 h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
 
-    .sidebar2 h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
+.sidebar2 input[type="file"] {
+  margin-bottom: 10px;
+}
 
-    .sidebar2 input[type="file"] {
-      margin-bottom: 10px;
-    }
+.sidebar2 button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+}
 
-    .sidebar2 button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      width: 100%;
-    }
+.sidebar2 button:hover {
+  background-color: #45a049;
+}
 
-    .sidebar2 button:hover {
-      background-color: #45a049;
-    }
-
-    
+/* Si quieres que el panel no empuje contenido (overlay) y un pequeño padding-right para que no tape el toggle */
+body {
+  transition: padding-right 0.35s ease;
+}

@@ -51,6 +51,26 @@
     align-items: center;
     gap: 5px;
 }
+/* Sidebar derecha (cerrada por defecto) */
+.sidebar2 {
+  position: fixed;
+  top: 0;
+  right: -350px; /* Oculta fuera de pantalla */
+  width: 350px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -3px 0 5px rgba(0,0,0,0.2);
+  padding: 20px;
+  overflow-y: auto;
+  transition: right 0.4s ease;
+  z-index: 1000;
+}
+
+/* Cuando está abierta */
+.sidebar2.abierta {
+  right: 0;
+}
+
 </style>
 </head>
 <body>
