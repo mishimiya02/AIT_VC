@@ -245,6 +245,45 @@ form {
 
 
 
+/* 🧾 Estructura del formulario con labels a la izquierda e inputs a la derecha */
+.form-group3 {
+  display:flexbox;
+  align-items: left;
+  justify-content: space-between;
+  margin: 0px 0;
+}
+
+/* Etiquetas (labels) alineadas a la izquierda */
+.form-group3 label {
+
+  text-align: center;
+  font-weight: 44;
+  color: #ffffff;
+  margin-right: 15px;
+}
+
+/* Inputs alineados a la derecha */
+.form-group3 input,
+.form-group3 select {
+  flex: 2;
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  width: 80%;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+/* Efecto focus bonito */
+.form-group3 input:focus,
+.form-group3 select:focus {
+  border-color: #0078d7;
+  box-shadow: 0 0 5px rgba(0, 120, 215, 0.3);
+}
+
+
 
 
 
