@@ -408,9 +408,9 @@
     background: linear-gradient(
         90deg, 
         transparent 0%, 
-        #667eea 20%, 
-        #764ba2 50%, 
-        #667eea 80%, 
+        #00aeff 20%, 
+        #6a67ff 50%, 
+        #0066ff 80%, 
         transparent 100%
     );
     margin: 35px 0;
