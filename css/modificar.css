@@ -510,6 +510,27 @@ form {
 
 
 /* Sidebar derecha */
+/* Sidebar derecha */
+.sidebar2 {
+  width: 300px;
+  background-color: #ffffff;
+  border-left: 4px solid #ff0000;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100vh;
+  position: fixed;
+  right: -320px; /* Oculta fuera de pantalla al inicio */
+  top: 0;
+  overflow-y: auto;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+/* Cuando está abierta */
+.sidebar2.abierta {
+  right: 0;
+}
+
     .sidebar2 {
       width: 300px;
       background-color: #ffffff;

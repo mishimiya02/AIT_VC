@@ -354,18 +354,53 @@
 </form>
   </div>
 
+  <!-- Botón para abrir/cerrar -->
+<button id="toggleSidebarBtn2" style="
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+  padding: 10px 15px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+">
+   Abrir panel
+</button>
+
+
 <!-- Sidebar derecha -->
   <div class="sidebar2">
     <h2>📤 Subir Imagen</h2>
     <input type="file" id="imageInput" accept="image/*">
-    <button onclick="extraerTexto()">Extraer texto 🧠</button>
+    <button onclick="extraerTexto()">Extraer texto </button>
 
     <h2>📄 Texto detectado</h2>
     <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
   </div>
 
   <!-- JS -->
-  <script>
+ <script>
+  const sidebar2 = document.querySelector('.sidebar2');
+  const toggleBtn2 = document.getElementById('toggleSidebarBtn2');
+
+  let abierta = false;
+
+  toggleBtn2.addEventListener('click', () => {
+    abierta = !abierta;
+    sidebar2.classList.toggle('abierta');
+
+    // Cambia el texto del botón
+    toggleBtn2.textContent = abierta ? '❌ Cerrar panel' : '👉 Abrir panel';
+  });
+
+
+
+
+
+
   function extraerTexto() {
   const archivo = document.getElementById('imageInput').files[0];
   const resultado = document.getElementById('textoExtraido'); // Nuevo ID aquí

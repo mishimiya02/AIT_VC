@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Garantía</title>
@@ -36,6 +37,21 @@
 
        
     </script>
+
+
+<style>
+  .checkbox-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+</style>
 </head>
 <body>
      
@@ -78,7 +94,7 @@
     </div>
 	</nav>
     
-        <h1>CÉDULA DE DETERMINACIÓN DEL MONTO A GARANTIZAR</h1>
+        <h1>CANCELAR COMPROBANTES </h1>
  
     
     <div class="form-container">
@@ -93,6 +109,18 @@
       <label for="observaciones"> MOTIVO DE CANCELACIÓN:</label>
       <input type="text" id="observaciones" name="observaciones">    
     </div>
+
+<div class="form-group">
+    <label>COLOR DE CANCELADO:</label>
+    <div class="checkbox-group">
+        <label>
+            <input type="checkbox" id="colorRojo" name="color" value="rojo" checked> Rojo
+        </label>
+        <label>
+            <input type="checkbox" id="colorNegro" name="color" value="negro"> Negro
+        </label>
+    </div>
+</div>
 
 
     </div>
@@ -129,7 +157,9 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
   // 🔴 Propiedades visuales del patrón
-  const colorRojo = rgb(0.0, 0.0, 0.0);
+const colorSeleccionado = document.querySelector('input[name="color"]:checked');
+const colorMarca = colorSeleccionado.value === 'rojo' ? rgb(0.9, 0.1, 0.1) : rgb(0.0, 0.0, 0.0);
+
   const transparencia = 0.15;
   const textoMarca = 'CANCELADO';
 
@@ -150,15 +180,15 @@ document.getElementById('cancelar').addEventListener('click', async () => {
         const x = columna * espacioHorizontal;
         const y = fila * espacioVertical;
         
-        page.drawText(textoMarca, {
-          x: x,
-          y: y,
-          size: tamanoTexto,
-          font: font,
-          color: colorRojo,
-          rotate: angulo,
-          opacity: transparencia
-        });
+       page.drawText(textoMarca, {
+    x: x,
+    y: y,
+    size: tamanoTexto,
+    font: font,
+    color: colorMarca, // ← Cambia esta línea
+    rotate: angulo,
+    opacity: transparencia
+});
       }
     }
   };
@@ -180,7 +210,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
       size: 8, // Muy pequeño
       font: font,
       color: rgb(0.3, 0.3, 0.3), // Gris discreto
-      opacity: 0.5 // Semi-transparente
+      opacity: 0.9 // Semi-transparente
     });
 
     // Información de cancelación en pie de página
