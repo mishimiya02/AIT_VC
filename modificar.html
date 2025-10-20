@@ -353,6 +353,51 @@
   <button type="submit">Actualizar Registro</button></div>
 </form>
   </div>
+
+<!-- Sidebar derecha -->
+  <div class="sidebar2">
+    <h2>📤 Subir Imagen</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="extraerTexto()">Extraer texto 🧠</button>
+
+    <h2>📄 Texto detectado</h2>
+    <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
+  </div>
+
+  <!-- JS -->
+  <script>
+  function extraerTexto() {
+  const archivo = document.getElementById('imageInput').files[0];
+  const resultado = document.getElementById('textoExtraido'); // Nuevo ID aquí
+
+  if (!archivo) {
+    alert("Por favor sube una imagen 🖼️");
+    return;
+  }
+
+  if (!resultado) {
+    console.error("Elemento con ID 'textoExtraido' no encontrado.");
+    return;
+  }
+
+  resultado.textContent = "Procesando... ⏳";
+
+  Tesseract.recognize(
+    archivo,
+    'spa',
+    {
+      logger: m => console.log(m)
+    }
+  ).then(({ data: { text } }) => {
+    resultado.textContent = text || "No se detectó texto.";
+  }).catch(err => {
+    console.error(err);
+    resultado.textContent = "Error al procesar la imagen 😢";
+  });
+}
+
+  </script>
+
 <script>/*urs appscript modificar aqui y abajo*/
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwdCdlclZCH8UjHwkMJypioA-n7M1h2s5CaFWMXkLrENbUmbrt7QVrA0KRxRnblpnkm8Q/exec";
 
@@ -845,10 +890,10 @@ function actualizarImporteBruto() {
 }
 
 
-
-
-
 </script>
+
+
+
 
 
 
