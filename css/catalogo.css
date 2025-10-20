@@ -306,7 +306,14 @@
              font-style: sans-serif;
              margin-top: 0;
              color: #000000;
-			 font-size: 17px;
+			 font-size: 25px;
+         }
+            h3 {
+             text-align: center;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #000000;
+			 font-size: 15px;
          }
 #theme-toggle {
    font-weight: bold;
@@ -396,3 +403,68 @@
       border-color: #007bff;
       outline: none;
     }
+
+    .separador-brillante {
+    border: none;
+    height: 5px;
+    background: linear-gradient(
+        90deg,
+        #ff6b6b,
+        #ffd93d,
+        #6bcf7f,
+        #4d96ff
+    );
+    margin: 40px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+.separador-elegante {
+    border: none;
+    height: 25px;
+    background: linear-gradient(
+        90deg, 
+        transparent 0%, 
+        #667eea 20%, 
+        #764ba2 50%, 
+        #667eea 80%, 
+        transparent 100%
+    );
+    margin: 35px 0;
+}
+.separador-degradado {
+    border: none;
+    height: 4px;
+    background: linear-gradient(to right, #ff6b6b, #4ecdc4, #45b7d1);
+    margin: 40px 0;
+    border-radius: 2px;
+}
+.separador-3d {
+    border: none;
+    height: 6px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        #ff9a9e 15%,
+        #fecfef 30%,
+        #fecfef 70%,
+        #ff9a9e 85%,
+        transparent 100%
+    );
+    margin: 40px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.separador-rainbow {
+    border: none;
+    height: 6px;
+    background: linear-gradient(
+        90deg,
+        #ff0000 0%,
+        #ff9900 20%,
+        #ffff00 40%,
+        #00ff00 60%,
+        #00ffff 80%,
+        #0000ff 100%
+    );
+    margin: 40px 0;
+    border-radius: 3px;
+}
