@@ -546,13 +546,4 @@ form {
       background-color: #45a049;
     }
 
-    #resultadotext {
-      white-space: pre-wrap;
-      margin-top: 15px;
-      font-size: 14px;
-      background: #f9f9f9;
-      padding: 10px;
-      border: 1px solid #ddd;
-      max-height: 400px;
-      overflow-y: auto;
-    }
+    

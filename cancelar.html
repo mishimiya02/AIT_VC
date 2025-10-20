@@ -139,7 +139,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     
     const tamanoTexto = 40;
     const espacioHorizontal = tamanoTexto * 5.5;
-    const espacioVertical = tamanoTexto * 5.5;
+    const espacioVertical = tamanoTexto * 2;
     const angulo = degrees(45);
     
     const columnas = Math.ceil(width / espacioHorizontal) + 2;
@@ -176,7 +176,7 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     // Agregar cadena en posición discreta (por ejemplo, muy pequeña y en esquina)
     page.drawText(`AUT: ${cadenaOriginal}`, {
       x: 30,
-      y: 10, // Muy abajo
+      y: 180, // Muy abajo
       size: 8, // Muy pequeño
       font: font,
       color: rgb(0.3, 0.3, 0.3), // Gris discreto
@@ -185,8 +185,8 @@ document.getElementById('cancelar').addEventListener('click', async () => {
 
     // Información de cancelación en pie de página
     page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
-      x: 50,
-      y: 40,
+      x: 30,
+      y: 200,
       size: 8,
       font: font,
       color: rgb(0, 0, 0),
@@ -194,8 +194,8 @@ document.getElementById('cancelar').addEventListener('click', async () => {
     });
 
     page.drawText(`MOTIVO: ${motivoInput}`, {
-      x: 50,
-      y: 20,
+      x: 30,
+      y: 190,
       size: 8,
       font: font,
       color: rgb(0, 0, 0),
