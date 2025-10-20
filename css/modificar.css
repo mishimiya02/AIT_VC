@@ -259,7 +259,7 @@ form {
   text-align: center;
   font-weight: 44;
   color: #ffffff;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 /* Inputs alineados a la derecha */
@@ -272,7 +272,7 @@ form {
   border-radius: 8px;
   outline: none;
   width: 80%;
-  text-align: left;
+  text-align: center;
   transition: all 0.3s ease;
 }
 
