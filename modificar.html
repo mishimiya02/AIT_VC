@@ -11,6 +11,9 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
 
+
+
+  <style></style>
 </head>
 <body>
 
@@ -59,14 +62,14 @@
 <!-- 🌙 BONIS SIDEBAR -->
 <div id="sidebar" class="sidebar">
   <div class="sidebar-header">
-    <img src="img/logo2.png" alt="Logo" class="sidebar-logo">
+    
     <h2>COMPROBAR GARANTÍA</h2>
   </div>
-  
+  <br><br><br>
   <div class="form-group3">
       <label for="importebruto"> SUBTOTAL:</label>
       <input type="number" id="importebruto" name="importebruto">    
-    
+    <br>
   <div class="form-group3">
       <label for="ope">TIPO DE GARANTIA:<span class="required">*</span></label>
       <select id="ope" name="ope" required>
@@ -369,11 +372,14 @@
 ">
    IMG➡️TEXTO 
 </button>
-
+<div class="sidecentro">
 
 <!-- Sidebar derecha -->
   <div class="sidebar2">
-    <br><br><br><br>
+    <br><br>
+    
+<h3 style="color: #FFFFFF; font-family:arial"> Proporcione una captura de pantalla del documento pdf para ser transformado a texto</h3>
+
     <h3 style="color: #FFFFFF">💻 Subir Imagen</h3>
     <input type="file" id="imageInput" accept="image/*">
     <button onclick="extraerTexto()">Extraer texto </button>
@@ -381,7 +387,7 @@
     <h3 style="color: #FFFFFF">📌 Texto detectado</h3>
     <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
   </div>
-
+  </div>
   <!-- JS -->
  <script>
   const sidebar2 = document.querySelector('.sidebar2');
@@ -394,7 +400,7 @@
     sidebar2.classList.toggle('abierta');
 
     // Cambia el texto del botón
-    toggleBtn2.textContent = abierta ? '❌ Cerrar panel' : '👉 Abrir panel';
+    toggleBtn2.textContent = abierta ? '❌ Cerrar' : 'IMG➡️TEXT';
   });
 
 

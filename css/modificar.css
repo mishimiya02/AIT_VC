@@ -527,7 +527,7 @@ form {
 /* Sidebar derecha - estado por defecto: cerrada (oculta hacia la derecha) */
 .sidebar2 {
   width: 380px;
-   background: rgba(30, 30, 40, 0.596);
+   background: rgba(30, 30, 40, 0.753);
   border-left: 4px solid #ffffff00;
   padding: 25px;
   box-sizing: border-box;
@@ -667,4 +667,34 @@ form {
   .sidebar2.abierta {
     right: 0;
   }
+}
+
+.separador-elegante {
+    border: none;
+    height: 2px;
+    background: linear-gradient(
+        90deg, 
+        transparent 0%, 
+        #ffffff 20%, 
+        #ffffff 50%, 
+        #ffffff 80%, 
+        transparent 100%
+    );
+    margin: 35px 0;
+}
+
+  .sidebar2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sidebar2 h3 {
+  text-align: center;
+}
+
+#textoExtraido {
+  text-align: center;
+  width: 100%;
 }
