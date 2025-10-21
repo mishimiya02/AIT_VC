@@ -43,7 +43,7 @@
 
 
  			nav {
- 				background-color: #ffa705;
+ 				background-color: #ff9100;/*color de barra de navegación*/
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -517,19 +517,21 @@ form {
 
 
 /* Sidebar derecha - estado por defecto: cerrada (oculta hacia la derecha) */
+/* Sidebar derecha - estado por defecto: cerrada (oculta hacia la derecha) */
 .sidebar2 {
-  width: 300px;
-  background-color: #ffffff;
-  border-left: 4px solid #ff0000;
-  padding: 20px;
+  width: 380px;
+   background: rgba(30, 30, 40, 0.85);
+  border-left: 4px solid #6a11cb;
+  padding: 25px;
   box-sizing: border-box;
   height: 100vh;
   position: fixed;
-  right: -320px;    /* oculto fuera de pantalla */
-  top: 0;           /* ocupa desde el top */
+  right: -400px;
+  top: 0;
   overflow-y: auto;
-  transition: right 0.35s ease, top 0.2s ease;
+  transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 1000;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Cuando está abierta */
@@ -537,31 +539,125 @@ form {
   right: 0;
 }
 
-/* Ajustes internos */
-.sidebar2 h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+/* Encabezado del sidebar */
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eaeaea;
 }
 
-.sidebar2 input[type="file"] {
-  margin-bottom: 10px;
+.sidebar-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #7f8c8d;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+/* Secciones */
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Input de archivo mejorado */
+#imageInput {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #bdc3c7;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 15px;
+}
+
+#imageInput:hover {
+  border-color: #6a11cb;
+  background-color: #edf2f7;
+}
+
+/* Botón de extraer texto mejorado */
 .sidebar2 button {
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   color: white;
   border: none;
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
   width: 100%;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(106, 17, 203, 0.2);
+  margin-bottom: 20px;
 }
 
 .sidebar2 button:hover {
-  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(106, 17, 203, 0.3);
 }
 
-/* Si quieres que el panel no empuje contenido (overlay) y un pequeño padding-right para que no tape el toggle */
-body {
-  transition: padding-right 0.35s ease;
+/* Área de texto detectado mejorada */
+#textoExtraido {
+  background-color: #f8f9fa;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 15px;
+  min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #2c3e50;
+  transition: all 0.3s;
+}
+
+#textoExtraido:empty::before {
+  content: "Aquí aparecerá el texto extraído...";
+  color: #95a5a6;
+  font-style: italic;
+}
+
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar2 {
+    width: 100%;
+    right: -100%;
+  }
+  
+  .sidebar2.abierta {
+    right: 0;
+  }
 }
