@@ -358,7 +358,7 @@
   <!-- Botón para abrir/cerrar -->
 <button id="toggleSidebarBtn2" style="
   position: fixed;
-  top: 620px;
+  top: 720px;
   right: 20px;
   z-index: 1100;
   padding: 10px 15px;
@@ -480,7 +480,7 @@ document.getElementById("btnBuscar").addEventListener("click", async () => {
     return;
   }
 
-  // 🔵 Mostramos alerta de carga
+  //  Mostramos alerta de carga
   Swal.fire({
     title: 'Buscando ID...',
     text: 'Por favor espera un momento',
@@ -493,14 +493,14 @@ document.getElementById("btnBuscar").addEventListener("click", async () => {
   });
 
   try {
-    // Llamada a tu Web App para obtener datos del ID
+    // Llamadada a Web App para obtener datos del ID
     const response = await fetch(WEB_APP_URL, {
       method: "POST",
       body: JSON.stringify({ action: "get", ID: id })
     });
     const result = await response.json();
 
-    Swal.close(); // Cerramos el loader
+    Swal.close(); // Cierre  del loader
 
     if (result.status === "success") {
       cargarDatosRegistro(result.data);
@@ -538,7 +538,7 @@ document.getElementById("updateForm").addEventListener("submit", async function(
   const data = Object.fromEntries(formData.entries());
   data.action = "update";
 
-  // 🟣 Alerta de carga mientras se modifica
+  //  Alerta de carga mientras se modifica
   Swal.fire({
     title: 'Modificando información...',
     text: 'Por favor espera mientras guardamos los cambios',
@@ -561,7 +561,7 @@ document.getElementById("updateForm").addEventListener("submit", async function(
     Swal.close(); // Cierra el loader
 
     if (result.status === "success") {
-      // 🟢 Alerta de éxito
+      //  Alerta de éxito
       Swal.fire({
         icon: 'success',
         title: 'Datos actualizados',
@@ -570,7 +570,7 @@ document.getElementById("updateForm").addEventListener("submit", async function(
         showConfirmButton: false
       });
     } else {
-      // 🔴 Alerta de error controlado
+      //  Alerta de error controlado
       Swal.fire({
         icon: 'error',
         title: 'No se pudo actualizar',
@@ -579,7 +579,7 @@ document.getElementById("updateForm").addEventListener("submit", async function(
     }
 
   } catch (error) {
-    // 🔴 Alerta de error técnico
+    //  Alerta de error técnico
     Swal.close();
     Swal.fire({
       icon: 'error',
@@ -592,7 +592,7 @@ document.getElementById("updateForm").addEventListener("submit", async function(
 
 
 
-// 🔁 Función para calcular días y estatus
+//  Función para calcular días y estatus
 
 function calcularEstado() {
   const hoy = new Date();
@@ -661,7 +661,7 @@ function recalcularMontos() {
   document.getElementById('agua$').value = aguaMonto.toFixed(2);
   document.getElementById('mantenimiento$').value = mantMonto.toFixed(2);
 
-  // 🔹 Llamar a calcularSubtotal después de actualizar los montos
+  //  Llamar a calcularSubtotal después de actualizar los montos
   calcularSubtotal();
 }
 
@@ -670,8 +670,8 @@ function recalcularMontos() {
   document.getElementById(id).addEventListener('input', recalcularMontos);
 });
 
-// 🧮 Función para calcular el subtotal
-// 🧮 Función para calcular el subtotal y actualizar la sidebar
+//  Función para calcular el subtotal
+//  Función para calcular el subtotal y actualizar la sidebar
 function calcularSubtotal() {
   const tarifa = parseFloat(document.getElementById('tarifa').value) || 0;
   const luzMonto = parseFloat(document.getElementById('luz$').value) || 0;
@@ -681,13 +681,13 @@ function calcularSubtotal() {
   const subtotal = tarifa + luzMonto + aguaMonto + mantMonto;
   document.getElementById('subtotal').value = subtotal.toFixed(2);
 
-  // 🟢 Actualizar automáticamente el campo de la sidebar si existe
+  //  Actualizar automáticamente el campo de la sidebar si existe
   const importebruto = document.getElementById('importebruto');
   if (importebruto) {
     importebruto.value = subtotal.toFixed(2);
   }
 
-  // 🔁 Si ya se seleccionó un tipo de garantía, recalcularla también
+  //  Si ya se seleccionó un tipo de garantía, recalcularla también
   const ope = document.getElementById('ope');
   if (ope && ope.value) {
     calcularGarantia();
@@ -695,7 +695,7 @@ function calcularSubtotal() {
 }
 
 
-// 🔁 Actualizar subtotal cuando cambien manualmente los montos o la tarifa
+//  Actualizar subtotal cuando cambien manualmente los montos o la tarifa
 ['tarifa', 'luz$', 'agua$', 'mantenimiento$'].forEach(id => {
   document.getElementById(id).addEventListener('input', calcularSubtotal);
 });
@@ -711,13 +711,13 @@ toggleBtn.addEventListener("click", () => {
 
 
 
-// 🧩 Función para copiar el subtotal al campo "importebruto"
+//  Función para copiar el subtotal al campo "importebruto"
 function actualizarImporteBruto() {
   const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
   document.getElementById('importebruto').value = subtotal.toFixed(2);
 }
 
-// 🧮 Función para calcular la garantía según el tipo seleccionado
+//  Función para calcular la garantía según el tipo seleccionado
 function calcularGarantia() {
   const subtotal = parseFloat(document.getElementById('importebruto').value) || 0;
   const tipo = document.getElementById('ope').value;
@@ -757,7 +757,7 @@ function calcularGarantia() {
       resultado = subtotal;
   }
 
-  // 🟢 Mostrar el resultado en la sidebar
+  //  Mostrar resultado en sidebar
   let resultadoCampo = document.getElementById('resultadoGarantia');
   if (!resultadoCampo) {
     resultadoCampo = document.createElement('div');
@@ -768,7 +768,7 @@ function calcularGarantia() {
   }
   resultadoCampo.textContent = `💰 Monto de Garantía: $${resultado.toFixed(2)}`;
 
-  // 🟣 Copiar el resultado al campo #montoGARANTÍA del formulario principal
+  //  Copiar el resultado al campo #montoGARANTÍA del formulario principal
   const campoGarantia = document.getElementById('montoGARANTÍA');
   if (campoGarantia) {
     campoGarantia.value = resultado.toFixed(2);
@@ -776,12 +776,12 @@ function calcularGarantia() {
 }
 
 
-// 🔁 Detectar cambios en subtotal y tipo de garantía
+//  Detectar cambios en subtotal y tipo de garantía
 document.getElementById('subtotal').addEventListener('input', actualizarImporteBruto);
 document.getElementById('ope').addEventListener('change', calcularGarantia);
 
 
-// 🧮 Calcular total con variable %, penalización % e incentivo $
+//  Calcular total con variable %, penalización % e incentivo $
 function calcularTotalFinal() {
   const garantia = parseFloat(document.getElementById('montoGARANTÍA').value) || 0;
   const variablePorc = parseFloat(document.getElementById('variable').value) || 0;
@@ -813,7 +813,7 @@ function calcularTotalFinal() {
   });
 }
 
-// 🔁 Detectar cambios en los campos relevantes
+//  Detectar cambios en los campos relevantes
 ['variable', 'penalizacion', 'incentivo', 'montoGARANTÍA'].forEach(id => {
   const campo = document.getElementById(id);
   if (campo) {
@@ -822,12 +822,12 @@ function calcularTotalFinal() {
 });
 
  
-// 🧩 Función para copiar el subtotal al campo "importebruto"
+//  Función para copiar el subtotal al campo "importebruto"
 function actualizarImporteBruto() {
   const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
   document.getElementById('importebruto').value = subtotal.toFixed(2);
 
-  // ⚡ Si no se ha seleccionado un tipo de garantía, montoGARANTÍA = subtotal
+  //  Si no se ha seleccionado un tipo de garantía, montoGARANTÍA = subtotal
   const tipo = document.getElementById('ope').value;
   const campoGarantia = document.getElementById('montoGARANTÍA');
   if (campoGarantia && (tipo === "" || tipo === null)) {
@@ -836,7 +836,7 @@ function actualizarImporteBruto() {
   }
 }
 
-// 🧮 Función para calcular la garantía según el tipo seleccionado
+//  Función para calcular la garantía según el tipo seleccionado
 function calcularGarantia() {
   const subtotal = parseFloat(document.getElementById('importebruto').value) || 0;
   const tipo = document.getElementById('ope').value;
@@ -874,7 +874,7 @@ function calcularGarantia() {
       break;
   }
 
-  // 🟢 Mostrar el resultado en la sidebar
+  //  Mostrar el resultado en la sidebar
   let resultadoCampo = document.getElementById('resultadoGarantia');
   if (!resultadoCampo) {
     resultadoCampo = document.createElement('div');
@@ -885,7 +885,7 @@ function calcularGarantia() {
   }
   resultadoCampo.textContent = `💰 Monto de Garantía: $${resultado.toFixed(2)}`;
 
-  // 🟣 Copiar el resultado al campo #montoGARANTÍA
+  //  Copiar el resultado al campo #montoGARANTÍA
   const campoGarantia = document.getElementById('montoGARANTÍA');
   if (campoGarantia) {
     campoGarantia.value = resultado.toFixed(2);
@@ -894,11 +894,11 @@ function calcularGarantia() {
   calcularTotalFinal(); // recalcular total automáticamente
 }
 
-// 🔁 Detectar cambios
+//  Detectar cambios
 document.getElementById('subtotal').addEventListener('input', actualizarImporteBruto);
 document.getElementById('ope').addEventListener('change', calcularGarantia);
 
-// 🔁 Detectar cambios en campos para total final
+//  Detectar cambios en campos para total final
 ['variable', 'penalizacion', 'incentivo', 'montoGARANTÍA'].forEach(id => {
   const campo = document.getElementById(id);
   if (campo) {
@@ -906,7 +906,7 @@ document.getElementById('ope').addEventListener('change', calcularGarantia);
   }
 });
 
-// 🔹 Inicializar tipo de garantía en NO APLICA al cargar
+//  Inicializar tipo de garantía en NO APLICA al cargar
 window.addEventListener('DOMContentLoaded', () => {
   const ope = document.getElementById('ope');
   if (ope) {
@@ -915,12 +915,12 @@ window.addEventListener('DOMContentLoaded', () => {
   actualizarImporteBruto(); // inicializar montoGARANTÍA con el subtotal
 });
 
-// 🧩 Función para copiar el subtotal al campo "importebruto"
+//  Función para copiar el subtotal al campo "importebruto"
 function actualizarImporteBruto() {
   const subtotal = parseFloat(document.getElementById('subtotal').value) || 0;
   document.getElementById('importebruto').value = subtotal.toFixed(2);
 
-  // ⚡ Si el tipo es NO APLICA, actualizar montoGARANTÍA
+  // Si el tipo es NO APLICA, actualizar montoGARANTÍA
   const tipo = document.getElementById('ope').value;
   const campoGarantia = document.getElementById('montoGARANTÍA');
   if (campoGarantia && tipo === "3") {
@@ -929,15 +929,7 @@ function actualizarImporteBruto() {
   }
 }
 
-
 </script>
-
-
-
-
-
-
-
 </body>
 </html>
 

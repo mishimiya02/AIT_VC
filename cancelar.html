@@ -96,9 +96,14 @@
 	</nav>
     
         <h1>CANCELAR COMPROBANTES </h1>
- 
+     
     
     <div class="form-container">
+      <div class="form-group">
+      <label for="observaciones"> CLAVE:</label>
+      <!-- maxlength para forzar 2 caracteres y evitar inputs largos -->
+      <input type="text" id="clave" name="clave" maxlength="2" placeholder="Ej: AB">    
+    </div>
         
 <input type="file" id="fileInput" accept="application/pdf">
 <button id="cancelar">Marcar como Cancelado</button>
@@ -129,10 +134,22 @@
 <script type="module">
 import { PDFDocument, rgb, StandardFonts, degrees } from 'https://cdn.skypack.dev/pdf-lib';
 
-// Tu función para generar la cadena 
-function generarCadenaOriginal() {
+//  lista de claves válidas
+const registeredKeys = [
+  'JM', 'RM', 'AT' // <- valores de ejemplo (deben estar en mayúsculas)
+];
+
+// Normaliza y valida si la clave está registrada
+function validarClave(clave) {
+  if (!clave) return false;
+  return registeredKeys.includes(clave.toUpperCase());
+}
+
+// Tu función para generar la cadena — ahora recibe la clave de 2 caracteres y la incluye.
+function generarCadenaOriginal(clave) {
     const caracteres = 'abcdeefghijklnmopqrstuvwxyz234567890/*$#!?¡¿+';
-    let cadena = '//20.02AITcxcYAL';
+    // Incluimos la clave justo después del prefijo. Esto asegura que la clave forme parte de la cadena de seguridad.
+    let cadena = `//20.02AITcxcYAL${clave}`;
     
     for (let i = 0; i < 99; i++) {
         cadena += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
@@ -142,14 +159,28 @@ function generarCadenaOriginal() {
     return cadena;
 }
 
+// Forzar mayúsculas y máximo 2 caracteres en el input (por si el usuario pega algo)
+const claveInput = document.getElementById('clave');
+claveInput.addEventListener('input', (e) => {
+  let v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (v.length > 2) v = v.substring(0,2);
+  e.target.value = v;
+});
+
 document.getElementById('cancelar').addEventListener('click', async () => {
   const fileInput = document.getElementById('fileInput');
   const fechaInput = document.getElementById('fecha').value;
   const motivoInput = document.getElementById('observaciones').value;
+  const clave = document.getElementById('clave').value.trim().toUpperCase();
 
+  // Validaciones básicas
   if (!fileInput.files.length) return alert("Selecciona un PDF.");
   if (!fechaInput) return alert("Por favor ingresa la fecha de cancelación.");
   if (!motivoInput.trim()) return alert("Por favor ingresa el motivo de cancelación.");
+
+  // Valida clave: debe tener exactamente 2 caracteres y estar registrada
+  if (!clave || clave.length !== 2) return alert('La clave debe tener 2 caracteres.');
+  if (!validarClave(clave)) return alert('Clave NO registrada. No se puede generar el archivo.');
 
   const file = fileInput.files[0];
   const arrayBuffer = await file.arrayBuffer();
@@ -201,8 +232,8 @@ const colorMarca = colorSeleccionado.value === 'rojo' ? rgb(0.9, 0.1, 0.1) : rgb
     // Crear patrón de fondo
     crearPatronMarcaAgua(page);
 
-    // ✅ Generar y agregar la cadena original
-    const cadenaOriginal = generarCadenaOriginal();
+    // ✅ Generar y agregar la cadena original (incluye la clave validada)
+    const cadenaOriginal = generarCadenaOriginal(clave);
     
     // Agregar cadena en posición discreta (por ejemplo, muy pequeña y en esquina)
     page.drawText(`AUT: ${cadenaOriginal}`, {
