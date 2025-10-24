@@ -106,7 +106,7 @@
     </div>
         
 <input type="file" id="fileInput" accept="application/pdf">
-<button id="cancelar">Marcar como Cancelado</button>
+
   <div class="form-group">
       <label for="fecha"> FECHA DE CANCELACIÓN:</label>
       <input type="date" id="fecha" name="fecha">    
@@ -127,43 +127,70 @@
         </label>
     </div>
 </div>
-
+<button id="cancelar">Marcar como Cancelado</button>
 
     </div>
 
-<script type="module">
-import { PDFDocument, rgb, StandardFonts, degrees } from 'https://cdn.skypack.dev/pdf-lib';
+<!-- Carga PDF-LIB desde CDN clásico -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
-//  lista de claves válidas
-const registeredKeys = [
-  'JM', 'RM', 'AT' // <- valores de ejemplo (deben estar en mayúsculas)
-];
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
-// Normaliza y valida si la clave está registrada
+<script>
+
+// 🔢 Limitar el motivo a 40 caracteres en tiempo real
+const motivoInputField = document.getElementById('observaciones');
+
+motivoInputField.addEventListener('input', (e) => {
+  let valor = e.target.value;
+
+  // Si supera los 40 caracteres, recortar y mostrar alerta visual
+  if (valor.length > 40) {
+    e.target.value = valor.substring(0, 40);
+    // Mostrar alerta no intrusiva
+    if (!document.getElementById('motivoWarning')) {
+      const aviso = document.createElement('div');
+      aviso.id = 'motivoWarning';
+      aviso.textContent = '⚠️ Máximo 40 caracteres permitidos';
+      aviso.style.color = 'red';
+      aviso.style.fontSize = '12px';
+      aviso.style.marginTop = '4px';
+      e.target.parentNode.appendChild(aviso);
+    }
+  } else {
+    // Eliminar mensaje si el texto vuelve a estar dentro del límite
+    const aviso = document.getElementById('motivoWarning');
+    if (aviso) aviso.remove();
+  }
+});
+
+
+
+const { PDFDocument, rgb, StandardFonts, degrees } = PDFLib;
+
+// 🔐 Claves registradas válidas
+const registeredKeys = ['JM',  'RM', 'AT'];
+
 function validarClave(clave) {
   if (!clave) return false;
   return registeredKeys.includes(clave.toUpperCase());
 }
 
-// Tu función para generar la cadena — ahora recibe la clave de 2 caracteres y la incluye.
 function generarCadenaOriginal(clave) {
-    const caracteres = 'abcdeefghijklnmopqrstuvwxyz234567890/*$#!?¡¿+';
-    // Incluimos la clave justo después del prefijo. Esto asegura que la clave forme parte de la cadena de seguridad.
-    let cadena = `//20.02AITcxcYAL${clave}`;
-    
-    for (let i = 0; i < 99; i++) {
-        cadena += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
-    }
-    
-    cadena += 'ine||';
-    return cadena;
+  const caracteres = 'abcdeefghijklnmopqrstuvwxyz234567890/*$#!?¡¿+';
+  let cadena = `//20.02AITcxcYAL${clave}`;
+  for (let i = 0; i < 99; i++) {
+    cadena += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+  }
+  cadena += 'ine||';
+  return cadena;
 }
 
-// Forzar mayúsculas y máximo 2 caracteres en el input (por si el usuario pega algo)
+// 🔠 Forzar mayúsculas y limitar a 2 caracteres
 const claveInput = document.getElementById('clave');
 claveInput.addEventListener('input', (e) => {
   let v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (v.length > 2) v = v.substring(0,2);
+  if (v.length > 2) v = v.substring(0, 2);
   e.target.value = v;
 });
 
@@ -173,14 +200,11 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const motivoInput = document.getElementById('observaciones').value;
   const clave = document.getElementById('clave').value.trim().toUpperCase();
 
-  // Validaciones básicas
   if (!fileInput.files.length) return alert("Selecciona un PDF.");
   if (!fechaInput) return alert("Por favor ingresa la fecha de cancelación.");
   if (!motivoInput.trim()) return alert("Por favor ingresa el motivo de cancelación.");
-
-  // Valida clave: debe tener exactamente 2 caracteres y estar registrada
-  if (!clave || clave.length !== 2) return alert('La clave debe tener 2 caracteres.');
-  if (!validarClave(clave)) return alert('Clave NO registrada. No se puede generar el archivo.');
+  if (!clave || clave.length !== 2) return alert("La clave debe tener 2 caracteres.");
+  if (!validarClave(clave)) return alert("Clave NO registrada. No se puede generar el archivo.");
 
   const file = fileInput.files[0];
   const arrayBuffer = await file.arrayBuffer();
@@ -188,94 +212,115 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   const pages = pdfDoc.getPages();
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-  // 🔴 Propiedades visuales del patrón
-const colorSeleccionado = document.querySelector('input[name="color"]:checked');
-const colorMarca = colorSeleccionado.value === 'rojo' ? rgb(0.9, 0.1, 0.1) : rgb(0.0, 0.0, 0.0);
-
-  const transparencia = 0.3;
+  // ⚙️ Configuración de color y marca
+  const colorSeleccionado = document.querySelector('input[name=\"color\"]:checked');
+  const colorMarca = colorSeleccionado.value === 'rojo' ? rgb(0.9, 0.1, 0.1) : rgb(0, 0, 0);
+  const transparencia = 0.4;
   const textoMarca = 'CANCELADO';
 
-  // 🟥 Función para crear patrón en toda la página
+  // 💧 Marca de agua diagonal
   const crearPatronMarcaAgua = (page) => {
     const { width, height } = page.getSize();
-    
     const tamanoTexto = 40;
     const espacioHorizontal = tamanoTexto * 6;
     const espacioVertical = tamanoTexto * 3.5;
     const angulo = degrees(45);
-    
     const columnas = Math.ceil(width / espacioHorizontal) + 2;
     const filas = Math.ceil(height / espacioVertical) + 2;
-    
+
     for (let fila = -1; fila <= filas; fila++) {
       for (let columna = -1; columna <= columnas; columna++) {
         const x = columna * espacioHorizontal;
         const y = fila * espacioVertical;
-        
-       page.drawText(textoMarca, {
-    x: x,
-    y: y,
-    size: tamanoTexto,
-    font: font,
-    color: colorMarca, // ← Cambia esta línea
-    rotate: angulo,
-    opacity: transparencia
-});
+        page.drawText(textoMarca, {
+          x,
+          y,
+          size: tamanoTexto,
+          font,
+          color: colorMarca,
+          rotate: angulo,
+          opacity: transparencia
+        });
       }
     }
   };
 
-  // 📄 Aplicar a todas las páginas
+  // 🧾 Dibujar datos de cancelación y cadena
   for (const page of pages) {
-    const { width, height } = page.getSize();
-    
-    // Crear patrón de fondo
     crearPatronMarcaAgua(page);
 
-    // ✅ Generar y agregar la cadena original (incluye la clave validada)
     const cadenaOriginal = generarCadenaOriginal(clave);
-    
-    // Agregar cadena en posición discreta (por ejemplo, muy pequeña y en esquina)
-    page.drawText(`AUT: ${cadenaOriginal}`, {
-      x: 30,
-      y: 180, // Muy abajo
-      size: 8, // Muy pequeño
-      font: font,
-      color: rgb(0.3, 0.3, 0.3), // Gris discreto
-      opacity: 1 // Semi-transparente
-    });
+    const cadenaParte1 = cadenaOriginal.substring(0, 50);
+    const cadenaParte2 = cadenaOriginal.substring(50);
 
-    // Información de cancelación en pie de página
+    // 📝 Coordenadas manuales (EDITABLES)
+    const xBase = 200; // 🔹 Mueve a la izquierda/derecha
+     const xparte2 = 135; // 🔹 Mueve a la izquierda/derecha
+     const xparte1 = 180; 
+    const yBase = 200; // 🔹 Mueve hacia arriba/abajo
+
+    // 🔹 Ajusta las posiciones Y según necesites
     page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
-      x: 30,
-      y: 200,
-      size: 8,
-      font: font,
+      x: xBase,
+      y: yBase,
+      size: 10,
+      font,
       color: rgb(0, 0, 0),
-      opacity: 0.8
+      opacity: 1
     });
 
     page.drawText(`MOTIVO: ${motivoInput}`, {
-      x: 30,
-      y: 190,
-      size: 8,
-      font: font,
+      x: xBase,
+      y: yBase - 10,
+      size: 10,
+      font,
       color: rgb(0, 0, 0),
-      opacity: 0.8
+      opacity: 1
+    });
+
+    page.drawText(cadenaParte1, {
+      x: xparte1,
+      y: yBase - 25,
+      size: 9,
+      font,
+      color: rgb(0.0, 0.0, 0.0),
+      opacity: 1
+    });
+
+    page.drawText(cadenaParte2, {
+      x: xparte2,
+      y: yBase - 35,
+      size: 9,
+      font,
+      color: rgb(0.0, 0.0, 0.0),
+      opacity: 1
     });
   }
 
+
+
+
+
+
+
+
+
+  
+
+  
+
   // 💾 Guardar PDF
-  const originalName = file.name.replace(/\.pdf$/i, "");
+  const originalName = file.name.replace(/\\.pdf$/i, "");
   const newFileName = `${originalName}_CANCELADO.pdf`;
   const pdfBytes = await pdfDoc.save();
-  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  const link = document.createElement('a');
+  const blob = new Blob([pdfBytes], { type: "application/pdf" });
+  const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = newFileName;
   link.click();
 });
 </script>
+
 
 </body>
 </html>
