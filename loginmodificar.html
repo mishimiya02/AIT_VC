@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      display: flex; align-items: center; justify-content: center;
+      height: 100vh; background: #f5f5f5; font-family: sans-serif;
+    }
+    #loginBox {
+      background: white; padding: 30px; border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center;
+      width: 300px;
+    }
+    input { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; }
+    button { margin-top: 15px; padding: 8px 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="loginBox">
+    <h2>Iniciar sesión</h2>
+    <input id="usuario" placeholder="Usuario" />
+    <button id="btnLogin">Entrar</button>
+  </div>
+
+  <script src="java/loginmodificar.js"></script>
+</body>
+</html>

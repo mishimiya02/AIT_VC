@@ -11,9 +11,19 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
 
+<script>
+// Si no hay sesión, redirige al login
+(function() {
+  const logged = localStorage.getItem("loggedUser_v1");
+  if (!logged) {
+    window.location.href = "loginmodificar.html";
+  }
+})();
+</script>
 
 
-  <style></style>
+
+
 </head>
 <body>
 
@@ -56,6 +66,22 @@
         <button id="theme-toggle">🌙 Modo Nocturno</button>
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
+
+    <span id="userLabel"></span>
+<button id="logoutBtn">Cerrar sesión</button>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const user = localStorage.getItem("loggedUser_v1");
+  if (user) document.getElementById("userLabel").textContent = `Usuario: ${user}`;
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("loggedUser_v1");
+    window.location.href = "login.html";
+  });
+});
+</script>
+
 	</nav>
 
 
