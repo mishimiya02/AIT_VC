@@ -587,7 +587,14 @@ function generarPDFFinal(movimiento, folioStr) {
 
         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
         // Cambiar el nombre del archivo aquí:
-        pdf.save(`${movimiento}-${folioStr}-Deposito_Garantia.pdf`);
+      // Obtener la razón social y limpiarla para nombre de archivo
+const razonSocial = document.getElementById("campo2").value;
+const razonSocialLimpia = razonSocial
+    .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/g, '') // Eliminar caracteres especiales
+    .replace(/\s+/g, '_') // Reemplazar espacios con guiones bajos
+    .substring(0, 30); // Limitar longitud
+
+pdf.save(`${razonSocialLimpia}_${movimiento}_Deposito_Garantia.pdf`);
         pdfElement.style.display = "none";
     });
 }
