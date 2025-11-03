@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -68,11 +69,11 @@
             <div class="dropdown-content">
                
                      <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                 <a href='/comparacion.html' target='_blank'>COMPARACION</a>
-                <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                 <a href='/comparacion' target='_blank'>COMPARACION</a>
+                <a href='/comprobante'>COMPROBANTE DE DEPOSITOS</a>
                 
-                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
-                  <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                  <a href='/cancelar' target='_blank'>CANCELACIÓN DE COMPROBANTES</a>
             </div>
         </div>
         
@@ -80,9 +81,9 @@
             <div class="dropdown">
                 <a class="dropbtn">BD CLIENTES</a>
                 <div class="dropdown-content">
-                    <a href='registrar.html'>REGISTRAR CLIENTE </a>
-                    <a href='editar.html'>CONSULTAR CLIENTE</a>
-                     <a href='catalogo.html'>REGISTRAR CONTRATO</a>
+                    <a href='/registrar'>REGISTRAR CLIENTE </a>
+                    <a href='/editar'>CONSULTAR CLIENTE</a>
+                     <a href='/catalogo'>REGISTRAR CONTRATO</a>
                       <a href='/modificar'>MODIFICAR CONTRATO</a>
                      <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
                    
@@ -246,69 +247,76 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   };
 
   // 🧾 Dibujar datos de cancelación y cadena
-  for (const page of pages) {
-    crearPatronMarcaAgua(page);
+ // 🧾 Dibujar datos de cancelación y cadena con fondo rectangular
+// 🧾 Dibujar datos de cancelación y cadena con fondo rectangular
+for (const page of pages) {
+  crearPatronMarcaAgua(page);
 
-    const cadenaOriginal = generarCadenaOriginal(clave);
-    const cadenaParte1 = cadenaOriginal.substring(0, 50);
-    const cadenaParte2 = cadenaOriginal.substring(50);
+  const cadenaOriginal = generarCadenaOriginal(clave);
+  const cadenaParte1 = cadenaOriginal.substring(0, 50);
+  const cadenaParte2 = cadenaOriginal.substring(50);
 
-    // 📝 Coordenadas manuales (EDITABLES)
-    const xBase = 200; // 🔹 Mueve a la izquierda/derecha
-     const xparte2 = 135; // 🔹 Mueve a la izquierda/derecha
-     const xparte1 = 180; 
-    const yBase = 200; // 🔹 Mueve hacia arriba/abajo
+  // 📝 Coordenadas ajustadas hacia la IZQUIERDA
+  const xBase = 135; // 🔹 REDUCIDO de 200 a 100 (más a la izquierda) FECHA
+  const xparte2 = 135  // 🔹 REDUCIDO de 135 a 35 (más a la izquierda) CADENA
+  const xparte1 = 135;  // 🔹 REDUCIDO de 180 a 80 (más a la izquierda)
+  const yBase = 200; // 🔹 Mantenemos la misma altura
 
-    // 🔹 Ajusta las posiciones Y según necesites
-    page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
-      x: xBase,
-      y: yBase,
-      size: 10,
-      font,
-      color: rgb(0, 0, 0),
-      opacity: 1
-    });
+  // 🔹 Dimensiones del fondo rectangular
+  const rectWidth = 355; // Ancho del rectángulo
+  const rectHeight = 60; // Altura del rectángulo
+  const rectX = xBase - 10; // Posición X del rectángulo (ajustada para centrar)
+  const rectY = yBase - 40; // Posición Y del rectángulo (ajustada para centrar)
 
-    page.drawText(`MOTIVO: ${motivoInput}`, {
-      x: xBase,
-      y: yBase - 10,
-      size: 10,
-      font,
-      color: rgb(0, 0, 0),
-      opacity: 1
-    });
+  // 🟦 Dibujar rectángulo de fondo
+  page.drawRectangle({
+    x: rectX,
+    y: rectY,
+    width: rectWidth,
+    height: rectHeight,
+    color: rgb(0.95, 0.95, 0.95), // Color gris claro
+    opacity: 0.8, // Transparencia
+    borderColor: rgb(0, 0, 0), // Color del borde
+    borderWidth: 1, // Grosor del borde
+  });
 
-    page.drawText(cadenaParte1, {
-      x: xparte1,
-      y: yBase - 25,
-      size: 9,
-      font,
-      color: rgb(0.0, 0.0, 0.0),
-      opacity: 1
-    });
+  // 🔹 Textos con nuevas posiciones (más a la izquierda)
+  page.drawText(`FECHA DE CANCELACIÓN: ${fechaInput}`, {
+    x: xBase,
+    y: yBase,
+    size: 10,
+    font,
+    color: rgb(0, 0, 0),
+    opacity: 1
+  });
 
-    page.drawText(cadenaParte2, {
-      x: xparte2,
-      y: yBase - 35,
-      size: 9,
-      font,
-      color: rgb(0.0, 0.0, 0.0),
-      opacity: 1
-    });
-  }
+  page.drawText(`MOTIVO: ${motivoInput}`, {
+    x: xBase,
+    y: yBase - 10,
+    size: 10,
+    font,
+    color: rgb(0, 0, 0),
+    opacity: 1
+  });
 
+  page.drawText(cadenaParte1, {
+    x: xparte1,
+    y: yBase - 25,
+    size: 9,
+    font,
+    color: rgb(0.0, 0.0, 0.0),
+    opacity: 1
+  });
 
-
-
-
-
-
-
-
-  
-
-  
-
+  page.drawText(cadenaParte2, {
+    x: xparte2,
+    y: yBase - 35,
+    size: 9,
+    font,
+    color: rgb(0.0, 0.0, 0.0),
+    opacity: 1
+  });
+}
   // 💾 Guardar PDF
   const originalName = file.name.replace(/\\.pdf$/i, "");
   const newFileName = `${originalName}_CANCELADO.pdf`;
