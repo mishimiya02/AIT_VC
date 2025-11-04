@@ -14,7 +14,7 @@ function saveUsers(arr) {
 
 // Inicializa usuarios por defecto si no existen
 if (!localStorage.getItem(KEY_USERS)) {
-  saveUsers(["admin", "merlina"]);
+  saveUsers(["adminait", "JM", "reservado01"]);
 }
 
 document.getElementById("btnLogin").addEventListener("click", () => {
