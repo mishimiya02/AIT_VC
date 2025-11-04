@@ -7,20 +7,20 @@
   <style>
     body {
       display: flex; align-items: center; justify-content: center;
-      height: 100vh; background: #0300a8c0; font-family: sans-serif;
+      height: 100vh; background: linear-gradient(to right, rgb(34, 193, 195), rgb(177, 45, 253)); border-image: linear-gradient(45deg,#ff7e5f,#feb47b ) 1; font-family: sans-serif;
     }
     #loginBox {
       background: white; padding: 30px; border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center;  border: 2px solid #000000;border-radius:10px;
       width: 300px;
     }
     input { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; }
-    button { margin-top: 15px; padding: 8px 16px; cursor: pointer; }
+    button { margin-top: 15px; padding: 8px 16px; cursor: pointer; background: rgb(0, 47, 255);  border: 2px solid #ffffff00; border-radius:5px; color:#ffffff}
   </style>
 </head>
 <body>
   <div id="loginBox">
-    <h2>Iniciar sesión</h2>
+    <h2>Inicio de sesión</h2>
     <input id="usuario" placeholder="Usuario" />
     <button id="btnLogin">Entrar</button>
   </div>
