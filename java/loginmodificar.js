@@ -31,21 +31,7 @@ document.getElementById("btnLogin").addEventListener("click", () => {
       window.location.href = "modificar.html"; // redirige a tu página
     });
   } else {
-    Swal.fire({
-      title: "Usuario no encontrado",
-      text: `¿Deseas registrarlo?`,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Sí, registrar",
-    }).then((r) => {
-      if (r.isConfirmed) {
-        users.push(user);
-        saveUsers(users);
-        localStorage.setItem(KEY_LOGGED, user);
-        Swal.fire("✅", `Usuario ${user} registrado`, "success").then(() => {
-          window.location.href = "modificar.html";
-        });
-      }
-    });
+    // 🔒 Aquí eliminamos el registro automático y solo mostramos error
+    Swal.fire("❌", "Usuario no encontrado. No tienes acceso.", "error");
   }
 });
