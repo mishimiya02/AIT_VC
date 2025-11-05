@@ -535,18 +535,6 @@
   }
 })();
 
-// === Mostrar usuario actual si hay sesión ===
-document.addEventListener("DOMContentLoaded", () => {
-  const user = sessionStorage.getItem("loggedUser");
-  const userInfo = document.getElementById("userInfo");
-  const nombreUsuario = document.getElementById("nombreUsuario");
-
-  if (user) {
-    nombreUsuario.textContent = user;
-    userInfo.style.display = "inline-flex";
-  } else {
-    userInfo.style.display = "none";
-  }
 
   // Botón de cerrar sesión
   const logoutBtn = document.getElementById("logoutBtn");
@@ -561,8 +549,6 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "login.html";
     });
   });
-});
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario")) || {};
