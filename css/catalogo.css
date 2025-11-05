@@ -420,7 +420,7 @@
 }
 .separador-elegante {
     border: none;
-    height: 25px;
+    height: 9px;
     background: linear-gradient(
         90deg, 
         transparent 0%, 
@@ -584,19 +584,7 @@
   }
 }
 
-.separador-elegante {
-    border: none;
-    height: 2px;
-    background: linear-gradient(
-        90deg, 
-        transparent 0%, 
-        #ffffff 20%, 
-        #ffffff 50%, 
-        #ffffff 80%, 
-        transparent 100%
-    );
-    margin: 35px 0;
-}
+
 
   .sidebar2 {
   display: flex;
