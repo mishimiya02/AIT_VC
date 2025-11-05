@@ -505,26 +505,24 @@
 </button>
 
 <!-- Sidebar derecha -->
-  <div class="sidebar2">
-    <br><br>
-    
-<h3 style="color: #FFFFFF; font-family:arial"> Proporcione una captura de pantalla del documento pdf para ser transformado a texto</h3>
+<!-- Sidebar derecha -->
+ <!-- Sidebar derecha -->
+<div class="sidebar2">
+  <br><br>
+  <h3 style="color: #FFFFFF; font-family:arial">
+    Proporcione una captura de pantalla del documento PDF para ser transformado a texto
+  </h3>
 
-    <h3 style="color: #FFFFFF">💻 Subir Imagen</h3>
-    <input type="file" id="imageInput" accept="image/*">
-    <button onclick="extraerTexto()">Extraer texto </button>
-
-    <h3 style="color: #FFFFFF">📌 Texto detectado</h3>
-    <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
-  </div>
-  
-  <!-- JS -->
+  <h3 style="color: #FFFFFF">Subir Imagen</h3>
+  <input type="file" id="imageInput" accept="image/*">
  
+  <button id="extractBtn">Extraer texto</button>
 
-
-
+  <h3 style="color: #FFFFFF">Texto detectado</h3>
+  <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
+</div>
+  <!-- JS -->
 <script>
-
 // === Verificación de acceso ===
 (function protegerPagina() {
   const logged = sessionStorage.getItem("loggedIn");
@@ -563,24 +561,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-
-
-
-
-  const sidebar2 = document.querySelector('.sidebar2');
-  const toggleBtn2 = document.getElementById('toggleSidebarBtn2');
-
-  let abierta = false;
-
-  toggleBtn2.addEventListener('click', () => {
-    abierta = !abierta;
-    sidebar2.classList.toggle('abierta');
-
-    // Cambia el texto del botón
-    toggleBtn2.textContent = abierta ? '❌ Cerrar' : 'IMG➡️TEXT';
-  });
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1003,43 +983,72 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/*aqui esta la funcion que estrae wel texto */
+const sidebar2 = document.querySelector('.sidebar2');
+  const toggleBtn2 = document.getElementById('toggleSidebarBtn2');
+  const pasteBtn = document.getElementById('pasteBtn');
+  const resultado = document.getElementById('textoExtraido');
+  const imageInput = document.getElementById('imageInput');
+  const extractBtn = document.getElementById('extractBtn');
+  let imagenPegada = null;
+  let abierta = false;
 
-function extraerTexto() {
-  const input = document.getElementById('imageInput');
-  const salida = document.getElementById('textoExtraido');
+  // --- TOGGLE SIDEBAR ---
+  toggleBtn2.addEventListener('click', () => {
+    abierta = !abierta;
+    sidebar2.classList.toggle('abierta');
+    toggleBtn2.textContent = abierta ? '❌ Cerrar' : 'IMG➡️TEXT';
+  });
 
-  if (!input.files || !input.files[0]) {
-    alert('Por favor, selecciona una imagen primero.');
-    return;
+  // --- FUNCIÓN PRINCIPAL ---
+  function extraerTexto(archivo) {
+    if (!archivo) {
+      alert("Por favor selecciona o pega una imagen 🖼️");
+      return;
+    }
+
+    resultado.textContent = "Procesando... ⏳";
+
+    Tesseract.recognize(archivo, 'spa', { logger: m => console.log(m) })
+      .then(({ data: { text } }) => {
+        resultado.textContent = text.trim() || "No se detectó texto.";
+      })
+      .catch(err => {
+        console.error(err);
+        resultado.textContent = "Error al procesar la imagen 😢";
+      });
   }
 
-  const imagen = input.files[0];
-  salida.innerHTML = 'Procesando... ⏳';
-
-  Tesseract.recognize(
-    imagen,
-    'spa',
-    { logger: m => console.log(m) }
-  )
-  .then(result => {
-    // Validar que existan data y text
-    const text = result?.data?.text;
-
-    if (typeof text === 'string' && text.trim() !== '') {
-      const textoLimpio = text.replace(/\n/g, '<br>');
-      salida.innerHTML = textoLimpio;
-    } else {
-      salida.innerHTML = '❌ No se detectó texto en la imagen.';
-    }
-  })
-  .catch(error => {
-    console.error('Error al procesar imagen:', error);
-    salida.innerHTML = '⚠️ Error al procesar la imagen.';
+  // --- INPUT FILE NORMAL ---
+  imageInput.addEventListener('change', (e) => {
+    const archivo = e.target.files[0];
+    imagenPegada = null; // limpiar buffer anterior
+    extraerTexto(archivo);
   });
-}
 
+  // --- PEGAR CON CTRL + V ---
+  window.addEventListener('paste', (event) => {
+    const items = event.clipboardData.items;
+    for (const item of items) {
+      if (item.type.indexOf("image") !== -1) {
+        const archivo = item.getAsFile();
+        imagenPegada = archivo; // guardar para usar después
+        extraerTexto(archivo);
+        return;
+      }
+    }
+  });
 
+  // --- BOTÓN PEGAR ---
+  pasteBtn.addEventListener('click', () => {
+    alert("Presiona Ctrl + V para pegar tu captura de pantalla 🖼️");
+  });
 
+  // --- BOTÓN EXTRAER (opcional, en caso de imagen pegada guardada) ---
+  extractBtn.addEventListener('click', () => {
+    const archivo = imagenPegada || imageInput.files[0];
+    extraerTexto(archivo);
+  });
 </script>
 
 <script src="java/enviarcontrato.js"></script>
