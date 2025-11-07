@@ -260,16 +260,17 @@
  
     <h2>CONTRAPRESTACIONES VARIABLES</h2>
     <div class="form-group">
-      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR  TIPO:</label>
+      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA SUBTOTAL:</label>
       <input type="number" id="aguaVariable" step="0.01" required>
     </div>
     <div id="variableContrato"></div>
 
     <div class="form-group">
-      <label for="penalizacionContrato" class="required-field">Penalización (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCONAR TIPO:</label>
+      <label for="penalizacionContrato" class="required-field">Penalización (%) *CONTRA SUBTOTAL:</label>
       <input type="number" id="penalizacionContrato" step="0.01" required>
     </div>
     <div id="penalizacionResultado"></div>
+    
 <br>
 <hr class="separador-elegante">
  
@@ -668,12 +669,18 @@ const manualInput = document.getElementById("manualInput");
 const montoManual = document.getElementById("montoManual");
 
 const IVA = 0.16;
+function limpiarNumero(texto) {
+  if (!texto) return 0;
+  // Quita todo menos dígitos, punto y signo menos (por si hay formato o moneda)
+  const limpio = String(texto).replace(/[^0-9.-]+/g, '');
+  return parseFloat(limpio) || 0;
+}
 
 function calcularGarantia() {
-  // Obtener el subtotal del cálculo anterior
+  // Obtener el subtotal del cálculo anterior (limpiándolo primero)
   const subtotalText = document.getElementById("subtotal").innerText;
-  const subtotal = parseFloat(subtotalText) || 0;
-  
+  const subtotal = limpiarNumero(subtotalText);
+
   const opcion = tgar.value;
   let resultado = 0;
 
@@ -681,30 +688,38 @@ function calcularGarantia() {
 
   switch(opcion) {
     case "1": // DGX3
-      resultado = (subtotal * (1 + IVA)) * 3;
+      // calcular IVA y garantía por separado para evitar confusiones
+      const ivaMonto = subtotal * IVA;
+      resultado = (subtotal + ivaMonto) * 3;
       break;
-    case "2": // FC
+    case "2": // FC (monto manual)
       manualInput.style.display = "block";
-      resultado = parseFloat(montoManual.value) + subtotal || 0;
+      const mManual = limpiarNumero(montoManual.value);
+      resultado = mManual + subtotal;
       break;
-    case "3": // NA
+    case "3": // NO APLICA
       resultado = subtotal;
       break;
     case "4": // FCX3
-      resultado = (subtotal * (1 + IVA)) * 3;
+      const iva4 = subtotal * IVA;
+      resultado = (subtotal + iva4) * 3;
       break;
     case "5": // DGX1
-      resultado = (subtotal * (1 + IVA)) * 1;
+      const iva5 = subtotal * IVA;
+      resultado = subtotal + iva5;
       break;
     case "6": // FCX12
-      resultado = (subtotal * (1 + IVA)) * 12;
+      const iva6 = subtotal * IVA;
+      resultado = (subtotal + iva6) * 12;
       break;
     default:
       resultado = subtotal;
   }
 
-  garantiaResultado.innerHTML = `🔒 Garantía calculada: <strong>${resultado.toFixed(2)}</strong>`;
+  // Mostrar desglose opcional (sub + IVA) 
+  garantiaResultado.innerHTML = `🔒 Garantía calculada: <strong>${resultado.toFixed(2)}</strong> (Subtotal: ${subtotal.toFixed(2)}, IVA 16%: ${(subtotal*IVA).toFixed(2)})`;
 }
+
 
 // Event listeners
 tgar.addEventListener("change", calcularGarantia);
@@ -723,28 +738,26 @@ const penalizacionInput = document.getElementById("penalizacionContrato");
 
 const totalDiv = document.getElementById("total");
 
-function calcularTotal() {
-  // Garantía actual calculada
-  const garantiaText = garantiaResultado.innerText.replace(/[^\d.-]/g, "");
+function calcularTotal() { 
+   const garantiaText = garantiaResultado.innerText.replace(/[^\d.-]/g, "");
   const garantia = parseFloat(garantiaText) || 0;
 
-  // Tarifa inicial
-  const tarifaBase = parseFloat(document.getElementById("tarifa").value) || 0;
-
-  // Incentivo (se resta directamente)
   const incentivo = parseFloat(incentivoInput.value) || 0;
 
-  // Variable (% sobre la tarifa inicial)
+  // === VARIABLE (porcentaje sobre garantía) ===
   const variablePct = parseFloat(variableInput.value) || 0;
-  const variableMonto = (tarifaBase * variablePct) / 100;
+  const variableMonto = (garantia * variablePct) / 100;
+  document.getElementById("variableContrato").innerHTML =
+    `⚙️ Variable (${variablePct}%): <strong>${variableMonto.toFixed(2)}</strong>`;
 
-  // Penalización (% sobre garantía)
+  // === PENALIZACIÓN (porcentaje sobre garantía) ===
   const penalPct = parseFloat(penalizacionInput.value) || 0;
-  const penalMonto = (tarifaBase * penalPct) / 100;
+  const penalMonto = (garantia * penalPct) / 100;
+  document.getElementById("penalizacionResultado").innerHTML =
+    `❌ Penalización (${penalPct}%): <strong>${penalMonto.toFixed(2)}</strong>`;
 
-  // Total
+  // === TOTAL FINAL ===
   const total = garantia - incentivo + variableMonto + penalMonto;
-
   totalDiv.innerHTML = `<strong>${total.toFixed(2)}</strong>`;
 }
 
@@ -1078,6 +1091,48 @@ function llenarSelects(data) {
 }
 
 document.addEventListener("DOMContentLoaded", cargarOpciones);
+document.addEventListener('DOMContentLoaded', () => {
+  const penalInput = document.getElementById('penalizacion');
+  const variableInput = document.getElementById('variable');
+  const montoGarantiaInput = document.getElementById('montoGarantia');
+
+  // Crear contenedores para mostrar los resultados debajo
+  const penalResultado = document.createElement('div');
+  const variableResultado = document.createElement('div');
+  penalResultado.style.color = '#00FF80';
+  variableResultado.style.color = '#00FF80';
+
+  // Insertarlos justo después de los inputs
+  penalInput.insertAdjacentElement('afterend', penalResultado);
+  variableInput.insertAdjacentElement('afterend', variableResultado);
+
+  // Función que actualiza los resultados en tiempo real
+  function actualizarValores() {
+    const montoGarantia = parseFloat(montoGarantiaInput.value) || 0;
+
+    const penalizacionPct = parseFloat(penalInput.value) || 0;
+    const variablePct = parseFloat(variableInput.value) || 0;
+
+    const penalizacionValor = (montoGarantia * penalizacionPct) / 100;
+    const variableValor = (montoGarantia * variablePct) / 100;
+
+    penalResultado.textContent =
+      penalizacionPct > 0
+        ? `Penalización: $${penalizacionValor.toFixed(2)}`
+        : '';
+
+    variableResultado.textContent =
+      variablePct > 0
+        ? `Variable: $${variableValor.toFixed(2)}`
+        : '';
+  }
+
+  // Escuchar cambios en los 3 inputs
+  penalInput.addEventListener('input', actualizarValores);
+  variableInput.addEventListener('input', actualizarValores);
+  montoGarantiaInput.addEventListener('input', actualizarValores);
+});
+
 </script>
 
 
