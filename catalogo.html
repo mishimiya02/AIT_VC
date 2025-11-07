@@ -717,7 +717,7 @@ function calcularGarantia() {
   }
 
   // Mostrar desglose opcional (sub + IVA) 
-  garantiaResultado.innerHTML = `🔒 Garantía calculada: <strong>${resultado.toFixed(2)}</strong> (Subtotal: ${subtotal.toFixed(2)}, IVA 16%: ${(subtotal*IVA).toFixed(2)})`;
+  garantiaResultado.innerHTML = `💲 Garantía calculada: <strong>${resultado.toFixed(2)}</strong> (Subtotal: ${subtotal.toFixed(2)}, IVA 16%: ${(subtotal*IVA).toFixed(2)})`;
 }
 
 
@@ -748,13 +748,13 @@ function calcularTotal() {
   const variablePct = parseFloat(variableInput.value) || 0;
   const variableMonto = (garantia * variablePct) / 100;
   document.getElementById("variableContrato").innerHTML =
-    `⚙️ Variable (${variablePct}%): <strong>${variableMonto.toFixed(2)}</strong>`;
+    `💲 Variable (${variablePct}%): <strong>${variableMonto.toFixed(2)}</strong>`;
 
   // === PENALIZACIÓN (porcentaje sobre garantía) ===
   const penalPct = parseFloat(penalizacionInput.value) || 0;
   const penalMonto = (garantia * penalPct) / 100;
   document.getElementById("penalizacionResultado").innerHTML =
-    `❌ Penalización (${penalPct}%): <strong>${penalMonto.toFixed(2)}</strong>`;
+    `💲 Penalización (${penalPct}%): <strong>${penalMonto.toFixed(2)}</strong>`;
 
   // === TOTAL FINAL ===
   const total = garantia - incentivo + variableMonto + penalMonto;
