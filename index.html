@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
- 
 <head>
-	<!-- Tema claro (activo por defecto) -->
-    <link rel="stylesheet" href="css/light-mode.css" id="theme-style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>CALCULADORA DE TARIFA PROPORCIONAL </title> <!--  titulo de la pagina  -->
-    <script src="java/theme-switcher.js"></script>
-	<script src="java/indexjs.js"></script>
-   
-     <script src="java/exportarexcel.js"></script>
-      <script src="java/sidebar.js"></script>
-      <script src="java/avion-loading.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desarrollando estrategias innovadoras</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="java/avion-loading.js"></script>
+
+      <link rel="stylesheet" href="css/caratula.css" id="theme-style">
+
+<!--<script src="java/theme-switchercedula.js"></script>-->
   <script>
         // Mostrar el loader cuando la página comience a cargar
         document.addEventListener('DOMContentLoaded', function() {
@@ -29,16 +23,32 @@
             }, 2000); // 2 segundos de demostración
         });
 
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
 
        
     </script>
+    
 </head>
 <body>
-	 
-	  <!-- Barra de navegación -->
+    
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
     <nav class="clearfix">
     <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
     <div class="menu-center">  
+     
+
         <a href='/'>Inicio</a>
         
         <!-- Dropdown de Servicios -->
@@ -47,10 +57,10 @@
             <div class="dropdown-content">
                
                 <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                 <a href='/comparacion.html' target='_blank'>COMPARACION</a>
-                 <a href="comprobante.html">COMPROBANTES DE DEPOSITOS</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 <a href='/comprobante'>COMPROBANTES DE DEPOSITOS</a>
             
-                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
                    <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
             </div>
         </div>
@@ -59,372 +69,64 @@
             <div class="dropdown">
                 <a class="dropbtn">BD CLIENTES</a>
                 <div class="dropdown-content">
-                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
-                    <a href='EDITAR.html'>CONSULTAR CLIENTE</a>
-                     <a href='catalogo.html'>REGISTRAR CONTRATO</a>
-                      <a href='/modificar'>MODIFICAR CONTRATO</a>
+                    <a href='/registrar'>REGISTRAR CLIENTE </a>
+                    <a href='/editar'>CONSULTAR CLIENTE</a>
+                    <a href='/catalogo'>REGISTRAR CONTRATO</a>
+                     <a href='/modificar'>MODIFICAR CONTRATO</a>
                      <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
-                   
                    
                 </div>
             </div>
 
-        <a href='/contacto.html'>Contacto</a>
+        <a href='/contacto'>Contacto</a>
         <button id="theme-toggle">🌙 Modo Nocturno</button>
+
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
-	</nav>
-    <!-- Contenido principal -->
-    <div class="contenido">
-        <h1>Solicita una valuación de contrato </h1>
-    </div>
-	<p style="text-align: center;">Una valuación de contrato es el proceso de determinar el valor total que se espera pagar durante toda la vigencia del contrato, excluyendo el IVA.</p>
-	 <button id="toggle-sidebar" class="toggle-btn">
-            <i class="fas fa-bars"></i>
-        </button>
-
-<!--sidebar-->
-        <div class="sidebar right-sidebar" id="sidebar">
-        <div class="sidebar-header">
-             <script src="java/sidebar.js"></script>
-            <h3>CONSUTAR INFLACION</h3>
-            <button class="close-btn" id="close-sidebar">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="sidebar-content">
-            			<select id="mes">
-    <option value="">Selecciona un mes</option>
-    <option value="1">Enero</option>
-    <option value="2">Febrero</option>
-    <option value="3">Marzo</option>
-    <option value="4">Abril</option>
-    <option value="5">Mayo</option>
-    <option value="6">Junio</option>
-    <option value="7">Julio</option>
-    <option value="8">Agosto</option>
-    <option value="9">Septiembre</option>
-    <option value="10">Octubre</option>
-    <option value="11">Noviembre</option>
-    <option value="12">Diciembre</option>
-</select>
-<br><br>
-<select id="anio">
-    <option value="">Selecciona un año</option>
-    <option value="2025">2025</option>
-    <option value="2024">2024</option>
-    <option value="2023">2023</option>
-    <option value="2022">2022</option>
-     <option value="2021">2021</option>
-    <option value="2020">2020</option>
-    <option value="2019">2019</option>
-    <option value="2018">2018</option>
-     <option value="2017">2017</option>
-    <option value="2016">2016</option>
-    <option value="2015">2015</option>
-    <option value="2014">2014</option>
-     <option value="2013">2013</option>
-    <option value="2012">2012</option>
-    <option value="2011">2011</option>
-    <option value="2010">2010</option>
-</select>
-<br><br>
-<button type="button" onclick="mostrarValor()">Consultar Valor</button>
-<br>
-<div id="resultadot"></div> 
- </div>
-<h3>Valores tomados de Banxico</h3>
-<a href='https://www.banxico.org.mx/tipcamb/main.do?page=inf&idioma=sp' target='_blank' class="enlace-banxico">BANXICO</a>     
-<a href="https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx" target="_blank" class="enlace-inegi">Calculadora de Inflación (INEGI)</a>
-
-        </div>       
-    </div>
+    </nav>
 
 
-
-	
-	 <div class="container">
-        <div class="airport-header">
-            <h2>A.M.A.I.T.</h2>
-            <h2>Valuación contractual</h2>
+    <!-- Sección superior con tres imágenes de fondo -->
+    <section class="hero-section">
+        <div class="hero-column" style="background-image: url('img/p4.jpg');">
+            <div class="hero-content">
+            </div>
         </div>
         
-        <div id="contract-info" style="display: none;">
-            <h3 id="user-contract"></h3>
+        <div class="hero-column" style="background-image: url('img/p1.jpg');">
+            <div class="hero-content">
+            </div>
         </div>
         
-        <form id="valuation-form">
-            <div class="form-group">
-                <label for="nombre" >Nombre del usuario:</label>
-                <input type="text" id="nombre">
-                
-            
-            <div class="form-group">
-                <label for="numero-contrato" class="required-field">Número de contrato:</label>
-                <input type="text" id="numero-contrato" required>
-                <div class="error-message">Este campo es obligatorio</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="fecha-inicio" class="required-field">Fecha inicio:</label>
-                <input type="date" id="fecha-inicio">
-              
-                <label for="fecha-fin" class="required-field">Fecha de fin:</label>
-                <input type="date" id="fecha-fin">
-              
-                <div id="resultado-fechas"></div>
-              
-                <script>
-                  const fechaInicio = document.getElementById('fecha-inicio');
-                  const fechaFin = document.getElementById('fecha-fin');
-                  const resultado = document.getElementById('resultado-fechas');
-              
-                  function calcularDias() {
-                    const inicio = new Date(fechaInicio.value);
-                    const fin = new Date(fechaFin.value);
-              
-                    if (!isNaN(inicio) && !isNaN(fin)) {
-                      const diferencia = Math.floor((fin - inicio) / (1000 * 60 * 60 * 24 )+1);
-                      resultado.textContent = `Hay ${diferencia} días entre ambas fechas.`;
-                    } else {
-                      resultado.textContent = '';
-                    }
-                  }
-              
-                  fechaInicio.addEventListener('input', calcularDias);
-                  fechaFin.addEventListener('input', calcularDias);
-                </script>
-            
-
-
-            
-            <div class="form-group">
-                <label for="importe-bruto" class="required-field">Importe bruto base:</label>
-                <input type="number" id="importe-bruto" step="0.01" required>
-                <div class="error-message">Este campo es obligatorio</div>
-            </div>
-            <br>
-            
-            <h3>Alicuotas</h3>
-            <div class="form-group">
-                <label for="alicuotas" class="required-field">Porcentaje energía electrica(%):</label>
-                <input type="number" id="alicuotas" step="0.01" required>
-                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-
-                <label>
-                       <br>
-                <input type="checkbox" id="alicuota-luz-completa">
-                     Aplicar porcentaje completo aunque el mes no sea completo
-            </label>
-            </div>
-
-
-                <div class="form-group">
-         <label for="mantenimiento" class="required-field">Porcentaje para mantenimiento (%):</label>
-         <input type="number" id="mantenimiento" step="0.01" required>
-        <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-        
-        <label>
-            <br>
-     <input type="checkbox" id="alicuota-mantenimiento-completa">
-        Aplicar porcentaje completo aunque el mes no sea completo
-    </label>       
-  </div>
-
-         <div class="form-group">
-         <label for="agua" class="required-field">Porcentaje para agua (%):</label>
-         <input type="number" id="agua" step="0.01" required>
-        <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-
-        <label>
-       <br>
-        <input type="checkbox" id="alicuota-agua-completa">
-         Aplicar porcentaje completo aunque el mes no sea completo
-             </label>
-        </div>
-
-
-            
-            <div class="form-group">
-                <label for="impuestos" class="required-field">Porcentaje de impuestos (%):</label>
-                <input type="number" id="impuestos" step="0.01" required>
-                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-            </div>
-            
-                       <div class="form-group">
-                <label>Aplicar inflación para cada aniversario:</label>
-                <input type="checkbox" id="inflacion">
-            </div>
-            
-            <div class="form-group" id="inflacion-aniversario-container" style="display: none;">
-                <label for="inflacion-aniversario">Porcentaje de inflación por cada aniversario cumplido (separados por comas):</label>
-                <input type="text" id="inflacion-aniversario">
-                <div class="error-message">Por favor ingrese valores numéricos separados por comas</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="meses-penalizacion">Meses con penalización (consecutivos separados por comas o guiones para rangos):</label>
-                <input type="text" id="meses-penalizacion">
-                <div class="error-message">Este campo es obligatorio</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="penalizaciones" >Porcentaje de penalizaciones (%):</label>
-                <input type="number" id="penalizaciones" step="0.01">
-                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-            </div>
-            
-            <div class="form-group">
-                <label>¿Se concederán descuentos o incentivos?</label>
-                <input type="checkbox" id="descuentos">
-            </div>
-            
-            <div class="form-group" id="porcentaje-descuento-container" style="display: none;">
-                <label for="porcentaje-descuento">Porcentaje de descuento y/o incentivo (%):</label>
-                <input type="number" id="porcentaje-descuento" step="0.01">
-                <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
-            </div>
-            
-            <div class="form-group" id="meses-descuento-container" style="display: none;">
-                <label for="meses-descuento">Meses a los que aplicará el descuento/incentivo (consecutivos separados por comas o guiones para rangos):</label>
-                <input type="text" id="meses-descuento">
-                <div class="error-message">Por favor ingrese valores numéricos separados por comas o guiones</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="mecanismo-garantia" class="required-field">Mecanismo de garantía:</label>
-                <select id="mecanismo-garantia" required>
-                    <option value="">Seleccionar</option>
-                    <option value="fianza">Fianza</option>
-                    <option value="deposito">Depósito en Garantía</option>
-                </select>
-                <div class="error-message">Este campo es obligatorio</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="monto-garantia-exhibida">Monto de Garantía Exhibida o Vigente (opcional):</label>
-                <input type="number" id="monto-garantia-exhibida" step="0.01">
-            </div>
-            
-            <div class="form-group">
-                <label for="total-pagado">Total pagado (opcional):</label>
-                <input type="number" id="total-pagado" step="0.01">
-            </div>
-            
-            <button type="button" id="calcular">Calcular Valuación</button>
-			<a href="#" onclick="location.reload(); return false;" class="boton-recargar1">vaciar formulario</a>  
-           
-        </form>
-        
-        <div id="resultados" style="display: none; margin-top: 30px;">
-            <div class="airport-header">
-                <h1>Administradora Mexiquense del Aeropuerto Internacional de Toluca</h1>
-                <h2>Valuación contractual</h2>
-                <div class="subtitle">CIFRAS EN MXN</div>
-                <h2 id="user-contract-repeat"></h2>
-            </div>
-            
-            <div class="scroll-table">
-            <table id="tabla-resultados">
-                <thead>
-                    <tr>
-                        <th class="sticky-col">Consecutivo</th>
-                        <th>Fecha</th>
-                        <th>Fecha límite</th>
-						<th>Días Vigencia</th>
-                        <th>Importe bruto</th>
-						<th>Tarifa proporcional</th>
-
-                        <th>Inflación Año</th>
-                        <th>Inflación Acumulativa</th>
-                        <th>Monto Actualizado</th>
-                        <th>Descuento/Incentivo</th>
-                        <th>Subtotal</th>
-                        <th>Luz</th>
-                        <th>Mantenimiento</th>
-                        <th>Agua</th>
-
-                        <th>Impuesto sobre Monto</th>
-                        <th>Impuesto sobre Alícuotas</th>
-                        <th>Penalización</th>
-                        <th>Total Mes</th>
-                        <th>Acumulado Total Mes</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpo-tabla">
-                    <!-- Filas dinámicas -->
-                </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <th colspan="3">Totales:</th>
-						<td id="total-dias-vigencia"></td>
-                        <td id="total-importe-bruto"></td>
-						 <td id="total-bruto-prorrateado"></td>
-                        <td></td>
-                        <td></td>
-                        <td id="total-monto-actualizado"></td>
-                        <td id="total-descuento"></td>
-                        <td id="total-subtotal"></td>
-                        <td id="total-alicuota"></td>
-                        <td id="total-mantenimiento"></td>
-                        <td id="total-agua"></td>
-
-                        <td id="total-impuesto-monto"></td>
-                        <td id="total-impuesto-alicuota"></td>
-                        <td id="total-penalizacion"></td>
-                        <td id="total-mensual"></td>
-                        <td id="total-acumulado"></td>
-                    </tr>
-                    <tr class="saldo-row">
-                        <th colspan="19">Monto Pagado: <span id="monto-pagado"></span> | Saldo del Contrato: <span id="saldo-contrato"></span></th>
-                    </tr>
-                </tfoot>
-            </table>
-            </div>
-            <div id="garantia-tabla-container" style="margin-top: 20px;">
-                <h3 style="color: white; text-align: center;">Resumen de garantías</h3>
-                <table class="guarantee-table" id="garantia-tabla">
-                    <!-- Filas dinámicas -->
-                </table>
-            </div>
-          
-            
-<!--graficas-->
-<br>
-
-   <h3 style="color: white; text-align: center;">Gráficas</h3>
- <div id="charts-container" style="display: none;">
-        <div class="chart-container">
-            <canvas id="totalMensualChart"></canvas>
-        </div>
-        <div class="chart-container">
-            <canvas id="inflacionChart"></canvas>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-          
-            <div class="footer">
-                <div class="page-number" id="page-number"></div>
+        <div class="hero-column" style="background-image: url('img/p3.jpg');">
+            <div class="hero-content">
             </div>
         </div>
-    </div>
-    <!-- Incluimos la biblioteca SheetJS para exportación segura a Excel -->
-     <!-- ExcelJS desde CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    </section>
     
-    <!-- Incluimos la biblioteca Chart.js para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-			
- <img id="logo-image" src="img/logo2n.png" style="display: none;" />
-       <br><br>
-    <button type="button"  id="exportar-excel" style="display: none;">Exportar a Excel</button>
-	
+    <!-- Sección de contenido inferior -->
+    <section class="content-section">
+        <div class="container">
+            <div class="horizontal-sections">
+                <section class="section-card">
+                    <h3>OBJETIVO</h3>
+                    <h4>Mejorar la eficiencia operativa y la precisión en el manejo de información financiera. </h4>
+                    
+                </section>
+                
+                <section class="section-card">
+                    <h3>SEGURIDAD</h3>
+                    <h4>Para las operaciones en el sistema se ha implementado el uso de claves de seguridad, por favor tener a la mano la clave de usuario válida al ingresar al sistema.</h4>
+                   <!---- <a href="#" class="info-link">Más información</a>-->
+                </section>
+                
+                <section class="section-card">
+                    <h3>DISPONIBILIDAD</h3>
+                    <h4>El sistema esta disponible las 24h del dia y funciona tanto en celulares como en équipos de cómputo.</h4>
+                   
+                </section>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
