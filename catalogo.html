@@ -596,21 +596,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const diasRestantes = Math.ceil(diffRestante / (1000 * 60 * 60 * 24));
 
     // Mostrar vigencia total
-    vigencia.innerHTML = `📅 Vigencia total: <strong>${diasVigencia}</strong> días`;
+    vigencia.innerHTML = ` Vigencia total: <strong>${diasVigencia}</strong> días`;
 
     // Mostrar estatus según los días restantes
     if (diasRestantes < 0) {
-      vencidos.innerHTML = `⛔ Vencido hace <strong>${Math.abs(diasRestantes)}</strong> días`;
+      vencidos.innerHTML = ` Vencido hace <strong>${Math.abs(diasRestantes)}</strong> días`;
       porvencer.innerHTML = "";
-      estatus.innerHTML = "<span style='color:red; font-weight:bold;'>ESTATUS: VENCIDO ❌</span>";
+      estatus.innerHTML = "<span style='color:red; font-weight:bold;'>ESTATUS: VENCIDO </span>";
     } else if (diasRestantes <= 60) {
-      porvencer.innerHTML = `⚠️ Por vencer en <strong>${diasRestantes}</strong> días`;
+      porvencer.innerHTML = ` Por vencer en <strong>${diasRestantes}</strong> días`;
       vencidos.innerHTML = "";
-      estatus.innerHTML = "<span style='color:orange; font-weight:bold;'>ESTATUS: POR VENCER ⚠️</span>";
+      estatus.innerHTML = "<span style='color:orange; font-weight:bold;'>ESTATUS: POR VENCER </span>";
     } else {
       porvencer.innerHTML = "";
       vencidos.innerHTML = "";
-      estatus.innerHTML = "<span style='color:green; font-weight:bold;'>ESTATUS: ACTIVO ✅</span>";
+      estatus.innerHTML = "<span style='color:green; font-weight:bold;'>ESTATUS: ACTIVO </span>";
     }
   }
 
@@ -876,7 +876,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const total = unidades * tarifa;
     
     if (unidades > 0 && tarifa > 0) {
-      totalTarifaDiv.innerHTML = `💰 Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
+      totalTarifaDiv.innerHTML = ` Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
     } else {
       totalTarifaDiv.innerHTML = "";
     }
@@ -997,17 +997,17 @@ const sidebar2 = document.querySelector('.sidebar2');
   toggleBtn2.addEventListener('click', () => {
     abierta = !abierta;
     sidebar2.classList.toggle('abierta');
-    toggleBtn2.textContent = abierta ? '❌ Cerrar' : 'IMG➡️TEXT';
+    toggleBtn2.textContent = abierta ? ' Cerrar' : 'IMG➡️TEXT';
   });
 
   // --- FUNCIÓN PRINCIPAL ---
   function extraerTexto(archivo) {
     if (!archivo) {
-      alert("Por favor selecciona o pega una imagen 🖼️");
+      alert("Por favor selecciona o pega una imagen ");
       return;
     }
 
-    resultado.textContent = "Procesando... ⏳";
+    resultado.textContent = "Procesando... ";
 
     Tesseract.recognize(archivo, 'spa', { logger: m => console.log(m) })
       .then(({ data: { text } }) => {
@@ -1015,7 +1015,7 @@ const sidebar2 = document.querySelector('.sidebar2');
       })
       .catch(err => {
         console.error(err);
-        resultado.textContent = "Error al procesar la imagen 😢";
+        resultado.textContent = "Error al procesar la imagen ";
       });
   }
 
@@ -1041,7 +1041,7 @@ const sidebar2 = document.querySelector('.sidebar2');
 
   // --- BOTÓN PEGAR ---
   pasteBtn.addEventListener('click', () => {
-    alert("Presiona Ctrl + V para pegar tu captura de pantalla 🖼️");
+    alert("Presiona Ctrl + V para pegar tu captura de pantalla ");
   });
 
   // --- BOTÓN EXTRAER (opcional, en caso de imagen pegada guardada) ---
@@ -1087,7 +1087,7 @@ function llenarSelects(data) {
     });
   });
 
-  console.log("Opciones cargadas desde Google Sheets ✅");
+  console.log("Opciones cargadas desde Google Sheets ");
 }
 
 document.addEventListener("DOMContentLoaded", cargarOpciones);
