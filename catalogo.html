@@ -957,19 +957,52 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /*generar id*/
 // === Generar ID automático basado en el usuario en sesión ===
-function generarID() {
-  // Obtener el usuario actual de la sesión
+// === Generar ID único, persistente y sin duplicados entre pestañas ===
+async function generarID() {
   const usuario = sessionStorage.getItem("loggedUser") || "xx";
-
-  // Tomar las dos primeras letras del usuario (en mayúsculas)
   const prefijo = usuario.substring(0, 2).toUpperCase();
+  const contadorKey = `contador_${usuario}`;
+  const lockKey = `${contadorKey}_lock`;
+  const inicioBase = 200; // 🔹 valor inicial común para todos los usuarios
 
-  // Generar un número aleatorio de 4 dígitos (ej: 0067, 1263, 8645)
-  const aleatorio = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
+  // Esperar si otra pestaña está usando el contador
+  while (localStorage.getItem(lockKey) === "true") {
+    await new Promise(r => setTimeout(r, 50)); // espera 50 ms
+  }
 
-  // Combinar prefijo + número
-  return prefijo + aleatorio;
+  try {
+    // Bloquear el contador para esta pestaña
+    localStorage.setItem(lockKey, "true");
+
+    // Leer el contador actual o iniciar en el valor base
+    let contador = parseInt(localStorage.getItem(contadorKey));
+    if (isNaN(contador) || contador < inicioBase) {
+      contador = inicioBase;
+    }
+
+    // Incrementar y guardar
+    contador++;
+    localStorage.setItem(contadorKey, contador);
+
+    // Convertir a número de 5 dígitos
+    const numero = contador.toString().padStart(5, "0");
+
+    // Combinar prefijo + número
+    return prefijo + numero;
+
+  } finally {
+    // Liberar el bloqueo (aunque haya error)
+    localStorage.removeItem(lockKey);
+  }
 }
+
+// === Asignar el ID automáticamente al cargar ===
+document.addEventListener("DOMContentLoaded", async () => {
+  const campoID = document.getElementById("id");
+  if (campoID && !campoID.value.trim()) {
+    campoID.value = await generarID();
+  }
+});
 
 // === Asignar el ID al cargar la página ===
 document.addEventListener("DOMContentLoaded", () => {
