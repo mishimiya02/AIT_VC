@@ -956,8 +956,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 /*generar id*/
-// === Generar ID automático basado en el usuario en sesión ===
-// === Generar ID único, persistente y sin duplicados entre pestañas ===
+//  ID automático basado en el usuario en sesión ID único, persistente y sin duplicados entre pestañas ===
 async function generarID() {
   const usuario = sessionStorage.getItem("loggedUser") || "xx";
   const prefijo = usuario.substring(0, 2).toUpperCase();
@@ -985,7 +984,7 @@ async function generarID() {
     localStorage.setItem(contadorKey, contador);
 
     // Convertir a número de 5 dígitos
-    const numero = contador.toString().padStart(5, "0");
+    const numero = contador.toString().padStart(6, "0");
 
     // Combinar prefijo + número
     return prefijo + numero;
