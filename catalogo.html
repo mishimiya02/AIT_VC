@@ -4,9 +4,6 @@
   <!-- SweetAlert2 CSS y JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo de Garantía</title>
@@ -119,22 +116,7 @@
 
 	</nav>
     
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
   <h1>REGISTRAR CONTRATOS*</h1>
 
   <div class="cedula-container">
@@ -260,17 +242,16 @@
  
     <h2>CONTRAPRESTACIONES VARIABLES</h2>
     <div class="form-group">
-      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA SUBTOTAL:</label>
+      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR  TIPO:</label>
       <input type="number" id="aguaVariable" step="0.01" required>
     </div>
     <div id="variableContrato"></div>
 
     <div class="form-group">
-      <label for="penalizacionContrato" class="required-field">Penalización (%) *CONTRA SUBTOTAL:</label>
+      <label for="penalizacionContrato" class="required-field">Penalización (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCONAR TIPO:</label>
       <input type="number" id="penalizacionContrato" step="0.01" required>
     </div>
     <div id="penalizacionResultado"></div>
-    
 <br>
 <hr class="separador-elegante">
  
@@ -486,45 +467,10 @@
  </div>
 
 
- 
 
 
-  <!-- Botón para abrir/cerrar -->
-<button id="toggleSidebarBtn2"
- style="
- position: fixed;
-  top: 700px;
-  left: 15px; /* Cambiado de 'right' a 'left' */
-  z-index: 1100;
-  padding: 10px 15px;
-  background-color: rgba(30, 30, 40, 0.85);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-">
-   IMG➡️TEXTO 
-</button>
-
-<!-- Sidebar derecha -->
-<!-- Sidebar derecha -->
- <!-- Sidebar derecha -->
-<div class="sidebar2">
-  <br><br>
-  <h3 style="color: #FFFFFF; font-family:arial">
-    Proporcione una captura de pantalla del documento PDF para ser transformado a texto
-  </h3>
-
-  <h3 style="color: #FFFFFF">Subir Imagen</h3>
-  <input type="file" id="imageInput" accept="image/*">
- 
-  <button id="extractBtn">Extraer texto</button>
-
-  <h3 style="color: #FFFFFF">Texto detectado</h3>
-  <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
-</div>
-  <!-- JS -->
 <script>
+
 // === Verificación de acceso ===
 (function protegerPagina() {
   const logged = sessionStorage.getItem("loggedIn");
@@ -536,6 +482,18 @@
   }
 })();
 
+// === Mostrar usuario actual si hay sesión ===
+document.addEventListener("DOMContentLoaded", () => {
+  const user = sessionStorage.getItem("loggedUser");
+  const userInfo = document.getElementById("userInfo");
+  const nombreUsuario = document.getElementById("nombreUsuario");
+
+  if (user) {
+    nombreUsuario.textContent = user;
+    userInfo.style.display = "inline-flex";
+  } else {
+    userInfo.style.display = "none";
+  }
 
   // Botón de cerrar sesión
   const logoutBtn = document.getElementById("logoutBtn");
@@ -550,6 +508,17 @@
       window.location.href = "login.html";
     });
   });
+});
+
+
+
+
+
+
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const datosUsuario = JSON.parse(localStorage.getItem("datosUsuario")) || {};
@@ -596,21 +565,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const diasRestantes = Math.ceil(diffRestante / (1000 * 60 * 60 * 24));
 
     // Mostrar vigencia total
-    vigencia.innerHTML = ` Vigencia total: <strong>${diasVigencia}</strong> días`;
+    vigencia.innerHTML = `📅 Vigencia total: <strong>${diasVigencia}</strong> días`;
 
     // Mostrar estatus según los días restantes
     if (diasRestantes < 0) {
-      vencidos.innerHTML = ` Vencido hace <strong>${Math.abs(diasRestantes)}</strong> días`;
+      vencidos.innerHTML = `⛔ Vencido hace <strong>${Math.abs(diasRestantes)}</strong> días`;
       porvencer.innerHTML = "";
-      estatus.innerHTML = "<span style='color:red; font-weight:bold;'>ESTATUS: VENCIDO </span>";
+      estatus.innerHTML = "<span style='color:red; font-weight:bold;'>ESTATUS: VENCIDO ❌</span>";
     } else if (diasRestantes <= 60) {
-      porvencer.innerHTML = ` Por vencer en <strong>${diasRestantes}</strong> días`;
+      porvencer.innerHTML = `⚠️ Por vencer en <strong>${diasRestantes}</strong> días`;
       vencidos.innerHTML = "";
-      estatus.innerHTML = "<span style='color:orange; font-weight:bold;'>ESTATUS: POR VENCER </span>";
+      estatus.innerHTML = "<span style='color:orange; font-weight:bold;'>ESTATUS: POR VENCER ⚠️</span>";
     } else {
       porvencer.innerHTML = "";
       vencidos.innerHTML = "";
-      estatus.innerHTML = "<span style='color:green; font-weight:bold;'>ESTATUS: ACTIVO </span>";
+      estatus.innerHTML = "<span style='color:green; font-weight:bold;'>ESTATUS: ACTIVO ✅</span>";
     }
   }
 
@@ -669,18 +638,12 @@ const manualInput = document.getElementById("manualInput");
 const montoManual = document.getElementById("montoManual");
 
 const IVA = 0.16;
-function limpiarNumero(texto) {
-  if (!texto) return 0;
-  // Quita todo menos dígitos, punto y signo menos (por si hay formato o moneda)
-  const limpio = String(texto).replace(/[^0-9.-]+/g, '');
-  return parseFloat(limpio) || 0;
-}
 
 function calcularGarantia() {
-  // Obtener el subtotal del cálculo anterior (limpiándolo primero)
+  // Obtener el subtotal del cálculo anterior
   const subtotalText = document.getElementById("subtotal").innerText;
-  const subtotal = limpiarNumero(subtotalText);
-
+  const subtotal = parseFloat(subtotalText) || 0;
+  
   const opcion = tgar.value;
   let resultado = 0;
 
@@ -688,38 +651,30 @@ function calcularGarantia() {
 
   switch(opcion) {
     case "1": // DGX3
-      // calcular IVA y garantía por separado para evitar confusiones
-      const ivaMonto = subtotal * IVA;
-      resultado = (subtotal + ivaMonto) * 3;
+      resultado = (subtotal * (1 + IVA)) * 3;
       break;
-    case "2": // FC (monto manual)
+    case "2": // FC
       manualInput.style.display = "block";
-      const mManual = limpiarNumero(montoManual.value);
-      resultado = mManual + subtotal;
+      resultado = parseFloat(montoManual.value) + subtotal || 0;
       break;
-    case "3": // NO APLICA
+    case "3": // NA
       resultado = subtotal;
       break;
     case "4": // FCX3
-      const iva4 = subtotal * IVA;
-      resultado = (subtotal + iva4) * 3;
+      resultado = (subtotal * (1 + IVA)) * 3;
       break;
     case "5": // DGX1
-      const iva5 = subtotal * IVA;
-      resultado = subtotal + iva5;
+      resultado = (subtotal * (1 + IVA)) * 1;
       break;
     case "6": // FCX12
-      const iva6 = subtotal * IVA;
-      resultado = (subtotal + iva6) * 12;
+      resultado = (subtotal * (1 + IVA)) * 12;
       break;
     default:
       resultado = subtotal;
   }
 
-  // Mostrar desglose opcional (sub + IVA) 
-  garantiaResultado.innerHTML = `💲 Garantía calculada: <strong>${resultado.toFixed(2)}</strong> (Subtotal: ${subtotal.toFixed(2)}, IVA 16%: ${(subtotal*IVA).toFixed(2)})`;
+  garantiaResultado.innerHTML = `🔒 Garantía calculada: <strong>${resultado.toFixed(2)}</strong>`;
 }
-
 
 // Event listeners
 tgar.addEventListener("change", calcularGarantia);
@@ -738,26 +693,28 @@ const penalizacionInput = document.getElementById("penalizacionContrato");
 
 const totalDiv = document.getElementById("total");
 
-function calcularTotal() { 
-   const garantiaText = garantiaResultado.innerText.replace(/[^\d.-]/g, "");
+function calcularTotal() {
+  // Garantía actual calculada
+  const garantiaText = garantiaResultado.innerText.replace(/[^\d.-]/g, "");
   const garantia = parseFloat(garantiaText) || 0;
 
+  // Tarifa inicial
+  const tarifaBase = parseFloat(document.getElementById("tarifa").value) || 0;
+
+  // Incentivo (se resta directamente)
   const incentivo = parseFloat(incentivoInput.value) || 0;
 
-  // === VARIABLE (porcentaje sobre garantía) ===
+  // Variable (% sobre la tarifa inicial)
   const variablePct = parseFloat(variableInput.value) || 0;
-  const variableMonto = (garantia * variablePct) / 100;
-  document.getElementById("variableContrato").innerHTML =
-    `💲 Variable (${variablePct}%): <strong>${variableMonto.toFixed(2)}</strong>`;
+  const variableMonto = (tarifaBase * variablePct) / 100;
 
-  // === PENALIZACIÓN (porcentaje sobre garantía) ===
+  // Penalización (% sobre garantía)
   const penalPct = parseFloat(penalizacionInput.value) || 0;
-  const penalMonto = (garantia * penalPct) / 100;
-  document.getElementById("penalizacionResultado").innerHTML =
-    `💲 Penalización (${penalPct}%): <strong>${penalMonto.toFixed(2)}</strong>`;
+  const penalMonto = (tarifaBase * penalPct) / 100;
 
-  // === TOTAL FINAL ===
+  // Total
   const total = garantia - incentivo + variableMonto + penalMonto;
+
   totalDiv.innerHTML = `<strong>${total.toFixed(2)}</strong>`;
 }
 
@@ -876,7 +833,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const total = unidades * tarifa;
     
     if (unidades > 0 && tarifa > 0) {
-      totalTarifaDiv.innerHTML = ` Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
+      totalTarifaDiv.innerHTML = `💰 Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
     } else {
       totalTarifaDiv.innerHTML = "";
     }
@@ -956,52 +913,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 /*generar id*/
-//  ID automático basado en el usuario en sesión ID único, persistente y sin duplicados entre pestañas ===
-async function generarID() {
+// === Generar ID automático basado en el usuario en sesión ===
+function generarID() {
+  // Obtener el usuario actual de la sesión
   const usuario = sessionStorage.getItem("loggedUser") || "xx";
+
+  // Tomar las dos primeras letras del usuario (en mayúsculas)
   const prefijo = usuario.substring(0, 2).toUpperCase();
-  const contadorKey = `contador_${usuario}`;
-  const lockKey = `${contadorKey}_lock`;
-  const inicioBase = 200; // 🔹 valor inicial común para todos los usuarios
 
-  // Esperar si otra pestaña está usando el contador
-  while (localStorage.getItem(lockKey) === "true") {
-    await new Promise(r => setTimeout(r, 50)); // espera 50 ms
-  }
+  // Generar un número aleatorio de 4 dígitos (ej: 0067, 1263, 8645)
+  const aleatorio = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
 
-  try {
-    // Bloquear el contador para esta pestaña
-    localStorage.setItem(lockKey, "true");
-
-    // Leer el contador actual o iniciar en el valor base
-    let contador = parseInt(localStorage.getItem(contadorKey));
-    if (isNaN(contador) || contador < inicioBase) {
-      contador = inicioBase;
-    }
-
-    // Incrementar y guardar
-    contador++;
-    localStorage.setItem(contadorKey, contador);
-
-    // Convertir a número de 5 dígitos
-    const numero = contador.toString().padStart(6, "0");
-
-    // Combinar prefijo + número
-    return prefijo + numero;
-
-  } finally {
-    // Liberar el bloqueo (aunque haya error)
-    localStorage.removeItem(lockKey);
-  }
+  // Combinar prefijo + número
+  return prefijo + aleatorio;
 }
-
-// === Asignar el ID automáticamente al cargar ===
-document.addEventListener("DOMContentLoaded", async () => {
-  const campoID = document.getElementById("id");
-  if (campoID && !campoID.value.trim()) {
-    campoID.value = await generarID();
-  }
-});
 
 // === Asignar el ID al cargar la página ===
 document.addEventListener("DOMContentLoaded", () => {
@@ -1015,72 +940,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/*aqui esta la funcion que estrae wel texto */
-const sidebar2 = document.querySelector('.sidebar2');
-  const toggleBtn2 = document.getElementById('toggleSidebarBtn2');
-  const pasteBtn = document.getElementById('pasteBtn');
-  const resultado = document.getElementById('textoExtraido');
-  const imageInput = document.getElementById('imageInput');
-  const extractBtn = document.getElementById('extractBtn');
-  let imagenPegada = null;
-  let abierta = false;
 
-  // --- TOGGLE SIDEBAR ---
-  toggleBtn2.addEventListener('click', () => {
-    abierta = !abierta;
-    sidebar2.classList.toggle('abierta');
-    toggleBtn2.textContent = abierta ? ' Cerrar' : 'IMG➡️TEXT';
-  });
 
-  // --- FUNCIÓN PRINCIPAL ---
-  function extraerTexto(archivo) {
-    if (!archivo) {
-      alert("Por favor selecciona o pega una imagen ");
-      return;
-    }
-
-    resultado.textContent = "Procesando... ";
-
-    Tesseract.recognize(archivo, 'spa', { logger: m => console.log(m) })
-      .then(({ data: { text } }) => {
-        resultado.textContent = text.trim() || "No se detectó texto.";
-      })
-      .catch(err => {
-        console.error(err);
-        resultado.textContent = "Error al procesar la imagen ";
-      });
-  }
-
-  // --- INPUT FILE NORMAL ---
-  imageInput.addEventListener('change', (e) => {
-    const archivo = e.target.files[0];
-    imagenPegada = null; // limpiar buffer anterior
-    extraerTexto(archivo);
-  });
-
-  // --- PEGAR CON CTRL + V ---
-  window.addEventListener('paste', (event) => {
-    const items = event.clipboardData.items;
-    for (const item of items) {
-      if (item.type.indexOf("image") !== -1) {
-        const archivo = item.getAsFile();
-        imagenPegada = archivo; // guardar para usar después
-        extraerTexto(archivo);
-        return;
-      }
-    }
-  });
-
-  // --- BOTÓN PEGAR ---
-  pasteBtn.addEventListener('click', () => {
-    alert("Presiona Ctrl + V para pegar tu captura de pantalla ");
-  });
-
-  // --- BOTÓN EXTRAER (opcional, en caso de imagen pegada guardada) ---
-  extractBtn.addEventListener('click', () => {
-    const archivo = imagenPegada || imageInput.files[0];
-    extraerTexto(archivo);
-  });
 </script>
 
 <script src="java/enviarcontrato.js"></script>
@@ -1119,52 +980,10 @@ function llenarSelects(data) {
     });
   });
 
-  console.log("Opciones cargadas desde Google Sheets ");
+  console.log("Opciones cargadas desde Google Sheets ✅");
 }
 
 document.addEventListener("DOMContentLoaded", cargarOpciones);
-document.addEventListener('DOMContentLoaded', () => {
-  const penalInput = document.getElementById('penalizacion');
-  const variableInput = document.getElementById('variable');
-  const montoGarantiaInput = document.getElementById('montoGarantia');
-
-  // Crear contenedores para mostrar los resultados debajo
-  const penalResultado = document.createElement('div');
-  const variableResultado = document.createElement('div');
-  penalResultado.style.color = '#00FF80';
-  variableResultado.style.color = '#00FF80';
-
-  // Insertarlos justo después de los inputs
-  penalInput.insertAdjacentElement('afterend', penalResultado);
-  variableInput.insertAdjacentElement('afterend', variableResultado);
-
-  // Función que actualiza los resultados en tiempo real
-  function actualizarValores() {
-    const montoGarantia = parseFloat(montoGarantiaInput.value) || 0;
-
-    const penalizacionPct = parseFloat(penalInput.value) || 0;
-    const variablePct = parseFloat(variableInput.value) || 0;
-
-    const penalizacionValor = (montoGarantia * penalizacionPct) / 100;
-    const variableValor = (montoGarantia * variablePct) / 100;
-
-    penalResultado.textContent =
-      penalizacionPct > 0
-        ? `Penalización: $${penalizacionValor.toFixed(2)}`
-        : '';
-
-    variableResultado.textContent =
-      variablePct > 0
-        ? `Variable: $${variableValor.toFixed(2)}`
-        : '';
-  }
-
-  // Escuchar cambios en los 3 inputs
-  penalInput.addEventListener('input', actualizarValores);
-  variableInput.addEventListener('input', actualizarValores);
-  montoGarantiaInput.addEventListener('input', actualizarValores);
-});
-
 </script>
 
 
