@@ -948,32 +948,39 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 /*generar id*/
-// === Generar ID automático basado en el usuario en sesión ===
-function generarID() {
-  // Obtener el usuario actual de la sesión
-  const usuario = sessionStorage.getItem("loggedUser") || "xx";
+async function generarIDparaUsuario() {
+    const usuario = sessionStorage.getItem("loggedUser") || "XX";
 
-  // Tomar las dos primeras letras del usuario (en mayúsculas)
-  const prefijo = usuario.substring(0, 2).toUpperCase();
+    const url = "https://script.google.com/macros/s/AKfycbwxGe7hapHK2gllSR8URXh4cjVVC_ZvFMm9VWUhcSvPKDer16tI2A8N3Vz09jI7hH3ydg/exec?user=" + usuario;
 
-  // Generar un número aleatorio de 4 dígitos (ej: 0067, 1263, 8645)
-  const aleatorio = Math.floor(Math.random() * 10000).toString().padStart(4, "0");
+    try {
+        const resp = await fetch(url);
+        const data = await resp.json();
 
-  // Combinar prefijo + número
-  return prefijo + aleatorio;
+        console.log("Respuesta del servidor:", data);
+
+        if (!data.id) {
+            console.error("El servidor no regresó un ID válido");
+            return usuario.substring(0,2).toUpperCase() + "000";
+        }
+
+        const num = String(data.id).padStart(3, "0");
+        return usuario.substring(0,2).toUpperCase() + num;
+
+    } catch (e) {
+        console.error("Error al obtener ID:", e);
+        return usuario.substring(0,2).toUpperCase() + "000";
+    }
 }
 
-// === Asignar el ID al cargar la página ===
-document.addEventListener("DOMContentLoaded", () => {
-  const campoID = document.getElementById("id");
+document.addEventListener("DOMContentLoaded", async () => {
+    const campoID = document.getElementById("id");
 
-  if (campoID) {
-    // Solo genera si el campo está vacío
-    if (!campoID.value.trim()) {
-      campoID.value = generarID();
+    if (campoID && !campoID.value.trim()) {
+        campoID.value = await generarIDparaUsuario();
     }
-  }
 });
+
 
 
 
