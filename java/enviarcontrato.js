@@ -3,7 +3,7 @@ document.getElementById("btnEnviar").addEventListener("click", function () {
   // Verificar antes de enviar
   if (!validarCamposObligatorios()) return;
 
-  // Si pasa la validación, aquí va tu lógica normal:
+  // Si pasa la validación
   Swal.fire({
     icon: "success",
     title: "✅ Datos completos",
@@ -41,28 +41,6 @@ function validarCamposObligatorios() {
 
   return true; // ✅ todo lleno
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   const data = {

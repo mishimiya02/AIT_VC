@@ -242,13 +242,13 @@
  
     <h2>CONTRAPRESTACIONES VARIABLES</h2>
     <div class="form-group">
-      <label for="aguaVariable" class="required-field">Variable (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCIONAR  TIPO:</label>
+      <label for="aguaVariable" class="required-field">Variable (%):</label>
       <input type="number" id="aguaVariable" step="0.01" required>
     </div>
     <div id="variableContrato"></div>
 
     <div class="form-group">
-      <label for="penalizacionContrato" class="required-field">Penalización (%) *CONTRA GARANTÍA CALCULADA DESPUES DE SELECCONAR TIPO:</label>
+      <label for="penalizacionContrato" class="required-field">Penalización (%):</label>
       <input type="number" id="penalizacionContrato" step="0.01" required>
     </div>
     <div id="penalizacionResultado"></div>
@@ -303,6 +303,39 @@
       <label for="cactualizacion">C. ACTUALIZACIÓN <span class="required">*</span></label>
       <input type="text" id="cactualizacion" name="cactualizacion" required>
        </div>
+
+    <button onclick="abrirVentanaOCR()" 
+        style="padding: 10px 18px; background:#4e4caf; color:white; border:none; border-radius:8px; cursor:pointer;">
+    EXTRACTOR DE TEXTO
+</button>
+
+<script>
+function abrirVentanaOCR() {
+    const width = 420;
+    const height = 420;
+
+    const left = (screen.width / 2) - (width / 2);
+    const top = (screen.height / 2) - (height / 2);
+
+    window.open(
+        'extraertexto.html',
+        'VentanaOCR',
+        `
+        width=${width},
+        height=${height},
+        top=${top},
+        left=${left},
+        resizable=no,
+        scrollbars=yes,
+        toolbar=no,
+        menubar=no,
+        status=no,
+        location=no,
+        titlebar=no
+        `
+    );
+}
+</script>
 
        <div class="form-group">
       <label for="intereses">METODOLOGÍA DE ACTUALIZACIÓN<span class="required">*</span></label>
@@ -737,6 +770,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 document.getElementById("btnResumen").addEventListener("click", () => {
+  calcularVigencia();
+
   const datos = {
     
     "ID": document.getElementById("id").value,

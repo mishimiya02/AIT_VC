@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR con Tesseract.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            border: none;
+            background: #4ca8af;
+            color: white;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Extraer texto de una imagen (OCR)</h2>
+
+    <input type="file" id="imageInput" accept="image/*"><br>
+    <button id="extractBtn">Extraer Texto</button>
+
+    <textarea id="output" placeholder="Aquí aparecerá el texto extraído..."></textarea>
+
+    <button id="copyBtn">Copiar al Portapapeles</button>
+</div>
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const extractBtn = document.getElementById('extractBtn');
+    const output = document.getElementById('output');
+    const copyBtn = document.getElementById('copyBtn');
+
+    extractBtn.addEventListener('click', async () => {
+        if (!imageInput.files[0]) {
+            alert('Por favor selecciona una imagen.');
+            return;
+        }
+
+        const file = imageInput.files[0];
+
+        output.value = "Procesando imagen, espera...";
+
+        try {
+            const { data: { text } } = await Tesseract.recognize(file, 'spa', {
+                logger: m => console.log(m)
+            });
+
+            output.value = text;
+        } catch (error) {
+            console.error(error);
+            output.value = "Error al procesar la imagen.";
+        }
+    });
+
+    copyBtn.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(output.value);
+            alert('Texto copiado al portapapeles');
+        } catch (err) {
+            alert('No se pudo copiar');
+        }
+    });
+</script>
+
+</body>
+</html>
