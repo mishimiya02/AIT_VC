@@ -378,42 +378,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   <button type="submit">Actualizar Registro</button></div>
+  <button onclick="abrirVentanaOCR()" 
+        style="padding: 10px 18px; background:#4e4caf; color:white; border:none; border-radius:8px; cursor:pointer;">
+    EXTRACTOR DE TEXTO
+</button>
+
+<script>
+function abrirVentanaOCR() {
+    const width = 420;
+    const height = 420;
+
+    const left = (screen.width / 2) - (width / 2);
+    const top = (screen.height / 2) - (height / 2);
+
+    window.open(
+        'extraertexto.html',
+        'VentanaOCR',
+        `
+        width=${width},
+        height=${height},
+        top=${top},
+        left=${left},
+        resizable=no,
+        scrollbars=yes,
+        toolbar=no,
+        menubar=no,
+        status=no,
+        location=no,
+        titlebar=no
+        `
+    );
+}
+</script>
 </form>
   </div>
 
-  <!-- Botón para abrir/cerrar -->
-<button id="toggleSidebarBtn2" style="
-  position: fixed;
-  top: 700px;
-  right: 90px;
-  z-index: 1100;
-  padding: 10px 15px;
-  background-color: rgba(30, 30, 40, 0.85);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-">
-   IMG➡️TEXTO 
-</button>
+
 <div class="sidecentro">
 
-<!-- Sidebar derecha -->
- <!-- Sidebar derecha -->
-<div class="sidebar2">
-  <br><br>
-  <h3 style="color: #FFFFFF; font-family:arial">
-    Proporcione una captura de pantalla del documento PDF para ser transformado a texto
-  </h3>
-
-  <h3 style="color: #FFFFFF">Subir Imagen</h3>
-  <input type="file" id="imageInput" accept="image/*">
- 
-  <button id="extractBtn">Extraer texto</button>
-
-  <h3 style="color: #FFFFFF">Texto detectado</h3>
-  <div id="textoExtraido">Aquí aparecerá el texto extraído...</div>
-</div>
 
 <script>
   const sidebar2 = document.querySelector('.sidebar2');

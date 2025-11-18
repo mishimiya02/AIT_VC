@@ -478,7 +478,7 @@ function abrirVentanaOCR() {
 			<button type="button" id="btnEnviar">Enviar a Google Sheets</button>
 
 <button id="btnSheets" style="display: none;" onclick="window.open('//docs.google.com/spreadsheets/d/1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk/edit?usp=sharing', '_blank')">
-  📄🛫 Abrir Google Sheets
+  Abrir Google Sheets
 </button>
 
 
@@ -542,6 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
 
 
 
@@ -784,8 +785,9 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
     "UNIDADES/ELEMENTOS/M2": document.getElementById("unidades").value,
      "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
-    "INICIO VIGENCIA": document.getElementById("fecha-inicio").value,
-    "FIN VIGENCIA": document.getElementById("fecha-fin").value,
+"INICIO VIGENCIA": convertirA_DDMMYYYY(document.getElementById("fecha-inicio").value),
+"FIN VIGENCIA": convertirA_DDMMYYYY(document.getElementById("fecha-fin").value),
+
      "DÍAS X VENCER": Math.floor(extraerNumero(document.getElementById("porvencer").innerText)),
  "DÍAS VENCIDOS": Math.floor(extraerNumero(document.getElementById("vencidos").innerText)),
   "ESTATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
