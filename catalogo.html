@@ -474,7 +474,7 @@ function abrirVentanaOCR() {
 
     <h4>TOTAL:</h4> <div id="total"></div>    
 
-<button id="btnResumen" type="button"> GUARDAR</button>
+<button id="btnResumen" type="button"> RESUMEN DEL CONTRATO</button>
 			<button type="button" id="btnEnviar">Enviar a Google Sheets</button>
 
 <button id="btnSheets" style="display: none;" onclick="window.open('//docs.google.com/spreadsheets/d/1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk/edit?usp=sharing', '_blank')">
@@ -484,7 +484,7 @@ function abrirVentanaOCR() {
 
 
 <div id="resumenContainer" style="margin-top:20px; display:none;">
-  <h2>📋 Resumen del Contrato</h2>
+  <h2> Resumen del Contrato</h2>
   <table border="1" cellpadding="6" style="border-collapse:collapse; width:100%;">
     <thead>
       <tr style="background:#f2f2f2;">
@@ -964,7 +964,7 @@ async function generarIDparaUsuario() {
             return usuario.substring(0,2).toUpperCase() + "000";
         }
 
-        const num = String(data.id).padStart(3, "0");
+        const num = String(data.id).padStart(5, "0");
         return usuario.substring(0,2).toUpperCase() + num;
 
     } catch (e) {
