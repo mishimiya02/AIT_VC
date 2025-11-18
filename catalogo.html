@@ -474,8 +474,8 @@ function abrirVentanaOCR() {
 
     <h4>TOTAL:</h4> <div id="total"></div>    
 
-<button id="btnResumen" type="button">📑✈ GUARDAR</button>
-			<button type="button" id="btnEnviar">🚁Enviar a Google Sheets🚁</button>
+<button id="btnResumen" type="button"> GUARDAR</button>
+			<button type="button" id="btnEnviar">Enviar a Google Sheets</button>
 
 <button id="btnSheets" style="display: none;" onclick="window.open('//docs.google.com/spreadsheets/d/1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk/edit?usp=sharing', '_blank')">
   📄🛫 Abrir Google Sheets
@@ -598,7 +598,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const diasRestantes = Math.ceil(diffRestante / (1000 * 60 * 60 * 24));
 
     // Mostrar vigencia total
-    vigencia.innerHTML = `📅 Vigencia total: <strong>${diasVigencia}</strong> días`;
+    vigencia.innerHTML = ` Vigencia total: <strong>${diasVigencia}</strong> días`;
 
     // Mostrar estatus según los días restantes
     if (diasRestantes < 0) {
@@ -706,7 +706,7 @@ function calcularGarantia() {
       resultado = subtotal;
   }
 
-  garantiaResultado.innerHTML = `🔒 Garantía calculada: <strong>${resultado.toFixed(2)}</strong>`;
+  garantiaResultado.innerHTML = ` Garantía calculada: <strong>${resultado.toFixed(2)}</strong>`;
 }
 
 // Event listeners
@@ -746,7 +746,7 @@ function calcularTotal() {
   const penalMonto = (tarifaBase * penalPct) / 100;
 
   // Total
-  const total = garantia - incentivo + variableMonto + penalMonto;
+  const total = garantia - incentivo ;
 
   totalDiv.innerHTML = `<strong>${total.toFixed(2)}</strong>`;
 }
@@ -868,7 +868,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const total = unidades * tarifa;
     
     if (unidades > 0 && tarifa > 0) {
-      totalTarifaDiv.innerHTML = `💰 Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
+      totalTarifaDiv.innerHTML = ` Cálculo: ${unidades} × ${tarifa} = <strong>${total.toFixed(2)}</strong>`;
     } else {
       totalTarifaDiv.innerHTML = "";
     }
