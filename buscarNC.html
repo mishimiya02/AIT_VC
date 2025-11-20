@@ -71,17 +71,23 @@
     </div>
 
 <script>
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzap9oEAbcWFb8kvfEsAh8xHjWNF31gXUnnJAKVvsB5T97rdwiabbtZRb0kJdM2WH3H/exec"; 
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzdVuhRuclaQHqCNY9WrEbbyg9JY3W-LanqKCTRoeN22fpPGlYlpEua6JeIhm3Ckqj6ZQ/exec";
 
+// ----------- BUSCAR POR CLIENTE -------------
 async function buscarCliente() {
     const cliente = document.getElementById("clienteInput").value.trim();
     if (!cliente) return alert("Ingrese un número de cliente");
 
-    const res = await fetch(`${WEBAPP_URL}?cliente=${cliente}`);
+    const res = await fetch(`${WEBAPP_URL}?cliente=${cliente}&multi=true`);
     const data = await res.json();
 
     if (data.status === "not_found") {
-        alert("Cliente no encontrado");
+        alert("No se encontraron registros para este cliente");
+        return;
+    }
+
+    if (data.status === "multiple") {
+        mostrarOpciones(data.registros);
         return;
     }
 
@@ -90,11 +96,30 @@ async function buscarCliente() {
     }
 }
 
+// ---------- MOSTRAR OPCIONES DE COINCIDENCIAS ----------
+function mostrarOpciones(registros) {
+    const div = document.createElement("div");
+    div.innerHTML = "<h3>Selecciona el registro a editar:</h3>";
+
+    registros.forEach(r => {
+        const btn = document.createElement("button");
+        btn.textContent = `Fila ${r.rowNumber} • Contrato: ${r["NUM CONTRATO"]}`;
+        btn.className = "btn btn-search";
+        btn.style.width = "100%";
+        btn.style.marginBottom = "10px";
+        btn.onclick = () => cargarFormulario(r);
+        div.appendChild(btn);
+    });
+
+    document.querySelector(".container").appendChild(div);
+}
+
+// ----------- CARGAR FORMULARIO -------------
 function cargarFormulario(registro) {
     const form = document.getElementById("formulario");
     const campos = document.getElementById("campos");
-    campos.innerHTML = "";
 
+    campos.innerHTML = "";
     document.getElementById("rowNumber").value = registro.rowNumber;
 
     Object.entries(registro).forEach(([key, value]) => {
@@ -111,6 +136,7 @@ function cargarFormulario(registro) {
     form.classList.remove("hidden");
 }
 
+// ----------- GUARDAR CAMBIOS -------------
 async function guardarCambios() {
     const inputs = document.querySelectorAll("#campos input");
     const payload = { rowNumber: document.getElementById("rowNumber").value };
@@ -128,10 +154,12 @@ async function guardarCambios() {
 
     if (data.status === "success") {
         alert("Registro actualizado correctamente");
+        location.reload();
     } else {
         alert("Error: " + data.message);
     }
 }
+
 </script>
 </body>
 </html>
