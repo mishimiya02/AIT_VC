@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Contrato</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f4ff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #6a48c6;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #cfc7ea;
+            margin-top: 5px;
+            background: #faf8ff;
+        }
+        label {
+            font-weight: bold;
+            color: #5a4da3;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-search {
+            background: #7f5af0;
+            color: white;
+        }
+        .btn-save {
+            background: #2cb67d;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Registro de Contrato</h2>
+
+        <!-- BUSCADOR -->
+        <div class="search-box">
+            <input type="text" id="clienteInput" placeholder="Ingrese NUM CLIENTE" />
+            <button class="btn btn-search" onclick="buscarCliente()">Buscar</button>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form id="formulario" class="hidden">
+            <input type="hidden" id="rowNumber" />
+            <div id="campos"></div>
+            <button type="button" class="btn btn-save" onclick="guardarCambios()">Guardar Cambios</button>
+        </form>
+    </div>
+
+<script>
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzap9oEAbcWFb8kvfEsAh8xHjWNF31gXUnnJAKVvsB5T97rdwiabbtZRb0kJdM2WH3H/exec"; 
+
+async function buscarCliente() {
+    const cliente = document.getElementById("clienteInput").value.trim();
+    if (!cliente) return alert("Ingrese un número de cliente");
+
+    const res = await fetch(`${WEBAPP_URL}?cliente=${cliente}`);
+    const data = await res.json();
+
+    if (data.status === "not_found") {
+        alert("Cliente no encontrado");
+        return;
+    }
+
+    if (data.status === "success") {
+        cargarFormulario(data.data);
+    }
+}
+
+function cargarFormulario(registro) {
+    const form = document.getElementById("formulario");
+    const campos = document.getElementById("campos");
+    campos.innerHTML = "";
+
+    document.getElementById("rowNumber").value = registro.rowNumber;
+
+    Object.entries(registro).forEach(([key, value]) => {
+        if (key === "rowNumber") return;
+
+        campos.innerHTML += `
+            <div>
+                <label>${key}</label>
+                <input type="text" id="${key}" value="${value ?? ""}" />
+            </div>
+        `;
+    });
+
+    form.classList.remove("hidden");
+}
+
+async function guardarCambios() {
+    const inputs = document.querySelectorAll("#campos input");
+    const payload = { rowNumber: document.getElementById("rowNumber").value };
+
+    inputs.forEach(input => {
+        payload[input.id] = input.value;
+    });
+
+    const res = await fetch(WEBAPP_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+
+    if (data.status === "success") {
+        alert("Registro actualizado correctamente");
+    } else {
+        alert("Error: " + data.message);
+    }
+}
+</script>
+</body>
+</html>
