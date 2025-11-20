@@ -4,70 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Contrato</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f4ff;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #6a48c6;
-            margin-bottom: 20px;
-        }
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #cfc7ea;
-            margin-top: 5px;
-            background: #faf8ff;
-        }
-        label {
-            font-weight: bold;
-            color: #5a4da3;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .btn-search {
-            background: #7f5af0;
-            color: white;
-        }
-        .btn-save {
-            background: #2cb67d;
-            color: white;
-            width: 100%;
-            margin-top: 20px;
-        }
-        .hidden { display: none; }
-    </style>
+    <link rel="stylesheet" href="css/editarnc.css" >
+   
 </head>
 <body>
+      <!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+               
+                     <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>COMPARACION</a>
+                <a href='/comprobante'>COMPROBANTE DE DEPOSITOS</a>
+                
+                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                  <a href='/cancelar' target='_blank'>CANCELACIÓN DE COMPROBANTES</a>
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+            <div class="dropdown">
+                <a class="dropbtn">BD CLIENTES</a>
+                <div class="dropdown-content">
+                    <a href='/registrar'>REGISTRAR CLIENTE </a>
+                    <a href='/editar'>CONSULTAR CLIENTE</a>
+                     <a href='/catalogo'>REGISTRAR CONTRATO</a>
+                      <a href='/modificar'>MODIFICAR CONTRATO</a>
+                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                   
+                   
+                </div>
+            </div>
+        <a href='/contacto'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
     <div class="container">
         <h2>Editar Registro de Contrato</h2>
 
