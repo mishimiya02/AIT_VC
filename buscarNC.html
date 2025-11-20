@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Contrato</title>
     <link rel="stylesheet" href="css/editarnc.css" >
-   
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
       <!-- Barra de navegación -->
@@ -78,23 +79,42 @@ async function buscarCliente() {
     const cliente = document.getElementById("clienteInput").value.trim();
     if (!cliente) return alert("Ingrese un número de cliente");
 
-    const res = await fetch(`${WEBAPP_URL}?cliente=${cliente}&multi=true`);
-    const data = await res.json();
+    // 🔍 Mostrar animación SweetAlert
+    Swal.fire({
+        title: "Buscando…",
+        text: "Por favor espere",
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
-    if (data.status === "not_found") {
-        alert("No se encontraron registros para este cliente");
-        return;
-    }
+    try {
+        const res = await fetch(`${WEBAPP_URL}?cliente=${cliente}&multi=true`);
+        const data = await res.json();
 
-    if (data.status === "multiple") {
-        mostrarOpciones(data.registros);
-        return;
-    }
+        Swal.close(); // ❌ Cerrar el loader al terminar
 
-    if (data.status === "success") {
-        cargarFormulario(data.data);
+        if (data.status === "not_found") {
+            Swal.fire("Sin coincidencias", "No se encontraron registros para este cliente", "warning");
+            return;
+        }
+
+        if (data.status === "multiple") {
+            mostrarOpciones(data.registros);
+            return;
+        }
+
+        if (data.status === "success") {
+            cargarFormulario(data.data);
+        }
+
+    } catch (err) {
+        Swal.close();
+        Swal.fire("Error", "Hubo un problema al buscar los datos", "error");
     }
 }
+
 // ---------- MOSTRAR OPCIONES DE COINCIDENCIAS ----------
 function mostrarOpciones(registros) {
     // ELIMINAR RESULTADOS ANTERIORES
