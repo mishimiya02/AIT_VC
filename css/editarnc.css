@@ -188,3 +188,18 @@
             right: 10px;
             font-size: 1.2rem;
         }
+
+        #theme-toggle {
+   font-weight: bold;
+     font-size: 17px;
+     background-color: #5552e6;
+     color: white;
+     border: none;
+     cursor: pointer;
+     transition: background-color 0.3s;
+         
+}
+
+    #theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
