@@ -8,7 +8,10 @@
     z-index: 1000; /* Asegurar que esté por encima */
 }
 /* Reset básico */
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
           /* Estilos para submenús */
         .submenu {
             position: relative;

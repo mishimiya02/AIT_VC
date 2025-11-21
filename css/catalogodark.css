@@ -425,7 +425,10 @@
 			 font-size: 15px;
          }
 
-         
+          
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}      
 /* Sidebar derecha - estado por defecto: cerrada (oculta hacia la derecha) */
 /* Sidebar derecha - estado por defecto: cerrada (oculta hacia la derecha) */
 .sidebar2 {

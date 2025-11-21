@@ -750,7 +750,10 @@ p {
             grid-template-columns: 1fr 1fr;
         }
     }
-    
+           
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
     /* Caja individual para cada gráfica */
     .chart-box {
         background: white;

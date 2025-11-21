@@ -314,7 +314,10 @@
  				height: 100px; /* altura */
  			}
 
-          
+                 
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
  
  			.menu-center {
  				display: flex;

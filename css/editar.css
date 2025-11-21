@@ -8,7 +8,10 @@
     height: 100%;
     z-index: 1000; /* Asegurar que el dropdawn esté por encima copiar para cada nav */
 }
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     

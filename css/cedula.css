@@ -420,7 +420,10 @@
       color: #ffffff;
       margin-bottom: 30px;
     }
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
     .formulario {
       max-width: 500px;
       margin: 0 auto;

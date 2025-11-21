@@ -34,6 +34,10 @@
             font-weight: bold;
             color: #bbafff;
         }
+               
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;

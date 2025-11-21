@@ -190,7 +190,9 @@
         }
         
    
-        
+         body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
         .cta-button {
             display: inline-block;
             background-color: #ff5252;

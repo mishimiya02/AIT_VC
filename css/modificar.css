@@ -175,7 +175,10 @@
              text-align: center;
             
          }  
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
 .centrado {
 display: flex;
   justify-content: center;

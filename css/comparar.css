@@ -55,7 +55,10 @@
     border: 1px solid #ffffff;/*borde contenedor*/
     position: relative;
 }
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
 .scroll-table table {
     border-collapse: collapse;
     width: 100%;

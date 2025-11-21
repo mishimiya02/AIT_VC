@@ -51,7 +51,10 @@
             --transition: all 0.3s ease;
         }
 
-       
+              
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
 
         * {
             margin: 0;

@@ -678,7 +678,10 @@ p {
     width: 20px;
     text-align: center;
 }
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
 .sidebar-footer {
     padding: 15px;
     text-align: center;

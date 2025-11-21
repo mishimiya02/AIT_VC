@@ -328,6 +328,10 @@
 
 
 
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
 
 /* Estilo para el input de Razón Social */
 

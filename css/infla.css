@@ -132,7 +132,10 @@ button:hover {
 #resultado strong, #ajuste strong {
     color: #ff7300;
 }
-
+       
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
 /* Botón de recargar */
 .boton-recargar1 {
     background-color: #ee9b00;

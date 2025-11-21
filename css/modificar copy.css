@@ -12,7 +12,10 @@
         .submenu {
             position: relative;
         }
-        
+               
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
         .submenu-content {
             display: none;
             position: absolute;

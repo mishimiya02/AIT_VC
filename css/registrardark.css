@@ -549,7 +549,10 @@ body.dark-mode .dropdown1-content a:hover {
         .worker-key-group {
             margin-bottom: 20px;
         }
-        
+               
+          body, nav {
+    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+}
         .worker-key-group label {
             display: block;
             margin-bottom: 8px;
