@@ -335,17 +335,19 @@
     background: rgb(170, 2, 100);
 }
 
-       
-          body, nav {
-    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
-}
+
     body, nav, .formulario {
     transition: background-color 1s ease, color 1s ease;
 }
-    h1 {
+    h2 {
       text-align: center;
-      color: #000000;
-      margin-bottom: 30px;
+      color: #160092;
+       margin-top: 20px;
+      margin-bottom: 20px;
+      text-decoration: none;
+      font-size: 30px;
+      
+
     }
 
 

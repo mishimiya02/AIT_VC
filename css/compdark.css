@@ -320,10 +320,12 @@
     body, nav, .formulario {
     transition: background-color 1s ease, color 1s ease;
 }
-    h1 {
+    h2 {
       text-align: center;
-      color: #a0a0a0;
-      margin-bottom: 30px;
+      color: #ffffff;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    font-size: 30px;
     }
 
     .formulario {
