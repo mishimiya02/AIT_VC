@@ -4,7 +4,7 @@
 <head>
     
   <link id="theme-style" rel="stylesheet" href="css/consultar.css">
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Filtro de Contratos</title>
@@ -61,11 +61,13 @@
         <a href='/contacto.html'>Contacto</a>
         <button id="theme-toggle">🌙 Modo Nocturno</button>
     <!--    <a href="acerca.html">Acerca de</a>-->
-    </div>
+
+</div>
 	</nav>
 
   <div class="container py-5">
-    <h2 class="mb-4 text-center">Filtrar Contratos</h2>
+    <h2 class="mb-4 text-center">CONSULTAS</h2>
+     <h4 class="mb-4 text-center">*Evitar espacios innecesarios en la búsqueda </h4>
 
     <div class="card p-4 shadow-sm">
       <div class="row g-3">
@@ -119,64 +121,82 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwOvzxUuzv4NHsfnfozqvBEhvwAfkfiEXH5LcH95BsMDbvPMYex9hIIBa3Sz2Hh_To1/exec"; // ← link de appscript AQUÍ
+const API_URL = "https://script.google.com/macros/s/AKfycbwOvzxUuzv4NHsfnfozqvBEhvwAfkfiEXH5LcH95BsMDbvPMYex9hIIBa3Sz2Hh_To1/exec";
 
-    async function cargarTipos() {
-      const res = await fetch(API_URL + "?action=getTipos");
-      const tipos = await res.json();
+// Función para mostrar los datos en la tabla
+function mostrar(data) {
+  const tbody = document.getElementById("tabla");
+  tbody.innerHTML = "";
 
-      const select = document.getElementById("tipo");
-      tipos.forEach(t => {
-        select.innerHTML += `<option value="${t}">${t}</option>`;
-      });
-    }
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#999;">Sin resultados</td></tr>`;
+    return;
+  }
 
-    async function filtrar() {
-      const tipo = document.getElementById("tipo").value;
-      const concepto = document.getElementById("concepto").value;
-      const fecha = document.getElementById("fecha").value;
+  data.forEach(r => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${r.id || ""}</td>
+        <td>${r.numCliente || ""}</td>
+        <td>${r.numDctSap || ""}</td>
+        <td>${r.numContrato || ""}</td>
+        <td>${r.tipoContrato || ""}</td>
+        <td>${r.concepto || ""}</td>
+        <td>${r.fechaFin || ""}</td>
+      </tr>
+    `;
+  });
+}
 
-      const url =
-        `${API_URL}?action=filter` +
-        `&tipo=${encodeURIComponent(tipo)}` +
-        `&concepto=${encodeURIComponent(concepto)}` +
-        `&fecha=${encodeURIComponent(fecha)}`;
+// Carga los tipos de contrato en el select
+async function cargarTipos() {
+  const res = await fetch(API_URL + "?action=getTipos");
+  const tipos = await res.json();
 
-      const res = await fetch(url);
-      mostrar(await res.json());
-    }
+  const select = document.getElementById("tipo");
+  tipos.forEach(t => {
+    select.innerHTML += `<option value="${t}">${t}</option>`;
+  });
+}
 
-    function mostrar(data) {
-      const tbody = document.getElementById("tabla");
-      tbody.innerHTML = "";
+// Función para filtrar
+async function filtrar() {
+  const tipo = document.getElementById("tipo").value;
+  const concepto = document.getElementById("concepto").value;
+  const fecha = document.getElementById("fecha").value;
 
-      if (!data.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">Sin resultados</td></tr>`;
-        return;
-      }
+  Swal.fire({
+    title: 'Buscando...',
+    didOpen: () => Swal.showLoading(),
+    allowOutsideClick: false,
+    showConfirmButton: false
+  });
 
-      data.forEach(r => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${r.id || ""}</td>
-            <td>${r.numCliente || ""}</td>
-            <td>${r.numDctSap || ""}</td>
-            <td>${r.numContrato || ""}</td>
-            <td>${r.tipoContrato || ""}</td>
-            <td>${r.concepto || ""}</td>
-            <td>${r.fechaFin || ""}</td>
-          </tr>
-        `;
-      });
-    }
+  const url =
+    `${API_URL}?action=filter` +
+    `&tipo=${encodeURIComponent(tipo)}` +
+    `&concepto=${encodeURIComponent(concepto)}` +
+    `&fecha=${encodeURIComponent(fecha)}`;
 
-    async function cargarTodo() {
-      await cargarTipos();
-      const res = await fetch(API_URL + "?action=getData");
-      mostrar(await res.json());
-    }
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    mostrar(data);
+  } catch (err) {
+    Swal.fire('Error', 'No se pudo obtener la información', 'error');
+  } finally {
+    Swal.close();
+  }
+}
 
-    cargarTodo();
-  </script>
+// Carga todo al inicio
+async function cargarTodo() {
+  await cargarTipos();
+  const res = await fetch(API_URL + "?action=getData");
+  mostrar(await res.json());
+}
+
+cargarTodo();
+</script>
 </body>
 </html>
