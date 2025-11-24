@@ -7,9 +7,9 @@ function doGet(e) {
 
   if (action === "filter") {
     const tipo = e.parameter.tipo || "";
-    const razon = e.parameter.razon || "";
+    const concepto = e.parameter.concepto || "";
     const fecha = e.parameter.fecha || "";
-    return sendJSON(filtrar(tipo, razon, fecha));
+    return sendJSON(filtrar(tipo, concepto, fecha));
   }
 
   if (action === "getTipos") {
@@ -23,26 +23,37 @@ function getData() {
   const ss = SpreadsheetApp.openById(
     "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk"
   );
-  const sheet = ss.getSheetByName("contratos"); // cámbialo
+
+  const sheet = ss.getSheetByName("contratos"); // ← CAMBIA ESTO
   const data = sheet.getDataRange().getValues();
   const rows = data.slice(1);
 
   return rows.map(r => ({
-    tipoContrato: r[5], // F
-    razonSocial: r[6],  // G
-    fechaFin: r[12]     // M
+    id: r[1],              // B
+    numCliente: r[2],      // C
+    numDctSap: r[3],       // D
+    numContrato: r[4],     // E
+
+    tipoContrato: r[5],    // F
+    concepto: r[8],        // I
+    fechaFin: r[12]        // M
   }));
 }
 
-function filtrar(tipo, razon, fecha) {
+function filtrar(tipo, concepto, fecha) {
   const datos = getData();
 
   return datos.filter(row => {
     let ok = true;
 
-    if (tipo) ok = ok && row.tipoContrato === tipo;
-    if (razon) ok = ok && row.razonSocial.toLowerCase().includes(razon.toLowerCase());
-    if (fecha) ok = ok && new Date(row.fechaFin) <= new Date(fecha);
+    if (tipo)
+      ok = ok && row.tipoContrato === tipo;
+
+    if (concepto)
+      ok = ok && row.concepto.toLowerCase().includes(concepto.toLowerCase());
+
+    if (fecha)
+      ok = ok && new Date(row.fechaFin) <= new Date(fecha);
 
     return ok;
   });
@@ -55,5 +66,5 @@ function getTiposContrato() {
 
 function sendJSON(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
-      .setMimeType(ContentService.MimeType.JSON);
+    .setMimeType(ContentService.MimeType.JSON);
 }
