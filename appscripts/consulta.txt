@@ -1,0 +1,59 @@
+function doGet(e) {
+  const action = e.parameter.action;
+
+  if (action === "getData") {
+    return sendJSON(getData());
+  }
+
+  if (action === "filter") {
+    const tipo = e.parameter.tipo || "";
+    const razon = e.parameter.razon || "";
+    const fecha = e.parameter.fecha || "";
+    return sendJSON(filtrar(tipo, razon, fecha));
+  }
+
+  if (action === "getTipos") {
+    return sendJSON(getTiposContrato());
+  }
+
+  return sendJSON({error: "Acción inválida"});
+}
+
+function getData() {
+  const ss = SpreadsheetApp.openById(
+    "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk"
+  );
+  const sheet = ss.getSheetByName("contratos"); // cámbialo
+  const data = sheet.getDataRange().getValues();
+  const rows = data.slice(1);
+
+  return rows.map(r => ({
+    tipoContrato: r[5], // F
+    razonSocial: r[6],  // G
+    fechaFin: r[12]     // M
+  }));
+}
+
+function filtrar(tipo, razon, fecha) {
+  const datos = getData();
+
+  return datos.filter(row => {
+    let ok = true;
+
+    if (tipo) ok = ok && row.tipoContrato === tipo;
+    if (razon) ok = ok && row.razonSocial.toLowerCase().includes(razon.toLowerCase());
+    if (fecha) ok = ok && new Date(row.fechaFin) <= new Date(fecha);
+
+    return ok;
+  });
+}
+
+function getTiposContrato() {
+  const datos = getData();
+  return [...new Set(datos.map(r => r.tipoContrato))];
+}
+
+function sendJSON(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+      .setMimeType(ContentService.MimeType.JSON);
+}

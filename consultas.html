@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,8 +28,8 @@
         </div>
 
         <div class="col-md-4">
-          <label class="form-label fw-bold">Razón Social</label>
-          <input id="razon" class="form-control" placeholder="Buscar..." />
+          <label class="form-label fw-bold">Concepto (columna I)</label>
+          <input id="concepto" class="form-control" placeholder="Buscar concepto..." />
         </div>
 
         <div class="col-md-4">
@@ -55,7 +54,7 @@
             <thead class="table-dark">
               <tr>
                 <th>Tipo Contrato</th>
-                <th>Razón Social</th>
+                <th>Concepto</th>
                 <th>Fecha Fin</th>
               </tr>
             </thead>
@@ -68,12 +67,11 @@
 
   <script>
     // ---------------------------------------------------
-    // 🚨 PON AQUÍ LA URL DE TU WEB APP DE APPS SCRIPT
+    // 
     // ---------------------------------------------------
-    const API_URL = "https://script.google.com/macros/s/AKfycbzxt83aF2VnHo72KeS0T9htXEfU1WiQo6-FK4H9zIRJJMDmHfkborKcuwpi8UqRh5-G/exec";
-    //
+    const API_URL = "https://script.google.com/macros/s/AKfycbxbUgr9KqABsa-SZEJU-vncQ78FUwCmaWRFaIHH7AC-zUyEeT8v6VLGFM7BxqROkUVx/exec";
 
-    // Cargar tipos de contrato al inicio
+    // Cargar tipos de contrato
     async function cargarTipos() {
       try {
         const res = await fetch(API_URL + "?action=getTipos");
@@ -95,13 +93,13 @@
     // Filtrar
     async function filtrar() {
       const tipo = document.getElementById("tipo").value;
-      const razon = document.getElementById("razon").value;
+      const concepto = document.getElementById("concepto").value;
       const fecha = document.getElementById("fecha").value;
 
       const url =
         `${API_URL}?action=filter` +
         `&tipo=${encodeURIComponent(tipo)}` +
-        `&razon=${encodeURIComponent(razon)}` +
+        `&concepto=${encodeURIComponent(concepto)}` +
         `&fecha=${encodeURIComponent(fecha)}`;
 
       try {
@@ -113,7 +111,7 @@
       }
     }
 
-    // Mostrar resultados en la tabla
+    // Mostrar tabla
     function mostrar(data) {
       const tbody = document.getElementById("tabla");
       tbody.innerHTML = "";
@@ -127,7 +125,7 @@
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${row.tipoContrato || ""}</td>
-          <td>${row.razonSocial || ""}</td>
+          <td>${row.concepto || ""}</td>
           <td>${row.fechaFin || ""}</td>
         `;
         tbody.appendChild(tr);
@@ -138,7 +136,6 @@
     async function cargarTodo() {
       await cargarTipos();
 
-      // mostrar todos al inicio
       const res = await fetch(API_URL + "?action=getData");
       mostrar(await res.json());
     }
