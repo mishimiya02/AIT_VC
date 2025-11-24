@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    
+  <link id="theme-style" rel="stylesheet" href="css/consultar.css">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Filtro de Contratos</title>
@@ -13,6 +16,54 @@
 </head>
 
 <body class="bg-light">
+     <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">Servicios</a>
+            <div class="dropdown-content">
+               
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion.html' target='_blank'>Comparación</a>
+                 <a href="comprobante.html">COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+            <div class="dropdown">
+                <a class="dropbtn">BD CLIENTES</a>
+                <div class="dropdown-content">
+                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
+                    <a href='editar.html'>CONSULTAR CLIENTE </a>
+                     <a href='catalogo.html'>REGISTRAR CONTRATO</a>
+        <div class="submenu">
+                        <a href='#'>MODIFICAR CONTRATO</a>
+                        <div class="submenu-content">
+                            <a href='/modificar.html'>MODIFICAR POR ID</a>
+                            <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+                           
+                        </div>
+                    </div>
+                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                   
+                   
+                </div>
+            </div>
+
+        <a href='/contacto.html'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+	</nav>
+
   <div class="container py-5">
     <h2 class="mb-4 text-center">Filtrar Contratos</h2>
 
@@ -68,7 +119,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbw9DhI27dW4Tf69motTOxavof8FxdRqe4lEXe1DBcwzYYH-GYVUj6TyNjxgp-pTUFye/exec"; // ← PÉGALA AQUÍ
+    const API_URL = "https://script.google.com/macros/s/AKfycbwOvzxUuzv4NHsfnfozqvBEhvwAfkfiEXH5LcH95BsMDbvPMYex9hIIBa3Sz2Hh_To1/exec"; // ← link de appscript AQUÍ
 
     async function cargarTipos() {
       const res = await fetch(API_URL + "?action=getTipos");
