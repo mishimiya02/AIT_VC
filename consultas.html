@@ -99,6 +99,8 @@
     <div class="card mt-4 shadow-sm">
       <div class="card-body">
         <h4 class="mb-3">Resultados</h4>
+  
+        <p id="contador" style="font-weight: bold; margin-top: 10px;">Total de registros: 0</p>
 
         <div class="table-responsive">
           <table class="table table-bordered table-striped">
@@ -126,10 +128,13 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwOvzxUuzv4NHsfnfozqvBE
 // Función para mostrar los datos en la tabla
 function mostrar(data) {
   const tbody = document.getElementById("tabla");
+  const contador = document.getElementById("contador");
+
   tbody.innerHTML = "";
 
   if (!data.length) {
     tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#999;">Sin resultados</td></tr>`;
+    contador.textContent = "Total de registros: 0";
     return;
   }
 
@@ -146,7 +151,11 @@ function mostrar(data) {
       </tr>
     `;
   });
+
+  // Actualizar el contador
+  contador.textContent = `Total de registros: ${data.length}`;
 }
+
 
 // Carga los tipos de contrato en el select
 async function cargarTipos() {
