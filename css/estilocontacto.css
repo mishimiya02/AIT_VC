@@ -298,7 +298,7 @@ body {
     background-image: url('/img/avion3.png'); 
     background-size: contain;
     background-repeat: no-repeat;
-    animation: fly-right 8s ease-in-out infinite;
+    animation: fly-right 5s ease-in-out infinite;
     z-index: 10;
 }
 
