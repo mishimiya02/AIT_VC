@@ -21,10 +21,10 @@
         <a class="dropbtn">Servicios</a>
         <div class="dropdown-content">
           <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-          <a href='/comparacion.html' target='_blank'>Comparación</a>
-          <a href="comprobante.html">COMPROBANTES DE DEPOSITOS</a>
-          <a href="cedula.html" target="_blank">CEDULA DE DETERMINACIÓN</a>
-          <a href="cancelar.html" target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+          <a href='/comparacion' target='_blank'>Comparación</a>
+          <a href='/comprobante'>COMPROBANTES DE DEPOSITOS</a>
+          <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+          <a href='/cancelar' target='_blank'>CANCELACIÓN DE COMPROBANTES</a>
         </div>
       </div>
       
@@ -32,22 +32,22 @@
       <div class="dropdown">
         <a class="dropbtn">BD CLIENTES</a>
         <div class="dropdown-content">
-          <a href='registrar.html'>REGISTRAR CLIENTE</a>
-          <a href='editar.html'>CONSULTAR CLIENTE </a>
-          <a href='catalogo.html'>REGISTRAR CONTRATO</a>
-          <a href='consultas.html'>FILTRAR CONTRATOS</a>
+          <a href='/registrar'>REGISTRAR CLIENTE</a>
+          <a href='/editar'>CONSULTAR CLIENTE </a>
+          <a href='/catalogo'>REGISTRAR CONTRATO</a>
+          <a href='/consultas'>FILTRAR CONTRATOS</a>
           <div class="submenu">
             <a href='#'>MODIFICAR CONTRATO</a>
             <div class="submenu-content">
-              <a href='/modificar.html'>MODIFICAR POR ID</a>
-              <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+              <a href='/modificar'>MODIFICAR POR ID</a>
+              <a href='/buscarnc'>MODIFICAR POR N. CLIENTE</a>
             </div>
           </div>
           <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
         </div>
       </div>
 
-      <a href='/contacto.html'>Contacto</a>
+      <a href='/contacto'>Contacto</a>
       <button id="theme-toggle">🌙 Modo Nocturno</button>
     </div>
   </nav>
@@ -114,7 +114,7 @@
   </div>
 
   <script>
-const API_URL = "https://script.google.com/macros/s/AKfycby4Mtts76oEsaqC75D-lHM0plxvNTMPw0qDR7Ng5axaM4dgvXJbqA5AgrsOjdg_0iTA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbym1fS9YMQjFUBZbXZk7lcKn4-0xAVsRh2AtrQT1mKL4uBUCOF5EXgMmIYpbpBezRxs/exec";
 
 // Función para mostrar los datos en la tabla
 function mostrar(data) {
