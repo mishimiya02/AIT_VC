@@ -103,6 +103,10 @@
                 <th>Núm. Contrato</th>
                 <th>Tipo Contrato</th>
                 <th>Concepto</th>
+                <th>Tarifa</th>
+                <th>Mantenimiento</th>
+                <th>Luz</th>
+                <th>Agua</th>
                 <th>Fecha Fin</th>
               </tr>
             </thead>
@@ -114,7 +118,7 @@
   </div>
 
   <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbym1fS9YMQjFUBZbXZk7lcKn4-0xAVsRh2AtrQT1mKL4uBUCOF5EXgMmIYpbpBezRxs/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbydQ3-iAH2ZCbFj_AC9L1hQVU-YajQyvPQMJ4QOeQ9RE3W8SdECDDfP8wEMsT01SHbo/exec";
 
 // Función para mostrar los datos en la tabla
 function mostrar(data) {
@@ -124,7 +128,7 @@ function mostrar(data) {
   tbody.innerHTML = "";
 
   if (!data.length) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#999;">Sin resultados</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; color:#999;">Sin resultados</td></tr>`;
     contador.textContent = "Total de registros: 0";
     return;
   }
@@ -138,6 +142,10 @@ function mostrar(data) {
         <td>${r.numContrato || ""}</td>
         <td>${r.tipoContrato || ""}</td>
         <td>${r.concepto || ""}</td>
+        <td>${r.tarifa || ""}</td>
+        <td>${r.mantenimiento || ""}</td>
+        <td>${r.luz || ""}</td>
+        <td>${r.agua || ""}</td>
         <td>${r.fechaFin || ""}</td>
       </tr>
     `;
