@@ -126,10 +126,10 @@ async function getData() {
   const json = await res.json();
   const rows = json.values.slice(1); // Ignorar cabecera
   return rows.map(r => ({
-    id: r[0],
-    numCliente: r[1],
-    numDctSap: r[2],
-    numContrato: r[3],
+    id: r[1],
+    numCliente: r[2],
+    numDctSap: r[3],
+    numContrato: r[4],
     tipoContrato: r[5],  // Columna F
     concepto: r[8],      // Columna I
     fechaFin: r[12],     // Columna M
