@@ -59,6 +59,7 @@
               <th>Tipo Contrato</th>
               <th>Concepto</th>
               <th>Fecha Fin</th>
+               <th>Tarifa Q</th>
               <th>Estatus Facturación</th>
               <th>Estatus AZ</th>
             </tr>
@@ -88,6 +89,7 @@ async function getData() {
     tipoContrato: r[5],  // Columna F
     concepto: r[8],      // Columna I
     fechaFin: r[12],     // Columna M
+      tarifaQ: r[16] || "", // Q
     estatusAW: r[48] || "", // Columna AW
     estatusAZ: r[51] || ""  // Columna AZ
   }));
@@ -114,6 +116,7 @@ function mostrar(data) {
       <td>${r.tipoContrato}</td>
       <td>${r.concepto}</td>
       <td>${r.fechaFin}</td>
+        <td>${r.tarifaQ}</td>
       <td>${r.estatusAW}</td>
       <td>${r.estatusAZ}</td>
     </tr>`;
