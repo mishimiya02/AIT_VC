@@ -105,8 +105,11 @@
               <th>Tipo Contrato</th>
               <th>Concepto</th>
               <th>Fecha Fin</th>
-               <th>Tarifa Q</th>
-              <th>Estatus Facturación</th>
+               <th>Tarifa </th>
+                <th>Mantenimiento</th>
+                 <th>Luz</th>
+                  <th>Agua</th>
+                   <th>Estatus Facturación</th>
               <th>Estatus </th>
             </tr>
           </thead>
@@ -116,7 +119,7 @@
     </div>
   </div>
   <br>
-  <button class="btn btn-success mb-3" onclick="exportarCSV()">Exportar a Excel</button>
+  <button class="btn btn-success mb-3" onclick="exportarCSV()">Exportar a Excel (.csv)</button>
 <button class="btn btn-success mb-3" onclick="exportarXLSX()">Exportar a Excel (.xlsx)</button>
 
 </div>
@@ -140,8 +143,12 @@ async function getData() {
     concepto: r[8],      // Columna I
     fechaFin: r[12],     // Columna M
       tarifaQ: r[16] || "", // Q
+      mantenimiento:r[20],
+       luz:r[21],
+        agua:r[22],
     estatusAW: r[48] || "", // Columna AW
     estatusAZ: r[51] || ""  // Columna AZ
+    
   }));
 }
 
@@ -166,7 +173,10 @@ function mostrar(data) {
       <td>${r.tipoContrato}</td>
       <td>${r.concepto}</td>
       <td>${r.fechaFin}</td>
-        <td>${r.tarifaQ}</td>
+      <td>${r.tarifaQ}</td>
+      <td>${r.mantenimiento}</td>
+      <td>${r.luz}</td>
+      <td>${r.agua}</td>
       <td>${r.estatusAW}</td>
       <td>${r.estatusAZ}</td>
     </tr>`;
