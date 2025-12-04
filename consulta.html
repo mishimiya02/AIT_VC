@@ -127,13 +127,16 @@
 <button class="btn btn-success mb-3" onclick="exportarXLSX()">Exportar a Excel (.xlsx)</button>
 
 </div>
-
 <script>
+// Configuración de Google Sheets
 const SPREADSHEET_ID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk";
 const SHEET_NAME = "contratos";
 const API_KEY = "AIzaSyBE2QwI6eIPWB1unm7nsLX-oqNB26veBsQ";
 
-// Obtener datos de Google Sheets
+// Gráficas globales
+let chartTipo, chartEstatus, chartFacturacion;
+
+// Función para obtener todos los datos de Google Sheets
 async function getData() {
   const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`);
   const json = await res.json();
@@ -143,16 +146,15 @@ async function getData() {
     numCliente: r[2],
     numDctSap: r[3],
     numContrato: r[4],
-    tipoContrato: r[5],  // Columna F
-    concepto: r[8],      // Columna I
-    fechaFin: r[12],     // Columna M
-      tarifaQ: r[16] || "", // Q
-      mantenimiento:r[20],
-       luz:r[21],
-        agua:r[22],
-    estatusAW: r[48] || "", // Columna AW
-    estatusAZ: r[51] || ""  // Columna AZ
-    
+    tipoContrato: r[5],
+    concepto: r[8],
+    fechaFin: r[12],
+    tarifaQ: r[16] || "",
+    mantenimiento: r[20] || "",
+    luz: r[21] || "",
+    agua: r[22] || "",
+    estatusAW: r[48] || "",
+    estatusAZ: r[51] || ""
   }));
 }
 
@@ -163,7 +165,7 @@ function mostrar(data) {
   tbody.innerHTML = "";
 
   if (!data.length) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;">Sin resultados</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="13" style="text-align:center;">Sin resultados</td></tr>`;
     contador.textContent = "Total de registros: 0";
     return;
   }
@@ -193,17 +195,14 @@ function mostrar(data) {
 async function cargarFiltros() {
   const data = await getData();
 
-  // Tipo de Contrato
   const tipos = [...new Set(data.map(r => r.tipoContrato).filter(Boolean))];
   const selectTipo = document.getElementById("tipo");
   tipos.forEach(t => selectTipo.innerHTML += `<option value="${t}">${t}</option>`);
 
-  // Estatus Facturación AW
   const estAW = [...new Set(data.map(r => r.estatusAW).filter(Boolean))];
   const selectAW = document.getElementById("estatusAW");
   estAW.forEach(e => selectAW.innerHTML += `<option value="${e}">${e}</option>`);
 
-  // Estatus AZ
   const estAZ = [...new Set(data.map(r => r.estatusAZ).filter(Boolean))];
   const selectAZ = document.getElementById("estatusAZ");
   estAZ.forEach(e => selectAZ.innerHTML += `<option value="${e}">${e}</option>`);
@@ -232,8 +231,9 @@ async function filtrar() {
 
 // Inicialización
 cargarFiltros().then(filtrar);
+
+// Exportar CSV
 function exportarCSV() {
-  // Tomamos los datos que se muestran actualmente en la tabla
   const dataRows = Array.from(document.querySelectorAll("#tabla tr"));
   if (dataRows.length === 0) {
     Swal.fire('Aviso', 'No hay datos para exportar', 'warning');
@@ -241,17 +241,14 @@ function exportarCSV() {
   }
 
   let csv = '';
-  // Cabecera
-  const headers = ["ID", "Núm. Cliente", "Núm. DCT SAP", "Núm. Contrato", "Tipo Contrato", "Concepto", "Fecha Fin", "Tarifa ","Mantenimiento","Luz","Agua ", "Estatus ", "Estatus "];
+  const headers = ["ID","Núm. Cliente","Núm. DCT SAP","Núm. Contrato","Tipo Contrato","Concepto","Fecha Fin","Tarifa","Mantenimiento","Luz","Agua","Estatus AW","Estatus AZ"];
   csv += headers.join(',') + '\n';
 
-  // Filas
   dataRows.forEach(tr => {
-    const cols = Array.from(tr.children).map(td => `"${td.textContent.replace(/"/g,'""')}"`); 
+    const cols = Array.from(tr.children).map(td => `"${td.textContent.replace(/"/g,'""')}"`);
     csv += cols.join(',') + '\n';
   });
 
-  // Crear archivo y descargar
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -263,14 +260,14 @@ function exportarCSV() {
   URL.revokeObjectURL(url);
 }
 
-
+// Exportar XLSX
 async function getDataRaw() {
   const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`);
   const json = await res.json();
-  return json.values; // Incluye encabezados + columnas completas
+  return json.values;
 }
-async function exportarXLSX() {
 
+async function exportarXLSX() {
   Swal.fire({
     title: "Generando archivo...",
     text: "Por favor espera",
@@ -278,7 +275,6 @@ async function exportarXLSX() {
     didOpen: () => Swal.showLoading()
   });
 
-  // Obtener TODOS los datos de la hoja
   const datos = await getDataRaw();
 
   if (!datos || datos.length === 0) {
@@ -286,120 +282,102 @@ async function exportarXLSX() {
     return;
   }
 
-  // Crear workbook y worksheet
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.aoa_to_sheet(datos);
   XLSX.utils.book_append_sheet(wb, ws, "Hoja Completa");
-
-  // Descargar archivo
   XLSX.writeFile(wb, "contratos_completos.xlsx");
 
   Swal.close();
   Swal.fire('Éxito', 'Se exportó la hoja completa correctamente', 'success');
 }
 
-
-
-let chartTipo, chartEstatus, chartFacturacion;
-
-// Función para abrir el modal y generar gráficas
-async function abrirGraficas() {
-    const data = await getData();
-
-    // Rehacer filtrado usando misma función
-    const tipo = document.getElementById("tipo").value;
-    const concepto = document.getElementById("concepto").value.toLowerCase();
-    const estatusAW = document.getElementById("estatusAW").value;
-    const estatusAZ = document.getElementById("estatusAZ").value;
-
-    const filtrado = data.filter(r => {
-        let ok = true;
-        if (tipo) ok = ok && r.tipoContrato === tipo;
-        if (concepto) ok = ok && r.concepto.toLowerCase().includes(concepto);
-        if (estatusAW) ok = ok && r.estatusAW === estatusAW;
-        if (estatusAZ) ok = ok && r.estatusAZ === estatusAZ;
-        return ok;
-    });
-
-    generarGraficas(filtrado);
-
-    const modal = new bootstrap.Modal(document.getElementById("modalGraficas"));
-    modal.show();
-}
-
-// Crear gráficas
-function generarGraficas(datos) {
-
-    // Agrupar datos
+// Función para generar gráficas comparando filtrado vs total
+function generarGraficas(filtrado) {
+  getData().then(total => {
     const contar = (arr, campo) =>
-        Object.entries(
-            arr.reduce((a, c) => {
-                const val = c[campo] || "Sin dato";
-                a[val] = (a[val] || 0) + 1;
-                return a;
-            }, {})
-        );
+      arr.reduce((acc, cur) => {
+        const val = cur[campo] || "Sin dato";
+        acc[val] = (acc[val] || 0) + 1;
+        return acc;
+      }, {});
 
-    const tipos = contar(datos, "tipoContrato");
-    const estatus = contar(datos, "estatusAZ");
-    const facturacion = contar(datos, "estatusAW");
+    // Tipos
+    const totalTipos = contar(total, "tipoContrato");
+    const filtradoTipos = contar(filtrado, "tipoContrato");
+    const labelsTipos = [...new Set([...Object.keys(totalTipos)])];
 
-    // Destruir si ya existen (evita duplicados)
     if (chartTipo) chartTipo.destroy();
-    if (chartEstatus) chartEstatus.destroy();
-    if (chartFacturacion) chartFacturacion.destroy();
-
-    // Colores pequeños y suaves
-    const colores = [
-        "#0d6efd", "#198754", "#dc3545",
-        "#ffc107", "#6f42c1", "#20c997"
-    ];
-
-    // Gráfica 1: Tipo de contrato
     chartTipo = new Chart(document.getElementById("grafTipo"), {
-        type: "doughnut",
-        data: {
-            labels: tipos.map(t => t[0]),
-            datasets: [{
-                data: tipos.map(t => t[1]),
-                backgroundColor: colores
-            }]
-        },
-        options: { plugins: { legend: { display: false } } }
+      type: "bar",
+      data: {
+        labels: labelsTipos,
+        datasets: [
+          { label: "Filtrado", data: labelsTipos.map(l => filtradoTipos[l] || 0), backgroundColor: "#0d6efd" },
+          { label: "Total", data: labelsTipos.map(l => totalTipos[l] || 0), backgroundColor: "#6c757d" }
+        ]
+      },
+      options: { plugins: { legend: { display: true } }, scales: { y: { beginAtZero: true } } }
     });
 
-    // Gráfica 2: Estatus AZ
+    // Estatus AZ
+    const totalEstatus = contar(total, "estatusAZ");
+    const filtradoEstatus = contar(filtrado, "estatusAZ");
+    const labelsEstatus = [...new Set([...Object.keys(totalEstatus)])];
+
+    if (chartEstatus) chartEstatus.destroy();
     chartEstatus = new Chart(document.getElementById("grafEstatus"), {
-        type: "pie",
-        data: {
-            labels: estatus.map(e => e[0]),
-            datasets: [{
-                data: estatus.map(e => e[1]),
-                backgroundColor: colores
-            }]
-        },
-        options: { plugins: { legend: { display: false } } }
+      type: "bar",
+      data: {
+        labels: labelsEstatus,
+        datasets: [
+          { label: "Filtrado", data: labelsEstatus.map(l => filtradoEstatus[l] || 0), backgroundColor: "#198754" },
+          { label: "Total", data: labelsEstatus.map(l => totalEstatus[l] || 0), backgroundColor: "#6c757d" }
+        ]
+      },
+      options: { plugins: { legend: { display: true } }, scales: { y: { beginAtZero: true } } }
     });
 
-    // Gráfica 3: Estatus Facturación AW
+    // Estatus AW
+    const totalAW = contar(total, "estatusAW");
+    const filtradoAW = contar(filtrado, "estatusAW");
+    const labelsAW = [...new Set([...Object.keys(totalAW)])];
+
+    if (chartFacturacion) chartFacturacion.destroy();
     chartFacturacion = new Chart(document.getElementById("grafFacturacion"), {
-        type: "bar",
-        data: {
-            labels: facturacion.map(f => f[0]),
-            datasets: [{
-                label: "Registros",
-                data: facturacion.map(f => f[1]),
-                backgroundColor: "#198754"
-            }]
-        },
-        options: { 
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true } }
-        }
+      type: "bar",
+      data: {
+        labels: labelsAW,
+        datasets: [
+          { label: "Filtrado", data: labelsAW.map(l => filtradoAW[l] || 0), backgroundColor: "#ffc107" },
+          { label: "Total", data: labelsAW.map(l => totalAW[l] || 0), backgroundColor: "#6c757d" }
+        ]
+      },
+      options: { plugins: { legend: { display: true } }, scales: { y: { beginAtZero: true } } }
     });
+  });
 }
 
+// Función global para el botón
+function abrirGraficas() {
+  const dataRows = Array.from(document.querySelectorAll("#tabla tr"));
+  if (!dataRows.length) return;
+
+  const filtrado = dataRows.map(tr => {
+    const tds = tr.children;
+    return {
+      tipoContrato: tds[4].textContent,
+      estatusAZ: tds[12].textContent,
+      estatusAW: tds[11].textContent
+    };
+  });
+
+  generarGraficas(filtrado);
+
+  const modal = new bootstrap.Modal(document.getElementById("modalGraficas"));
+  modal.show();
+}
 </script>
+
 <!-- Modal de Gráficas -->
 <div class="modal fade" id="modalGraficas" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -441,8 +419,11 @@ function generarGraficas(datos) {
     </div>
   </div>
 </div>
+<button class="btn btn-primary" onclick="abrirGraficas()">Ver Gráficas</button>
 
+<!-- Scripts al final -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
