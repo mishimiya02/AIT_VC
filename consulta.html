@@ -364,26 +364,31 @@ function generarGraficas(filtrado) {
 
 // Función global para el botón
 async function abrirGraficas() {
-    // Obtener valores de filtros
     const tipo = document.getElementById("tipo").value || "Todos";
     const concepto = document.getElementById("concepto").value || "Todos";
     const estatusAW = document.getElementById("estatusAW").value || "Todos";
     const estatusAZ = document.getElementById("estatusAZ").value || "Todos";
 
-    // Mostrar filtros en el modal
-    const textoFiltros = `Tipo de Contrato: ${tipo} | Concepto: ${concepto} | Estatus de Facturación: ${estatusAW} | Estatus: ${estatusAZ}`;
+    // Mostrar filtros en el modal con saltos de línea
+    const textoFiltros = 
+        `Tipo de Contrato: ${tipo}\n` +
+        `Concepto: ${concepto}\n` +
+        `Estatus de Facturación: ${estatusAW}\n` +
+        `Estatus: ${estatusAZ}`;
+
     document.getElementById("textoFiltros").textContent = textoFiltros;
 
-    // Filtrar datos y esperar el resultado
+    // Filtrar datos
     const filtrado = await filtrar();
 
-    // Generar gráficas con los datos filtrados
+    // Generar gráficas
     generarGraficas(filtrado);
 
     // Abrir modal
     const modal = new bootstrap.Modal(document.getElementById('modalGraficas'));
     modal.show();
 }
+
  
 </script>
 
@@ -401,11 +406,11 @@ async function abrirGraficas() {
 <!-- Filtros aplicados -->
 <div id="filtrosAplicados" class="mb-3">
   <strong>Filtros aplicados:</strong>
-  <p id="textoFiltros" class="text-muted mb-0">Ninguno</p>
+  <p id="textoFiltros" class="text-muted" style="white-space: pre-line;"></p>
+
 </div>
 
-        <p class="text-muted">Basado en los resultados filtrados actualmente.</p>
-
+        
         <!-- Pequeñas gráficas -->
         <div class="row">
           
