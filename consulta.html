@@ -24,17 +24,19 @@
                 <a class="dropbtn">Servicios</a>
                 <div class="dropdown-content">
                   
-               <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                
-                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
-                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
                
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 <a href='/comprobante'>COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
                 </div>
             </div>
 
              <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
             <div class="dropdown">
-                <a class="dropbtn">BD CLIENTES</a>
+                <a class="dropbtn">CBD</a>
                 <div class="dropdown-content">
                     <a href='registrar.html'>REGISTRAR CLIENTE</a>
                     <a href='editar.html'>CONSULTAR CLIENTE</a>
@@ -227,6 +229,9 @@ async function filtrar() {
   });
 
   mostrar(filtrado);
+
+  // <-- DEVOLVER el filtrado
+  return filtrado;
 }
 
 // Inicialización
@@ -358,24 +363,28 @@ function generarGraficas(filtrado) {
 }
 
 // Función global para el botón
-function abrirGraficas() {
-  const dataRows = Array.from(document.querySelectorAll("#tabla tr"));
-  if (!dataRows.length) return;
+async function abrirGraficas() {
+    // Obtener valores de filtros
+    const tipo = document.getElementById("tipo").value || "Todos";
+    const concepto = document.getElementById("concepto").value || "Todos";
+    const estatusAW = document.getElementById("estatusAW").value || "Todos";
+    const estatusAZ = document.getElementById("estatusAZ").value || "Todos";
 
-  const filtrado = dataRows.map(tr => {
-    const tds = tr.children;
-    return {
-      tipoContrato: tds[4].textContent,
-      estatusAZ: tds[12].textContent,
-      estatusAW: tds[11].textContent
-    };
-  });
+    // Mostrar filtros en el modal
+    const textoFiltros = `Tipo de Contrato: ${tipo} | Concepto: ${concepto} | Estatus de Facturación: ${estatusAW} | Estatus: ${estatusAZ}`;
+    document.getElementById("textoFiltros").textContent = textoFiltros;
 
-  generarGraficas(filtrado);
+    // Filtrar datos y esperar el resultado
+    const filtrado = await filtrar();
 
-  const modal = new bootstrap.Modal(document.getElementById("modalGraficas"));
-  modal.show();
+    // Generar gráficas con los datos filtrados
+    generarGraficas(filtrado);
+
+    // Abrir modal
+    const modal = new bootstrap.Modal(document.getElementById('modalGraficas'));
+    modal.show();
 }
+ 
 </script>
 
 <!-- Modal de Gráficas -->
@@ -389,6 +398,11 @@ function abrirGraficas() {
       </div>
 
       <div class="modal-body">
+<!-- Filtros aplicados -->
+<div id="filtrosAplicados" class="mb-3">
+  <strong>Filtros aplicados:</strong>
+  <p id="textoFiltros" class="text-muted mb-0">Ninguno</p>
+</div>
 
         <p class="text-muted">Basado en los resultados filtrados actualmente.</p>
 
