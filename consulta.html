@@ -238,7 +238,7 @@ function exportarCSV() {
 
   let csv = '';
   // Cabecera
-  const headers = ["ID", "Núm. Cliente", "Núm. DCT SAP", "Núm. Contrato", "Tipo Contrato", "Concepto", "Fecha Fin", "Tarifa Q", "Estatus AW", "Estatus AZ"];
+  const headers = ["ID", "Núm. Cliente", "Núm. DCT SAP", "Núm. Contrato", "Tipo Contrato", "Concepto", "Fecha Fin", "Tarifa ","Mantenimiento","Luz","Agua ", "Estatus ", "Estatus "];
   csv += headers.join(',') + '\n';
 
   // Filas
@@ -258,13 +258,42 @@ function exportarCSV() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-function exportarXLSX() {
-  // Tomamos los datos de la tabla
-  const dataRows = Array.from(document.querySelectorAll("#tabla tr"));
-  if (dataRows.length === 0) {
+
+
+async function getDataRaw() {
+  const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`);
+  const json = await res.json();
+  return json.values; // Incluye encabezados + columnas completas
+}
+async function exportarXLSX() {
+
+  Swal.fire({
+    title: "Generando archivo...",
+    text: "Por favor espera",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading()
+  });
+
+  // Obtener TODOS los datos de la hoja
+  const datos = await getDataRaw();
+
+  if (!datos || datos.length === 0) {
     Swal.fire('Aviso', 'No hay datos para exportar', 'warning');
     return;
   }
+
+  // Crear workbook y worksheet
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(datos);
+  XLSX.utils.book_append_sheet(wb, ws, "Hoja Completa");
+
+  // Descargar archivo
+  XLSX.writeFile(wb, "contratos_completos.xlsx");
+
+  Swal.close();
+  Swal.fire('Éxito', 'Se exportó la hoja completa correctamente', 'success');
+}
+
 
   // Construimos un array de arrays
   const datos = [];
@@ -283,7 +312,7 @@ function exportarXLSX() {
 
   // Descargar archivo
   XLSX.writeFile(wb, "contratos_filtrados.xlsx");
-}
+
 
 </script>
 
