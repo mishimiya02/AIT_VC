@@ -5,7 +5,7 @@
 <title>Generar Recibo</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+<link rel="stylesheet" href="css/recibos.css">
 <style>
     body{
         font-family: Arial, sans-serif;
@@ -95,9 +95,79 @@
     }
 
 </style>
+ <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+    </script>
 </head>
 <body>
 
+    <!-- Barra de navegación -->
+    <nav class="clearfix">
+        <img src="img/logo2.png" alt="Logo" class="logo">
+        <div class="menu-center">  
+            <a href='/'>Inicio</a>
+            
+            <!-- Dropdown de Servicios -->
+            <div class="dropdown">
+                <a class="dropbtn">Servicios</a>
+                <div class="dropdown-content">
+                    <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                    <a href='/comparacion.html' target='_blank'>COMPARACION</a>
+                    <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                  
+                    <a href="cedula.html" target="_blank">CEDULA DE DETERMINACIÓN</a>
+                      <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+                </div>
+            </div>
+
+            <!-- Segundo Dropdown de Recursos -->
+            <div class="dropdown">
+                <a class="dropbtn">CBD</a>
+                <div class="dropdown-content">
+                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
+                    <a href='editar.html'>CONSULTAR CLIENTE</a>
+                       <a href='catalogo.html'>REGISTRAR CONTRATO</a>
+                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
+                         <div class="submenu">
+                        <a >MODIFICAR CONTRATO</a>
+                        <div class="submenu-content">
+                            <a href='/modificar.html'>MODIFICAR POR ID</a>
+                            <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+                           
+                        </div>
+                    </div>
+                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                   
+                </div>
+            </div>
+
+            <a href='/contacto.html'>Contacto</a>
+            <button id="theme-toggle">🌙 Modo Nocturno</button>
+        </div>
+    </nav>
 <div class="form-card">
     <h2>Generar Recibo</h2>
 

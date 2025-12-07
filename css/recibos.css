@@ -1,0 +1,157 @@
+
+/* Para que funcione correctamente en todos los casos */
+.menu-center {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    z-index: 1000; /* Asegurar que el dropdawn esté por encima copiar para cada nav */
+}
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    
+      margin: 0;
+      padding: 0;
+    
+    background: linear-gradient(135deg, #e7e7e7 0%, #ececec 100%);
+    min-height: 100vh;
+            /* Estilos para submenús */
+        .submenu {
+            position: relative;
+        }
+        
+        .submenu-content {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: #fff;
+            min-width: 220px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 1001;
+            border-radius: 8px;
+            transform: translateX(10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .submenu:hover .submenu-content {
+            display: block;
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .submenu > a::after {
+            content: '›';
+            position: absolute;
+            right: 10px;
+            font-size: 1.2rem;
+        }
+}
+  /* Estilo para borde degradado */
+  .container {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 20px;
+    background: #fff;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  .container::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 0px;
+    background: linear-gradient(135deg, #ffae00, #ffd900);
+    z-index: -1;
+  }
+
+
+ 			nav {
+ 				background-color: #ff9100;/*color de barra de navegación*/
+        padding-left: 0;
+ 				display: flex;
+ 				justify-content: space-between;
+ 				align-items: stretch;
+ 				position: relative;
+ 				height: 100px; /* altura */
+ 			}
+
+          
+ 
+ 			.menu-center {
+ 				display: flex;
+ 				position: absolute;
+ 				left: 50%;
+ 				transform: translateX(-50%);
+ 				height: 100%;
+ 			}
+ 
+ 			nav a {
+ 				color: white;
+ 				font-weight: bold;
+ 				font-size: 25px;
+ 				padding: 0 25px;
+ 				text-decoration: none;
+ 				font-family: 'Segoe UI', sans-serif;
+ 				letter-spacing: 1px;
+ 				text-transform: uppercase;
+ 				/*display: flex;*/
+ 				align-items: center;
+ 				height: 100%;
+ 				transition: all 0.3s;
+                display: flex;
+ 			}
+ 
+ 			nav a:hover {
+ 				background-color: #ffd000;
+ 				color: white;
+ 			}
+ 
+ 			/* Estilos NUEVOS para el dropdown  */
+ 			.dropdown {
+ 				position: relative;
+ 				height: 100%;
+ 				display: flex;
+ 				align-items: center;
+ 			}
+ 
+ 			.dropdown-content {
+ 				display: none;
+ 				position: absolute;
+ 				top: 100%;
+ 				left: 0;
+ 				background-color: white;
+ 				min-width: 200px;
+ 				box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+ 				z-index: 1000;
+ 			}
+ 
+ 			.dropdown-content a {
+ 				padding: 15px 25px;
+ 				color: black;
+ 				font-size: 16px;
+ 				text-transform: uppercase;
+ 				border-bottom: 1px solid #f0f0f0;
+ 			}
+ 
+ 			.dropdown-content a:hover {
+ 				background-color: #ffd000; /* Rojo al hover */
+ 				color: white;
+ 			}
+ 
+ 			.dropdown:hover .dropdown-content {
+ 				display: block;
+ 			}
+ 
+ 			/* Mantener hover azul en el botón principal */
+ 			.dropdown:hover > .dropbtn {
+ 				background-color: #ffd000;
+ 				color: white;
+ 			}
