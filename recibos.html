@@ -253,6 +253,171 @@ async function exportarPDF(){
     pdf.save("recibo.pdf");
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// ----------------- CONVERSOR NÚMERO -> LETRAS (ESPAÑOL) -----------------
+function numeroALetras(numero) {
+    if (numero === "" || numero === null || typeof numero === "undefined") return "";
+    numero = Number(String(numero).replace(/,/g, ''));
+    if (isNaN(numero)) return "";
+
+    if (numero === 0) return "CERO PESOS 00/100 M.N.";
+
+    const unidades = ["", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+    const especiales = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISEIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
+    const decenas = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+    const centenas = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
+
+    function convertirGrupo(n) {
+        let out = "";
+        n = Number(n);
+        if (n === 0) return "";
+        if (n === 100) return "CIEN";
+
+        if (n >= 100) {
+            const c = Math.floor(n / 100);
+            out += centenas[c] + (n % 100 === 0 ? "" : " ");
+            n = n % 100;
+        }
+
+        if (n >= 10 && n <= 19) {
+            out += especiales[n - 10];
+            return out;
+        }
+
+        if (n >= 20 && n <= 29) {
+            // 21 -> VEINTIUNO (sin espacio)
+            if (n === 20) return out + "VEINTE";
+            return out + "VEINTI" + unidades[n - 20].toLowerCase();
+        }
+
+        if (n >= 30) {
+            const d = Math.floor(n / 10);
+            out += decenas[d];
+            if (n % 10 !== 0) out += " Y " + unidades[n % 10];
+            return out;
+        }
+
+        if (n > 0 && n < 10) {
+            out += unidades[n];
+            return out;
+        }
+
+        return out;
+    }
+
+    function seccion(numero, divisor, sufijo) {
+        const cientos = Math.floor(numero / divisor);
+        const resto = numero - (cientos * divisor);
+        let letras = "";
+        if (cientos > 0) {
+            if (cientos === 1 && divisor === 1000) letras = "MIL";
+            else if (cientos === 1 && divisor === 1000000) letras = "UN MILLÓN";
+            else letras = convertirGrupo(cientos) + " " + sufijo;
+        }
+        return { letras, resto };
+    }
+
+    const entero = Math.floor(Math.abs(numero));
+    const decimales = Math.round((Math.abs(numero) - entero) * 100);
+
+    let resultado = "";
+
+    // millones
+    if (entero >= 1000000) {
+        const millones = Math.floor(entero / 1000000);
+        const restoMillones = entero - millones * 1000000;
+        if (millones === 1) resultado += "UN MILLÓN";
+        else resultado += convertirGrupo(Math.floor(millones / 1000)) !== "" && millones >= 1000
+            ? convertirGrupo(Math.floor(millones / 1000)) + " MIL " + convertirGrupo(millones % 1000)
+            : convertirGrupo(Math.floor(millones / 1000)) + (millones % 1000 ? " " + convertirGrupo(millones % 1000) : "");
+        // Simplify: we'll just use a reliable split below instead of overcomplicating
+    }
+
+    // We'll build more robustly by splitting in groups: millones / miles / cientos
+    function convertirNumeroCompleto(n) {
+        if (n === 0) return "CERO";
+        let s = "";
+        const millones = Math.floor(n / 1000000);
+        const miles = Math.floor((n % 1000000) / 1000);
+        const cientosRem = n % 1000;
+
+        if (millones > 0) {
+            if (millones === 1) s += "UN MILLÓN";
+            else s += convertirGrupo(millones) + " MILLONES";
+        }
+
+        if (miles > 0) {
+            if (s !== "") s += " ";
+            if (miles === 1) s += "MIL";
+            else s += convertirGrupo(miles) + " MIL";
+        }
+
+        if (cientosRem > 0) {
+            if (s !== "") s += " ";
+            s += convertirGrupo(cientosRem);
+        }
+
+        return s;
+    }
+
+    const letrasEntero = convertirNumeroCompleto(entero);
+
+    // Decide singular/plural PESO/PESOS
+    const moneda = entero === 1 ? "PESO" : "PESOS";
+
+    // Formato de centavos "00/100 M.N."
+    const centStr = (decimales < 10 ? "0" + decimales : decimales) + "/100 M.N.";
+
+    // Resultado final en mayúsculas
+    return letrasEntero + " " + moneda + " " + centStr;
+}
+
+// ----------------- ACTUALIZAR TEXTAREA EN TIEMPO REAL -----------------
+const montoInput = document.getElementById("monto");
+const cantidadLetraEl = document.getElementById("cantidadLetra");
+const reciboDiv = document.getElementById("recibo");
+
+montoInput.addEventListener("input", function () {
+    const val = this.value;
+    // Si el campo es vacío, dejamos vacío el textarea
+    if (val === "" || val === null) {
+        cantidadLetraEl.value = "";
+    } else {
+        cantidadLetraEl.value = numeroALetras(val);
+    }
+    // Si el recibo ya está visible, también actualizamos el campo dentro del recibo
+    const rCantidad = document.getElementById("r-cantidadLetra");
+    if (rCantidad) rCantidad.innerText = cantidadLetraEl.value;
+});
+
+// ----------------- RELLENAR RECIBO (YA EXISTENTE) -----------------
+function llenarRecibo(){
+    // Mostrar recibo
+    reciboDiv.style.display = "block";
+
+    const folio = document.getElementById("folio").value;
+    const montoRaw = document.getElementById("monto").value;
+    const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
+
+    document.getElementById("r-folio").innerText = folio || "00000";
+    document.getElementById("r-monto").innerText = monto;
+    document.getElementById("r-monto2").innerText = monto;
+    document.getElementById("r-reciboDe").innerText = document.getElementById("reciboDe").value || "";
+    // Si el textarea está vacío, lo intentamos calcular desde monto
+    const cantLet = cantidadLetraEl.value || numeroALetras(montoRaw);
+    document.getElementById("r-cantidadLetra").innerText = cantLet;
+    document.getElementById("r-concepto").innerText = document.getElementById("concepto").value || "";
+    document.getElementById("r-fecha").innerText = document.getElementById("fecha").value || "";
+    document.getElementById("r-operador").innerText = document.getElementById("operador").value || "";
+    document.getElementById("r-placas").innerText = document.getElementById("placas").value || "";
+    document.getElementById("r-acceso").innerText = document.getElementById("acceso").value || "";
+}
+
+</script>
+
 
 </body>
 </html>
