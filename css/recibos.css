@@ -155,3 +155,96 @@
  				background-color: #ffd000;
  				color: white;
  			}
+             body{
+        font-family: Arial, sans-serif;
+        background: #f3f4f6;
+        padding: 20px;
+    }
+
+    .form-card{
+        width: 420px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 18px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .form-card h2{
+        text-align: center;
+        color: #003a7d;
+        margin-bottom: 20px;
+    }
+
+    .form-card label{
+        font-weight: bold;
+        display: block;
+        margin-top: 12px;
+        color: #003a7d;
+    }
+
+    .form-card input,
+    .form-card textarea{
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 10px;
+        border: 1px solid #cfd4da;
+    }
+
+    .btn{
+        display: block;
+        width: 100%;
+        background: #003a7d;
+        color: white;
+        padding: 12px;
+        margin-top: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+    }
+
+    .btn:hover{
+        background: #004b9a;
+    }
+
+    /* RECIBO MEDIA HOJA */
+    .hoja-media{
+        width: 800px;
+        height: 430px;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        border: 3px solid #003a7d;
+        margin: 40px auto;
+        display: none; /* oculto */
+        transform: scale(0.9);
+    }
+
+    .cuadro{
+        border: 2px solid #003a7d;
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 10px;
+    }
+
+    .titulo{
+        text-align: right;
+        font-size: 32px;
+        font-weight: bold;
+        color: #003a7d;
+        margin-top: -10px;
+    }
+
+    .mini{
+        font-size: 14px; 
+        line-height: 16px;
+    }
+ body, nav, .formulario {
+    transition: background-color 1s ease, color 1s ease;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
