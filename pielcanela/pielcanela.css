@@ -892,3 +892,29 @@ footer {
         font-size: 1.1rem;
     }
 }
+
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--blanco);
+            color: var(--rosa-mexicano);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            transform: scale(1.1);
+            background-color: var(--rosa-claro);
+        }
+        
