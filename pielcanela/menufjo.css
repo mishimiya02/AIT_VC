@@ -1,0 +1,426 @@
+
+        /* Variables de color y fuentes */
+        :root {
+            --rosa-mexicano: #E75480;
+            --rosa-claro: #F8C8DC;
+            --blanco: #FFFFFF;
+            --gris-claro: #F5F5F5;
+            --texto-oscuro: #333333;
+            --sombra: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Estilo para el logo */
+
+
+        body {
+            background-color: var(--blanco);
+            color: var(--texto-oscuro);
+            line-height: 1.6;
+        }
+     
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--rosa-mexicano);
+            color: var(--blanco);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px var(--sombra);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+      
+      
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(231, 84, 128, 0.473), rgba(231, 84, 128, 0.8)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--blanco);
+            text-align: center;
+            padding: 80px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Secciones del menú */
+        .menu-section {
+            margin-bottom: 50px;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: var(--gris-claro);
+            box-shadow: 0 5px 15px var(--sombra);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--rosa-mexicano);
+            color: var(--rosa-mexicano);
+        }
+        
+        .section-title i {
+            font-size: 2rem;
+        }
+        
+        .section-title h3 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        /* Items del menú */
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .menu-item {
+            background-color: var(--blanco);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px var(--sombra);
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 10px;
+        }
+        
+        .item-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--rosa-mexicano);
+        }
+        
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--rosa-mexicano);
+            background-color: var(--rosa-claro);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        .item-description {
+            padding: 0 20px 15px;
+            color: #666;
+        }
+        
+        .item-ingredients {
+            padding: 0 20px 20px;
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+        }
+        
+        /* Sección de bebidas */
+        .drink-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px dashed var(--rosa-claro);
+        }
+        
+        .drink-item:last-child {
+            border-bottom: none;
+        }
+        
+        .drink-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--rosa-mexicano);
+            color: var(--blanco);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--blanco);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--blanco);
+            color: var(--rosa-mexicano);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            transform: scale(1.1);
+            background-color: var(--rosa-claro);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Botón flotante */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--rosa-mexicano);
+            color: var(--blanco);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .floating-btn:hover {
+            transform: scale(1.1);
+            background-color: #d1416f;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+          
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-section {
+                padding: 20px;
+            }
+        }
+
+/* BARRA DE NAVEGACIÓN MEJORADA */
+nav {
+    background-color: var(--rosa-mexicano);
+    padding: 15px 40px; /* Más ancha verticalmente (aumentado de 15px a 25px) */
+    color: var(--blanco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+nav .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    height: 60px; /* Un poco más grande */
+    width: auto;
+    padding: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* Imagen del logo (la que ya tenías controlada) */
+.logo-img {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 70px;
+    width: auto;
+}
+
+/* Contenedor para que el texto no se cruce con la imagen */
+.nav-left {
+    padding-left: 120px; /* deja espacio para la imagen */
+    display: flex;
+    align-items: center;
+}
+
+/* Texto PIEL CANELA */
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #FFB380, #FF6F61);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.logo-text:hover {
+    transform: scale(1.1);
+}
+
+nav .piel {
+    font-size: 2.6rem; /* Más grande (aumentado de 2.6rem) */
+    font-weight: 800; /* Más grueso */
+    color: var(--blanco);
+    margin: 0;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Más espacio entre elementos */
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: var(--blanco);
+    text-decoration: none;
+    font-weight: 600; /* Más grueso */
+    font-size: 1.2rem; /* Un poco más grande */
+    padding: 12px 20px; /* Más espacio interno */
+    border-radius: 8px; /* Bordes más redondeados */
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* Efecto hover para los enlaces */
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Más visible */
+    color: #F8C8DC;
+    transform: translateY(-3px); /* Más movimiento */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Enlace activo */
+nav ul li a.active {
+    background-color: var(--blanco);
+    color: var(--rosa-mexicano);
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Línea decorativa bajo el enlace al pasar el mouse */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 3px; /* Un poco más gruesa */
+    background-color: var(--blanco);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+nav ul li a:hover::after {
+    width: 85%;
+}
