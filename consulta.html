@@ -129,15 +129,16 @@
 <button class="btn btn-success mb-3" onclick="exportarXLSX()">Exportar a Excel (.xlsx)</button>
 
 </div>
+<!-- Agregar antes de tu script principal -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
 <script>
 // Configuración de Google Sheets
 const SPREADSHEET_ID = "1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk";
 const SHEET_NAME = "contratos";
 const API_KEY = "AIzaSyBE2QwI6eIPWB1unm7nsLX-oqNB26veBsQ";
 
-// Gráficas globales
-let chartTipo, chartEstatus, chartFacturacion;
-
+// Gráficas glo
 // Función para obtener todos los datos de Google Sheets
 async function getData() {
   const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`);
@@ -361,35 +362,150 @@ function generarGraficas(filtrado) {
     });
   });
 }
+let chartTipo, chartEstatus, chartFacturacion;
 
-// Función global para el botón
+// Función para abrir el modal y generar gráficas
 async function abrirGraficas() {
     const tipo = document.getElementById("tipo").value || "Todos";
     const concepto = document.getElementById("concepto").value || "Todos";
     const estatusAW = document.getElementById("estatusAW").value || "Todos";
     const estatusAZ = document.getElementById("estatusAZ").value || "Todos";
 
-    // Mostrar filtros en el modal con saltos de línea
-    const textoFiltros = 
-        `Tipo de Contrato: ${tipo}\n` +
-        `Concepto: ${concepto}\n` +
-        `Estatus de Facturación: ${estatusAW}\n` +
-        `Estatus: ${estatusAZ}`;
+    // Obtener datos filtrados
+    const totalData = await getData();
+    const filtrado = totalData.filter(r => {
+        return (tipo === "Todos" || r.tipoContrato === tipo) &&
+               (concepto === "Todos" || r.concepto.toLowerCase().includes(concepto.toLowerCase())) &&
+               (estatusAW === "Todos" || r.estatusAW === estatusAW) &&
+               (estatusAZ === "Todos" || r.estatusAZ === estatusAZ);
+    });
 
-    document.getElementById("textoFiltros").textContent = textoFiltros;
+    // Mostrar leyenda de filtros
+    const modalBody = document.querySelector("#modalGraficas .modal-body");
+    const filtrosHtml = `
+        <p class="fw-bold">Filtros aplicados:</p>
+        <p>
+            Tipo de Contrato: ${tipo} <br>
+            Concepto: ${concepto} <br>
+            Estatus de Facturación: ${estatusAW} <br>
+            Estatus: ${estatusAZ}
+        </p>
+    `;
+    modalBody.querySelector(".text-muted").innerHTML = filtrosHtml;
 
-    // Filtrar datos
-    const filtrado = await filtrar();
-
-    // Generar gráficas
-    generarGraficas(filtrado);
+    generarGraficas(filtrado, totalData);
 
     // Abrir modal
-    const modal = new bootstrap.Modal(document.getElementById('modalGraficas'));
+    const modal = new bootstrap.Modal(document.getElementById("modalGraficas"));
     modal.show();
 }
 
- 
+// Función para generar gráficas comparando filtrado vs total
+function generarGraficas(filtrado, total) {
+    const contar = (arr, campo) =>
+        arr.reduce((acc, cur) => {
+            const val = cur[campo] || "Sin dato";
+            acc[val] = (acc[val] || 0) + 1;
+            return acc;
+        }, {});
+
+    // Tipos de contrato
+    const totalTipos = contar(total, "tipoContrato");
+    const filtradoTipos = contar(filtrado, "tipoContrato");
+    const labelsTipos = [...new Set([...Object.keys(totalTipos)])];
+    const dataTipos = labelsTipos.map(l => filtradoTipos[l] || 0);
+    const totalTiposData = labelsTipos.map(l => totalTipos[l] || 0);
+
+    if (chartTipo) chartTipo.destroy();
+    chartTipo = new Chart(document.getElementById("grafTipo"), {
+        type: "bar",
+        data: {
+            labels: labelsTipos,
+            datasets: [
+                { label: "Filtrado", data: dataTipos, backgroundColor: "#0d6efd" },
+                { label: "Total", data: totalTiposData, backgroundColor: "#6c757d" }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: { display: true },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    font: { size: 10 },
+                    color: '#000'
+                }
+            },
+            scales: { y: { beginAtZero: true } }
+        },
+        plugins: [ChartDataLabels]
+    });
+
+    // Estatus AZ
+    const totalEstatus = contar(total, "estatusAZ");
+    const filtradoEstatus = contar(filtrado, "estatusAZ");
+    const labelsEstatus = [...new Set([...Object.keys(totalEstatus)])];
+    const dataEstatus = labelsEstatus.map(l => filtradoEstatus[l] || 0);
+    const totalEstatusData = labelsEstatus.map(l => totalEstatus[l] || 0);
+
+    if (chartEstatus) chartEstatus.destroy();
+    chartEstatus = new Chart(document.getElementById("grafEstatus"), {
+        type: "bar",
+        data: {
+            labels: labelsEstatus,
+            datasets: [
+                { label: "Filtrado", data: dataEstatus, backgroundColor: "#198754" },
+                { label: "Total", data: totalEstatusData, backgroundColor: "#6c757d" }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: { display: true },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    font: { size: 10 },
+                    color: '#000'
+                }
+            },
+            scales: { y: { beginAtZero: true } }
+        },
+        plugins: [ChartDataLabels]
+    });
+
+    // Estatus Facturación AW
+    const totalAW = contar(total, "estatusAW");
+    const filtradoAW = contar(filtrado, "estatusAW");
+    const labelsAW = [...new Set([...Object.keys(totalAW)])];
+    const dataAW = labelsAW.map(l => filtradoAW[l] || 0);
+    const totalAWData = labelsAW.map(l => totalAW[l] || 0);
+
+    if (chartFacturacion) chartFacturacion.destroy();
+    chartFacturacion = new Chart(document.getElementById("grafFacturacion"), {
+        type: "bar",
+        data: {
+            labels: labelsAW,
+            datasets: [
+                { label: "Filtrado", data: dataAW, backgroundColor: "#ffc107" },
+                { label: "Total", data: totalAWData, backgroundColor: "#6c757d" }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: { display: true },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    font: { size: 10 },
+                    color: '#000'
+                }
+            },
+            scales: { y: { beginAtZero: true } }
+        },
+        plugins: [ChartDataLabels]
+    });
+  
+  }
 </script>
 
 <!-- Modal de Gráficas -->
@@ -405,9 +521,7 @@ async function abrirGraficas() {
       <div class="modal-body">
 <!-- Filtros aplicados -->
 <div id="filtrosAplicados" class="mb-3">
-  <strong>Filtros aplicados:</strong>
   <p id="textoFiltros" class="text-muted" style="white-space: pre-line;"></p>
-
 </div>
 
         
