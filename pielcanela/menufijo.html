@@ -259,9 +259,73 @@
     <div class="floating-btn" id="scrollToTop">
         <i class="fas fa-chevron-up"></i>
     </div>
-
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+    <div class="spinner">
+        <div class="spinner-circle"></div>
+        <div class="spinner-circle"></div>
+        <div class="spinner-circle"></div>
+    </div>
+    
+    <div class="loading-text">
+        Cargando experiencia
+        <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+</div>
     <script>
-     
+     // Preloader de 5 segundos
+document.addEventListener('DOMContentLoaded', function() {
+    const preloader = document.getElementById('preloader');
+    const progress = document.getElementById('progress');
+    let progressValue = 0;
+    const totalTime = 3000; // 5 segundos
+    const interval = 50; // Actualizar cada 50ms
+    
+    // Incrementar progreso
+    const progressInterval = setInterval(() => {
+        progressValue += (interval / totalTime) * 100;
+        progress.style.width = `${Math.min(progressValue, 100)}%`;
+        
+        if (progressValue >= 100) {
+            clearInterval(progressInterval);
+        }
+    }, interval);
+    
+    // Ocultar preloader después de 5 segundos
+    setTimeout(() => {
+        preloader.classList.add('hidden');
+        
+        // Remover completamente del DOM después de la animación
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 500); // Tiempo de la transición CSS
+    }, totalTime);
+    
+    // También ocultar si todas las imágenes se cargan antes
+    window.addEventListener('load', function() {
+        // Si las imágenes cargan antes de 5 segundos, esperar el tiempo mínimo
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(5000 - elapsedTime, 1000); // Mínimo 1 segundo
+        
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        }, remainingTime);
+    });
+});
+
+// Variable para medir tiempo
+const startTime = Date.now();
     </script>
 </body>
 </html>
