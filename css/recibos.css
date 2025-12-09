@@ -365,7 +365,7 @@ body {
     position: absolute;
     right: 20px;       /* lo manda a la derecha */
     top: 12px;         /* controla qué tan arriba va */
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 800;
     color: #003a7d;
     z-index: 4;
