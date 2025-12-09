@@ -18,7 +18,7 @@
     position: absolute;
     left: 20px;
     top: 7px;
-    width: 140px; /* ajusta según tamaño del logo */
+    width: 160px; /* ajusta según tamaño del logo */
     height: auto;
     z-index: 5;
 }
