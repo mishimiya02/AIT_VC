@@ -375,7 +375,7 @@ body {
 
 /* Info de la empresa a la izquierda (no afecta el flow del título) */
 .hoja-media .info-empresa {
-    margin-top: 70px; /* deja espacio para el título/logo */
+    margin-top: 55px; /* deja espacio para el título/logo */
     font-size: 14px;
     line-height: 16px;
     color: #003a7d;
