@@ -213,6 +213,8 @@
         text-align: center;
         color: #003a7d;
         margin-bottom: 20px;
+         font-size: 44px;
+         font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
 
     .form-card label{
