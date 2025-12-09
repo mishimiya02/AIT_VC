@@ -50,7 +50,7 @@
             font-size: 1.2rem;
         }
 }
-  /* Estilo para borde degradado */
+/* Estilo para borde degradado */
   .container {
     border: 2px solid transparent;
     border-radius: 5px;
@@ -71,6 +71,22 @@
     background: linear-gradient(135deg, #ffae00, #ffd900);
     z-index: -1;
   }
+
+    /* CONTENEDOR */
+    .container {
+      background: #fff;
+      padding: 2rem;
+      margin: 3rem auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      text-align: center;
+      
+    }
+    .container:before{
+    background: linear-gradient(to right, #2b00a0,#0011ff);
+    }
+
 
 
  			nav {
@@ -162,7 +178,7 @@
     }
 
     .form-card{
-        width: 420px;
+        width: 820px;
         margin: auto;
         background: white;
         padding: 25px;
@@ -191,6 +207,10 @@
         border-radius: 10px;
         border: 1px solid #cfd4da;
     }
+     .form-card:before{
+    background: linear-gradient(to right, #2b00a0,#0011ff);
+    }
+
 
     .btn{
         display: block;
@@ -248,3 +268,34 @@ body {
     margin: 0;
     padding: 0;
 }
+
+
+
+           #theme-toggle {
+        font-weight: bold;
+        font-size: 17px;
+        background-color:  #ff8800;;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+}
+
+        .dark-mode #theme-toggle {
+        border-color: #0aa5ff;
+        color: #ff7e5f;
+        font-weight: bold;
+        font-size: 17px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border: none;
+}
+
+    #theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
+
+    .dark-mode #theme-toggle:hover {
+    background: rgb(255, 103, 33);
+}
+
