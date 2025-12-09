@@ -1,4 +1,27 @@
+.hoja-media{
+    width: 800px;
+    height: 430px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 3px solid #003a7d;
+    margin: 40px auto;
+    display: none;
+    transform: scale(0.9);
 
+    position: relative; /* para posicionar logo y título absolutamente dentro */
+    box-sizing: border-box;
+}
+
+/* Logo: ocupa la mitad izquierda superior, pero lo posicionamos absoluto para que no rompa el flow */
+.hoja-media .logo {
+    position: absolute;
+    left: 20px;
+    top: 7px;
+    width: 140px; /* ajusta según tamaño del logo */
+    height: auto;
+    z-index: 5;
+}
 /* Para que funcione correctamente en todos los casos */
 .menu-center {
     display: flex;
@@ -350,3 +373,52 @@ body {
         font-size: 14px; 
         line-height: 16px;
     }
+/* Título centrado y más arriba (siempre en el centro horizontal) */
+.hoja-media .titulo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 12px;
+    font-size: 36px;
+    font-weight: 800;
+    color: #003a7d;
+    z-index: 4;
+    text-align: center;
+}
+
+/* Info de la empresa a la izquierda (no afecta el flow del título) */
+.hoja-media .info-empresa {
+    margin-top: 70px; /* deja espacio para el título/logo */
+    font-size: 14px;
+    line-height: 16px;
+    color: #003a7d;
+}
+
+/* Contenedor para las cajas de Folio y Monto */
+.hoja-media .top-boxes {
+    display: flex;
+    gap: 40px;
+    margin-top: 8px; /* ajusta el espacio entre la info y las cajas */
+    align-items: flex-start;
+}
+
+/* Caja de folio: ancho fijo */
+.hoja-media .folio-box {
+    border:2px solid #003a7d;
+    padding:6px 12px;
+    font-size:22px;
+    font-weight:bold;
+    color:red;
+    width:120px;
+    text-align:center;
+}
+
+/* Caja de monto: puede ser más amplia */
+.hoja-media .monto-box {
+    border:2px solid #003a7d;
+    padding:6px 12px;
+    font-size:22px;
+    font-weight:bold;
+    width:220px;
+    text-align:right;
+}
