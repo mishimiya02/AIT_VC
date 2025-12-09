@@ -412,11 +412,23 @@ body {
 .contenedor-derecha {
     position: absolute;
     right: 20px;
-    top: 65px;       /* Ajusta cuán pegado queda al título */
+    top: 65px;       /* Ajusta esto si quieres subir/bajar todo el bloque */
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     align-items: flex-end;
+}
+
+.fila-dato {
+    display: flex;
+    align-items: center;
+    gap: 8px;        /* separación entre la leyenda y la caja */
+}
+
+.label-der {
+    font-weight: bold;
+    font-size: 16px;
+    color: #003a7d;
 }
 
 .caja-der {
