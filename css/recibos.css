@@ -409,3 +409,21 @@ body {
     width:220px;
     text-align:right;
 }
+.contenedor-derecha {
+    position: absolute;
+    right: 20px;
+    top: 65px;       /* Ajusta cuán pegado queda al título */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+}
+
+.caja-der {
+    border: 2px solid #003a7d;
+    padding: 6px 12px;
+    font-size: 22px;
+    font-weight: bold;
+    min-width: 160px;
+    text-align: center;
+}
