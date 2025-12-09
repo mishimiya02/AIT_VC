@@ -272,13 +272,7 @@
         margin-top: 10px;
     }
 
-    .titulo{
-        text-align: right;
-        font-size: 32px;
-        font-weight: bold;
-        color: #003a7d;
-        margin-top: -10px;
-    }
+  
 
     .mini{
         font-size: 14px; 
@@ -361,13 +355,6 @@ body {
         margin-top: 10px;
     }
 
-    .titulo{
-        text-align: right;
-        font-size: 32px;
-        font-weight: bold;
-        color: #003a7d;
-        margin-top: -10px;
-    }
 
     .mini{
         font-size: 14px; 
@@ -376,15 +363,15 @@ body {
 /* Título centrado y más arriba (siempre en el centro horizontal) */
 .hoja-media .titulo {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 12px;
+    right: 20px;       /* lo manda a la derecha */
+    top: 12px;         /* controla qué tan arriba va */
     font-size: 36px;
     font-weight: 800;
     color: #003a7d;
     z-index: 4;
-    text-align: center;
+    text-align: right; /* asegura alineación correcta */
 }
+
 
 /* Info de la empresa a la izquierda (no afecta el flow del título) */
 .hoja-media .info-empresa {
