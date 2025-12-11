@@ -249,6 +249,23 @@ async function exportarPDF(){
         imageTimeout: 1500
     });
 
+    const img = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("portrait", "pt", "letter");
+
+    // Dimensiones para media hoja
+    const pdfWidth = 575;
+    const pdfHeight = 350;
+    
+    // Primer recibo en la mitad superior
+    pdf.addImage(img, "PNG", 20, 20, pdfWidth, pdfHeight);
+    
+    // Segundo recibo en la mitad inferior
+    // La posición Y se calcula: 20 (margen superior) + 350 (altura del primer recibo)
+    pdf.addImage(img, "PNG", 20, 20 + pdfHeight, pdfWidth, pdfHeight);
+
+    pdf.save("recibos.pdf");
+}
+
     // CORRECTO — Genera PNG (no tu línea anterior)
     const img = canvas.toDataURL("image/png");
 
@@ -264,17 +281,7 @@ async function exportarPDF(){
 // =======================
 // GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
 // =======================
-async function generarYDescargar() {
 
-    // 1. Llenar el recibo
-    llenarRecibo();
-
-    // 2. Esperar 200–300ms para que el DOM actualice
-    await new Promise(resolve => setTimeout(resolve, 300));
-
-    // 3. Exportar automáticamente
-    await exportarPDF();
-}
 
 async function exportarPDF(){
     const { jsPDF } = window.jspdf;
@@ -501,15 +508,94 @@ async function exportarPDF(){
 // GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
 // =======================
 async function generarYDescargar() {
-
-    // 1. Llenar el recibo
+    // 1. Llenar el primer recibo
     llenarRecibo();
-
-    // 2. Esperar 200–300ms para que el DOM actualice
+    
+    // 2. Esperar para que el DOM actualice
     await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // 3. Guardar el contenido del recibo original
+    const reciboOriginal = document.getElementById("recibo");
+    const contenidoOriginal = reciboOriginal.innerHTML;
+    
+    // 4. Modificar temporalmente para el segundo recibo
+    const folioOriginal = document.getElementById("r-folio").innerText;
+    reciboOriginal.querySelector("#r-folio").innerText = folioOriginal + " - COPIA";
+    
+    // También puedes modificar otros campos si necesitas
+    // reciboOriginal.querySelector("#r-reciboDe").innerText += " (COPIA)";
+    
+    // 5. Capturar ambos recibos en secuencia
+    await exportarPDFConDos(contenidoOriginal);
+    
+    // 6. Restaurar el recibo original
+    reciboOriginal.innerHTML = contenidoOriginal;
+}
 
-    // 3. Exportar automáticamente
-    await exportarPDF();
+async function exportarPDFConDos(contenidoOriginal) {
+    const { jsPDF } = window.jspdf;
+    const recibo = document.getElementById("recibo");
+    
+    // Capturar primer recibo (ORIGINAL ya restaurado)
+    const canvas1 = await html2canvas(recibo, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        imageTimeout: 3000,
+        backgroundColor: '#ffffff'
+    });
+    
+    // Modificar para el segundo recibo (COPIA)
+    recibo.innerHTML = contenidoOriginal;
+    const folioOriginal = recibo.querySelector("#r-folio").innerText;
+    recibo.querySelector("#r-folio").innerText = folioOriginal + " - COPIA";
+    
+    // Esperar a que se actualice el DOM
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Capturar segundo recibo
+    const canvas2 = await html2canvas(recibo, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        imageTimeout: 3000,
+        backgroundColor: '#ffffff'
+    });
+    
+    // Restaurar el original
+    recibo.innerHTML = contenidoOriginal;
+    
+    const img1 = canvas1.toDataURL("image/png");
+    const img2 = canvas2.toDataURL("image/png");
+    
+    const pdf = new jsPDF("portrait", "pt", "letter");
+    
+    // Dimensiones ajustadas para letter
+    const pageWidth = 612; // Ancho de página letter en puntos
+    const pageHeight = 792; // Alto de página letter en puntos
+    const margin = 20;
+    
+    // Calcular dimensiones para que quepan dos
+    const reciboWidth = pageWidth - (2 * margin);
+    const reciboHeight = (pageHeight - (3 * margin)) / 2;
+    
+    // Primer recibo (arriba) - ORIGINAL
+    pdf.addImage(img1, "PNG", margin, margin, reciboWidth, reciboHeight);
+    
+    // Segundo recibo (abajo) - COPIA
+    pdf.addImage(img2, "PNG", margin, margin + reciboHeight + margin, reciboWidth, reciboHeight);
+    
+    // Opcional: agregar línea de corte
+    pdf.setDrawColor(200, 200, 200);
+    pdf.setLineWidth(0.5);
+    pdf.line(
+        margin, 
+        margin + reciboHeight + (margin / 2), 
+        margin + reciboWidth, 
+        margin + reciboHeight + (margin / 2)
+    );
+    
+    pdf.save("recibos.pdf");
 }
 html2canvas(recibo, {
     scale: 3,
