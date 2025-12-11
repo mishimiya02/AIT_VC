@@ -217,59 +217,9 @@
 // =======================
 // LLENAR RECIBO
 // =======================
-function llenarRecibo(){
-    const recibo = document.getElementById("recibo");
-    recibo.style.display = "block";
-
-    const folio = document.getElementById("folio").value;
-    const montoRaw = document.getElementById("monto").value;
-    const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
-
-    document.getElementById("r-folio").innerText = folio || "00000";
-    document.getElementById("r-monto").innerText = monto;
-    document.getElementById("r-monto2").innerText = monto;
-
-    document.getElementById("r-reciboDe").innerText = document.getElementById("reciboDe").value || "";
-    document.getElementById("r-cantidadLetra").innerText = document.getElementById("cantidadLetra").value;
-    document.getElementById("r-concepto").innerText = document.getElementById("concepto").value;
-    document.getElementById("r-fecha").innerText = document.getElementById("fecha").value;
-    document.getElementById("r-operador").innerText = document.getElementById("operador").value;
-    document.getElementById("r-placas").innerText = document.getElementById("placas").value;
-    document.getElementById("r-acceso").innerText = document.getElementById("acceso").value;
-}
 
 
-// =======================
-// EXPORTAR PDF
-// =======================
-async function exportarPDF(){
-    const { jsPDF } = window.jspdf;
-    const recibo = document.getElementById("recibo");
 
-    // Captura del recibo con logo
-    const canvas = await html2canvas(recibo, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        imageTimeout: 1500
-    });
-
-    const img = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("portrait", "pt", "letter");
-
-    // Dimensiones para media hoja
-    const pdfWidth = 450;
-    const pdfHeight = 350;
-    
-    // Primer recibo en la mitad superior
-    pdf.addImage(img, "PNG", 20, 20, pdfWidth, pdfHeight);
-    
-    // Segundo recibo en la mitad inferior
-    // La posición Y se calcula: 20 (margen superior) + 350 (altura del primer recibo)
-    pdf.addImage(img, "PNG", 20, 20 + pdfHeight, pdfWidth, pdfHeight);
-
-    pdf.save("recibos.pdf");
-}
 
     // CORRECTO — Genera PNG (no tu línea anterior)
     const img = canvas.toDataURL("image/png");
@@ -288,32 +238,6 @@ async function exportarPDF(){
 // =======================
 
 
-async function exportarPDF(){
-    const { jsPDF } = window.jspdf;
-    const recibo = document.getElementById("recibo");
-
-    // Asegurar que las imágenes (logo) se carguen correctamente
-    const canvas = await html2canvas(recibo, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        imageTimeout: 2000
-    });
-
-    // ESTA ES LA CORRECCIÓN IMPORTANTE
-    const img = canvas.toDataURL("image/png");  // Correcto
-    
-
-    const pdf = new jsPDF("portrait","pt","letter");
-
-    // Medidas para media hoja
-    const pdfWidth = 575;
-    const pdfHeight = 350;
-
-    pdf.addImage(img, "PNG", 20, 20, pdfWidth, pdfHeight);
-
-    pdf.save("recibo.pdf");
-}
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -482,32 +406,6 @@ function llenarRecibo(){
 }
 
 
-// =======================
-// EXPORTAR PDF
-// =======================
-async function exportarPDF(){
-    const { jsPDF } = window.jspdf;
-    const recibo = document.getElementById("recibo");
-
-    // Captura del recibo con logo
-    const canvas = await html2canvas(recibo, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        imageTimeout: 1500
-    });
-
-    // CORRECTO — Genera PNG (no tu línea anterior)
-    const img = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF("portrait", "pt", "letter");
-
-    // Tamaño media hoja
-    pdf.addImage(img, "PNG", 20, 20, 575, 350);
-
-    pdf.save("recibo.pdf");
-}
-
 
 // =======================
 // GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
@@ -558,27 +456,6 @@ async function exportarPDF() {
     pdf.save("recibos.pdf");
 }
 
-// Función llenarRecibo (asegúrate de que exista)
-function llenarRecibo(){
-    const recibo = document.getElementById("recibo");
-    recibo.style.display = "block";
-
-    const folio = document.getElementById("folio").value;
-    const montoRaw = document.getElementById("monto").value;
-    const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
-
-    document.getElementById("r-folio").innerText = folio || "00000";
-    document.getElementById("r-monto").innerText = monto;
-    document.getElementById("r-monto2").innerText = monto;
-
-    document.getElementById("r-reciboDe").innerText = document.getElementById("reciboDe").value || "";
-    document.getElementById("r-cantidadLetra").innerText = document.getElementById("cantidadLetra").value;
-    document.getElementById("r-concepto").innerText = document.getElementById("concepto").value;
-    document.getElementById("r-fecha").innerText = document.getElementById("fecha").value;
-    document.getElementById("r-operador").innerText = document.getElementById("operador").value;
-    document.getElementById("r-placas").innerText = document.getElementById("placas").value;
-    document.getElementById("r-acceso").innerText = document.getElementById("acceso").value;
-}
 async function exportarPDFConDos(contenidoOriginal) {
     const { jsPDF } = window.jspdf;
     const recibo = document.getElementById("recibo");
@@ -592,23 +469,7 @@ async function exportarPDFConDos(contenidoOriginal) {
         backgroundColor: '#ffffff'
     });
     
-    // Modificar para el segundo recibo (COPIA)
-    recibo.innerHTML = contenidoOriginal;
-    const folioOriginal = recibo.querySelector("#r-folio").innerText;
-    recibo.querySelector("#r-folio").innerText = folioOriginal ;
-    
-    // Esperar a que se actualice el DOM
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    // Capturar segundo recibo
-    const canvas2 = await html2canvas(recibo, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        imageTimeout: 3000,
-        backgroundColor: '#ffffff'
-    });
-    
+
     // Restaurar el original
     recibo.innerHTML = contenidoOriginal;
     
@@ -644,12 +505,7 @@ async function exportarPDFConDos(contenidoOriginal) {
     
     pdf.save("recibos.pdf");
 }
-html2canvas(recibo, {
-    scale: 3,
-    useCORS: true,
-    allowTaint: false,
-    imageTimeout: 2000
-});
+
 
 
 </script>
