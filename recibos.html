@@ -427,7 +427,17 @@ async function exportarPDF() {
     
     // Segundo recibo (abajo)
     pdf.addImage(img, "PNG", margenLateral, margenSuperior + alto + espacioEntre, ancho, alto);
-    
+    // ==========================
+// LÍNEA PUNTEADA A LA MITAD
+// ==========================
+pdf.setLineWidth(1);
+pdf.setDrawColor(0); // negro
+pdf.setLineDash([5, 5]); // patrón de puntos
+
+const middleY = 396; // mitad exacta del tamaño letter (792 pt)
+
+pdf.line(20, middleY, 595, middleY); 
+
     pdf.save("recibos.pdf");
 }
 
