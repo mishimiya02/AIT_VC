@@ -253,7 +253,7 @@ async function exportarPDF(){
     const pdf = new jsPDF("portrait", "pt", "letter");
 
     // Dimensiones para media hoja
-    const pdfWidth = 575;
+    const pdfWidth = 450;
     const pdfHeight = 350;
     
     // Primer recibo en la mitad superior
@@ -275,7 +275,7 @@ async function exportarPDF(){
     pdf.addImage(img, "PNG", 20, 20, 575, 350);
 
     pdf.save("recibo.pdf");
-}
+
 
 
 // =======================
@@ -508,30 +508,72 @@ async function exportarPDF(){
 // GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
 // =======================
 async function generarYDescargar() {
-    // 1. Llenar el primer recibo
+    // 1. Llenar el recibo
     llenarRecibo();
     
     // 2. Esperar para que el DOM actualice
     await new Promise(resolve => setTimeout(resolve, 300));
     
-    // 3. Guardar el contenido del recibo original
-    const reciboOriginal = document.getElementById("recibo");
-    const contenidoOriginal = reciboOriginal.innerHTML;
-    
-    // 4. Modificar temporalmente para el segundo recibo
-    const folioOriginal = document.getElementById("r-folio").innerText;
-    reciboOriginal.querySelector("#r-folio").innerText = folioOriginal + " - COPIA";
-    
-    // También puedes modificar otros campos si necesitas
-    // reciboOriginal.querySelector("#r-reciboDe").innerText += " (COPIA)";
-    
-    // 5. Capturar ambos recibos en secuencia
-    await exportarPDFConDos(contenidoOriginal);
-    
-    // 6. Restaurar el recibo original
-    reciboOriginal.innerHTML = contenidoOriginal;
+    // 3. Exportar PDF con medidas ajustadas
+    await exportarPDF();
 }
 
+async function exportarPDF() {
+    const { jsPDF } = window.jspdf;
+    const recibo = document.getElementById("recibo");
+    
+    // Asegurar que el recibo esté visible
+    recibo.style.display = "block";
+    
+    const canvas = await html2canvas(recibo, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: true // Para ver errores en consola
+    });
+    
+    const img = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("portrait", "pt", "letter");
+    
+    // MEDIDAS AJUSTADAS - ALTURA REDUCIDA
+    const ancho = 575;    // Ancho mantenido
+    const alto = 280;     // Altura reducida (ajusta este valor)
+    const margenLateral = 20;
+    const margenSuperior = 20;
+    const espacioEntre = 10;
+    
+    console.log("Generando PDF con medidas:", { ancho, alto }); // Ver en consola
+    
+    // Primer recibo (arriba)
+    pdf.addImage(img, "PNG", margenLateral, margenSuperior, ancho, alto);
+    
+    // Segundo recibo (abajo)
+    pdf.addImage(img, "PNG", margenLateral, margenSuperior + alto + espacioEntre, ancho, alto);
+    
+    pdf.save("recibos.pdf");
+}
+
+// Función llenarRecibo (asegúrate de que exista)
+function llenarRecibo(){
+    const recibo = document.getElementById("recibo");
+    recibo.style.display = "block";
+
+    const folio = document.getElementById("folio").value;
+    const montoRaw = document.getElementById("monto").value;
+    const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
+
+    document.getElementById("r-folio").innerText = folio || "00000";
+    document.getElementById("r-monto").innerText = monto;
+    document.getElementById("r-monto2").innerText = monto;
+
+    document.getElementById("r-reciboDe").innerText = document.getElementById("reciboDe").value || "";
+    document.getElementById("r-cantidadLetra").innerText = document.getElementById("cantidadLetra").value;
+    document.getElementById("r-concepto").innerText = document.getElementById("concepto").value;
+    document.getElementById("r-fecha").innerText = document.getElementById("fecha").value;
+    document.getElementById("r-operador").innerText = document.getElementById("operador").value;
+    document.getElementById("r-placas").innerText = document.getElementById("placas").value;
+    document.getElementById("r-acceso").innerText = document.getElementById("acceso").value;
+}
 async function exportarPDFConDos(contenidoOriginal) {
     const { jsPDF } = window.jspdf;
     const recibo = document.getElementById("recibo");
@@ -548,7 +590,7 @@ async function exportarPDFConDos(contenidoOriginal) {
     // Modificar para el segundo recibo (COPIA)
     recibo.innerHTML = contenidoOriginal;
     const folioOriginal = recibo.querySelector("#r-folio").innerText;
-    recibo.querySelector("#r-folio").innerText = folioOriginal + " - COPIA";
+    recibo.querySelector("#r-folio").innerText = folioOriginal ;
     
     // Esperar a que se actualice el DOM
     await new Promise(resolve => setTimeout(resolve, 100));
