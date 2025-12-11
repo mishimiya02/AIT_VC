@@ -1,3 +1,12 @@
+#cantidadLetra {
+    font-size: 12px;   /* AJUSTA EL TAMAÑO QUE QUIERAS */
+}
+
+#r-cantidad-letra {
+    font-size: 5px;   /* o el tamaño que quieras */
+}
+
+
 .hoja-media{
     width: 800px;
     height: 430px;
@@ -359,7 +368,7 @@ body {
 
 
     .mini{
-        font-size: 14px; 
+        font-size: 12px; 
         line-height: 16px;
     }
 /* Título centrado y más arriba (siempre en el centro horizontal) */
@@ -378,7 +387,7 @@ body {
 /* Info de la empresa a la izquierda (no afecta el flow del título) */
 .hoja-media .info-empresa {
     margin-top: 55px; /* deja espacio para el título/logo */
-    font-size: 14px;
+    font-size: 16px;
     line-height: 16px;
     color: #003a7d;
 }
@@ -429,7 +438,7 @@ body {
 
 .label-der {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #003a7d;
 }
 
