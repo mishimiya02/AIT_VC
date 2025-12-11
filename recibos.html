@@ -366,8 +366,9 @@ function llenarRecibo(){
     const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
 
     document.getElementById("r-folio").innerText = folio || "00000";
-    document.getElementById("r-monto").innerText = monto;
-    document.getElementById("r-monto2").innerText = monto;
+    document.getElementById("r-monto").innerText = `$ ${monto}`;
+document.getElementById("r-monto2").innerText = `$ ${monto}`;
+
 
     document.getElementById("r-reciboDe").innerText = document.getElementById("reciboDe").value || "";
     document.getElementById("r-cantidadLetra").innerText = document.getElementById("cantidadLetra").value;
