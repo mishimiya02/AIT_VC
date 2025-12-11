@@ -201,7 +201,7 @@
 
     <br><br>
 
-    <div style="display:flex; justify-content:space-between; margin-top:-10px;">
+    <div style="display:flex; justify-content:space-between; margin-top:-20px;">
         <div>_________________________<br>RECIBÍ (NOMBRE Y FIRMA)</div>
         <div>_________________________<br>SELLO DE CAJA  AMAIT</div>
     </div>
@@ -213,33 +213,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<script>
-// =======================
-// LLENAR RECIBO
-// =======================
-
-
-
-
-    // CORRECTO — Genera PNG (no tu línea anterior)
-    const img = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF("portrait", "pt", "letter");
-
-    // Tamaño media hoja
-    pdf.addImage(img, "PNG", 20, 20, 575, 350);
-
-    pdf.save("recibo.pdf");
-
-
-
-// =======================
-// GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
-// =======================
-
-
-
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -455,58 +428,6 @@ async function exportarPDF() {
     
     pdf.save("recibos.pdf");
 }
-
-async function exportarPDFConDos(contenidoOriginal) {
-    const { jsPDF } = window.jspdf;
-    const recibo = document.getElementById("recibo");
-    
-    // Capturar primer recibo (ORIGINAL ya restaurado)
-    const canvas1 = await html2canvas(recibo, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        imageTimeout: 3000,
-        backgroundColor: '#ffffff'
-    });
-    
-
-    // Restaurar el original
-    recibo.innerHTML = contenidoOriginal;
-    
-    const img1 = canvas1.toDataURL("image/png");
-    const img2 = canvas2.toDataURL("image/png");
-    
-    const pdf = new jsPDF("portrait", "pt", "letter");
-    
-    // Dimensiones ajustadas para letter
-    const pageWidth = 612; // Ancho de página letter en puntos
-    const pageHeight = 792; // Alto de página letter en puntos
-    const margin = 20;
-    
-    // Calcular dimensiones para que quepan dos
-    const reciboWidth = pageWidth - (2 * margin);
-    const reciboHeight = (pageHeight - (3 * margin)) / 2;
-    
-    // Primer recibo (arriba) - ORIGINAL
-    pdf.addImage(img1, "PNG", margin, margin, reciboWidth, reciboHeight);
-    
-    // Segundo recibo (abajo) - COPIA
-    pdf.addImage(img2, "PNG", margin, margin + reciboHeight + margin, reciboWidth, reciboHeight);
-    
-    // Opcional: agregar línea de corte
-    pdf.setDrawColor(200, 200, 200);
-    pdf.setLineWidth(0.5);
-    pdf.line(
-        margin, 
-        margin + reciboHeight + (margin / 2), 
-        margin + reciboWidth, 
-        margin + reciboHeight + (margin / 2)
-    );
-    
-    pdf.save("recibos.pdf");
-}
-
-
 
 </script>
 
