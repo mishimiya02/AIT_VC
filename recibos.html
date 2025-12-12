@@ -145,7 +145,9 @@
      
     </div>
      <div class="fila-dato">
-       <div class="label-der" style="color: red; font-weight: bold;">COPIA CCO AMAIT</div>
+       <!--<div class="label-der" style="color: red; font-weight: bold;">COPIA CCO AMAIT</div> -->
+        <div id="leyenda1" class="leyenda", style="color: red; font-weight: bold">leyenda 1</div>
+            <div id="leyenda2" class="leyenda" class="leyenda", style="color: red; font-weight: bold">leyenda2</div>
 
     </div>
 
@@ -395,51 +397,49 @@ async function generarYDescargar() {
     // 3. Exportar PDF con medidas ajustadas
     await exportarPDF();
 }
-
 async function exportarPDF() {
     const { jsPDF } = window.jspdf;
     const recibo = document.getElementById("recibo");
-    
-    // Asegurar que el recibo esté visible
-    recibo.style.display = "block";
-    
-    const canvas = await html2canvas(recibo, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        logging: true // Para ver errores en consola
-    });
-    
-    const img = canvas.toDataURL("image/png");
+
     const pdf = new jsPDF("portrait", "pt", "letter");
-    
-    // MEDIDAS AJUSTADAS - ALTURA REDUCIDA
-    const ancho = 575;    // Ancho mantenido
-    const alto = 280;     // Altura reducida (ajusta este valor)
+    const ancho = 575;
+    const alto = 280;
     const margenLateral = 20;
     const margenSuperior = 30;
     const espacioEntre = 100;
-    
-    console.log("Generando PDF con medidas:", { ancho, alto }); // Ver en consola
-    
-    // Primer recibo (arriba)
-    pdf.addImage(img, "PNG", margenLateral, margenSuperior, ancho, alto);
-    
-    // Segundo recibo (abajo)
-    pdf.addImage(img, "PNG", margenLateral, margenSuperior + alto + espacioEntre, ancho, alto);
+
     // ==========================
-// LÍNEA PUNTEADA A LA MITAD
-// ==========================
-pdf.setLineWidth(1);
-pdf.setDrawColor(0); // negro
-pdf.setLineDash([5, 5]); // patrón de puntos
+    // RECIBO 1 — COPIA CCO AMAIT
+    // ==========================
+    document.getElementById("leyenda1").style.display = "block";
+    document.getElementById("leyenda2").style.display = "none";
 
-const middleY = 396; // mitad exacta del tamaño letter (792 pt)
+    const canvas1 = await html2canvas(recibo, { scale: 2 });
+    const img1 = canvas1.toDataURL("image/png");
+    pdf.addImage(img1, "PNG", margenLateral, margenSuperior, ancho, alto);
 
-pdf.line(20, middleY, 595, middleY); 
+    // ==========================
+    // RECIBO 2 — COPIA OPERADOR
+    // ==========================
+    document.getElementById("leyenda1").style.display = "none";
+    document.getElementById("leyenda2").style.display = "block";
+
+    const canvas2 = await html2canvas(recibo, { scale: 2 });
+    const img2 = canvas2.toDataURL("image/png");
+    pdf.addImage(img2, "PNG", margenLateral, margenSuperior + alto + espacioEntre, ancho, alto);
+
+    // ==========================
+    // LÍNEA PUNTEADA
+    // ==========================
+    pdf.setLineWidth(1);
+    pdf.setDrawColor(0);
+    pdf.setLineDash([5, 5]);
+    const mitad = 396;
+    pdf.line(20, mitad, 595, mitad);
 
     pdf.save("recibos.pdf");
 }
+
 
 </script>
 

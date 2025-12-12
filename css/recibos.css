@@ -450,3 +450,7 @@ body {
     min-width: 160px;
     text-align: center;
 }
+.leyenda {
+    display: none;
+    font-weight: bold;
+}
