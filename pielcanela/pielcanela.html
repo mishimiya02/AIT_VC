@@ -14,7 +14,12 @@
 <body>
 
     <!-- Barra de navegación -->
+     
     <nav>
+        <div class="menu-toggle" id="menuToggle">
+    ☰
+</div>
+
          <img src="/pielcanela/imgpc/logopc.png" alt="Logo" class="logo"> <!-- logo  -->
         <div class="piel">PIEL CANELA</div>
         <ul>
@@ -160,5 +165,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Variable para medir tiempo
 const startTime = Date.now();
+
+
+document.getElementById("menuToggle").onclick = () => {
+    document.querySelector("nav ul").classList.toggle("active");
+};
+
+
     </script>
 </html> 
+
