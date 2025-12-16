@@ -48,12 +48,12 @@
                 <a class="dropbtn">Servicios</a>
                 <div class="dropdown-content">
                     <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                    <a href='/comparacion.html' target='_blank'>COMPARACION</a>
-                    <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
+                    <a href='/comparacion' target='_blank'>COMPARACION</a>
+                    <a href='/comprobante'>COMPROBANTE DE DEPOSITOS</a>
                   
-                    <a href="cedula.html" target="_blank">CEDULA DE DETERMINACIÓN</a>
-                      <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
-                       <a href="recibos.html" target="_blank">RECIBOS CCO AMAIT</a>
+                    <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                      <a href='/cancelar' target='_blank'>CANCELACIÓN DE COMPROBANTES</a>
+                       <a href='/recibos' target='_blank'>RECIBOS CCO AMAIT</a>
                 </div>
             </div>
 
@@ -61,15 +61,15 @@
             <div class="dropdown">
                 <a class="dropbtn">CBD</a>
                 <div class="dropdown-content">
-                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
-                    <a href='editar.html'>CONSULTAR CLIENTE</a>
-                       <a href='catalogo.html'>REGISTRAR CONTRATO</a>
-                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
+                    <a href='/registrar'>REGISTRAR CLIENTE</a>
+                    <a href='/editar'>CONSULTAR CLIENTE</a>
+                       <a href='/catalogo'>REGISTRAR CONTRATO</a>
+                       <a href='/consulta'>FILTRAR CONTRATOS</a>
                          <div class="submenu">
                         <a >MODIFICAR CONTRATO</a>
                         <div class="submenu-content">
-                            <a href='/modificar.html'>MODIFICAR POR ID</a>
-                            <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+                            <a href='/modificar'>MODIFICAR POR ID</a>
+                            <a href='/buscarnc'>MODIFICAR POR N. CLIENTE</a>
                            
                         </div>
                     </div>
@@ -78,36 +78,35 @@
                 </div>
             </div>
 
-            <a href='/contacto.html'>Contacto</a>
+            <a href='/contacto'>Contacto</a>
             <button id="theme-toggle">🌙 Modo Nocturno</button>
         </div>
     </nav>
 <div class="form-card">
     <h2>GENERAR RECIBO</h2>
 
-
-    <label>Monto</label>
+<label for="monto">Monto</label>
     <input id="monto" type="number" step="0.01">
 
-    <label>Recibo de</label>
+    <label for="reciboDe">Recibo de</label>
     <input id="reciboDe" type="text">
 
-    <label>Cantidad en letra</label>
+    <label for="cantidadLetra">Cantidad en letra</label>
     <textarea id="cantidadLetra"></textarea>
 
-    <label>Concepto</label>
+    <labl for="concepto">Concepto</label>
     <textarea id="concepto"></textarea>
 
-    <label>Fecha</label>
+    <label for="fecha">Fecha</label>
     <input id="fecha" type="date">
 
-    <label>Operador</label>
+    <label for="operador">Operador</label>
     <input id="operador" type="text">
 
-    <label>Placas</label>
+    <label for="placas">Placas</label>
     <input id="placas" type="text">
 
-    <label>Fecha y hora de acceso</label>
+    <label for="acceso" >Fecha y hora de acceso</label>
     <input id="acceso" type="datetime-local">
 
   <button class="btn" onclick="generarYDescargar()">Generar y Descargar PDF</button>
@@ -486,13 +485,37 @@ async function generarPDFMultiple(cantidadRecibos) {
         pdf.setLineWidth(1);
         pdf.setLineDash([5, 5]);
         pdf.line(20, 396, 595, 396);
-
+guardarReciboSheets({
+    folio: generarFolio(folioActual),
+    fecha: document.getElementById("fecha").value,
+    emisor: document.getElementById("reciboDe").value,
+    valor: document.getElementById("monto").value,
+    concepto: document.getElementById("concepto").value
+});
         folioActual++;
     }
 
     pdf.save(`recibos_${cantidadRecibos}.pdf`);
 }
 
+async function guardarReciboSheets(data) {
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzjwYWrfO9yxSooSX61VdO0EWC2EjFaz8nAKTeyYVFDd_Mox8unaQIoLBspxkG-CZIy1w/exec";
+
+    try {
+        const response = await fetch(URL_APPS_SCRIPT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+        // No podemos leer la respuesta debido a 'no-cors', pero asumimos éxito si no hay error
+        console.log("Recibo guardado en Google Sheets (asumido).");
+    } catch (error) {
+        console.error("Error al guardar el recibo en Google Sheets:", error);
+    }
+}
 </script>
 
 
