@@ -85,8 +85,6 @@
 <div class="form-card">
     <h2>GENERAR RECIBO</h2>
 
-    <label>Folio</label>
-    <input id="folio" type="text">
 
     <label>Monto</label>
     <input id="monto" type="number" step="0.01">
@@ -360,86 +358,140 @@ montoInput.addEventListener("input", function () {
 // =======================
 // LLENAR RECIBO
 // =======================
-function llenarRecibo(){
+function llenarRecibo(folioActual){
     const recibo = document.getElementById("recibo");
     recibo.style.display = "block";
 
-    const folio = document.getElementById("folio").value;
     const montoRaw = document.getElementById("monto").value;
     const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
 
-    document.getElementById("r-folio").innerText = folio || "00000";
+    document.getElementById("r-folio").innerText = generarFolio(folioActual);
     document.getElementById("r-monto").innerText = `$ ${monto}`;
-document.getElementById("r-monto2").innerText = `$ ${monto}`;
+    document.getElementById("r-monto2").innerText = `$ ${monto}`;
 
+    document.getElementById("r-reciboDe").innerText =
+        document.getElementById("reciboDe").value || "";
 
-    document.getElementById("r-reciboDe").innerText = document.getElementById("reciboDe").value || "";
-    document.getElementById("r-cantidadLetra").innerText = document.getElementById("cantidadLetra").value;
-    document.getElementById("r-concepto").innerText = document.getElementById("concepto").value;
-    document.getElementById("r-fecha").innerText = document.getElementById("fecha").value;
-    document.getElementById("r-operador").innerText = document.getElementById("operador").value;
-    document.getElementById("r-placas").innerText = document.getElementById("placas").value;
-    document.getElementById("r-acceso").innerText = document.getElementById("acceso").value;
+    document.getElementById("r-cantidadLetra").innerText =
+        document.getElementById("cantidadLetra").value;
+
+    document.getElementById("r-concepto").innerText =
+        document.getElementById("concepto").value;
+
+    document.getElementById("r-fecha").innerText =
+        document.getElementById("fecha").value;
+
+    document.getElementById("r-operador").innerText =
+        document.getElementById("operador").value;
+
+    document.getElementById("r-placas").innerText =
+        document.getElementById("placas").value;
+
+    document.getElementById("r-acceso").innerText =
+        document.getElementById("acceso").value;
 }
 
 
+
+// =======================
+// CONFIGURACIÓN DE FOLIO
+// =======================
+let folioBase = 1; // ← aquí decides desde qué folio empieza
+
+function generarFolio(numero) {
+    return String(numero).padStart(5, "0");
+}
 
 // =======================
 // GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
 // =======================
 async function generarYDescargar() {
-    // 1. Llenar el recibo
-    llenarRecibo();
-    
-    // 2. Esperar para que el DOM actualice
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    // 3. Exportar PDF con medidas ajustadas
-    await exportarPDF();
+
+    const cantidad = parseInt(
+        prompt("¿Cuántos recibos necesita generar?", "1")
+    );
+
+    if (isNaN(cantidad) || cantidad <= 0) {
+        alert("Cantidad inválida");
+        return;
+    }
+
+    await generarPDFMultiple(cantidad);
 }
-async function exportarPDF() {
+
+async function generarPDFMultiple(cantidadRecibos) {
+
     const { jsPDF } = window.jspdf;
     const recibo = document.getElementById("recibo");
 
     const pdf = new jsPDF("portrait", "pt", "letter");
+
     const ancho = 575;
     const alto = 280;
     const margenLateral = 20;
     const margenSuperior = 30;
     const espacioEntre = 135;
 
-    // ==========================
-    // RECIBO 1 — COPIA CCO AMAIT
-    // ==========================
-    document.getElementById("leyenda1").style.display = "block";
-    document.getElementById("leyenda2").style.display = "none";
+    let folioActual = folioBase;
 
-    const canvas1 = await html2canvas(recibo, { scale: 2 });
-    const img1 = canvas1.toDataURL("image/png");
-    pdf.addImage(img1, "PNG", margenLateral, margenSuperior, ancho, alto);
+    for (let i = 0; i < cantidadRecibos; i++) {
 
-    // ==========================
-    // RECIBO 2 — COPIA OPERADOR
-    // ==========================
-    document.getElementById("leyenda1").style.display = "none";
-    document.getElementById("leyenda2").style.display = "block";
+        // 👉 Cada recibo = una nueva hoja (excepto la primera)
+        if (i > 0) {
+            pdf.addPage();
+        }
 
-    const canvas2 = await html2canvas(recibo, { scale: 2 });
-    const img2 = canvas2.toDataURL("image/png");
-    pdf.addImage(img2, "PNG", margenLateral, margenSuperior + alto + espacioEntre, ancho, alto);
+        // ==========================
+        // COPIA CCO AMAIT (ARRIBA)
+        // ==========================
+        llenarRecibo(folioActual);
+        document.getElementById("leyenda1").style.display = "block";
+        document.getElementById("leyenda2").style.display = "none";
 
-    // ==========================
-    // LÍNEA PUNTEADA
-    // ==========================
-    pdf.setLineWidth(1);
-    pdf.setDrawColor(0);
-    pdf.setLineDash([5, 5]);
-    const mitad = 396;
-    pdf.line(20, mitad, 595, mitad);
+        await new Promise(r => setTimeout(r, 150));
+        const canvas1 = await html2canvas(recibo, { scale: 2 });
+        const img1 = canvas1.toDataURL("image/png");
 
-    pdf.save("recibos.pdf");
+        pdf.addImage(
+            img1,
+            "PNG",
+            margenLateral,
+            margenSuperior,
+            ancho,
+            alto
+        );
+
+        // ==========================
+        // COPIA SEGURIDAD AMAIT (ABAJO)
+        // ==========================
+        document.getElementById("leyenda1").style.display = "none";
+        document.getElementById("leyenda2").style.display = "block";
+
+        await new Promise(r => setTimeout(r, 150));
+        const canvas2 = await html2canvas(recibo, { scale: 2 });
+        const img2 = canvas2.toDataURL("image/png");
+
+        pdf.addImage(
+            img2,
+            "PNG",
+            margenLateral,
+            margenSuperior + alto + espacioEntre,
+            ancho,
+            alto
+        );
+
+        // ==========================
+        // LÍNEA PUNTEADA (MISMA HOJA)
+        // ==========================
+        pdf.setLineWidth(1);
+        pdf.setLineDash([5, 5]);
+        pdf.line(20, 396, 595, 396);
+
+        folioActual++;
+    }
+
+    pdf.save(`recibos_${cantidadRecibos}.pdf`);
 }
-
 
 </script>
 
