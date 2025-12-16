@@ -217,6 +217,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+
+async function obtenerFolioDesdeSheets() {
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbx6ipuEWdp04-8tSp_ayZ-kp1jokq6IjdmAN9JGE61a7LnkIDKXVHtrjpFCI6RqeohVnA/exec";
+
+    try {
+        const res = await fetch(URL_APPS_SCRIPT);
+        const data = await res.json();
+
+        folioBase = Number(data.folio);
+        console.log("Folio inicial desde Sheets:", folioBase);
+
+    } catch (err) {
+        console.error("No se pudo obtener el folio, usando 1", err);
+        folioBase = 1;
+    }
+}
+
+
+
 // ----------------- CONVERSOR NÚMERO -> LETRAS (ESPAÑOL) -----------------
 function numeroALetras(numero) {
     if (numero === "" || numero === null || typeof numero === "undefined") return "";
@@ -406,6 +425,8 @@ function generarFolio(numero) {
 // =======================
 async function generarYDescargar() {
 
+    await obtenerFolioDesdeSheets(); // 👈 CLAVE
+
     const cantidad = parseInt(
         prompt("¿Cuántos recibos necesita generar?", "1")
     );
@@ -417,6 +438,7 @@ async function generarYDescargar() {
 
     await generarPDFMultiple(cantidad);
 }
+
 
 async function generarPDFMultiple(cantidadRecibos) {
 
@@ -516,6 +538,7 @@ async function guardarReciboSheets(data) {
         console.error("Error al guardar el recibo en Google Sheets:", error);
     }
 }
+
 </script>
 
 
