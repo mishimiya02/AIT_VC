@@ -12,7 +12,7 @@
 
 
  			nav {
- 				background-color: #4400ff;
+ 				background-color: #00c458;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -48,7 +48,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #dd0000;
+ 				background-color: #0003c5;
  				color: white;
  			}
  
@@ -80,7 +80,7 @@
  			}
  
  			.dropdown-content a:hover {
- 				background-color: #dc3545; /* Rojo al hover */
+ 				background-color: #62c077; /* Rojo al hover */
  				color: white;
  			}
  
@@ -117,7 +117,7 @@
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #0400ff;
+     background-color: #00b418;
      color: white;
      border: none;
      cursor: pointer;
@@ -127,7 +127,7 @@
 
 
    #theme-toggle:hover {
-    background: rgb(170, 2, 100);
+    background: rgb(19, 2, 170);
 }
 
 
