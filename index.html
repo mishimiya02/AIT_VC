@@ -1,145 +1,125 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desarrollando estrategias innovadoras</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="java/avion-loading.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bienvenida</title>
 
-<script src="java/theme-switcherindex.js"></script>
-      <link rel="stylesheet" href="css/caratula.css" id="theme-style">
+  <script src="java/loginprincipal.js"></script>
+  <style>
+    :root {
+      --rosa: #75a0ff;
+      --rosa-claro: #2149ff;
+      --blanco: #ffffff;
+      --texto: #333333;
+    }
 
-<!--<script src="java/theme-switchercedula.js"></script>-->
-  <script>
-        // Mostrar el loader cuando la página comience a cargar
-        document.addEventListener('DOMContentLoaded', function() {
-            AvionLoading.mostrar();
-        });
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        // Ocultar el loader cuando todo esté cargado
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                AvionLoading.ocultar();
-            }, 2000); // 2 segundos de demostración
-        });
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--rosa), var(--rosa-claro));
+    }
 
-        // También puedes usarlo para transiciones entre páginas
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.href) {
-                e.preventDefault();
-                AvionLoading.mostrar();
-                
-                // Navegar después de mostrar el loader
-                setTimeout(function() {
-                    window.location.href = e.target.href;
-                }, 500);
-            }
-        });
+    .card {
+      background: var(--blanco);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      animation: fadeIn 0.6s ease;
+    }
 
-       
-    </script>
-    
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      color: var(--texto);
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    .buttons {
+      display: grid;
+      gap: 1rem;
+    }
+
+    button {
+      border: none;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--rosa);
+      color: rgb(0, 0, 0);
+    }
+
+    .btn-secondary {
+      background: var(--rosa-claro);
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-    
- <!-- NAVBAR -->
-<!-- Barra de navegación -->
-    <nav class="clearfix">
-    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
-    <div class="menu-center">  
-     
 
-        <a href='/'>Inicio</a>
-        
-        <!-- Dropdown de Servicios -->
-        <div class="dropdown">
-            <a  class="dropbtn">Servicios</a>
-            <div class="dropdown-content">
-               
-                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                 <a href='/comparacion' target='_blank'>Comparación</a>
-                 <a href='/comprobante'>COMPROBANTES DE DEPOSITOS</a>
-            
-                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
-                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
-                     <a href="recibos.html" target="_blank">RECIBOS CCO AMAIT</a>
-            </div>
-        </div>
-        
-         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
-            <div class="dropdown">
-                <a class="dropbtn">CBD</a>
-                <div class="dropdown-content">
-                    <a href='/registrar'>REGISTRAR CLIENTE </a>
-                    <a href='/editar'>CONSULTAR CLIENTE</a>
-                    <a href='/catalogo'>REGISTRAR CONTRATO</a>
-                    <a href='consulta.html'>FILTRAR CONTRATOS</a>
-                 <div class="submenu">
-                        <a href='#'>MODIFICAR CONTRATO</a>
-                        <div class="submenu-content">
-                            <a href='/modificar.html'>MODIFICAR POR ID</a>
-                            <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
-                           
-                        </div>
-                    </div>
-                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
-                   
-                </div>
-            </div>
+  <div class="card">
+    <h1>SISTEMA DE APOYO ADMINISTRATIVO</h1>
+    <p>Ingresa tu contraseña y elige a dónde deseas ingresar</p>
 
-        <a href='/contacto'>Contacto</a>
-        <button id="theme-toggle">🌙 Modo Nocturno</button>
+    <div class="buttons">
+      <input type="password" id="password" placeholder="Ingresa tu contraseña" style="padding:0.9rem;border-radius:12px;border:1px solid #ccc;font-size:1rem;" />
 
-    <!--    <a href="acerca.html">Acerca de</a>-->
+      <button class="btn-primary" onclick="validarAcceso('loginprincipal.html')">
+        Opción 1 · EMISIÓN DE RECIBOS
+      </button>
+
+      <button class="btn-secondary" onclick="validarAcceso('cdblogin.html')">
+        Opción 2 · CBD 
+      </button>
+
+      <p id="error" style="color:#c0392b; display:none; margin-top:0.5rem;">Contraseña incorrecta</p>
     </div>
-    </nav>
 
+      <button class="btn-primary" onclick="validarAcceso()">Entrar</button>
 
-    <!-- Sección superior con tres imágenes de fondo -->
-    <section class="hero-section">
-        <div class="hero-column" style="background-image: url('img/p4.jpg');">
-            <div class="hero-content">
-             
-            </div>
-        </div>
-        
-        <div class="hero-column" style="background-image: url('img/p1.jpg');">
-            <div class="hero-content">
-                   <h1>SIAPAD:</h1>
-                  <h2> SISTEMA DE APOYO ADMINISTRATIVO</h2>
-            </div>
-        </div>
-        
-        <div class="hero-column" style="background-image: url('img/p3.jpg');">
-            <div class="hero-content">
-            </div>
-        </div>
-    </section>
-    
-    <!-- Sección de contenido inferior -->
-    <section class="content-section">
-        <div class="container">
-            <div class="horizontal-sections">
-                <section class="section-card">
-                    <h3>OBJETIVO</h3>
-                    <h4>Mejorar la eficiencia operativa y la precisión en el manejo de información financiera. </h4>
-                    
-                </section>
-                
-                <section class="section-card">
-                    <h3>SEGURIDAD</h3>
-                    <h4>Para las operaciones en el sistema se ha implementado el uso de claves de seguridad, por favor tener a la mano la clave de usuario válida al ingresar al sistema.</h4>
-                   <!---- <a href="#" class="info-link">Más información</a>-->
-                </section>
-                
-                <section class="section-card">
-                    <h3>DISPONIBILIDAD</h3>
-                    <h4>El sistema esta disponible las 24h del dia y funciona tanto en celulares como en équipos de cómputo.</h4>
-                   
-                </section>
-            </div>
-        </div>
-    </section>
+      <p id="error" style="color:#c0392b; display:none; margin-top:0.5rem;">Contraseña incorrecta</p>
+    </div>
+  </div>
+
 </body>
 </html>

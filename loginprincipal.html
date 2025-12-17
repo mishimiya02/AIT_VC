@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desarrollando estrategias innovadoras</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="java/avion-loading.js"></script>
+
+<script src="java/theme-switcherindex.js"></script>
+      <link rel="stylesheet" href="css/caratula.css" id="theme-style">
+
+<!--<script src="java/theme-switchercedula.js"></script>-->
+  <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+
+       
+    </script>
+    
+</head>
+<body>
+    
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">VALUACION</a>
+            <div class="dropdown-content">
+               
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+          <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">COMPROBANTES</a>
+            <div class="dropdown-content">
+                 <a href='/comprobante'>COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+                     <a href="recibos.html" target="_blank">RECIBOS CCO AMAIT</a>
+                 <a href="https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit?usp=sharing" target="_blank">REGISTROS</a>
+            </div>
+        </div>
+
+        <a href='/cdblogin'>CDB</a>
+       
+       <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
+🌙 Nocturno
+</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
+
+
+    <!-- Sección superior con tres imágenes de fondo -->
+    <section class="hero-section">
+        <div class="hero-column" style="background-image: url('img/p4.jpg');">
+            <div class="hero-content">
+             
+            </div>
+        </div>
+        
+        <div class="hero-column" style="background-image: url('img/p1.jpg');">
+            <div class="hero-content">
+                   <h1>SIAPAD:</h1>
+                  <h2> SISTEMA DE APOYO ADMINISTRATIVO</h2>
+            </div>
+        </div>
+        
+        <div class="hero-column" style="background-image: url('img/p3.jpg');">
+            <div class="hero-content">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de contenido inferior -->
+    <section class="content-section">
+        <div class="container">
+            <div class="horizontal-sections">
+                <section class="section-card">
+                    <h3>OBJETIVO</h3>
+                    <h4>Mejorar la eficiencia operativa y la precisión en el manejo de información financiera. </h4>
+                    
+                </section>
+                
+                <section class="section-card">
+                    <h3>SEGURIDAD</h3>
+                    <h4>Para las operaciones en el sistema se ha implementado el uso de claves de seguridad, por favor tener a la mano la clave de usuario válida al ingresar al sistema.</h4>
+                   <!---- <a href="#" class="info-link">Más información</a>-->
+                </section>
+                
+                <section class="section-card">
+                    <h3>DISPONIBILIDAD</h3>
+                    <h4>El sistema esta disponible las 24h del dia y funciona tanto en celulares como en équipos de cómputo.</h4>
+                   
+                </section>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+
+
+
+

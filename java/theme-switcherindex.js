@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Aplicar tema guardado al cargar la página
     if (savedTheme === "dark") {
         themeStyle.href = "css/caratula.css";
-        themeToggle.textContent = "☀️ Modo Diurno";
+        themeToggle.textContent = "☀️  Diurno";
     }
 
     // Alternar entre temas
@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const isDark = themeStyle.href.includes("css/caratula.css");
         if (isDark) {
             themeStyle.href = "css/caratuladark.css";
-            themeToggle.textContent = "🌙 Modo Nocturno";
+            themeToggle.textContent = "🌙  Nocturno";
             localStorage.setItem("theme", "light");
         } else {
             themeStyle.href = "css/caratula.css";
-            themeToggle.textContent = "☀️ Modo Diurno";
+            themeToggle.textContent = "☀️  Diurno";
             localStorage.setItem("theme", "dark");
         }
     });
