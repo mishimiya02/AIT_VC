@@ -170,7 +170,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);/*aqui se modifica la sombra de las fotos */
+            background: rgba(0, 0, 0, 0);/*aqui se modifica la sombra de las fotos */
             z-index: 1;
         }
         
