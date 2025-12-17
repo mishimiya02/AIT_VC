@@ -5,8 +5,13 @@
 <title>Generar Recibo</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="css/recibos.css">
+
 <script src="java/avion-loading.js"></script>
+
+<script src="java/theme-switcherrecibos.js"></script>
+<link rel="stylesheet" href="css/recibos.css">
+<link id="theme-style" rel="stylesheet" href="css/recibos.css">
+
 
  <script>
         // Mostrar el loader cuando la página comience a cargar
@@ -82,6 +87,7 @@
             <button id="theme-toggle">🌙 Modo Nocturno</button>
         </div>
     </nav>
+    <br><br>
 <div class="form-card">
     <h2>GENERAR RECIBO</h2>
 
@@ -425,7 +431,7 @@ function generarFolio(numero) {
 // =======================
 async function generarYDescargar() {
 
-    await obtenerFolioDesdeSheets(); // 👈 CLAVE
+    await obtenerFolioDesdeSheets(); //
 
     const cantidad = parseInt(
         prompt("¿Cuántos recibos necesita generar?", "1")
@@ -532,7 +538,7 @@ async function guardarReciboSheets(data) {
             },
             body: JSON.stringify(data)
         });
-        // No podemos leer la respuesta debido a 'no-cors', pero asumimos éxito si no hay error
+        // éxito si no hay error
         console.log("Recibo guardado en Google Sheets (asumido).");
     } catch (error) {
         console.error("Error al guardar el recibo en Google Sheets:", error);
