@@ -125,7 +125,7 @@ p{
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #2f517c;
+ 				background-color: #ff1010;
  				color: white;
  			}
    h2 {
@@ -162,7 +162,7 @@ p{
 
 
    #theme-toggle:hover {
-    background: rgb(139, 0, 139);
+    background: rgb(116, 0, 139);
 }
 
 
