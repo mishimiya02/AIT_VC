@@ -48,7 +48,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #0003c5;
+ 				background-color: #009100;
  				color: white;
  			}
  
@@ -90,7 +90,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #2f517c;
+ 				background-color: #297a08;
  				color: white;
  			}
    h2 {
@@ -117,7 +117,7 @@
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #00b418;
+     background-color: #00c458;
      color: white;
      border: none;
      cursor: pointer;
@@ -127,7 +127,7 @@
 
 
    #theme-toggle:hover {
-    background: rgb(19, 2, 170);
+    background: rgb(0, 126, 0);
 }
 
 
