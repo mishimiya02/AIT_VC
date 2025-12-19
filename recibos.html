@@ -97,9 +97,20 @@
 
     <label for="cantidadLetra">Cantidad en letra</label>
     <textarea id="cantidadLetra"></textarea>
+ <label>Folio de acceso</label>
+<input id="conceptoFolio" type="text" placeholder="Ej. 00000000">
 
-    <labl for="concepto">Concepto</label>
-    <textarea id="concepto"></textarea>
+<label>Número consecutivo</label>
+<input id="conceptoNumero" type="number" placeholder="Ej. 00">
+
+<label>Año</label>
+<input id="conceptoAnio" type="number" placeholder="Ej. 2025">
+
+<label>Total de folios del año</label>
+<input id="conceptoTotal" type="number" placeholder="Ej. 21">
+
+
+
 
     <label for="fecha">Fecha</label>
     <input id="fecha" type="date">
@@ -386,8 +397,9 @@ function llenarRecibo(folioActual){
     const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
 
     document.getElementById("r-folio").innerText = generarFolio(folioActual);
-    document.getElementById("r-monto").innerText = `$ ${monto}`;
-    document.getElementById("r-monto2").innerText = `$ ${monto}`;
+document.getElementById("r-monto").innerText = formatearMoneda(monto);
+document.getElementById("r-monto2").innerText = formatearMoneda(monto);
+
 
     document.getElementById("r-reciboDe").innerText =
         document.getElementById("reciboDe").value || "";
@@ -395,8 +407,8 @@ function llenarRecibo(folioActual){
     document.getElementById("r-cantidadLetra").innerText =
         document.getElementById("cantidadLetra").value;
 
-    document.getElementById("r-concepto").innerText =
-        document.getElementById("concepto").value;
+        document.getElementById("r-concepto").innerText = generarConcepto();
+
 
     document.getElementById("r-fecha").innerText =
         document.getElementById("fecha").value;
@@ -412,6 +424,14 @@ function llenarRecibo(folioActual){
 }
 
 
+function generarConcepto() {
+    const folio = document.getElementById("conceptoFolio").value || "______";
+    const numero = document.getElementById("conceptoNumero").value || "__";
+    const anio = document.getElementById("conceptoAnio").value || "20__";
+    const total = document.getElementById("conceptoTotal").value || "__";
+
+    return `UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-${folio} (${numero} DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO ${anio} DE ${total})`;
+}
 
 // =======================
 // CONFIGURACIÓN DE FOLIO
@@ -539,6 +559,15 @@ async function guardarReciboSheets(data) {
     } catch (error) {
         console.error("Error al guardar el recibo en Google Sheets:", error);
     }
+}
+function formatearMoneda(valor) {
+    const numero = Number(valor);
+    if (isNaN(numero)) return "$ 0.00";
+
+    return "$ " + numero.toLocaleString("es-MX", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 }
 
 </script>
