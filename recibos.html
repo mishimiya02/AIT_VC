@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <script src="java/avion-loading.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <script src="java/theme-switcherrecibos.js"></script>
 <link rel="stylesheet" href="css/recibos.css">
@@ -447,18 +449,55 @@ function generarFolio(numero) {
 // =======================
 async function generarYDescargar() {
 
-    await obtenerFolioDesdeSheets(); //
+    // 🔔 PREGUNTAR CANTIDAD ANTES DE CARGAR
+    const { value: cantidad } = await Swal.fire({
+        title: "Generar recibos",
+        text: "¿Cuántos recibos desea generar?",
+        input: "number",
+        inputValue: 1,
+        inputAttributes: {
+            min: 1
+        },
+        showCancelButton: true,
+        confirmButtonText: "Generar",
+        cancelButtonText: "Cancelar"
+    });
 
-    const cantidad = parseInt(
-        prompt("¿Cuántos recibos necesita generar?", "1")
-    );
+    if (!cantidad || cantidad <= 0) return;
 
-    if (isNaN(cantidad) || cantidad <= 0) {
-        alert("Cantidad inválida");
-        return;
+    // 🔄 MOSTRAR LOADING
+    Swal.fire({
+        title: "Generando comprobantes",
+        text: "Por favor espere…",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        await obtenerFolioDesdeSheets();
+        await generarPDFMultiple(parseInt(cantidad));
+
+        // ✅ ÉXITO
+        Swal.fire({
+            icon: "success",
+            title: "¡Listo!",
+            text: "Los recibos se generaron correctamente",
+            confirmButtonText: "Aceptar"
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        // ❌ ERROR
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un problema al generar los recibos"
+        });
     }
-
-    await generarPDFMultiple(cantidad);
 }
 
 
@@ -534,7 +573,8 @@ guardarReciboSheets({
     fecha: document.getElementById("fecha").value,
     emisor: document.getElementById("reciboDe").value,
     valor: document.getElementById("monto").value,
-    concepto: document.getElementById("concepto").value
+ concepto: generarConcepto()
+
 });
         folioActual++;
     }
