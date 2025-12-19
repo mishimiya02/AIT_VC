@@ -271,7 +271,7 @@ function numeroALetras(numero) {
         if (n >= 20 && n <= 29) {
             // 21 -> VEINTIUNO (sin espacio)
             if (n === 20) return out + "VEINTE";
-            return out + "VEINTI" + unidades[n - 20].toLowerCase();
+            return out + "VEINTI" + unidades[n - 20];
         }
 
         if (n >= 30) {
