@@ -366,146 +366,115 @@ let chartTipo, chartEstatus, chartFacturacion;
 
 // Función para abrir el modal y generar gráficas
 async function abrirGraficas() {
-    const tipo = document.getElementById("tipo").value || "Todos";
-    const concepto = document.getElementById("concepto").value || "Todos";
-    const estatusAW = document.getElementById("estatusAW").value || "Todos";
-    const estatusAZ = document.getElementById("estatusAZ").value || "Todos";
+  const tipo = document.getElementById("tipo").value;
+  const concepto = document.getElementById("concepto").value.toLowerCase();
+  const estatusAW = document.getElementById("estatusAW").value;
+  const estatusAZ = document.getElementById("estatusAZ").value;
 
-    // Obtener datos filtrados
-    const totalData = await getData();
-    const filtrado = totalData.filter(r => {
-        return (tipo === "Todos" || r.tipoContrato === tipo) &&
-               (concepto === "Todos" || r.concepto.toLowerCase().includes(concepto.toLowerCase())) &&
-               (estatusAW === "Todos" || r.estatusAW === estatusAW) &&
-               (estatusAZ === "Todos" || r.estatusAZ === estatusAZ);
-    });
+  const data = await getData();
 
-    // Mostrar leyenda de filtros
-    const modalBody = document.querySelector("#modalGraficas .modal-body");
-    const filtrosHtml = `
-        <p class="fw-bold">Filtros aplicados:</p>
-        <p>
-            Tipo de Contrato: ${tipo} <br>
-            Concepto: ${concepto} <br>
-            Estatus de Facturación: ${estatusAW} <br>
-            Estatus: ${estatusAZ}
-        </p>
-    `;
-    modalBody.querySelector(".text-muted").innerHTML = filtrosHtml;
+  const filtrado = data.filter(r => {
+    return (!tipo || r.tipoContrato === tipo) &&
+           (!concepto || r.concepto.toLowerCase().includes(concepto)) &&
+           (!estatusAW || r.estatusAW === estatusAW) &&
+           (!estatusAZ || r.estatusAZ === estatusAZ);
+  });
 
-    generarGraficas(filtrado, totalData);
+  generarGraficas(filtrado);
 
-    // Abrir modal
-    const modal = new bootstrap.Modal(document.getElementById("modalGraficas"));
-    modal.show();
+  const modal = new bootstrap.Modal(document.getElementById("modalGraficas"));
+  modal.show();
 }
 
+
 // Función para generar gráficas comparando filtrado vs total
-function generarGraficas(filtrado, total) {
-    const contar = (arr, campo) =>
-        arr.reduce((acc, cur) => {
-            const val = cur[campo] || "Sin dato";
-            acc[val] = (acc[val] || 0) + 1;
-            return acc;
-        }, {});
-
-    // Tipos de contrato
-    const totalTipos = contar(total, "tipoContrato");
-    const filtradoTipos = contar(filtrado, "tipoContrato");
-    const labelsTipos = [...new Set([...Object.keys(totalTipos)])];
-    const dataTipos = labelsTipos.map(l => filtradoTipos[l] || 0);
-    const totalTiposData = labelsTipos.map(l => totalTipos[l] || 0);
-
-    if (chartTipo) chartTipo.destroy();
-    chartTipo = new Chart(document.getElementById("grafTipo"), {
-        type: "bar",
-        data: {
-            labels: labelsTipos,
-            datasets: [
-                { label: "Filtrado", data: dataTipos, backgroundColor: "#0d6efd" },
-                { label: "Total", data: totalTiposData, backgroundColor: "#6c757d" }
-            ]
-        },
-        options: {
-            plugins: {
-                legend: { display: true },
-                datalabels: {
-                    anchor: 'end',
-                    align: 'end',
-                    font: { size: 10 },
-                    color: '#000'
-                }
-            },
-            scales: { y: { beginAtZero: true } }
-        },
-        plugins: [ChartDataLabels]
-    });
-
-    // Estatus AZ
-    const totalEstatus = contar(total, "estatusAZ");
-    const filtradoEstatus = contar(filtrado, "estatusAZ");
-    const labelsEstatus = [...new Set([...Object.keys(totalEstatus)])];
-    const dataEstatus = labelsEstatus.map(l => filtradoEstatus[l] || 0);
-    const totalEstatusData = labelsEstatus.map(l => totalEstatus[l] || 0);
-
-    if (chartEstatus) chartEstatus.destroy();
-    chartEstatus = new Chart(document.getElementById("grafEstatus"), {
-        type: "bar",
-        data: {
-            labels: labelsEstatus,
-            datasets: [
-                { label: "Filtrado", data: dataEstatus, backgroundColor: "#198754" },
-                { label: "Total", data: totalEstatusData, backgroundColor: "#6c757d" }
-            ]
-        },
-        options: {
-            plugins: {
-                legend: { display: true },
-                datalabels: {
-                    anchor: 'end',
-                    align: 'end',
-                    font: { size: 10 },
-                    color: '#000'
-                }
-            },
-            scales: { y: { beginAtZero: true } }
-        },
-        plugins: [ChartDataLabels]
-    });
-
     // Estatus Facturación AW
-    const totalAW = contar(total, "estatusAW");
-    const filtradoAW = contar(filtrado, "estatusAW");
-    const labelsAW = [...new Set([...Object.keys(totalAW)])];
-    const dataAW = labelsAW.map(l => filtradoAW[l] || 0);
-    const totalAWData = labelsAW.map(l => totalAW[l] || 0);
+    function generarGraficas(data) {
 
-    if (chartFacturacion) chartFacturacion.destroy();
-    chartFacturacion = new Chart(document.getElementById("grafFacturacion"), {
-        type: "bar",
-        data: {
-            labels: labelsAW,
-            datasets: [
-                { label: "Filtrado", data: dataAW, backgroundColor: "#ffc107" },
-                { label: "Total", data: totalAWData, backgroundColor: "#6c757d" }
-            ]
-        },
-        options: {
-            plugins: {
-                legend: { display: true },
-                datalabels: {
-                    anchor: 'end',
-                    align: 'end',
-                    font: { size: 10 },
-                    color: '#000'
-                }
-            },
-            scales: { y: { beginAtZero: true } }
-        },
-        plugins: [ChartDataLabels]
-    });
-  
-  }
+  const contar = (arr, campo) =>
+    arr.reduce((acc, cur) => {
+      const val = cur[campo] || "Sin dato";
+      acc[val] = (acc[val] || 0) + 1;
+      return acc;
+    }, {});
+
+  // === Tipo de contrato ===
+  const tipos = contar(data, "tipoContrato");
+
+  if (chartTipo) chartTipo.destroy();
+  chartTipo = new Chart(grafTipo, {
+    type: "bar",
+    data: {
+      labels: Object.keys(tipos),
+      datasets: [{
+        label: "Contratos",
+        data: Object.values(tipos),
+        backgroundColor: "#0d6efd"
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: "end",
+          align: "end",
+          font: { weight: "bold" }
+        }
+      },
+      scales: { y: { beginAtZero: true } }
+    },
+    plugins: [ChartDataLabels]
+  });
+
+  // === Estatus ===
+  const estatus = contar(data, "estatusAZ");
+
+  if (chartEstatus) chartEstatus.destroy();
+  chartEstatus = new Chart(grafEstatus, {
+    type: "bar",
+    data: {
+      labels: Object.keys(estatus),
+      datasets: [{
+        label: "Contratos",
+        data: Object.values(estatus),
+        backgroundColor: "#198754"
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        datalabels: { anchor: "end", align: "end" }
+      },
+      scales: { y: { beginAtZero: true } }
+    },
+    plugins: [ChartDataLabels]
+  });
+
+  // === Estatus Facturación ===
+  const fact = contar(data, "estatusAW");
+
+  if (chartFacturacion) chartFacturacion.destroy();
+  chartFacturacion = new Chart(grafFacturacion, {
+    type: "bar",
+    data: {
+      labels: Object.keys(fact),
+      datasets: [{
+        label: "Contratos",
+        data: Object.values(fact),
+        backgroundColor: "#ffc107"
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        datalabels: { anchor: "end", align: "end" }
+      },
+      scales: { y: { beginAtZero: true } }
+    },
+    plugins: [ChartDataLabels]
+  });
+}
+
 </script>
 
 <!-- Modal de Gráficas -->
