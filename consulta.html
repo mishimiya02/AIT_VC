@@ -62,6 +62,10 @@
 <div class="container py-5">
   <h1 class="mb-4 text-center">FILTRAR CONTRATOS</h1>
 <button class="btn btn-primary mb-3" onclick="abrirGraficas()">Ver Gráficas</button>
+<button class="btn btn-primary mb-3" onclick="exportarGraficas()">
+  Exportar gráficas
+</button>
+
 
 
   <!-- FILTROS -->
@@ -521,6 +525,35 @@ async function abrirGraficas() {
     </div>
   </div>
 </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+<script>
+function exportarGraficas() {
+  const zip = new JSZip();
+
+  const graficas = [
+    { id: "grafTipo", nombre: "tipo_contrato" },
+    { id: "grafEstatus", nombre: "estatus" },
+    { id: "grafFacturacion", nombre: "estatus_facturacion" }
+  ];
+
+  graficas.forEach(g => {
+    const canvas = document.getElementById(g.id);
+    if (!canvas) return;
+
+    const img = canvas.toDataURL("image/png");
+    zip.file(`${g.nombre}.png`, img.split(",")[1], { base64: true });
+  });
+
+  zip.generateAsync({ type: "blob" }).then(blob => {
+    saveAs(blob, "graficas_contratos.zip");
+  });
+}
+</script>
 
 <!-- Scripts al final -->
 
