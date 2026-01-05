@@ -39,49 +39,53 @@
     
 </head>
 <body>
-    <!-- Barra de navegación -->
+    <!-- NAVBAR -->
+<!-- Barra de navegación -->
     <nav class="clearfix">
-        <img src="img/logo2.png" alt="Logo" class="logo">
-        <div class="menu-center">  
-            <a href='/'>Inicio</a>
-            
-            <!-- Dropdown de Servicios -->
-            <div class="dropdown">
-                <a class="dropbtn">Servicios</a>
-                <div class="dropdown-content">
-                    <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                    <a href='/comparacion.html' target='_blank'>COMPARACION</a>
-                    <a href="comprobante.html">COMPROBANTE DE DEPOSITOS</a>
-                  
-                    <a href="cedula.html" target="_blank">CEDULA DE DETERMINACIÓN</a>
-                      <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
-                </div>
-            </div>
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
 
-            <!-- Segundo Dropdown de Recursos -->
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">REGISTRAR</a>
+            <div class="dropdown-content">
+                <a href='/registrar'>REGISTRAR CLIENTE </a>
+                   
+                    <a href='/catalogo'>REGISTRAR CONTRATO</a>
+               
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
             <div class="dropdown">
-                <a class="dropbtn">CBD</a>
+                <a class="dropbtn">MODIFICAR</a>
                 <div class="dropdown-content">
-                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
-                    <a href='editar.html'>CONSULTAR CLIENTE</a>
-                       <a href='catalogo.html'>REGISTRAR CONTRATO</a>
-                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
-                         <div class="submenu">
-                        <a >MODIFICAR CONTRATO</a>
-                        <div class="submenu-content">
-                            <a href='/modificar.html'>MODIFICAR POR ID</a>
-                            <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+                <a href='/modificar.html'>MODIFICAR POR ID</a>
+                <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+               
                            
                         </div>
                     </div>
-                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
-                   
+                  <div class="dropdown">
+                <a class="dropbtn">CONSULTAR</a>
+                <div class="dropdown-content">
+               <a href='/editar'>CONSULTAR CLIENTE</a>
+              <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
+                        </div>
+                    </div>    
+                   <button id="theme-toggle">🌙 Modo Nocturno</button>
+
                 </div>
+                
             </div>
 
-            <a href='/contacto.html'>Contacto</a>
-            <button id="theme-toggle">🌙 Modo Nocturno</button>
-        </div>
+        
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
     </nav>
 
     <p id="statusMessage" class="status-message"></p>
