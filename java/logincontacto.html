@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #1f2937;
+      --card: #111827;
+      --primary: #4f46e5;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --radius: 16px;
+      --shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1f2937, #020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text);
+    }
+
+    .login-wrapper {
+      display: grid;
+      grid-template-columns: 420px 420px;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* IZQUIERDA */
+    .login-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .login-card h1 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+    }
+
+    .login-card p {
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(79,70,229,0.3);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 14px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(79,70,229,0.5);
+    }
+
+    /* DERECHA */
+    .login-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-image img {
+      max-width: 100%;
+      width: 380px;
+      opacity: 0.95;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .login-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .login-image {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-wrapper">
+
+    <!-- FORMULARIO -->
+    <div class="login-card">
+      <h1>Bienvenido</h1>
+      <p>Inicia sesión para acceder al sistema</p>
+
+      <form action="links.html" method="GET">
+        <div class="form-group">
+          <label for="usuario">Usuario</label>
+          <input type="text" id="usuario" placeholder="Ingresa tu usuario" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <button class="login-btn" type="submit">Ingresar</button>
+      </form>
+    </div>
+
+    <!-- IMAGEN -->
+    <div class="login-image">
+      <img src="img/login-ilustracion.png" alt="Login ilustración">
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -60,7 +60,7 @@ body {
 
  					/* barra de navegacion */
  	nav {
- 				background-color: #00c458;
+ 				background-color: #63007c;
               padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -96,7 +96,7 @@ body {
  			}
  
  			nav a:hover {
- 				background-color: #009100;
+ 				background-color: #6d001b;
  				color: white;
  			}
  			/* Estilos NUEVOS para el dropdown  */
