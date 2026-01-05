@@ -79,7 +79,7 @@
 
 
  			nav {
- 				background-color: #c50000;
+ 				background-color: #009443;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -115,7 +115,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #ffd000;
+ 				background-color: #39c900;
  				color: white;
  			}
  
@@ -147,7 +147,7 @@
  			}
  
  			.dropdown-content a:hover {
- 				background-color: #ffd000; /* Rojo al hover */
+ 				background-color: #38c700; /* Rojo al hover */
  				color: white;
  			}
  
@@ -157,7 +157,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #ffd000;
+ 				background-color: #2ab600;
  				color: white;
  			}
    h2 {

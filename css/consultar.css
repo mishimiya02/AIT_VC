@@ -79,7 +79,7 @@
 
 
  			nav {
- 				background-color: #ffa705;
+ 				background-color: #09a71e;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -115,7 +115,7 @@
  			}
  
  			nav a:hover {
- 				background-color: #ffd000;
+ 				background-color: #1eff00;
  				color: white;
  			}
  
@@ -147,7 +147,7 @@
  			}
  
  			.dropdown-content a:hover {
- 				background-color: #ffd000; /* Rojo al hover */
+ 				background-color: #3dc000; /* Rojo al hover */
  				color: white;
  			}
  
@@ -157,7 +157,7 @@
  
  			/* Mantener hover azul en el botón principal */
  			.dropdown:hover > .dropbtn {
- 				background-color: #ffd000;
+ 				background-color: #25ec25;
  				color: white;
  			}
    h2 {
@@ -166,11 +166,12 @@
              margin-top: 0;
              color: #000000;
 			 font-size: 17px;
-         }
+         }s
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #ffa705;
+ 				background-color: #17c700;
+    
      color: white;
      border: none;
      cursor: pointer;
@@ -180,7 +181,7 @@
 
 
 #theme-toggle :hover {
-     background-color: #ff1b1b;
+     background-color: #48ff00;
      color: white;
      cursor: pointer;
      transition: background-color 0.3s;
@@ -235,13 +236,6 @@
       transition: background 0.3s ease;
     }
 
-    button:hover {
-      background: #005bb5;
-    }
-
-    #theme-toggle:hover {
-    background: rgb(211, 68, 1);
-}
 
 
 
