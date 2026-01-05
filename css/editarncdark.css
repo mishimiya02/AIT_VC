@@ -1,90 +1,13 @@
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f4ff;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #6a48c6;
-            margin-bottom: 20px;
-        }
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-               
-          body, nav {
-    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
-}
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #cfc7ea;
-            margin-top: 5px;
-            background: #faf8ff;
-        }
-        label {
-            font-weight: bold;
-            color: #5a4da3;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .btn-search {
-            background: #7f5af0;
-            color: white;
-        }
-        .btn-save {
-            background: #2cb67d;
-            color: white;
-            width: 100%;
-            margin-top: 20px;
-        }
-        .hidden { display: none; }
-
-
-        /* ESTILOS PARA DROPDOWN QUE SE SUPERPONE CORRECTAMENTE */
-
-/* Para que funcione correctamente en todos los casos */
-.menu-center {
-    display: flex;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    z-index: 1000; /* Asegurar que el dropdawn esté por encima copiar para cada nav */
-}
 
 
  			nav {
- 				background-color: #4400ff;
+ 				background-color: #ec0000;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
  				align-items: stretch;
  				position: relative;
- 				height: 90px; /* altura */
+ 				height: 100px; /* altura */
  			}
 
           
@@ -159,44 +82,11 @@
  				background-color: #2f517c;
  				color: white;
  			}
-
-            /* Estilos para submenús */
-        .submenu {
-            position: relative;
-        }
-        
-        .submenu-content {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background-color: #fff;
-            min-width: 220px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            z-index: 1001;
-            border-radius: 8px;
-            transform: translateX(10px);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .submenu:hover .submenu-content {
-            display: block;
-            transform: translateX(0);
-            opacity: 1;
-        }
-        
-        .submenu > a::after {
-            content: '›';
-            position: absolute;
-            right: 10px;
-            font-size: 1.2rem;
-        }
-
-        #theme-toggle {
+     
+#theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #5552e6;
+     background-color: #030099;
      color: white;
      border: none;
      cursor: pointer;
@@ -204,6 +94,108 @@
          
 }
 
+
+
+
+/* Estilo para el input de Razón Social */
+
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000000;
+      margin: 0;
+   
+    }
+
     #theme-toggle:hover {
     background: rgb(170, 2, 100);
 }
+
+
+    h1 {
+      text-align: center;
+      color: #f1f1f1;
+      margin-bottom: 30px;
+    }
+
+
+   
+
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .dark-mode label {
+            color: var(--text-light);
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(rgb(255, 166, 2));/*color de borde de select*/
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(247, 247, 247, 0.2);
+        }
+
+
+        
+
+    .cedula-form-group label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #ffae00;
+    }
+
+    .cedula-form-group input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #251749;
+      border-radius: 8px;
+      transition: border 0.3s;
+    }
+
+    .cedula-form-group input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+
+   h2 {
+             text-align: center;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #ffffff;
+			 font-size: 25px;
+         }
+            h3 {
+             text-align: left;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #ffffff;
+			 font-size: 15px;
+         }
+         h4 {
+             text-align: left;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #ffffff;
+			 font-size: 15px;
+         }
+
+          
+          body, nav {
+    transition: background-color 2s ease, color 2s ease; /*transición de colores*/
+}      
