@@ -108,7 +108,7 @@
       <div class="form-group">
       <label for="observaciones"> CLAVE:</label>
       <!-- maxlength para forzar 2 caracteres y evitar inputs largos -->
-      <input type="text" id="clave" name="clave" maxlength="2" placeholder="Ej: AB">    
+      <input type="text" id="clave" name="clave" maxlength="3" placeholder="Ej: ABC">    
     </div>
         
 <input type="file" id="fileInput" accept="application/pdf">
@@ -175,7 +175,7 @@ motivoInputField.addEventListener('input', (e) => {
 const { PDFDocument, rgb, StandardFonts, degrees } = PDFLib;
 
 // 🔐 Claves registradas válidas
-const registeredKeys = ['JM',  'RM', 'AT'];
+const registeredKeys = ['JM',  'RMV', 'AIT'];
 
 function validarClave(clave) {
   if (!clave) return false;
@@ -194,11 +194,13 @@ function generarCadenaOriginal(clave) {
 
 // 🔠 Forzar mayúsculas y limitar a 2 caracteres
 const claveInput = document.getElementById('clave');
+
 claveInput.addEventListener('input', (e) => {
   let v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  if (v.length > 2) v = v.substring(0, 2);
+  if (v.length > 3) v = v.substring(0, 3);
   e.target.value = v;
 });
+
 
 document.getElementById('cancelar').addEventListener('click', async () => {
   const fileInput = document.getElementById('fileInput');
@@ -209,7 +211,9 @@ document.getElementById('cancelar').addEventListener('click', async () => {
   if (!fileInput.files.length) return alert("Selecciona un PDF.");
   if (!fechaInput) return alert("Por favor ingresa la fecha de cancelación.");
   if (!motivoInput.trim()) return alert("Por favor ingresa el motivo de cancelación.");
-  if (!clave || clave.length !== 2) return alert("La clave debe tener 2 caracteres.");
+  if (!clave || clave.length < 2 || clave.length > 3) {alert("La clave debe tener 2 o 3 caracteres."); return;}
+
+
   if (!validarClave(clave)) return alert("Clave NO registrada. No se puede generar el archivo.");
 
   const file = fileInput.files[0];
