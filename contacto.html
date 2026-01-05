@@ -1,85 +1,257 @@
 <!DOCTYPE html>
 <html lang="es">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - Aeropuerto Internacional de Toluca</title>
-    <link rel="stylesheet" href="css/estilocontacto.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Cálculo de Garantía</title>
+    <link rel="stylesheet" href="css/registrar.css" id="theme-style">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="java/avion-loading.js"></script>
+     <script src="java/theme-switcheregistrar.js"></script>
+    <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+    </script>
+    
+  <!-- Fuente moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --primary: #4f46e5;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+   
+    .container {
+      max-width: 420px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: var(--text);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .link-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+
+    .link-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .link-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .link-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .arrow {
+      font-size: 1.3rem;
+      color: var(--primary);
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  .main-layout {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 60px;
+  padding: 40px 60px;
+}
+
+/* izquierda */
+.container {
+  max-width: 420px;
+  flex-shrink: 0;
+}
+
+/* derecha */
+.image-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-panel img {
+  max-width: 1020px;
+  width: 100%;
+}
+
+
+  </style>
 </head>
 <body>
-    <!-- Barra de navegación -->
+    <!-- NAVBAR -->
+<!-- Barra de navegación -->
     <nav class="clearfix">
-        <img src="img/logo2.png" alt="Logo" class="logo">
-        <div class="menu-center">
-            <a href="index.html">Inicio</a>
-            
-            <!-- Dropdown de Servicios -->
-            <div class="dropdown">
-                <a class="dropbtn">Servicios</a>
-                <div class="dropdown-content">
-                  
-               <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
-                
-                 <a href="cedula.html"target="_blank">CEDULA DE DETERMINACIÓN</a>
-                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
-               
-                </div>
-            </div>
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
 
-             <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">REGISTRAR</a>
+            <div class="dropdown-content">
+                <a href='/registrar'>REGISTRAR CLIENTE </a>
+                   
+                    <a href='/catalogo'>REGISTRAR CONTRATO</a>
+               
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
             <div class="dropdown">
-                <a class="dropbtn">CBD</a>
+                <a class="dropbtn">MODIFICAR</a>
                 <div class="dropdown-content">
-                    <a href='registrar.html'>REGISTRAR CLIENTE</a>
-                    <a href='editar.html'>CONSULTAR CLIENTE</a>
-                     <a href='catalogo.html'>REGISTRAR CONTRATO</a>
-                     <a href='consulta.html'>FILTRAR CONTRATOS</a>
-                 <div class="submenu">
-                        <a href='#'>MODIFICAR CONTRATO</a>
-                        <div class="submenu-content">
-                            <a href='/modificar.html'>MODIFICAR POR ID</a>
-                            <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+                <a href='/modificar.html'>MODIFICAR POR ID</a>
+                <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+               
                            
                         </div>
                     </div>
-                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
-                   
-                   
+                  <div class="dropdown">
+                <a class="dropbtn">CONSULTAR</a>
+                <div class="dropdown-content">
+               <a href='/editar'>CONSULTAR CLIENTE</a>
+              <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
+                        </div>
+                    </div>    
+                   <button id="theme-toggle">🌙 Modo Nocturno</button>
+
                 </div>
+                
             </div>
-            
-            <a href="contacto.html">Contacto</a>
-        </div>
-    </nav>
-    
-    <!-- Contenido principal -->
-    <div class="contenido">
-        <h1>CONTACTO</h1>
-        <p>Conéctate con el Aeropuerto Internacional de Toluca</p>
-    </div>	
-	
-    <div class="container airplane-effect">
-        <!-- Enlace de Facebook -->
-        <a href="https://www.facebook.com/AeropuertoInternacionaldeToluca" 
-           target="_blank" 
-           class="contact-link facebook">
-            <i class="fab fa-facebook-square"></i> Visítanos en Facebook
-        </a>
+
         
-        <!-- Enlace del sitio web -->
-        <a href="https://www.aeropuertodetoluca.com.mx" 
-           target="_blank" 
-           class="contact-link website">
-            <i class="fas fa-paper-plane"></i> Visita nuestro sitio web oficial
-        </a>
-        
-        <!-- Enlace de Instagram -->
-        <a href="https://www.instagram.com/aeropuertodetoluca/" 
-           target="_blank" 
-           class="contact-link instagram">
-            <i class="fab fa-instagram"></i> Síguenos en Instagram
-        </a>
+    <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
+    </nav>
+    <!-- FIN NAVBAR -->
+    <br><div class="main-layout">
+
+  <!-- COLUMNA IZQUIERDA -->
+  <div class="container">
+    <h1>Enlaces rápidos</h1>
+    <p>Accede fácilmente a las herramientas disponibles</p>
+
+    <div class="links">
+      <a href="#" class="link-card">
+        <div class="link-info">
+          <span class="link-title">Cancelar comprobantes</span>
+          <span class="link-desc">Marca documentos como cancelados</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="#" class="link-card">
+        <div class="link-info">
+          <span class="link-title">Generar recibos</span>
+          <span class="link-desc">Crea recibos en PDF automáticamente</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="#" class="link-card">
+        <div class="link-info">
+          <span class="link-title">Consulta de contratos</span>
+          <span class="link-desc">Filtra y revisa información</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="#" class="link-card">
+        <div class="link-info">
+          <span class="link-title">Reportes</span>
+          <span class="link-desc">Exporta información en Excel</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- COLUMNA DERECHA -->
+  <div class="image-panel">
+    <img src="img/linksimagen.jpg" alt="Ilustración aeropuerto">
+  </div>
+
+</div>
+
 </body>
 </html>
