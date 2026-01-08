@@ -99,8 +99,16 @@
 
     <label for="cantidadLetra">Cantidad en letra</label>
     <textarea id="cantidadLetra"></textarea>
- <label>Folio de acceso</label>
+
+     <label>Folio de acceso</label>
 <input id="conceptoFolio" type="text" placeholder="Ej. 00000000">
+
+
+    <label>
+  <input type="checkbox" id="usarParentesis" checked>
+  Incluir leyenda de folios acumulados ()
+</label>
+
 
 <label>Número consecutivo</label>
 <input id="conceptoNumero" type="number" placeholder="Ej. 00">
@@ -435,8 +443,18 @@ function generarConcepto() {
     const anio = document.getElementById("conceptoAnio").value || "20__";
     const total = document.getElementById("conceptoTotal").value || "__";
 
-    return `UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-${folio} (${numero} DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO ${anio} DE ${total})`;
+    const usarParentesis = document.getElementById("usarParentesis").checked;
+
+    let concepto = `UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-${folio}`;
+
+    // 👉 SOLO si el usuario lo autoriza
+    if (usarParentesis) {
+        concepto += ` (${numero} DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO ${anio} DE ${total})`;
+    }
+
+    return concepto;
 }
+
 
 // =======================
 // CONFIGURACIÓN DE FOLIO
