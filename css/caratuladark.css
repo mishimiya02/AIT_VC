@@ -225,7 +225,7 @@ p{
         }
         
           body, nav {
-    transition: background-color 1s ease, color 1s ease; /*transición de colores*/
+    transition: background-color 2s ease, color 2s ease; /*transición de colores*/
 }
         
         .cta-button {

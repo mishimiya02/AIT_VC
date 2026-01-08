@@ -89,7 +89,7 @@
 
     <br><br>
 <div class="form-card">
-    <h2>GENERAR RECIBO</h2>
+    <h2>GENERAR RECIBO CCO</h2>
 
 <label for="monto">Monto</label>
     <input id="monto" type="number" step="0.01">
@@ -125,6 +125,9 @@
 
     <label for="acceso" >Fecha y hora de acceso</label>
     <input id="acceso" type="datetime-local">
+
+    <button onclick="window.open('https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit', '_blank')">Abrir Google Sheets</button>
+
 
   <button class="btn" onclick="generarYDescargar()">Generar y Descargar PDF</button>
 <div class="hoja-media" id="recibo">
