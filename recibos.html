@@ -104,23 +104,21 @@
 <input id="conceptoFolio" type="text" placeholder="Ej. 00000000">
 
 
-    <label>
+    <label><!--aqui esta el checkbox para ocultar el folio acumulado -->
   <input type="checkbox" id="usarParentesis" checked>
   Incluir leyenda de folios acumulados ()
 </label>
 
+<div id="bloqueParentesis">
+  <label>Número consecutivo</label>
+  <input id="conceptoNumero" type="number">
 
-<label>Número consecutivo</label>
-<input id="conceptoNumero" type="number" placeholder="Ej. 00">
+  <label>Año</label>
+  <input id="conceptoAnio" type="number">
 
-<label>Año</label>
-<input id="conceptoAnio" type="number" placeholder="Ej. 2025">
-
-<label>Total de folios del año</label>
-<input id="conceptoTotal" type="number" placeholder="Ej. 21">
-
-
-
+  <label>Total de folios del año</label>
+  <input id="conceptoTotal" type="number">
+</div>
 
     <label for="fecha">Fecha</label>
     <input id="fecha" type="date">
@@ -243,6 +241,12 @@
 
 
 <script>
+
+    document.getElementById("usarParentesis").addEventListener("change", function () {
+    document.getElementById("bloqueParentesis").style.display =
+        this.checked ? "block" : "none";
+});
+
 
 async function obtenerFolioDesdeSheets() {
     const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbx6ipuEWdp04-8tSp_ayZ-kp1jokq6IjdmAN9JGE61a7LnkIDKXVHtrjpFCI6RqeohVnA/exec";
