@@ -91,7 +91,7 @@ document.getElementById("btnLogin").addEventListener("click", function () {
   }
 
   if (passwordsValidas.includes(password)) {
-    localStorage.setItem("accesoLinks", "true");
+    sessionStorage.setItem("accesoLinks", "true");
     window.location.href = "contacto.html";
   } else {
     Swal.fire({

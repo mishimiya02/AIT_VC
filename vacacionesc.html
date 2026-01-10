@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generar Recibo</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script src="java/avion-loading.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script src="java/theme-switchervacaciones.js"></script>
+<link rel="stylesheet" href="css/recibos.css">
+<link id="theme-style" rel="stylesheet" href="css/vacaciones.css">
+
+
+ <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+    </script>
+</head>
+<body>
+
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+
+        <a href='loginprincipal.html'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">VALUACION</a>
+            <div class="dropdown-content">
+               
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+          <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">COMPROBANTES</a>
+            <div class="dropdown-content">
+                 <a href='comprobante'>COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href='cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+                     <a href="recibos.html" target="_blank">RECIBOS CCO AMAIT</a>
+                 <a href="https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit?usp=sharing" target="_blank">REGISTROS</a>
+            </div>
+        </div>
+
+        <a href='/index.html'>CDB</a>
+       
+          <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
+🌙 Nocturno
+</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
+
+
+<div class="formulario">
+    <h2>Captura de datos</h2>
+    <input id="nombre" placeholder="Nombre completo">
+    <input id="empleado" placeholder="No. de empleado">
+    <input id="horario" placeholder="Horario">
+    <input id="area" placeholder="Área de adscripción">
+    <input id="puesto" placeholder="Puesto">
+    <input id="ingreso" type="date">
+    <input id="fechaSolicitud" type="date">
+
+    <h3>Fechas de vacaciones</h3>
+    <input id="del" type="date">
+    <input id="al" type="date">
+    <input id="periodo" placeholder="Periodo">
+    <input id="diasDisp" placeholder="Días disponibles">
+    <input id="diasDisf" placeholder="Días a disfrutar">
+    <input id="diasRest" placeholder="Días restantes">
+
+    <button onclick="generar()">Generar formato</button>
+</div>
+
+<div class="hoja">
+    <div class="titulo">SOLICITUD DE VACACIONES</div>
+    <div class="fecha-solicitud">
+    <div class="etiqueta-fecha">FECHA DE SOLICITUD</div>
+    <div class="campos-fecha">
+        <div class="campo-fecha">
+            <span>día</span>
+            <div id="dia"></div>
+        </div>
+        <div class="campo-fecha">
+            <span>mes</span>
+            <div id="mes"></div>
+        </div>
+        <div class="campo-fecha">
+            <span>año</span>
+            <div id="anio"></div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="bloque">
+        <div class="fila">
+            <div class="campo"><span>Nombre:</span> <span id="rNombre"></span></div>
+            <div class="campo"><span>No. Empleado:</span> <span id="rEmpleado"></span></div>
+            <div class="campo"><span>Horario:</span> <span id="rHorario"></span></div>
+        </div>
+    </div>
+
+    <div class="bloque">
+        <div class="fila">
+            <div class="campo"><span>Área:</span> <span id="rArea"></span></div>
+            <div class="campo"><span>Puesto:</span> <span id="rPuesto"></span></div>
+            <div class="campo"><span>Fecha ingreso:</span> <span id="rIngreso"></span></div>
+        </div>
+    </div>
+
+    <div class="titulo">FECHAS Y PERIODO A DISFRUTAR</div>
+
+    <table>
+        <tr>
+            <th>Del</th>
+            <th>Al</th>
+            <th>Periodo</th>
+            <th>Días Disp.</th>
+            <th>Días a Disfr.</th>
+            <th>Días Restantes</th>
+        </tr>
+        <tr>
+            <td id="rDel"></td>
+            <td id="rAl"></td>
+            <td id="rPeriodo"></td>
+            <td id="rDiasDisp"></td>
+            <td id="rDiasDisf"></td>
+            <td id="rDiasRest"></td>
+        </tr>
+    </table>
+
+    <div class="firmas">
+        <div class="firma">
+            _________________________<br>
+            Firma del solicitante
+        </div>
+        <div class="firma">
+            _________________________<br>
+            Autoriza
+        </div>
+    </div>
+</div>
+
+<script>
+function generar(){
+    document.getElementById("rNombre").textContent = nombre.value;
+    document.getElementById("rEmpleado").textContent = empleado.value;
+    document.getElementById("rHorario").textContent = horario.value;
+    document.getElementById("rArea").textContent = area.value;
+    document.getElementById("rPuesto").textContent = puesto.value;
+    document.getElementById("rIngreso").textContent = ingreso.value;
+
+    document.getElementById("rDel").textContent = del.value;
+    document.getElementById("rAl").textContent = al.value;
+    document.getElementById("rPeriodo").textContent = periodo.value;
+    document.getElementById("rDiasDisp").textContent = diasDisp.value;
+    document.getElementById("rDiasDisf").textContent = diasDisf.value;
+    document.getElementById("rDiasRest").textContent = diasRest.value;
+}
+
+window.addEventListener("load", () => {
+    const hoy = new Date();
+    const dia = hoy.getDate().toString().padStart(2, "0");
+    const mes = (hoy.getMonth() + 1).toString().padStart(2, "0");
+    const anio = hoy.getFullYear();
+
+    document.getElementById("dia").textContent = dia;
+    document.getElementById("mes").textContent = mes;
+    document.getElementById("anio").textContent = anio;
+});
+</script>
+
+</body>
+</html>

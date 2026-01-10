@@ -41,8 +41,7 @@
    
 
 document.addEventListener("DOMContentLoaded", function () {
-  const acceso = localStorage.getItem("accesoLinks");
-
+  const acceso = sessionStorage.getItem("accesoLinks");
   if (acceso !== "true") {
     Swal.fire({
       icon: "warning",
