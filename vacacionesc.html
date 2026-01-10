@@ -53,7 +53,7 @@
 
         <a href='loginprincipal.html'>Inicio</a>
         
-        <!-- Dropdown de Servicios -->
+        <!-- Dropdown de Servicios 
         <div class="dropdown">
             <a  class="dropbtn">VALUACION</a>
             <div class="dropdown-content">
@@ -64,8 +64,8 @@
             </div>
         </div>
         
-         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
-          <!-- Dropdown de Servicios -->
+         justo arriba de href contacto;Segundo Dropdown de Recursos
+           Dropdown de Servicios 
         <div class="dropdown">
             <a  class="dropbtn">COMPROBANTES</a>
             <div class="dropdown-content">
@@ -79,7 +79,7 @@
         </div>
 
         <a href='/index.html'>CDB</a>
-       
+       -->
           <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
 🌙 Nocturno
 </button>
@@ -87,13 +87,14 @@
     </div>
     </nav>
 
-
+<br><br>
+    <h1>Captura de datos</h1>
+    <br><br>
 <div class="formulario">
-    <h2>Captura de datos</h2>
 
     <div class="campo-form">
         <label for="nombre">Nombre completo</label>
-        <input id="nombre" type="text" placeholder="Ej. Juan Pérez">
+        <input id="nombre" type="text" placeholder="Nombre y apellidos">
     </div>
 
     <div class="campo-form">
@@ -123,6 +124,14 @@
 
     <h3>Fechas de vacaciones</h3>
 
+<div class="campo-form">
+    <label for="diasDisf">Días a disfrutar</label>
+    <input id="diasDisf" type="number" min="1" oninput="crearFechas()">
+</div>
+
+<div id="contenedor-fechas"></div>
+
+
     <div class="campo-form">
         <label for="del">Del</label>
         <input id="del" type="date">
@@ -143,10 +152,7 @@
         <input id="diasDisp" type="number">
     </div>
 
-    <div class="campo-form">
-        <label for="diasDisf">Días a disfrutar</label>
-        <input id="diasDisf" type="number">
-    </div>
+    
 
     <div class="campo-form">
         <label for="diasRest">Días restantes</label>
@@ -196,7 +202,7 @@
 
     <div class="titulo">FECHAS Y PERIODO A DISFRUTAR</div>
 
-    <table>
+    <table id="tablaFechas">
         <tr>
             <th>Del</th>
             <th>Al</th>
@@ -254,6 +260,50 @@ window.addEventListener("load", () => {
     document.getElementById("mes").textContent = mes;
     document.getElementById("anio").textContent = anio;
 });
+
+
+
+function crearFechas(){
+    const cantidad = parseInt(document.getElementById("diasDisf").value);
+    const contenedor = document.getElementById("contenedor-fechas");
+    contenedor.innerHTML = "";
+
+    if (isNaN(cantidad) || cantidad <= 0) return;
+
+    for(let i = 1; i <= cantidad; i++){
+        const div = document.createElement("div");
+        div.className = "campo-form";
+
+        div.innerHTML = `
+            <label>Fecha día ${i}</label>
+            <input type="date" class="fecha-vacacion" onchange="llenarTabla()">
+        `;
+
+        contenedor.appendChild(div);
+    }}
+    function llenarTabla(){
+    const tabla = document.getElementById("tablaFechas");
+    const fechas = document.querySelectorAll(".fecha-vacacion");
+
+    // Limpia la tabla dejando solo el encabezado
+    tabla.innerHTML = `
+        <tr>
+            <th>Día</th>
+            <th>Fecha</th>
+        </tr>
+    `;
+
+    fechas.forEach((input, index) => {
+        if(input.value){
+            const fila = tabla.insertRow();
+            const c1 = fila.insertCell(0);
+            const c2 = fila.insertCell(1);
+
+            c1.textContent = index + 1;
+            c2.textContent = input.value;
+        }
+    });
+}
 </script>
 
 </body>
