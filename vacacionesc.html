@@ -90,24 +90,72 @@
 
 <div class="formulario">
     <h2>Captura de datos</h2>
-    <input id="nombre" placeholder="Nombre completo">
-    <input id="empleado" placeholder="No. de empleado">
-    <input id="horario" placeholder="Horario">
-    <input id="area" placeholder="Área de adscripción">
-    <input id="puesto" placeholder="Puesto">
-    <input id="ingreso" type="date">
-    <input id="fechaSolicitud" type="date">
+
+    <div class="campo-form">
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" type="text" placeholder="Ej. Juan Pérez">
+    </div>
+
+    <div class="campo-form">
+        <label for="empleado">No. de empleado</label>
+        <input id="empleado" type="text" placeholder="Ej. 101">
+    </div>
+
+    <div class="campo-form">
+        <label for="horario">Horario</label>
+        <input id="horario" type="text" placeholder="Ej. 8">
+    </div>
+
+    <div class="campo-form">
+        <label for="area">Área de adscripción</label>
+        <input id="area" type="text" placeholder="Ej. Dirección de Operaciones">
+    </div>
+
+    <div class="campo-form">
+        <label for="puesto">Puesto</label>
+        <input id="puesto" type="text" placeholder="Ej. Jefe de mantenimiento">
+    </div>
+
+    <div class="campo-form">
+        <label for="ingreso">Fecha de ingreso</label>
+        <input id="ingreso" type="date">
+    </div>
 
     <h3>Fechas de vacaciones</h3>
-    <input id="del" type="date">
-    <input id="al" type="date">
-    <input id="periodo" placeholder="Periodo">
-    <input id="diasDisp" placeholder="Días disponibles">
-    <input id="diasDisf" placeholder="Días a disfrutar">
-    <input id="diasRest" placeholder="Días restantes">
+
+    <div class="campo-form">
+        <label for="del">Del</label>
+        <input id="del" type="date">
+    </div>
+
+    <div class="campo-form">
+        <label for="al">Al</label>
+        <input id="al" type="date">
+    </div>
+
+    <div class="campo-form">
+        <label for="periodo">Periodo</label>
+        <input id="periodo" type="text" placeholder="Ej. 2025">
+    </div>
+
+    <div class="campo-form">
+        <label for="diasDisp">Días disponibles</label>
+        <input id="diasDisp" type="number">
+    </div>
+
+    <div class="campo-form">
+        <label for="diasDisf">Días a disfrutar</label>
+        <input id="diasDisf" type="number">
+    </div>
+
+    <div class="campo-form">
+        <label for="diasRest">Días restantes</label>
+        <input id="diasRest" type="number">
+    </div>
 
     <button onclick="generar()">Generar formato</button>
 </div>
+
 
 <div class="hoja">
     <div class="titulo">SOLICITUD DE VACACIONES</div>
