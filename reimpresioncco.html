@@ -108,11 +108,41 @@ body {
 .cuadro {
   border: 2px solid #003a7d;
   border-radius: 12px;
-  padding: 12px;
+ 
   font-size: 12px;
-  margin-top: 5px;
+  margin-top: 15px;
+    padding: 0px 12px;  
 
 }
+.campo {
+  margin-bottom: 10px;
+}
+
+.dato-linea {
+  display: inline-block;
+  min-width: 180px;           /* ancho de la línea */
+  border-bottom: 2px solid #003a7d;
+  padding-bottom: 2px;
+  margin-left: 6px;
+}
+
+.dato-linea.largo {
+  min-width: 320px;
+}
+
+.dato-linea.muy-largo {
+  display: block;             /* concepto en renglón propio */
+  margin-top: 6px;
+  min-width: 100%;
+}
+.dato-linea.concepto {
+  min-width: 100%;
+  max-width: 100%;
+  white-space: nowrap;        /* ⬅️ evita salto */
+  overflow: hidden;
+  text-overflow: ellipsis;    /* … si es muy largo */
+}
+
 
 /* FILAS INFERIORES */
 .info-fila {
@@ -137,7 +167,7 @@ body {
     position: absolute;
     top: 20mm;               /* ⬅️ mitad superior */
     left: 50%;
-    transform: translateX(-50%) scale(1.2);
+    transform: translateX(-50%) scale(1.4);
     transform-origin: top center;
     margin: 0;
   }
@@ -151,6 +181,24 @@ body {
     margin: 0;
   }
 }
+.campo-doble {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.campo-doble .izq,
+.campo-doble .der {
+  white-space: nowrap;
+}
+
+.campo-doble .der {
+  text-align: right;
+}
+
+.dato-linea.corto {
+  min-width: 120px;
+}
 
 
 </style>
@@ -163,6 +211,8 @@ body {
   Folio:
   <input type="text" id="folio">
   <button onclick="buscar()">Buscar</button>
+  
+ <button onclick="window.print()">Imprimir</button>
 </div>
 
 <!-- ===== RECIBO ===== -->
@@ -180,7 +230,7 @@ body {
 
   <div class="contenedor-derecha">
     <div class="fila-dato">
-      <div class="label-der">FOLIO:</div>
+      <div class="label-der">FOLIO N°:</div>
       <div class="caja-der" id="r-folio"></div>
     </div>
     <div class="fila-dato">
@@ -190,17 +240,32 @@ body {
   </div>
  <div class="leyendas">
   <div class="leyenda">COPIA CCO AMAIT</div>
-  <div class="leyenda">COPIA SEGURIDAD AMAIT</div>
+ <!-- <div class="leyenda">COPIA SEGURIDAD AMAIT</div> -->
+</div>
+<div class="cuadro">
+<div class="campo">
+ <div class="campo campo-doble">
+  <div class="izq">
+    <b>RECIBO DE:</b>
+    <span class="dato-linea corto" id="r-reciboDe"></span>
+  </div>
+
+  <div class="der">
+    <b>LA CANTIDAD DE:</b> $
+    <span class="dato-linea corto" id="r-monto2"></span>
+  </div>
 </div>
 
-  <div class="cuadro">
-    <div><b>RECIBO DE:</b> <span id="r-reciboDe"></span></div>
-    <div><b>LA CANTIDAD DE:</b> $ <span id="r-monto2"></span></div>
-    <br>
-    <div><b>CANTIDAD EN LETRA:</b> <span id="r-cantidadLetra"></span></div>
-    <br>
-    <div><b>POR CONCEPTO DE:</b> <span id="r-concepto"></span></div>
-  </div>
+<div class="campo">
+  <b>CANTIDAD EN LETRA:</b>
+  <span class="dato-linea largo" id="r-cantidadLetra"></span>
+</div>
+
+<div class="campo">
+  <b>POR CONCEPTO DE:</b>
+  <span class="dato-linea muy-largo" id="r-concepto"></span>
+</div>
+
 
   <br>
 
@@ -219,7 +284,6 @@ body {
   <br>
  
 </div>
- <button onclick="window.print()">Imprimir</button>
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwzhMmwcEfitVPaKoEZvcsix34g15-kfWQH_bnGlXx86HNKtpGfl_c0BR0iuvFL5qLkKg/exec";
 
