@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reimprimir Recibo</title>
+
+<style>
+.buscar {
+  margin-bottom:15px;
+}
+input, button {
+  padding:6px;
+  font-size:14px;
+}
+.hoja-media {
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="buscar">
+  <b>Folio:</b>
+  <input type="text" id="folio">
+  <button onclick="buscar()">Buscar</button>
+</div>
+
+<!-- 🔽 TU RECIBO ORIGINAL -->
+<div class="hoja-media" id="recibo">
+
+  <div class="titulo">RECIBO DE PAGO</div>
+
+  <div><b>FOLIO:</b> <span id="r-folio"></span></div>
+  <div><b>FECHA:</b> <span id="r-fecha"></span></div>
+  <div><b>RECIBO DE:</b> <span id="r-reciboDe"></span></div>
+  <div><b>POR:</b> $<span id="r-monto"></span></div>
+  <div><b>CONCEPTO:</b> <span id="r-concepto"></span></div>
+
+  <br>
+  <button onclick="window.print()">Imprimir</button>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwzhMmwcEfitVPaKoEZvcsix34g15-kfWQH_bnGlXx86HNKtpGfl_c0BR0iuvFL5qLkKg/exec";
+
+function buscar() {
+  const folio = document.getElementById("folio").value.trim();
+  if (!folio) {
+    alert("Ingresa un folio");
+    return;
+  }
+
+  fetch(`${API_URL}?folio=${encodeURIComponent(folio)}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+
+      document.getElementById("r-folio").textContent = data.folio;
+      document.getElementById("r-fecha").textContent = data.fecha;
+      document.getElementById("r-reciboDe").textContent = data.emisor;
+      document.getElementById("r-monto").textContent = data.valor;
+      document.getElementById("r-concepto").textContent = data.concepto;
+
+      document.getElementById("recibo").style.display = "block";
+    })
+    .catch(err => {
+      alert("Error de conexión");
+      console.error(err);
+    });
+}
+</script>
+
+</body>
+</html>
