@@ -109,17 +109,18 @@ body {
 }
 
     /* RECIBO MEDIA HOJA */
-    .hoja-media{
-        width: 800px;
-        height: 430px;
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        border: 3px solid #003a7d;
-        margin: 40px auto;
-        display: none; /* oculto */
-        transform: scale(0.9);
-    }
+   .hoja-media{
+    width: 800px;
+    height: 430px;
+    background: white;
+    padding: 35px;            /* ⬅️ MÁS AIRE INTERNO */
+    border-radius: 12px;
+    border: 3px solid #003a7d;
+    margin: 20px auto;        /* ⬅️ separación visual */
+    display: none;
+    position: relative;      /* MUY IMPORTANTE */
+}
+
 
     .cuadro{
         border: 2px solid #003a7d;
@@ -185,7 +186,8 @@ body {
 .contenedor-derecha {
     position: absolute;
     right: 20px;
-    top: 65px;       /* Ajusta esto si quieres subir/bajar todo el bloque */
+    top: 50px;       /* Ajusta esto si quieres subir/bajar todo el bloque */
+    bottom: 40px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -225,6 +227,12 @@ body {
 .hoja-media {
     position: relative;
 }
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 140px;   /* ajusta según tu imagen */
+}
 
 </style>
 </head>
@@ -240,6 +248,7 @@ body {
 
 <!-- ===== RECIBO ===== -->
 <div class="hoja-media" id="recibo">
+<img src="img/logo2n.png" class="logo">
 
   <div class="titulo">RECIBO DE PAGO</div>
 
@@ -286,9 +295,9 @@ body {
   </div>
 
   <br>
-  <button onclick="window.print()">Imprimir</button>
+ 
 </div>
-
+ <button onclick="window.print()">Imprimir</button>
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwzhMmwcEfitVPaKoEZvcsix34g15-kfWQH_bnGlXx86HNKtpGfl_c0BR0iuvFL5qLkKg/exec";
 
