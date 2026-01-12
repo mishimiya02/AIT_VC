@@ -5,97 +5,130 @@
 <title>Reimprimir Recibo</title>
 
 <style>
+ 
 body {
   font-family: Arial, sans-serif;
 }
 
-/* ====== UI ====== */
+/* ===== UI ===== */
 #ui {
   margin-bottom: 15px;
 }
 
-/* ====== RECIBO ====== */
+/* ===== RECIBO ===== */
 .hoja-media {
-  width: 21.6cm;
-  height: 13.97cm;
-  padding: 10mm;
-  border: 2px solid #003a7d;
-  border-radius: 10px;
-  box-sizing: border-box;
+  width: 800px;
+  height: 430px;
+  background: white;
+  padding: 35px;
+  border-radius: 12px;
+  border: 3px solid #003a7d;
+  margin: 20px auto;
+  position: relative;
   display: none;
+  box-sizing: border-box;
 }
 
+/* LOGO */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 140px;
+}
+
+/* TÍTULO */
 .titulo {
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  font-size: 30px;
+  font-weight: 800;
+  color: #003a7d;
   text-align: right;
-  font-size: 22px;
-  font-weight: bold;
+}
+
+/* INFO EMPRESA */
+.info-empresa {
+  margin-top: 55px;
+  font-size: 16px;
+  line-height: 16px;
   color: #003a7d;
 }
 
-.info-empresa {
-  font-size: 12px;
-  margin-top: 5px;
-}
-
+/* CONTENEDOR DERECHO */
 .contenedor-derecha {
   position: absolute;
-  top: 25mm;
-  right: 15mm;
-  width: 200px;
+  right: 35px;
+  top: 70px;
+  bottom: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
 }
 
 .fila-dato {
   display: flex;
-  margin-bottom: 5px;
+  align-items: center;
+  gap: 8px;
 }
 
 .label-der {
-  width: 70px;
   font-weight: bold;
+  font-size: 14px;
+  color: #003a7d;
 }
 
 .caja-der {
-  flex: 1;
-  border: 1px solid #003a7d;
-  padding: 3px;
-  text-align: right;
-}
-
-.leyenda {
-  color: red;
+  border: 2px solid #003a7d;
+  padding: 6px 12px;
+  font-size: 22px;
   font-weight: bold;
+  min-width: 160px;
+  text-align: center;
+}
+
+/* LEYENDAS */
+.leyenda {
+  font-size: 13px;
+  font-weight: bold;
+  color: red;
   text-align: right;
 }
 
+/* CUADRO CENTRAL */
 .cuadro {
-  border: 1px solid #003a7d;
-  border-radius: 8px;
-  padding: 8px;
+  border: 2px solid #003a7d;
+  border-radius: 12px;
+  padding: 12px;
   font-size: 12px;
-  margin-top: 35px;
+  margin-top: 10px;
 }
 
+/* FILAS INFERIORES */
 .info-fila {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
 }
 
-/* ====== PRINT ====== */
+/* ===== PRINT ===== */
 @media print {
-
   body * {
     visibility: hidden;
   }
 
-  #recibo, #recibo * {
+  #recibo,
+  #recibo * {
     visibility: visible;
   }
 
   #recibo {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    margin: 0;
   }
 
   #ui {
@@ -108,131 +141,6 @@ body {
   }
 }
 
-    /* RECIBO MEDIA HOJA */
-   .hoja-media{
-    width: 800px;
-    height: 430px;
-    background: white;
-    padding: 35px;            /* ⬅️ MÁS AIRE INTERNO */
-    border-radius: 12px;
-    border: 3px solid #003a7d;
-    margin: 20px auto;        /* ⬅️ separación visual */
-    display: none;
-    position: relative;      /* MUY IMPORTANTE */
-}
-
-
-    .cuadro{
-        border: 2px solid #003a7d;
-        border-radius: 12px;
-        padding: 12px;
-        margin-top: 10px;
-    }
-
-
-    .mini{
-        font-size: 12px; 
-        line-height: 16px;
-    }
-/* Título centrado y más arriba (siempre en el centro horizontal) */
-.hoja-media .titulo {
-    position: absolute;
-    right: 20px;       /* lo manda a la derecha */
-    top: 12px;         /* controla qué tan arriba va */
-    font-size: 30px;
-    font-weight: 800;
-    color: #003a7d;
-    z-index: 4;
-    text-align: right; /* asegura alineación correcta */
-}
-
-
-/* Info de la empresa a la izquierda (no afecta el flow del título) */
-.hoja-media .info-empresa {
-    margin-top: 55px; /* deja espacio para el título/logo */
-    font-size: 16px;
-    line-height: 16px;
-    color: #003a7d;
-}
-
-/* Contenedor para las cajas de Folio y Monto */
-.hoja-media .top-boxes {
-    display: flex;
-    gap: 40px;
-    margin-top: 8px; /* ajusta el espacio entre la info y las cajas */
-    align-items: flex-start;
-}
-
-/* Caja de folio: ancho fijo */
-.hoja-media .folio-box {
-    border:2px solid #003a7d;
-    padding:6px 12px;
-    font-size:22px;
-    font-weight:bold;
-    color:red;
-    width:120px;
-    text-align:center;
-}
-
-/* Caja de monto: puede ser más amplia */
-.hoja-media .monto-box {
-    border:2px solid #003a7d;
-    padding:6px 12px;
-    font-size:22px;
-    font-weight:bold;
-    width:220px;
-    text-align:right;
-}
-.contenedor-derecha {
-    position: absolute;
-    right: 20px;
-    top: 50px;       /* Ajusta esto si quieres subir/bajar todo el bloque */
-    bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-end;
-}
-
-.fila-dato {
-    display: flex;
-    align-items: center;
-    gap: 8px;        /* separación entre la leyenda y la caja */
-}
-
-.label-der {
-    font-weight: bold;
-    font-size: 14px;
-    color: #003a7d;
-}
-
-.caja-der {
-    border: 2px solid #003a7d;
-    padding: 6px 12px;
-    font-size: 22px;
-    font-weight: bold;
-    min-width: 160px;
-    text-align: center;
-}
-.leyenda {
-    display: none;
-    font-weight: bold;
-}
-@media print {
-  .hoja-media {
-    transform: none !important;
-    margin: 0 !important;
-  }
-}
-.hoja-media {
-    position: relative;
-}
-.logo {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 140px;   /* ajusta según tu imagen */
-}
 
 </style>
 </head>
@@ -263,6 +171,9 @@ body {
     <div class="fila-dato">
       <div class="label-der">FOLIO:</div>
       <div class="caja-der" id="r-folio"></div>
+      <div class="leyenda" id="leyenda1">COPIA CCO AMAIT</div>
+<div class="leyenda" id="leyenda2">COPIA SEGURIDAD AMAIT</div>
+
     </div>
     <div class="fila-dato">
       <div class="label-der">POR:</div>
