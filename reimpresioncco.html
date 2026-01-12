@@ -96,6 +96,13 @@ body {
   color: red;
   text-align: right;
 }
+.leyendas {
+  margin-top: 10px;   /* ⬅️ separa del folio */
+  margin-bottom: 10px; /* ⬅️ separa del cuadro */
+  text-align: right;
+  padding-right: 35px; /* alinea con cajas */
+}
+
 
 /* CUADRO CENTRAL */
 .cuadro {
@@ -103,7 +110,8 @@ body {
   border-radius: 12px;
   padding: 12px;
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 5px;
+
 }
 
 /* FILAS INFERIORES */
@@ -171,16 +179,16 @@ body {
     <div class="fila-dato">
       <div class="label-der">FOLIO:</div>
       <div class="caja-der" id="r-folio"></div>
-      <div class="leyenda" id="leyenda1">COPIA CCO AMAIT</div>
-<div class="leyenda" id="leyenda2">COPIA SEGURIDAD AMAIT</div>
-
     </div>
     <div class="fila-dato">
       <div class="label-der">POR:</div>
       <div class="caja-der" id="r-monto"></div>
-    </div>
-    <div class="leyenda">COPIA CCO AMAIT</div>
+    </div>   
   </div>
+ <div class="leyendas">
+  <div class="leyenda">COPIA CCO AMAIT</div>
+  <div class="leyenda">COPIA SEGURIDAD AMAIT</div>
+</div>
 
   <div class="cuadro">
     <div><b>RECIBO DE:</b> <span id="r-reciboDe"></span></div>
