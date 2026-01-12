@@ -1,20 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="stylesheet" href="css/reimprecion.css">
 <meta charset="UTF-8">
-<title>Reimprimir Recibo</title>
+<title>Generar Recibo</title>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script src="java/avion-loading.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script src="java/theme-switcherrecibos.js"></script>
+<link rel="stylesheet" href="css/recibos.css">
+<link id="theme-style" rel="stylesheet" href="css/recibos.css">
+
+
+ <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
+
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
+
+        // También puedes usarlo para transiciones entre páginas
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.href) {
+                e.preventDefault();
+                AvionLoading.mostrar();
+                
+                // Navegar después de mostrar el loader
+                setTimeout(function() {
+                    window.location.href = e.target.href;
+                }, 500);
+            }
+        });
+    </script>
 </head>
-
 <body>
 
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+
+        <a href='loginprincipal.html'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">VALUACION</a>
+            <div class="dropdown-content">
+               
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+          <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">COMPROBANTES</a>
+            <div class="dropdown-content">
+                 <a href='comprobante'>COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href='cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+                     <a href="recibos.html" target="_blank">RECIBOS CCO AMAIT</a>
+                 <a href="https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit?usp=sharing" target="_blank">REGISTROS</a>
+            </div>
+        </div>
+
+        <a href='/index.html'>CDB</a>
+       
+       <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
+🌙 Nocturno
+</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
 <div class="form-card">
 <h2>GENERAR RECIBO CCO</h2>
 <!-- ===== UI ===== -->
 <div id="ui">
   Folio:
   <input type="text" id="folio">
+  <br><br>
   <button onclick="buscar()">Buscar</button>
   
  <button onclick="window.print()">Imprimir</button>
