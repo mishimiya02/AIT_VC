@@ -5,37 +5,166 @@
 <title>Reimprimir Recibo</title>
 
 <style>
-.buscar {
-  margin-bottom:15px;
+body {
+  font-family: Arial, sans-serif;
 }
-input, button {
-  padding:6px;
-  font-size:14px;
+
+/* ====== UI ====== */
+#ui {
+  margin-bottom: 15px;
 }
+
+/* ====== RECIBO ====== */
 .hoja-media {
-  display:none;
+  width: 21.6cm;
+  height: 13.97cm;
+  padding: 10mm;
+  border: 2px solid #003a7d;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: none;
+}
+
+.titulo {
+  text-align: right;
+  font-size: 22px;
+  font-weight: bold;
+  color: #003a7d;
+}
+
+.info-empresa {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.contenedor-derecha {
+  position: absolute;
+  top: 25mm;
+  right: 15mm;
+  width: 200px;
+}
+
+.fila-dato {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.label-der {
+  width: 70px;
+  font-weight: bold;
+}
+
+.caja-der {
+  flex: 1;
+  border: 1px solid #003a7d;
+  padding: 3px;
+  text-align: right;
+}
+
+.leyenda {
+  color: red;
+  font-weight: bold;
+  text-align: right;
+}
+
+.cuadro {
+  border: 1px solid #003a7d;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 12px;
+  margin-top: 35px;
+}
+
+.info-fila {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+/* ====== PRINT ====== */
+@media print {
+
+  body * {
+    visibility: hidden;
+  }
+
+  #recibo, #recibo * {
+    visibility: visible;
+  }
+
+  #recibo {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  #ui {
+    display: none;
+  }
+
+  @page {
+    size: Letter;
+    margin: 0;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="buscar">
-  <b>Folio:</b>
+<!-- ===== UI ===== -->
+<div id="ui">
+  Folio:
   <input type="text" id="folio">
   <button onclick="buscar()">Buscar</button>
 </div>
 
-<!-- 🔽 TU RECIBO ORIGINAL -->
+<!-- ===== RECIBO ===== -->
 <div class="hoja-media" id="recibo">
 
   <div class="titulo">RECIBO DE PAGO</div>
 
-  <div><b>FOLIO:</b> <span id="r-folio"></span></div>
-  <div><b>FECHA:</b> <span id="r-fecha"></span></div>
-  <div><b>RECIBO DE:</b> <span id="r-reciboDe"></span></div>
-  <div><b>POR:</b> $<span id="r-monto"></span></div>
-  <div><b>CONCEPTO:</b> <span id="r-concepto"></span></div>
+  <div class="info-empresa">
+    <b>Empresa:</b> AMAIT<br>
+    <b>RFC:</b> AMA0312196E5<br>
+    <b>Dirección:</b> AEROPUERTO INTERNACIONAL DE TOLUCA<br>
+    <b>Teléfono:</b> 722-279-2800
+  </div>
+
+  <div class="contenedor-derecha">
+    <div class="fila-dato">
+      <div class="label-der">FOLIO:</div>
+      <div class="caja-der" id="r-folio"></div>
+    </div>
+    <div class="fila-dato">
+      <div class="label-der">POR:</div>
+      <div class="caja-der" id="r-monto"></div>
+    </div>
+    <div class="leyenda">COPIA CCO AMAIT</div>
+  </div>
+
+  <div class="cuadro">
+    <div><b>RECIBO DE:</b> <span id="r-reciboDe"></span></div>
+    <div><b>LA CANTIDAD DE:</b> $ <span id="r-monto2"></span></div>
+    <br>
+    <div><b>CANTIDAD EN LETRA:</b> <span id="r-cantidadLetra"></span></div>
+    <br>
+    <div><b>POR CONCEPTO DE:</b> <span id="r-concepto"></span></div>
+  </div>
+
+  <br>
+
+  <div class="info-fila">
+    <div><b>FECHA:</b> <span id="r-fecha"></span></div>
+    <div><b>FECHA Y HORA DE ACCESO:</b> <span id="r-acceso"></span></div>
+  </div>
+
+  <br><br>
+
+  <div class="info-fila">
+    <div>RECIBÍ (NOMBRE Y FIRMA)</div>
+    <div>SELLO DE CAJA AMAIT</div>
+  </div>
 
   <br>
   <button onclick="window.print()">Imprimir</button>
@@ -46,30 +175,26 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwzhMmwcEfitVPaKoEZvcsi
 
 function buscar() {
   const folio = document.getElementById("folio").value.trim();
-  if (!folio) {
-    alert("Ingresa un folio");
-    return;
-  }
+  if (!folio) return alert("Ingresa un folio");
 
   fetch(`${API_URL}?folio=${encodeURIComponent(folio)}`)
     .then(r => r.json())
-    .then(data => {
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
+    .then(d => {
+      if (d.error) return alert(d.error);
 
-      document.getElementById("r-folio").textContent = data.folio;
-      document.getElementById("r-fecha").textContent = data.fecha;
-      document.getElementById("r-reciboDe").textContent = data.emisor;
-      document.getElementById("r-monto").textContent = data.valor;
-      document.getElementById("r-concepto").textContent = data.concepto;
+      const monto = Number(d.valor).toFixed(2);
+
+      document.getElementById("r-folio").textContent = d.folio;
+      document.getElementById("r-monto").textContent = "$ " + monto;
+      document.getElementById("r-monto2").textContent = monto;
+      document.getElementById("r-reciboDe").textContent = d.emisor;
+      document.getElementById("r-concepto").textContent = d.concepto;
+      document.getElementById("r-fecha").textContent = d.fecha;
+      document.getElementById("r-acceso").textContent = d.registrado;
+      document.getElementById("r-cantidadLetra").textContent =
+        monto + " PESOS M.N.";
 
       document.getElementById("recibo").style.display = "block";
-    })
-    .catch(err => {
-      alert("Error de conexión");
-      console.error(err);
     });
 }
 </script>
