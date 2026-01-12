@@ -123,6 +123,7 @@ body {
 
 /* ===== PRINT ===== */
 @media print {
+
   body * {
     visibility: hidden;
   }
@@ -134,8 +135,10 @@ body {
 
   #recibo {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 20mm;               /* ⬅️ mitad superior */
+    left: 50%;
+    transform: translateX(-50%) scale(1.2);
+    transform-origin: top center;
     margin: 0;
   }
 
