@@ -7,7 +7,15 @@
              text-align: center;
              font-style: sans-serif;
              margin-top: 0;
-             color: #000000;
+             color: #ffffff;
+			 font-size: 29px;
+         }
+
+           h2 {
+             text-align: center;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #060058;
 			 font-size: 29px;
          }
         .submenu-content {
@@ -174,7 +182,7 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #ffffff;
+      background-color: #ececec;
       margin: 0;
    
     }
@@ -330,4 +338,53 @@
     padding:10px;
     border:1px dashed #999;
     background:#fafafa;
+}
+
+.logo-solicitud {
+    text-align: center;
+    margin: 15px 0 25px 0;
+}
+
+.logo-solicitud img {
+    max-width: 180px;   /* ajusta tamaño */
+    height: auto;
+}
+.encabezado-solicitud {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    align-items: center;
+    background: #d9d9d9;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+.logo-encabezado img {
+    max-width: 140px;
+    height: auto;
+}
+
+.titulo-encabezado {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 16px;
+}
+
+
+.logo-institucional {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 18px 20px; /* izquierda */
+}
+
+.logo-institucional img {
+    width: 90px;
+    height: auto;
+}
+
+.texto-logo {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }

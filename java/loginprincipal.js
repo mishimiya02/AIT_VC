@@ -2,7 +2,7 @@
       const pass = document.getElementById("password").value.trim();
       const error = document.getElementById("error");
 
-      const contrasenasValidas = ["RMV", "JM", "ADMAIT","CXC"];
+      const contrasenasValidas = ["RMV", "JM", "AMAIT","CXC"];
 
       if (contrasenasValidas.includes(pass)) {
         window.location.href = destino;

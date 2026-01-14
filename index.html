@@ -11,6 +11,7 @@
   <style>
     :root {
       --rosa: #75a0ff;
+      --rosa2: #8febe6;
       --rosa-claro: #2149ff;
       --blanco: #ffffff;
       --texto: #333333;
@@ -77,6 +78,11 @@
       color: #ffffff;
       margin-bottom: 8px;
     }
+      .btn {
+      background: var(--rosa2);
+      color: #000000;
+      margin-bottom: 8px;
+    }
 
     button:hover {
       transform: translateY(-2px);
@@ -110,6 +116,9 @@
 
       <button class="btn-secondary" onclick="validarAcceso('cdblogin.html')">
         Opción 2 · CBD 
+      </button>
+        <button class="btn" onclick="validarAcceso('vacacionesc.html')">
+        Opción 3 · RH
       </button>
 
       <p id="error" style="color:#c0392b; display:none; margin-top:0.5rem;">Contraseña incorrecta</p>
