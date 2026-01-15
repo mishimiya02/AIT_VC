@@ -463,3 +463,10 @@
     padding-top: 6px;
     font-size: 13px;
 }
+.campo span:first-child{
+    font-weight: bold;
+}
+
+.campo span:last-child{
+    font-weight: normal;
+}
