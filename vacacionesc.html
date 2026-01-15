@@ -152,13 +152,12 @@
     <input id="firmaRH" type="text" placeholder="Ej. Depto. RH">
 </div>
 <button onclick="generar()">Generar formato</button>
-<button onclick="imprimir()" class="btn-imprimir">
-    <i class="fa fa-print"></i> Imprimir
-</button>
+<button onclick="generarPDF()">Descargar PDF</button>
+
 
 </div>
 
-
+<div class="pdf-wrapper">
 <div class="hoja">
     <div class="titulo">SOLICITUD DE VACACIONES</div>
    <div class="encabezado-fecha-logo">
@@ -272,7 +271,7 @@
 
 
 </div>
-
+</div>
 <script>
     function generar(){
     document.getElementById("rNombre").textContent = nombre.value;
@@ -367,12 +366,33 @@ function llenarTabla(){
         }
     });
 }
-function imprimir(){
-    generar();          // asegura que todo esté actualizado
-    window.print();     // abre diálogo de impresión
+function generarPDF() {
+
+    const hoja = document.querySelector(".hoja");
+
+    html2pdf()
+      .set({
+        filename: 'Solicitud_Vacaciones.pdf',
+        margin: [5, 5, 5, 5], // margen real en mm
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+            scale: 2,              // MUY IMPORTANTE
+            useCORS: true,
+            scrollY: 0,            // ← evita que salga abajo
+            backgroundColor: '#ffffff'
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'letter',
+            orientation: 'portrait'
+        }
+      })
+      .from(hoja)
+      .save();
 }
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 
 </body>

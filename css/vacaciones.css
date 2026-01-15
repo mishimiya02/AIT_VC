@@ -550,3 +550,52 @@
     font-size: 15px;
     font-weight: 500;
 }
+.hoja {
+    width: 210mm;
+    height: 279mm;          /* EXACTO carta */
+    padding: 15mm;
+    box-sizing: border-box;
+    background: white;
+    margin: 0 auto;
+
+    /* MUY IMPORTANTE */
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+@media screen {
+    .hoja {
+        display: block;
+    }
+}
+body {
+    background: white !important;
+}
+.hoja {
+    background: #ffffff !important;
+}
+.pdf-wrapper {
+    background: white;
+    padding: 0;
+}
+/* ==== SOLO PARA PDF / IMPRESIÓN ==== */
+@media print {
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .hoja {
+        box-shadow: none !important;
+        background: white !important;
+        margin: 0 auto !important;
+        transform: none !important;
+        position: relative !important;
+        top: 0 !important;
+    }
+
+    .pdf-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
