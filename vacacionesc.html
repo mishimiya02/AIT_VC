@@ -124,6 +124,11 @@
         <input id="diasRest" type="number">
     </div>
 
+    <div class="campo-form">
+    <label for="observaciones">Observaciones</label>
+    <textarea id="observaciones" rows="3" placeholder="Escriba observaciones adicionales..."></textarea>
+</div>
+
     <button onclick="generar()">Generar formato</button>
 </div>
 
@@ -177,19 +182,26 @@
     <div class="titulo">FECHAS Y PERIODO A DISFRUTAR</div>
 
 <table id="tablaFechas">
-    <thead>
-        <tr>
-            <th>N°</th>
-            <th>Día</th>
-            <th>Mes</th>
-            <th>Año</th>
-            <th>Días restantes</th>
-        </tr>
-    </thead>
+ <thead>
+    <tr>
+        <th>N°</th>
+        <th>Día</th>
+        <th>Mes</th>
+        <th>Año</th>
+        <th>Periodo</th>
+        <th>Días restantes</th>
+    </tr>
+</thead>
+
     <tbody>
         <!-- JS llena aquí -->
     </tbody>
 </table>
+
+<div class="bloque observaciones">
+    <span>Observaciones:</span>
+    <div id="rObservaciones"></div>
+</div>
 
 
     <div class="firmas">
@@ -205,9 +217,7 @@
 </div>
 
 <script>
-function generar(){
-
-    // Datos generales
+    function generar(){
     document.getElementById("rNombre").textContent = nombre.value;
     document.getElementById("rEmpleado").textContent = empleado.value;
     document.getElementById("rHorario").textContent = horario.value;
@@ -215,8 +225,10 @@ function generar(){
     document.getElementById("rPuesto").textContent = puesto.value;
     document.getElementById("rIngreso").textContent = ingreso.value;
 
-    // La tabla ya se llena sola con llenarTabla()
+    document.getElementById("rObservaciones").textContent =
+        document.getElementById("observaciones").value;
 }
+
 
 window.addEventListener("load", () => {
     const hoy = new Date();
@@ -251,11 +263,11 @@ function crearFechas(){
 
     llenarTabla(); // ← CLAVE
 }
-
 function llenarTabla(){
     const tbody = document.querySelector("#tablaFechas tbody");
     const fechas = document.querySelectorAll(".fecha-vacacion");
     const diasDisponibles = parseInt(document.getElementById("diasDisp").value);
+    const periodo = document.getElementById("periodo").value;
 
     tbody.innerHTML = "";
 
@@ -278,6 +290,7 @@ function llenarTabla(){
                 <td>${dia}</td>
                 <td>${mes.toString().padStart(2,"0")}</td>
                 <td>${anio}</td>
+                <td>${periodo || "-"}</td>
                 <td>${diasRestantes >= 0 ? diasRestantes : 0}</td>
             `;
 
@@ -285,6 +298,7 @@ function llenarTabla(){
         }
     });
 }
+
 </script>
 
 

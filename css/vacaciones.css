@@ -401,3 +401,18 @@
 .fecha-solicitud{
     margin-right: 20px; /* separación del borde derecho */
 }
+.observaciones{
+    min-height: 60px;
+}
+
+.observaciones span{
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#rObservaciones{
+    border-top: 1px solid #000;
+    padding-top: 6px;
+    font-size: 13px;
+}
