@@ -151,8 +151,11 @@
     <label for="firmaRH">Nombre de Recursos Humanos</label>
     <input id="firmaRH" type="text" placeholder="Ej. Depto. RH">
 </div>
+<button onclick="generar()">Generar formato</button>
+<button onclick="imprimir()" class="btn-imprimir">
+    <i class="fa fa-print"></i> Imprimir
+</button>
 
-    <button onclick="generar()">Generar formato</button>
 </div>
 
 
@@ -186,13 +189,27 @@
 
 
 
-    <div class="bloque">
-        <div class="fila">
-            <div class="campo"><span>Nombre:</span> <span id="rNombre"></span></div>
-            <div class="campo"><span>No. Empleado:</span> <span id="rEmpleado"></span></div>
-            <div class="campo"><span>Horario:</span> <span id="rHorario"></span></div>
+ <div class="bloque">
+    <div class="fila">
+
+        <div class="campo">
+            <span class="etiqueta">Nombre:</span>
+            <span class="valor" id="rNombre"></span>
         </div>
+
+        <div class="campo">
+            <span class="etiqueta">No. Empleado:</span>
+            <span class="valor" id="rEmpleado"></span>
+        </div>
+
+        <div class="campo">
+            <span class="etiqueta">Horario:</span>
+            <span class="valor" id="rHorario"></span>
+        </div>
+
     </div>
+</div>
+
 
     <div class="bloque">
         <div class="fila">
@@ -349,6 +366,10 @@ function llenarTabla(){
             tbody.appendChild(fila);
         }
     });
+}
+function imprimir(){
+    generar();          // asegura que todo esté actualizado
+    window.print();     // abre diálogo de impresión
 }
 
 </script>

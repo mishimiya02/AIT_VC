@@ -472,3 +472,81 @@
     border-color: #4a90e2;
     box-shadow: 0 0 0 4px rgba(74,144,226,0.2);
 }
+.btn-imprimir{
+    padding: 10px 20px;
+    background: #1a7f37;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.btn-imprimir:hover{
+    background: #145c2a;
+}
+@page {
+    size: A4;
+    margin: 0;
+}
+@media print {
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .hoja,
+    .hoja * {
+        visibility: visible;
+    }
+
+    .hoja {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 21cm;
+        height: 29.7cm;     /* 👈 NO min-height */
+        padding: 1cm;
+
+        box-sizing: border-box;
+        box-shadow: none;
+        overflow: hidden;  /* 👈 EVITA SALTO */
+    }
+
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;   /* ← clave */
+    gap: 4px;                 /* separación vertical */
+}
+
+.campo .etiqueta {
+    font-weight: bold;
+    white-space: nowrap;
+    margin-right: 9px;
+}
+
+.campo .valor {
+    flex: 1;
+    padding-left: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
