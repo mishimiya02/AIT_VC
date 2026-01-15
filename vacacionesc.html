@@ -105,15 +105,6 @@
 <div id="contenedor-fechas"></div>
 
 
-    <div class="campo-form">
-        <label for="del">Del</label>
-        <input id="del" type="date">
-    </div>
-
-    <div class="campo-form">
-        <label for="al">Al</label>
-        <input id="al" type="date">
-    </div>
 
     <div class="campo-form">
         <label for="periodo">Periodo</label>
@@ -122,7 +113,8 @@
 
     <div class="campo-form">
         <label for="diasDisp">Días disponibles</label>
-        <input id="diasDisp" type="number">
+<input id="diasDisp" type="number" oninput="llenarTabla()">
+
     </div>
 
     
@@ -184,24 +176,21 @@
 
     <div class="titulo">FECHAS Y PERIODO A DISFRUTAR</div>
 
-    <table id="tablaFechas">
+<table id="tablaFechas">
+    <thead>
         <tr>
-            <th>Del</th>
-            <th>Al</th>
-            <th>Periodo</th>
-            <th>Días Disp.</th>
-            <th>Días a Disfr.</th>
-            <th>Días Restantes</th>
+            <th>N°</th>
+            <th>Día</th>
+            <th>Mes</th>
+            <th>Año</th>
+            <th>Días restantes</th>
         </tr>
-        <tr>
-            <td id="rDel"></td>
-            <td id="rAl"></td>
-            <td id="rPeriodo"></td>
-            <td id="rDiasDisp"></td>
-            <td id="rDiasDisf"></td>
-            <td id="rDiasRest"></td>
-        </tr>
-    </table>
+    </thead>
+    <tbody>
+        <!-- JS llena aquí -->
+    </tbody>
+</table>
+
 
     <div class="firmas">
         <div class="firma">
@@ -217,6 +206,8 @@
 
 <script>
 function generar(){
+
+    // Datos generales
     document.getElementById("rNombre").textContent = nombre.value;
     document.getElementById("rEmpleado").textContent = empleado.value;
     document.getElementById("rHorario").textContent = horario.value;
@@ -224,12 +215,7 @@ function generar(){
     document.getElementById("rPuesto").textContent = puesto.value;
     document.getElementById("rIngreso").textContent = ingreso.value;
 
-    document.getElementById("rDel").textContent = del.value;
-    document.getElementById("rAl").textContent = al.value;
-    document.getElementById("rPeriodo").textContent = periodo.value;
-    document.getElementById("rDiasDisp").textContent = diasDisp.value;
-    document.getElementById("rDiasDisf").textContent = diasDisf.value;
-    document.getElementById("rDiasRest").textContent = diasRest.value;
+    // La tabla ya se llena sola con llenarTabla()
 }
 
 window.addEventListener("load", () => {
@@ -242,7 +228,6 @@ window.addEventListener("load", () => {
     document.getElementById("mes").textContent = mes;
     document.getElementById("anio").textContent = anio;
 });
-
 
 
 function crearFechas(){
@@ -262,31 +247,46 @@ function crearFechas(){
         `;
 
         contenedor.appendChild(div);
-    }}
-    function llenarTabla(){
-    const tabla = document.getElementById("tablaFechas");
-    const fechas = document.querySelectorAll(".fecha-vacacion");
+    }
 
-    // Limpia la tabla dejando solo el encabezado
-    tabla.innerHTML = `
-        <tr>
-            <th>Día</th>
-            <th>Fecha</th>
-        </tr>
-    `;
+    llenarTabla(); // ← CLAVE
+}
+
+function llenarTabla(){
+    const tbody = document.querySelector("#tablaFechas tbody");
+    const fechas = document.querySelectorAll(".fecha-vacacion");
+    const diasDisponibles = parseInt(document.getElementById("diasDisp").value);
+
+    tbody.innerHTML = "";
+
+    if (isNaN(diasDisponibles)) return;
 
     fechas.forEach((input, index) => {
         if(input.value){
-            const fila = tabla.insertRow();
-            const c1 = fila.insertCell(0);
-            const c2 = fila.insertCell(1);
+            const fecha = new Date(input.value + "T00:00:00");
 
-            c1.textContent = index + 1;
-            c2.textContent = input.value;
+            const dia = fecha.getDate();
+            const mes = fecha.getMonth() + 1;
+            const anio = fecha.getFullYear();
+
+            const diasRestantes = diasDisponibles - (index + 1);
+
+            const fila = document.createElement("tr");
+
+            fila.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${dia}</td>
+                <td>${mes.toString().padStart(2,"0")}</td>
+                <td>${anio}</td>
+                <td>${diasRestantes >= 0 ? diasRestantes : 0}</td>
+            `;
+
+            tbody.appendChild(fila);
         }
     });
 }
 </script>
+
 
 </body>
 </html>
