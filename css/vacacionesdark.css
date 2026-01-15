@@ -14,7 +14,7 @@
              text-align: center;
              font-style: sans-serif;
              margin-top: 0;
-             color: #060058;
+             color: #ffffff;
 			 font-size: 40px;
          }
         .submenu-content {
@@ -618,4 +618,65 @@
     .pdf-wrapper {
         display: block;
     }
+}
+/* ===== TEXTAREA MODERNO ===== */
+.campo-textarea {
+    position: relative;
+    margin-top: 25px;
+}
+
+.campo-textarea textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 14px 12px;
+    font-size: 15px;
+    border-radius: 12px;
+    border: 2px solid #cbd5e1;
+    outline: none;
+    background: transparent;
+    resize: vertical;
+    transition: all 0.25s ease;
+    color: inherit;
+}
+
+/* Hover */
+.campo-textarea textarea:hover {
+    border-color: #94a3b8;
+}
+
+/* Focus */
+.campo-textarea textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+/* Label flotante */
+.campo-textarea label {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    font-size: 14px;
+    color: #64748b;
+    pointer-events: none;
+    background: var(--bg, #fff);
+    padding: 0 6px;
+    transition: 0.25s ease;
+}
+
+/* Cuando hay texto o focus */
+.campo-textarea textarea:focus + label,
+.campo-textarea textarea:not(:placeholder-shown) + label {
+    top: -8px;
+    font-size: 12px;
+    color: #2563eb;
+}
+
+/* Modo oscuro compatible */
+body.dark .campo-textarea textarea {
+    border-color: #475569;
+}
+
+body.dark .campo-textarea label {
+    background: #0f172a;
+    color: #94a3b8;
 }

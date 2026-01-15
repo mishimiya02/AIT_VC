@@ -124,10 +124,11 @@
         <input id="diasRest" type="number">
     </div>
 
-    <div class="campo-form">
+  <div class="campo-form campo-textarea">
+    <textarea id="observaciones" required></textarea>
     <label for="observaciones">Observaciones</label>
-    <textarea id="observaciones" rows="3" placeholder="Escriba observaciones adicionales..."></textarea>
 </div>
+
 
 
 <h3>Firmas</h3>
@@ -151,8 +152,9 @@
     <label for="firmaRH">Nombre de Recursos Humanos</label>
     <input id="firmaRH" type="text" placeholder="Ej. Depto. RH">
 </div>
-<button onclick="generar()">Generar formato</button>
-<button onclick="generarPDF()">Descargar PDF</button>
+
+<button onclick="generarTodo()">Generar y descargar PDF</button>
+
 
 
 </div>
@@ -238,7 +240,8 @@
 </table>
 
 <div class="bloque observaciones">
-    <span>Observaciones:</span>
+<div class="titulo">OBSERVACIONES</div>
+
     <div id="rObservaciones"></div>
 </div>
 <div class="firmas">
@@ -376,7 +379,7 @@ function generarPDF() {
         margin: [5, 5, 5, 5], // margen real en mm
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
-            scale: 3,              // MUY IMPORTANTE
+            scale: 4,              // MUY IMPORTANTE
             useCORS: true,
             scrollY: 0,            // ← evita que salga abajo
             backgroundColor: '#ffffff'
@@ -389,6 +392,44 @@ function generarPDF() {
       })
       .from(hoja)
       .save();
+}
+
+
+function generarTodo() {
+
+    // 1️⃣ Generar contenido
+    generar();
+    llenarTabla();
+
+    // 2️⃣ Mostrar solo para PDF
+    const wrapper = document.querySelector(".pdf-wrapper");
+    wrapper.style.display = "block";
+
+    // 3️⃣ Esperar a que el DOM se pinte
+    setTimeout(() => {
+
+        html2pdf().set({
+            filename: 'Solicitud_Vacaciones.pdf',
+            margin: [8, 8, 8, 8],
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: {
+                scale: 2.5,
+                useCORS: true,
+                scrollY: 0,
+                backgroundColor: '#ffffff'
+            },
+            jsPDF: {
+                unit: 'mm',
+                format: 'letter',
+                orientation: 'portrait'
+            }
+        }).from(wrapper.querySelector(".hoja")).save().then(() => {
+
+            // 4️⃣ Volver a ocultar
+            wrapper.style.display = "none";
+        });
+
+    }, 200); // ← tiempo mínimo necesario
 }
 
 </script>
