@@ -455,9 +455,9 @@
 }
 
 #rObservaciones{
-    border-top: 1px solid #000;
+    border-top: 1px solid #ffffff;
     padding-top: 6px;
-    font-size: 13px;
+    font-size: 17px;
 }
 .campo span:first-child{
     font-weight: bold;
@@ -628,9 +628,9 @@
     width: 100%;
     min-height: 90px;
     padding: 14px 12px;
-    font-size: 15px;
+    font-size: 19px;
     border-radius: 12px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid #ffffff;
     outline: none;
     background: transparent;
     resize: vertical;
@@ -640,12 +640,12 @@
 
 /* Hover */
 .campo-textarea textarea:hover {
-    border-color: #94a3b8;
+    border-color: hsl(217, 100%, 97%);
 }
 
 /* Focus */
 .campo-textarea textarea:focus {
-    border-color: #2563eb;
+    border-color: #ffffff;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
@@ -655,9 +655,9 @@
     left: 14px;
     top: 14px;
     font-size: 14px;
-    color: #64748b;
+    color: #ffffff;
     pointer-events: none;
-    background: var(--bg, #fff);
+    background: var(--bg, #00000000);
     padding: 0 6px;
     transition: 0.25s ease;
 }
@@ -667,15 +667,30 @@
 .campo-textarea textarea:not(:placeholder-shown) + label {
     top: -8px;
     font-size: 12px;
-    color: #2563eb;
+    color: #ffffff;
 }
 
 /* Modo oscuro compatible */
 body.dark .campo-textarea textarea {
-    border-color: #475569;
+    border-color: #ffffff;
 }
 
 body.dark .campo-textarea label {
-    background: #0f172a;
-    color: #94a3b8;
+    background: #ffffff;
+    color: #ffffff;
+}
+.campo-textarea textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 14px 12px;
+    font-size: 19px;
+    border-radius: 12px;
+    border: 2px solid #ffffff;
+    outline: none;
+    resize: vertical;
+    transition: all 0.25s ease;
+
+    /* 🔑 CLAVE */
+    background-color: #000000;
+    color: #ffffff;
 }
