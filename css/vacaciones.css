@@ -599,3 +599,12 @@ body {
         padding: 0 !important;
     }
 }
+.hoja {
+        width: 200mm;          /* ← CLAVE */
+    min-height: 279mm;
+    margin: 0 auto;
+    padding: 12mm;
+    box-sizing: border-box;
+    background: white;
+}
+
