@@ -275,20 +275,37 @@
 
     .firmas {
         margin-top: 80px;
-       margin-left: 86px;
+       margin-left: 16px;
         justify-content: space-between;
     }
 
     .firma {
-        width: 45%;
+        width: 100%;
         text-align: center;
     }
     .firmas{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 120px 180px;
+    gap: 90px 70px;
+}
+.firma small{
+    display: block;
+    margin-top: 3px;
+    font-size: 15px; /* tamaño de la letra de puestos  */
+    color: #444;
+}
+.linea-firma{
+    width: 100%;
+    border-bottom: 2px solid #000;
+    margin-bottom: 6px;
 }
 
+.firma span{
+    display: block;
+    margin-top: 2px;
+    font-size: 14px;   /* ← aquí controlas el tamaño */
+    font-weight: 600; /* semi-negrita elegante */
+}
 
     @media print {
         body {
