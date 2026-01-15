@@ -608,3 +608,16 @@ body {
     background: white;
 }
 
+/* Ocultar formato en pantalla */
+@media screen {
+    .pdf-wrapper {
+        display: none;
+    }
+}
+
+/* Mostrar solo al imprimir / generar PDF */
+@media print {
+    .pdf-wrapper {
+        display: block;
+    }
+}

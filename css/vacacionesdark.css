@@ -1,5 +1,4 @@
-
-          /* Estilos para submenús */
+     /* Estilos para submenús */
         .submenu {
             position: relative;
         }
@@ -9,6 +8,14 @@
              margin-top: 0;
              color: #ffffff;
 			 font-size: 29px;
+         }
+
+           h2 {
+             text-align: center;
+             font-style: sans-serif;
+             margin-top: 0;
+             color: #060058;
+			 font-size: 40px;
          }
         .submenu-content {
             display: none;
@@ -68,7 +75,7 @@
 
 
  			nav {
- 				background-color: #6b6b6b;
+ 				background-color: #6e6e6e;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -149,18 +156,11 @@
  				background-color: #2f517c;
  				color: white;
  			}
-   h2 {
-             text-align: center;
-             font-style: sans-serif;
-             margin-top: 0;
-             color: #ffffff;
-			 font-size: 20px;
-         }
+   
 #theme-toggle {
    font-weight: bold;
      font-size: 17px;
-     background-color: #6b6b6b;
-     color: white;
+     background-color: #00529e;
      border: none;
      cursor: pointer;
      transition: background-color 0.3s;
@@ -192,12 +192,15 @@
 
 
     .formulario {
-        background: white;
-        padding: 15px;
-        max-width: 800px;
-        margin: auto;
-        border-radius: 8px;
-        margin-bottom: 30px;
+    background: #fff;
+    padding: 25px 30px;          /* ← espacio interno */
+    border: 1px solid #ccc;      /* borde limpio */
+    border-radius: 12px;         /* esquinas bonitas */
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+   border: 3px solid #9cc6ff;
+    box-shadow: 0 0 0 4px rgba(156,198,255,0.25);
     }
 
     .formulario input {
@@ -248,6 +251,30 @@
         flex: 1;
     }
 
+  .campo{
+    display: flex;
+    flex-wrap: wrap;          /* ← permite salto de línea */
+    align-items: flex-start;  /* ← misma altura inicial */
+  
+    padding: 6px 10px;
+    font-size: 14px;
+    min-height: 42px;
+}
+
+.campo .etiqueta{
+    width: 80px;              /* ancho fijo para “Nombre:” */
+    font-weight: 600;
+}
+
+.campo .valor{
+    flex: 1;
+    padding-left: 8px;        /* separación del texto */
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
     .campo span {
         font-weight: bold;
     }
@@ -268,15 +295,38 @@
     }
 
     .firmas {
-        margin-top: 40px;
-        display: flex;
+        margin-top: 80px;
+       margin-left: 16px;
         justify-content: space-between;
     }
 
     .firma {
-        width: 45%;
+        width: 100%;
         text-align: center;
     }
+    .firmas{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 90px 70px;
+}
+.firma small{
+    display: block;
+    margin-top: 3px;
+    font-size: 15px; /* tamaño de la letra de puestos  */
+    color: #444;
+}
+.linea-firma{
+    width: 100%;
+    border-bottom: 2px solid #000;
+    margin-bottom: 6px;
+}
+
+.firma span{
+    display: block;
+    margin-top: 2px;
+    font-size: 14px;   /* ← aquí controlas el tamaño */
+    font-weight: 600; /* semi-negrita elegante */
+}
 
     @media print {
         body {
@@ -289,7 +339,6 @@
             box-shadow: none;
         }
     }
-
     .fecha-solicitud{
     width: 260px;
     border: 1px solid #000;
@@ -327,10 +376,246 @@
     padding:2px 0;
     font-weight:bold;
 }
-
 #contenedor-fechas{
     margin-top:10px;
     padding:10px;
     border:1px dashed #999;
     background:#fafafa;
+}
+
+.logo-solicitud {
+    text-align: center;
+    margin: 15px 0 25px 0;
+}
+
+.logo-solicitud img {
+    max-width: 180px;   /* ajusta tamaño */
+    height: auto;
+}
+.encabezado-solicitud {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    align-items: center;
+    background: #d9d9d9;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+.logo-encabezado img {
+    max-width: 140px;
+    height: auto;
+}
+
+.titulo-encabezado {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 16px;
+}
+
+
+.logo-institucional {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 18px 20px; /* izquierda */
+}
+
+.logo-institucional img {
+    width: 290px;
+    height: auto;
+}
+
+.encabezado-fecha-logo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* ← MISMA ALTURA */
+    margin: 10px 0 25px 0;
+}
+
+.logo-institucional{
+    margin: 0 0 0 20px;
+}
+
+.logo-institucional img{
+    width: 260px;
+    height: auto;
+}
+
+.fecha-solicitud{
+    margin-right: 20px; /* separación del borde derecho */
+}
+.observaciones{
+    min-height: 60px;
+}
+
+.observaciones span{
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#rObservaciones{
+    border-top: 1px solid #000;
+    padding-top: 6px;
+    font-size: 13px;
+}
+.campo span:first-child{
+    font-weight: bold;
+}
+
+.campo span:last-child{
+    font-weight: normal;
+}
+.campo-form input:focus{
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 4px rgba(74,144,226,0.2);
+}
+.btn-imprimir{
+    padding: 10px 20px;
+    background: #1a7f37;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.btn-imprimir:hover{
+    background: #145c2a;
+}
+@page {
+    size: A4;
+    margin: 0;
+}
+@media print {
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .hoja,
+    .hoja * {
+        visibility: visible;
+    }
+
+    .hoja {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 21cm;
+        height: 29.7cm;     /* 👈 NO min-height */
+        padding: 1cm;
+
+        box-sizing: border-box;
+        box-shadow: none;
+        overflow: hidden;  /* 👈 EVITA SALTO */
+    }
+
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+
+@page {
+    size: A4;
+    margin: 0;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;   /* ← clave */
+    gap: 4px;                 /* separación vertical */
+}
+
+.campo .etiqueta {
+    font-weight: bold;
+    white-space: nowrap;
+    margin-right: 9px;
+}
+
+.campo .valor {
+    flex: 1;
+    padding-left: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.hoja {
+    width: 210mm;
+    height: 279mm;          /* EXACTO carta */
+    padding: 15mm;
+    box-sizing: border-box;
+    background: white;
+    margin: 0 auto;
+
+    /* MUY IMPORTANTE */
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+@media screen {
+    .hoja {
+        display: block;
+    }
+}
+
+.hoja {
+    background: #ffffff !important;
+}
+.pdf-wrapper {
+    background: white;
+    padding: 0;
+}
+/* ==== SOLO PARA PDF / IMPRESIÓN ==== */
+@media print {
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .hoja {
+        box-shadow: none !important;
+        background: white !important;
+        margin: 0 auto !important;
+        transform: none !important;
+        position: relative !important;
+        top: 0 !important;
+    }
+
+    .pdf-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+.hoja {
+        width: 200mm;          /* ← CLAVE */
+    min-height: 279mm;
+    margin: 0 auto;
+    padding: 12mm;
+    box-sizing: border-box;
+    background: white;
+}
+
+/* Ocultar formato en pantalla */
+@media screen {
+    .pdf-wrapper {
+        display: none;
+    }
+}
+
+/* Mostrar solo al imprimir / generar PDF */
+@media print {
+    .pdf-wrapper {
+        display: block;
+    }
 }
