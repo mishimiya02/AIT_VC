@@ -254,6 +254,30 @@
         flex: 1;
     }
 
+  .campo{
+    display: flex;
+    flex-wrap: wrap;          /* ← permite salto de línea */
+    align-items: flex-start;  /* ← misma altura inicial */
+  
+    padding: 6px 10px;
+    font-size: 14px;
+    min-height: 42px;
+}
+
+.campo .etiqueta{
+    width: 80px;              /* ancho fijo para “Nombre:” */
+    font-weight: 600;
+}
+
+.campo .valor{
+    flex: 1;
+    padding-left: 8px;        /* separación del texto */
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+
     .campo span {
         font-weight: bold;
     }
