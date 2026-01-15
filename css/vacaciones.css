@@ -274,8 +274,8 @@
     }
 
     .firmas {
-        margin-top: 40px;
-        display: flex;
+        margin-top: 80px;
+       margin-left: 86px;
         justify-content: space-between;
     }
 
@@ -283,6 +283,12 @@
         width: 45%;
         text-align: center;
     }
+    .firmas{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 120px 180px;
+}
+
 
     @media print {
         body {

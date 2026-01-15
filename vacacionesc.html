@@ -129,6 +129,29 @@
     <textarea id="observaciones" rows="3" placeholder="Escriba observaciones adicionales..."></textarea>
 </div>
 
+
+<h3>Firmas</h3>
+
+<div class="campo-form">
+    <label for="firmaSolicitante">Nombre del solicitante</label>
+    <input id="firmaSolicitante" type="text" placeholder="Ej. Juan Pérez">
+</div>
+
+<div class="campo-form">
+    <label for="firmaAutoriza">Nombre de quien autoriza</label>
+    <input id="firmaAutoriza" type="text" placeholder="Ej. María López">
+</div>
+
+<div class="campo-form">
+    <label for="firmaJefe">Nombre del jefe inmediato</label>
+    <input id="firmaJefe" type="text" placeholder="Ej. Carlos Ramírez">
+</div>
+
+<div class="campo-form">
+    <label for="firmaRH">Nombre de Recursos Humanos</label>
+    <input id="firmaRH" type="text" placeholder="Ej. Depto. RH">
+</div>
+
     <button onclick="generar()">Generar formato</button>
 </div>
 
@@ -202,18 +225,30 @@
     <span>Observaciones:</span>
     <div id="rObservaciones"></div>
 </div>
+<div class="firmas">
 
-
-    <div class="firmas">
-        <div class="firma">
-            _________________________<br>
-            Firma del solicitante
-        </div>
-        <div class="firma">
-            _________________________<br>
-            Autoriza
-        </div>
+    <div class="firma">
+        _________________________<br>
+        <span id="rFirmaSolicitante"></span>
     </div>
+
+    <div class="firma">
+        _________________________<br>
+        <span id="rFirmaAutoriza"></span>
+    </div>
+
+    <div class="firma">
+        _________________________<br>
+        <span id="rFirmaJefe"></span>
+    </div>
+
+    <div class="firma">
+        _________________________<br>
+        <span id="rFirmaRH"></span>
+    </div>
+
+</div>
+
 </div>
 
 <script>
@@ -227,6 +262,18 @@
 
     document.getElementById("rObservaciones").textContent =
         document.getElementById("observaciones").value;
+        document.getElementById("rFirmaSolicitante").textContent =
+    document.getElementById("firmaSolicitante").value;
+
+document.getElementById("rFirmaAutoriza").textContent =
+    document.getElementById("firmaAutoriza").value;
+
+document.getElementById("rFirmaJefe").textContent =
+    document.getElementById("firmaJefe").value;
+
+document.getElementById("rFirmaRH").textContent =
+    document.getElementById("firmaRH").value;
+
 }
 
 
