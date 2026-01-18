@@ -108,33 +108,30 @@
     </div>
 
     <h3>Fechas de vacaciones</h3>
+       <div class="campo-form">
+  <label for="diasDisp">Días disponibles</label>
+  <input id="diasDisp" type="number">
+</div>
 
 <div class="campo-form">
     <label for="diasDisf">Días a disfrutar</label>
-    <input id="diasDisf" type="number" min="1" oninput="crearFechas()">
+    <input id="diasDisf" type="number" min="1"
+           oninput="crearFechas(); calcularDiasRestantes();">
 </div>
+
 
 <div id="contenedor-fechas"></div>
 
-
+  <div class="campo-form">
+        <label for="diasRest">Días restantes</label>
+        <input id="diasRest" type="number">
+    </div>
 
     <div class="campo-form">
         <label for="periodo">Periodo</label>
         <input id="periodo" type="text" placeholder="Ej. 2025">
     </div>
 
-   <div class="campo-form">
-  <label for="diasDisp">Días disponibles</label>
-  <input id="diasDisp" type="number">
-</div>
-
-
-    
-
-    <div class="campo-form">
-        <label for="diasRest">Días restantes</label>
-        <input id="diasRest" type="number">
-    </div>
 
   <div class="campo-form campo-textarea">
     <textarea id="observaciones" required></textarea>
@@ -518,6 +515,16 @@ function buscarEmpleado() {
     });
 }
 
+function calcularDiasRestantes() {
+    const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+    const aDisfrutar = parseInt(document.getElementById("diasDisf").value) || 0;
+
+    let restantes = disponibles - aDisfrutar;
+
+    if (restantes < 0) restantes = 0; // nunca negativos
+
+    document.getElementById("diasRest").value = restantes;
+}
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
