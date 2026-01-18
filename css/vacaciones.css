@@ -218,15 +218,6 @@
     }
 
     /* HOJA */
-    .hoja {
-        width: 21cm;
-        height: 29.7cm;
-        background: white;
-        margin: auto;
-        padding: 1cm;
-        box-shadow: 0 0 10px rgba(0,0,0,.2);
-    }
-
     .titulo {
         text-align: center;
         font-weight: bold;
@@ -486,10 +477,7 @@
 .btn-imprimir:hover{
     background: #145c2a;
 }
-@page {
-    size: A4;
-    margin: 0;
-}
+
 @media print {
 
     body {
@@ -506,20 +494,6 @@
         visibility: visible;
     }
 
-    .hoja {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        width: 21cm;
-        height: 29.7cm;     /* 👈 NO min-height */
-        padding: 1cm;
-
-        box-sizing: border-box;
-        box-shadow: none;
-        overflow: hidden;  /* 👈 EVITA SALTO */
-    }
-
     * {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -528,7 +502,7 @@
 
 
 @page {
-    size: A4;
+    size: letter;
     margin: 0;
 }
 
@@ -550,18 +524,7 @@
     font-size: 15px;
     font-weight: 500;
 }
-.hoja {
-    width: 210mm;
-    height: 279mm;          /* EXACTO carta */
-    padding: 15mm;
-    box-sizing: border-box;
-    background: white;
-    margin: 0 auto;
 
-    /* MUY IMPORTANTE */
-    page-break-after: avoid;
-    page-break-inside: avoid;
-}
 @media screen {
     .hoja {
         display: block;
@@ -598,14 +561,6 @@ body {
         margin: 0 !important;
         padding: 0 !important;
     }
-}
-.hoja {
-        width: 200mm;          /* ← CLAVE */
-    min-height: 279mm;
-    margin: 0 auto;
-    padding: 12mm;
-    box-sizing: border-box;
-    background: white;
 }
 
 /* Ocultar formato en pantalla */
@@ -681,4 +636,13 @@ body.dark .campo-textarea textarea {
 body.dark .campo-textarea label {
     background: #0f172a;
     color: #94a3b8;
+}
+.hoja {
+    width: 196mm;
+    height: 249mm;       /* Carta exacta */
+    padding: 10mm;
+    box-sizing: border-box;
+    background: white;
+    margin: 0 auto;
+    overflow: hidden;    /* evita desbordes */
 }
