@@ -67,10 +67,14 @@
 
 
     
-    <div class="campo-form">
-        <label for="nombre">Número de trabajador </label> 
-<input id="empleado" type="text" placeholder="Ej. 101" oninput="buscarEmpleado()">
-    </div>
+   <div class="campo-form">
+    <label for="empleado">No. de empleado</label>
+    <input id="empleado" type="text" placeholder="Ej. 101">
+    <button type="button" onclick="buscarEmpleado()" class="btn-buscar">
+        Buscar
+    </button>
+</div>
+
 
     <div class="campo-form">
         <label for="nombre">Nombre completo</label>
@@ -444,35 +448,37 @@ function generarTodo() {
 
 
 
-function buscarEmpleado() {
+
+      function buscarEmpleado() {
   const id = document.getElementById("empleado").value.trim();
-  if (id === "") return;
+
+  if (id === "") {
+    alert("Por favor escribe el número de empleado.");
+    return;
+  }
 
   fetch(`https://script.google.com/macros/s/AKfycbyK62qGtQ8RW_XoHyilSRa1ohGNEbRZaUIkhSiUji1FzIy6fbWSHcTR_b_atbgPIAmg/exec?id=${id}`)
     .then(r => r.json())
     .then(data => {
       if (data.error) {
-        console.log("Empleado no encontrado");
+        alert("❌ El número de empleado no existe.");
         return;
       }
 
+      // Llenar campos
       document.getElementById("nombre").value = data.nombre;
       document.getElementById("horario").value = data.horario;
       document.getElementById("area").value = data.area;
       document.getElementById("puesto").value = data.puesto;
-
-      // Formato fecha yyyy-mm-dd para input type="date"
       document.getElementById("ingreso").value = data.ingreso;
 
+      alert("✅ Empleado encontrado y datos cargados.");
     })
-    .catch(err => console.error(err));
+    .catch(err => {
+      console.error(err);
+      alert("⚠️ Error al conectar con la base de datos.");
+    });
 }
-
-
-
-
-
-
 
 
 

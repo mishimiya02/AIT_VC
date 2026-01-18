@@ -646,3 +646,17 @@ body.dark .campo-textarea label {
     margin: 0 auto;
     overflow: hidden;    /* evita desbordes */
 }
+.btn-buscar{
+    margin-top: 8px;
+    padding: 6px 14px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-buscar:hover{
+    background: #1e40af;
+}
