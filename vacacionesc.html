@@ -66,9 +66,11 @@
 <div class="formulario">
 
 
-     
+    
+    <div class="campo-form">
+        <label for="nombre">Número de trabajador </label> 
 <input id="empleado" type="text" placeholder="Ej. 101" oninput="buscarEmpleado()">
-
+    </div>
 
     <div class="campo-form">
         <label for="nombre">Nombre completo</label>
@@ -96,7 +98,7 @@
 
     <div class="campo-form">
         <label for="ingreso">Fecha de ingreso</label>
-        <input id="ingreso" type="date">
+        <input id="ingreso" type="text">
     </div>
 
     <h3>Fechas de vacaciones</h3>
@@ -460,12 +462,8 @@ function buscarEmpleado() {
       document.getElementById("puesto").value = data.puesto;
 
       // Formato fecha yyyy-mm-dd para input type="date"
-      const fecha = new Date(data.ingreso);
-      const yyyy = fecha.getFullYear();
-      const mm = String(fecha.getMonth() + 1).padStart(2, "0");
-      const dd = String(fecha.getDate()).padStart(2, "0");
+      document.getElementById("ingreso").value = data.ingreso;
 
-      document.getElementById("ingreso").value = `${yyyy}-${mm}-${dd}`;
     })
     .catch(err => console.error(err));
 }
