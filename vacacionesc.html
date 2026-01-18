@@ -51,7 +51,7 @@
     <div class="menu-center">  
      
 
-        <a href='/loginprincipal'>Inicio</a>
+        <a href='/index.html'>Inicio</a>
         
           <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
 🌙 Nocturno
@@ -65,15 +65,19 @@
     <br><br>
 <div class="formulario">
 
+
+     
+<input id="empleado" type="text" placeholder="Ej. 101" oninput="buscarEmpleado()">
+
+
     <div class="campo-form">
         <label for="nombre">Nombre completo</label>
         <input id="nombre" type="text" placeholder="Nombre y apellidos">
     </div>
 
-    <div class="campo-form">
-        <label for="empleado">No. de empleado</label>
-        <input id="empleado" type="text" placeholder="Ej. 101">
-    </div>
+   
+
+
 
     <div class="campo-form">
         <label for="horario">Horario</label>
@@ -431,6 +435,49 @@ function generarTodo() {
 
     }, 200); // ← tiempo mínimo necesario
 }
+
+
+
+
+
+
+
+function buscarEmpleado() {
+  const id = document.getElementById("empleado").value.trim();
+  if (id === "") return;
+
+  fetch(`https://script.google.com/macros/s/AKfycbyK62qGtQ8RW_XoHyilSRa1ohGNEbRZaUIkhSiUji1FzIy6fbWSHcTR_b_atbgPIAmg/exec?id=${id}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        console.log("Empleado no encontrado");
+        return;
+      }
+
+      document.getElementById("nombre").value = data.nombre;
+      document.getElementById("horario").value = data.horario;
+      document.getElementById("area").value = data.area;
+      document.getElementById("puesto").value = data.puesto;
+
+      // Formato fecha yyyy-mm-dd para input type="date"
+      const fecha = new Date(data.ingreso);
+      const yyyy = fecha.getFullYear();
+      const mm = String(fecha.getMonth() + 1).padStart(2, "0");
+      const dd = String(fecha.getDate()).padStart(2, "0");
+
+      document.getElementById("ingreso").value = `${yyyy}-${mm}-${dd}`;
+    })
+    .catch(err => console.error(err));
+}
+
+
+
+
+
+
+
+
+
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
