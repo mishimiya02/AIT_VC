@@ -123,11 +123,11 @@
         <input id="periodo" type="text" placeholder="Ej. 2025">
     </div>
 
-    <div class="campo-form">
-        <label for="diasDisp">Días disponibles</label>
-<input id="diasDisp" type="number" oninput="llenarTabla()">
+   <div class="campo-form">
+  <label for="diasDisp">Días disponibles</label>
+  <input id="diasDisp" type="number">
+</div>
 
-    </div>
 
     
 
@@ -473,7 +473,7 @@ function buscarEmpleado() {
     }
   });
 
-  fetch(`https://script.google.com/macros/s/AKfycbyK62qGtQ8RW_XoHyilSRa1ohGNEbRZaUIkhSiUji1FzIy6fbWSHcTR_b_atbgPIAmg/exec?id=${id}`)
+  fetch(`https://script.google.com/macros/s/AKfycbwRWjYzhKULRGL1F5lObNRe9RxohhKnIsJ_PyEu7e-_UA2CC91ihGvKWgMpplWle3gD/exec?id=${id}`)
     .then(r => r.json())
     .then(data => {
       Swal.close();
@@ -494,6 +494,8 @@ function buscarEmpleado() {
       document.getElementById("area").value = data.area;
       document.getElementById("puesto").value = data.puesto;
       document.getElementById("ingreso").value = data.ingreso;
+      document.getElementById("diasDisp").value = data.diasDisponibles;
+
 
       Swal.fire({
         icon: "success",
