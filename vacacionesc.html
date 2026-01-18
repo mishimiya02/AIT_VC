@@ -8,6 +8,8 @@
 
 <script src="java/avion-loading.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
 <script src="java/theme-switchervacaciones.js"></script>
@@ -448,20 +450,41 @@ function generarTodo() {
 
 
 
-
-      function buscarEmpleado() {
+function buscarEmpleado() {
   const id = document.getElementById("empleado").value.trim();
 
   if (id === "") {
-    alert("Por favor escribe el número de empleado.");
+    Swal.fire({
+      icon: "warning",
+      title: "Campo vacío",
+      text: "Por favor escribe el número de empleado.",
+      confirmButtonColor: "#2563eb"
+    });
     return;
   }
+
+  // Cargando bonito
+  Swal.fire({
+    title: "Buscando empleado...",
+    text: "Por favor espera",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
 
   fetch(`https://script.google.com/macros/s/AKfycbyK62qGtQ8RW_XoHyilSRa1ohGNEbRZaUIkhSiUji1FzIy6fbWSHcTR_b_atbgPIAmg/exec?id=${id}`)
     .then(r => r.json())
     .then(data => {
+      Swal.close();
+
       if (data.error) {
-        alert("❌ El número de empleado no existe.");
+        Swal.fire({
+          icon: "error",
+          title: "No encontrado",
+          text: "El número de empleado no existe.",
+          confirmButtonColor: "#dc2626"
+        });
         return;
       }
 
@@ -472,15 +495,26 @@ function generarTodo() {
       document.getElementById("puesto").value = data.puesto;
       document.getElementById("ingreso").value = data.ingreso;
 
-      alert("✅ Empleado encontrado y datos cargados.");
+      Swal.fire({
+        icon: "success",
+        title: "Empleado encontrado",
+        text: "Los datos se cargaron correctamente.",
+        timer: 1500,
+        showConfirmButton: false
+      });
     })
     .catch(err => {
+      Swal.close();
       console.error(err);
-      alert("⚠️ Error al conectar con la base de datos.");
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo conectar con la base de datos.",
+        confirmButtonColor: "#dc2626"
+      });
     });
 }
-
-
 
 
 </script>
