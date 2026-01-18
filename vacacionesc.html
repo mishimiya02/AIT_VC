@@ -161,6 +161,9 @@
     <label for="firmaRH">Nombre de Recursos Humanos</label>
     <input id="firmaRH" type="text" placeholder="Ej. Depto. RH">
 </div>
+<button type="button" onclick="guardarVacaciones()">
+  Guardar vacaciones
+</button>
 
 <button onclick="generarTodo()">Generar y descargar PDF</button>
 
@@ -343,41 +346,43 @@ function crearFechas(){
 
     llenarTabla(); // ← CLAVE
 }
-function llenarTabla(){
-    const tbody = document.querySelector("#tablaFechas tbody");
-    const fechas = document.querySelectorAll(".fecha-vacacion");
-    const diasDisponibles = parseInt(document.getElementById("diasDisp").value);
-    const periodo = document.getElementById("periodo").value;
+function llenarTabla() {
+  const tbody = document.querySelector("#tablaFechas tbody");
+  const fechas = document.querySelectorAll(".fecha-vacacion");
+  const periodo = document.getElementById("periodo").value;
 
-    tbody.innerHTML = "";
+  tbody.innerHTML = "";
 
-    if (isNaN(diasDisponibles)) return;
+  if (isNaN(diasOriginales)) return;
 
-    fechas.forEach((input, index) => {
-        if(input.value){
-            const fecha = new Date(input.value + "T00:00:00");
+  fechas.forEach((input, index) => {
+    if (input.value) {
+      const fecha = new Date(input.value + "T00:00:00");
 
-            const dia = fecha.getDate();
-            const mes = fecha.getMonth() + 1;
-            const anio = fecha.getFullYear();
+      const dia = fecha.getDate();
+      const mes = fecha.getMonth() + 1;
+      const anio = fecha.getFullYear();
 
-            const diasRestantes = diasDisponibles - (index + 1);
+      // 🧠 Ahora sí es correcto
+      let restantes = diasOriginales - (index + 1);
+      if (restantes < 0) restantes = 0;
 
-            const fila = document.createElement("tr");
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${dia}</td>
+        <td>${mes.toString().padStart(2,"0")}</td>
+        <td>${anio}</td>
+        <td>${periodo || "-"}</td>
+        <td>${restantes}</td>
+      `;
 
-            fila.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${dia}</td>
-                <td>${mes.toString().padStart(2,"0")}</td>
-                <td>${anio}</td>
-                <td>${periodo || "-"}</td>
-                <td>${diasRestantes >= 0 ? diasRestantes : 0}</td>
-            `;
-
-            tbody.appendChild(fila);
-        }
-    });
+      tbody.appendChild(fila);
+    }
+  });
 }
+
+
 function generarPDF() {
 
     const hoja = document.querySelector(".hoja");
@@ -448,8 +453,8 @@ function generarTodo() {
 
 
 function buscarEmpleado() {
+    
   const id = document.getElementById("empleado").value.trim();
-
   if (id === "") {
     Swal.fire({
       icon: "warning",
@@ -470,7 +475,7 @@ function buscarEmpleado() {
     }
   });
 
-  fetch(`https://script.google.com/macros/s/AKfycbwRWjYzhKULRGL1F5lObNRe9RxohhKnIsJ_PyEu7e-_UA2CC91ihGvKWgMpplWle3gD/exec?id=${id}`)
+  fetch(`https://script.google.com/macros/s/AKfycbyh682YSIFKowdvIGPhCJeKde6rpprRXMnnqNR8h8VqqPite-DtkkTsaZVXd4UrL6Wk/exec?id=${id}`)
     .then(r => r.json())
     .then(data => {
       Swal.close();
@@ -492,6 +497,8 @@ function buscarEmpleado() {
       document.getElementById("puesto").value = data.puesto;
       document.getElementById("ingreso").value = data.ingreso;
       document.getElementById("diasDisp").value = data.diasDisponibles;
+    diasOriginales = parseInt(data.diasDisponibles);   // 👈 CLAVE
+
 
 
       Swal.fire({
@@ -525,6 +532,60 @@ function calcularDiasRestantes() {
 
     document.getElementById("diasRest").value = restantes;
 }
+
+
+function guardarVacaciones() {
+  const id = document.getElementById("empleado").value.trim();
+  const dias = document.getElementById("diasDisf").value;
+
+  if (!id || !dias) {
+    Swal.fire({
+      icon: "warning",
+      title: "Datos incompletos",
+      text: "Ingresa el número de empleado y los días a disfrutar."
+    });
+    return;
+  }
+
+  Swal.fire({
+    title: "Guardando vacaciones...",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading()
+  });
+
+  fetch(`https://script.google.com/macros/s/AKfycbxiCjRHbGfyePhet0M97zvfDzogNb4TB2miktvk8_igJ5t9amJRTNJgLsRXAv8KUhJ3/exec?accion=actualizar&id=${id}&dias=${dias}`)
+    .then(r => r.json())
+    .then(respuesta => {
+      Swal.close();
+
+      if (respuesta.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Vacaciones guardadas",
+          text: `Días restantes: ${respuesta.nuevos}`
+        });
+
+        document.getElementById("diasRest").value = respuesta.nuevos;
+        document.getElementById("diasDisp").value = respuesta.nuevos;
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: respuesta.mensaje
+        });
+      }
+    })
+    .catch(err => {
+      Swal.close();
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        text: "No se pudo guardar en Google Sheets."
+      });
+    });
+}
+
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
