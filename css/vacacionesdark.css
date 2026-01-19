@@ -211,7 +211,7 @@
 
     .formulario button {
         padding: 10px 20px;
-        background: #2c3e50;
+        background: #006ad4;
         color: white;
         border: none;
         cursor: pointer;
@@ -657,4 +657,12 @@ body.dark .campo-textarea label {
 
 .btn-buscar:hover{
     background: #1e40af;
+}
+
+#contenedor-fechas{
+    margin-top:10px;
+    padding:10px;
+    border:1px dashed #666;
+    background:#333333;
+   
 }
