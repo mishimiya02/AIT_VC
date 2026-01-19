@@ -689,7 +689,7 @@ body.dark .campo-textarea label {
     outline: none;
     resize: vertical;
     transition: all 0.25s ease;
-
+margin-bottom: 10px;
     /* 🔑 CLAVE */
     background-color: #000000;
     color: #ffffff;
