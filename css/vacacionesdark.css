@@ -75,7 +75,7 @@
 
 
  			nav {
- 				background-color: #6e6e6e;
+ 				background-color: #00529e;
         padding-left: 0;
  				display: flex;
  				justify-content: space-between;
@@ -175,7 +175,7 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #222222;
+      background-color: #272727;
       margin: 0;
    
     }
@@ -190,17 +190,18 @@
 }
    
 
-.formulario {
+
+    .formulario {
     background: #000000;
-    padding: 25px 30px;
-    border-radius: 19px;
+    padding: 25px 30px;          /* ← espacio interno */
+    border: 1px solid #ccc;      /* borde limpio */
+    border-radius: 12px;         /* esquinas bonitas */
     max-width: 900px;
     margin: 0 auto;
-    
-    /* Borde */
-    border: 6px solid #1100ff;
-}
-
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+   border: 3px solid #9cc6ff;
+    box-shadow: 0 0 0 4px rgba(156,198,255,0.25);
+    }
 
     .formulario input {
         width: 100%;
@@ -212,20 +213,11 @@
         padding: 10px 20px;
         background: #2c3e50;
         color: white;
-
+        border: none;
         cursor: pointer;
     }
 
     /* HOJA */
-    .hoja {
-        width: 21cm;
-        height: 24.7cm;
-        background: white;
-        margin: auto;
-        padding: 1cm;
-        box-shadow: 0 0 10px rgba(0,0,0,.2);
-    }
-
     .titulo {
         text-align: center;
         font-weight: bold;
@@ -455,9 +447,9 @@
 }
 
 #rObservaciones{
-    border-top: 1px solid #ffffff;
+    border-top: 1px solid #000;
     padding-top: 6px;
-    font-size: 17px;
+    font-size: 13px;
 }
 .campo span:first-child{
     font-weight: bold;
@@ -485,10 +477,7 @@
 .btn-imprimir:hover{
     background: #145c2a;
 }
-@page {
-    size: A4;
-    margin: 0;
-}
+
 @media print {
 
     body {
@@ -504,7 +493,6 @@
     .hoja * {
         visibility: visible;
     }
-
 
     * {
         -webkit-print-color-adjust: exact;
@@ -573,7 +561,6 @@
     }
 }
 
-
 /* Ocultar formato en pantalla */
 @media screen {
     .pdf-wrapper {
@@ -597,11 +584,11 @@
     width: 100%;
     min-height: 90px;
     padding: 14px 12px;
-    font-size: 19px;
+    font-size: 15px;
     border-radius: 12px;
-    border: 2px solid #ffffff;
+    border: 2px solid #cbd5e1;
     outline: none;
-    background: transparent;
+    background: #fff;
     resize: vertical;
     transition: all 0.25s ease;
     color: inherit;
@@ -609,12 +596,12 @@
 
 /* Hover */
 .campo-textarea textarea:hover {
-    border-color: hsl(217, 100%, 97%);
+    border-color: #94a3b8;
 }
 
 /* Focus */
 .campo-textarea textarea:focus {
-    border-color: #ffffff;
+    border-color: #2563eb;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
@@ -626,7 +613,7 @@
     font-size: 14px;
     color: #ffffff;
     pointer-events: none;
-    background: var(--bg, #00000000);
+    background: var(--bg, #fff);
     padding: 0 6px;
     transition: 0.25s ease;
 }
@@ -636,32 +623,26 @@
 .campo-textarea textarea:not(:placeholder-shown) + label {
     top: -8px;
     font-size: 12px;
-    color: #ffffff;
+    color: #2563eb;
 }
 
 /* Modo oscuro compatible */
 body.dark .campo-textarea textarea {
-    border-color: #ffffff;
+    border-color: #475569;
 }
 
 body.dark .campo-textarea label {
     background: #ffffff;
     color: #ffffff;
 }
-.campo-textarea textarea {
-    width: 100%;
-    min-height: 90px;
-    padding: 14px 12px;
-    font-size: 19px;
-    border-radius: 12px;
-    border: 2px solid #ffffff;
-    outline: none;
-    resize: vertical;
-    transition: all 0.25s ease;
-margin-bottom: 10px;
-    /* 🔑 CLAVE */
-    background-color: #000000;
-    color: #ffffff;
+.hoja {
+    width: 196mm;
+    height: 249mm;       /* Carta exacta */
+    padding: 10mm;
+    box-sizing: border-box;
+    background: white;
+    margin: 0 auto;
+    overflow: hidden;    /* evita desbordes */
 }
 .btn-buscar{
     margin-top: 8px;
