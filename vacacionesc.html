@@ -77,6 +77,13 @@
     </button>
 </div>
 
+<div class="campo-form">
+  <label for="fechaSolicitud">Fecha de solicitud</label>
+
+  <input type="date" id="fechaSolicitud" onchange="actualizarFechaSolicitud()">
+
+</div>
+
 
     <div class="campo-form">
         <label for="nombre">Nombre completo</label>
@@ -313,17 +320,23 @@ document.getElementById("rFirmaRH").textContent =
 
 }
 
+function actualizarFechaSolicitud() {
+  const input = document.getElementById("fechaSolicitud").value;
 
-window.addEventListener("load", () => {
-    const hoy = new Date();
-    const dia = hoy.getDate().toString().padStart(2, "0");
-    const mes = (hoy.getMonth() + 1).toString().padStart(2, "0");
-    const anio = hoy.getFullYear();
+  if (!input) return;
 
-    document.getElementById("dia").textContent = dia;
-    document.getElementById("mes").textContent = mes;
-    document.getElementById("anio").textContent = anio;
-});
+  const fecha = new Date(input + "T00:00:00");
+
+  document.getElementById("dia").textContent =
+    fecha.getDate().toString().padStart(2, "0");
+
+  document.getElementById("mes").textContent =
+    (fecha.getMonth() + 1).toString().padStart(2, "0");
+
+  document.getElementById("anio").textContent =
+    fecha.getFullYear();
+}
+
 
 
 function crearFechas(){
@@ -586,6 +599,15 @@ function guardarVacaciones() {
       });
     });
 }
+
+/*fecha de hoy pero editable */
+window.addEventListener("load", () => {
+  const hoy = new Date().toISOString().split("T")[0];
+  const input = document.getElementById("fechaSolicitud");
+
+  input.value = hoy;
+  actualizarFechaSolicitud();
+});
 
 
 </script>
