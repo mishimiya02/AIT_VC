@@ -343,28 +343,32 @@ function actualizarFechaSolicitud() {
 }
 
 
+function crearFechas() {
+  const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+  const cantidad = parseInt(document.getElementById("diasDisf").value);
+  const contenedor = document.getElementById("contenedor-fechas");
 
-function crearFechas(){
-    const cantidad = parseInt(document.getElementById("diasDisf").value);
-    const contenedor = document.getElementById("contenedor-fechas");
-    contenedor.innerHTML = "";
+  contenedor.innerHTML = "";
 
-    if (isNaN(cantidad) || cantidad <= 0) return;
+  if (disponibles === 0) return;
+  if (isNaN(cantidad) || cantidad <= 0) return;
+  if (cantidad > disponibles) return;
 
-    for(let i = 1; i <= cantidad; i++){
-        const div = document.createElement("div");
-        div.className = "campo-form";
+  for (let i = 1; i <= cantidad; i++) {
+    const div = document.createElement("div");
+    div.className = "campo-form";
 
-        div.innerHTML = `
-            <label>Fecha día ${i}</label>
-            <input type="date" class="fecha-vacacion" onchange="llenarTabla()">
-        `;
+    div.innerHTML = `
+      <label>Fecha día ${i}</label>
+      <input type="date" class="fecha-vacacion" onchange="llenarTabla()">
+    `;
 
-        contenedor.appendChild(div);
-    }
+    contenedor.appendChild(div);
+  }
 
-    llenarTabla(); // ← CLAVE
+  llenarTabla();
 }
+
 function llenarTabla() {
   const tbody = document.querySelector("#tablaFechas tbody");
   const fechas = document.querySelectorAll(".fecha-vacacion");
@@ -540,20 +544,65 @@ function buscarEmpleado() {
       });
     });
 }
-
 function calcularDiasRestantes() {
-    const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
-    const aDisfrutar = parseInt(document.getElementById("diasDisf").value) || 0;
+  const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+  const diasInput = document.getElementById("diasDisf");
+  let aDisfrutar = parseInt(diasInput.value) || 0;
 
-    let restantes = disponibles - aDisfrutar;
+  // 🚫 Caso 1: no hay días disponibles
+  if (disponibles === 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "Sin días disponibles",
+      text: "Este empleado no tiene días disponibles para vacaciones."
+    });
 
-    if (restantes < 0) restantes = 0; // nunca negativos
+    diasInput.value = "";
+    document.getElementById("diasRest").value = 0;
+    document.getElementById("contenedor-fechas").innerHTML = "";
+    return;
+  }
 
-    document.getElementById("diasRest").value = restantes;
+  // 🚫 Caso 2: días a disfrutar > disponibles
+  if (aDisfrutar > disponibles) {
+    Swal.fire({
+      icon: "warning",
+      title: "Cantidad inválida",
+      text: `Solo puedes disfrutar hasta ${disponibles} días.`
+    });
+
+    aDisfrutar = disponibles;
+    diasInput.value = disponibles;
+  }
+
+  const restantes = disponibles - aDisfrutar;
+  document.getElementById("diasRest").value = restantes;
 }
 
 
+
 function guardarVacaciones() {
+    const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+const aDisfrutar = parseInt(document.getElementById("diasDisf").value) || 0;
+
+if (disponibles === 0) {
+  Swal.fire({
+    icon: "warning",
+    title: "Operación no permitida",
+    text: "El empleado no tiene días disponibles."
+  });
+  return;
+}
+
+if (aDisfrutar > disponibles) {
+  Swal.fire({
+    icon: "warning",
+    title: "Días inválidos",
+    text: "Los días a disfrutar no pueden ser mayores a los disponibles."
+  });
+  return;
+}
+
   const id = document.getElementById("empleado").value.trim();
   const dias = document.getElementById("diasDisf").value;
 
