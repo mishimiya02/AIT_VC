@@ -4,30 +4,24 @@ function validarAcceso(destino) {
 
   error.style.display = "none";
 
-  // Definir accesos por contraseña
-  const permisos = {
-    RMV: ["loginprincipal.html"],   // Área 1
-    JM: ["cdblogin.html"],          // Área 2
-    OOR: ["vacacionesc.html"],      // Área 3
-    CXC: [                          // Global
-      "loginprincipal.html",
-      "cdblogin.html",
-      "vacacionesc.html"
-    ]
-  };
+  const url = new URL("https://script.google.com/macros/s/AKfycbw2v_SBVoTadLFwjuZkMkS0gp6a-eux8VnlXSJ9UkLPDoxtdY-J1hCyAPZGe1VQQ415kQ/exec");
+  url.searchParams.append("password", pass);
+  url.searchParams.append("destino", destino);
 
-  // Validar contraseña
-  if (!permisos[pass]) {
-    error.textContent = "Contraseña incorrecta";
-    error.style.display = "block";
-    return;
-  }
-
-  // Validar permiso de acceso al destino
-  if (permisos[pass].includes(destino)) {
-    window.location.href = destino;
-  } else {
-    error.textContent = "No tienes acceso a esta sección";
-    error.style.display = "block";
-  }
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      if (data.ok) {
+        window.location.href = destino;
+      } else {
+        error.textContent = data.msg;
+        error.style.display = "block";
+      }
+    })
+    .catch(() => {
+      error.textContent = "Error de conexión";
+      error.style.display = "block";
+    });
 }
+
+
