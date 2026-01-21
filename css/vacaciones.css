@@ -286,7 +286,7 @@
     }
 
     .firmas {
-        margin-top: 80px;
+        margin-top: 45px;/*espacio del cuadro de observaciones*/
        margin-left: 16px;
         justify-content: space-between;
     }
@@ -298,11 +298,11 @@
     .firmas{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 90px 70px;
+    gap: 50px 30px;
 }
 .firma small{
     display: block;
-    margin-top: 3px;
+    margin-top: -3px;
     font-size: 15px; /* tamaño de la letra de puestos  */
     color: #444;
 }
@@ -314,7 +314,7 @@
 
 .firma span{
     display: block;
-    margin-top: 2px;
+    margin-top: -3px;
     font-size: 14px;   /* ← aquí controlas el tamaño */
     font-weight: 600; /* semi-negrita elegante */
 }
@@ -639,13 +639,14 @@ body.dark .campo-textarea label {
 }
 .hoja {
     width: 196mm;
-    height: 249mm;       /* Carta exacta */
+    min-height: 249mm;      /* ← permite crecer */
     padding: 10mm;
     box-sizing: border-box;
     background: white;
     margin: 0 auto;
-    overflow: hidden;    /* evita desbordes */
+    overflow: visible;     /* ← MUY IMPORTANTE */
 }
+
 .btn-buscar{
     margin-top: 8px;
     padding: 6px 14px;

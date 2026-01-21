@@ -30,7 +30,7 @@
             }, 2000); // 2 segundos de demostración
         });
 
-        // También puedes usarlo para transiciones entre páginas
+        // para transiciones entre páginas
         document.addEventListener('click', function(e) {
             if (e.target.tagName === 'A' && e.target.href) {
                 e.preventDefault();
@@ -515,6 +515,8 @@ function buscarEmpleado() {
 
       // Llenar campos
       document.getElementById("nombre").value = data.nombre;
+      document.getElementById("firmaSolicitante").value = data.nombre;
+
       document.getElementById("horario").value = data.horario;
       document.getElementById("area").value = data.area;
       document.getElementById("puesto").value = data.puesto;
