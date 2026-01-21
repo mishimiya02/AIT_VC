@@ -30,18 +30,7 @@
             }, 2000); // 2 segundos de demostración
         });
 
-        // para transiciones entre páginas
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.href) {
-                e.preventDefault();
-                AvionLoading.mostrar();
-                
-                // Navegar después de mostrar el loader
-                setTimeout(function() {
-                    window.location.href = e.target.href;
-                }, 500);
-            }
-        });
+     
     </script>
 </head>
 <body>
