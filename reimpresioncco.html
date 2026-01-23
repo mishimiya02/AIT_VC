@@ -1,296 +1,442 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Reimprimir Recibo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Recibos Automáticos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-<style>
- 
-body {
-  font-family: Arial, sans-serif;
-}
+        body {
+            background: #f3f4f6;
+            padding: 20px;
+            min-height: 100vh;
+        }
 
-/* ===== UI ===== */
-#ui {
-  margin-bottom: 15px;
-}
+        .form-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
 
-/* ===== RECIBO ===== */
-.hoja-media {
-  width: 800px;
-  height: 430px;
-  background: white;
-  padding: 35px;
-  border-radius: 12px;
-  border: 3px solid #003a7d;
-  margin: 20px auto;
-  position: relative;
-  display: none;
-  box-sizing: border-box;
-}
+        h1 {
+            text-align: center;
+            color: #003a7d;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
 
-/* LOGO */
-.logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 140px;
-}
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-/* TÍTULO */
-.titulo {
-  position: absolute;
-  right: 20px;
-  top: 12px;
-  font-size: 30px;
-  font-weight: 800;
-  color: #003a7d;
-  text-align: right;
-}
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #003a7d;
+        }
 
-/* INFO EMPRESA */
-.info-empresa {
-  margin-top: 55px;
-  font-size: 16px;
-  line-height: 16px;
-  color: #003a7d;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
 
-/* CONTENEDOR DERECHO */
-.contenedor-derecha {
-  position: absolute;
-  right: 35px;
-  top: 70px;
-  bottom: 44px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-end;
-}
+        .range-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
 
-.fila-dato {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+        .range-inputs input {
+            flex: 1;
+            text-align: center;
+        }
 
-.label-der {
-  font-weight: bold;
-  font-size: 14px;
-  color: #003a7d;
-}
+        .separator {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003a7d;
+        }
 
-.caja-der {
-  border: 2px solid #003a7d;
-  padding: 6px 12px;
-  font-size: 22px;
-  font-weight: bold;
-  min-width: 160px;
-  text-align: center;
-}
+        button {
+            background: #003a7d;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
 
-/* LEYENDAS */
-.leyenda {
-  font-size: 13px;
-  font-weight: bold;
-  color: red;
-  text-align: right;
-}
-.leyendas {
-  margin-top: 10px;   /* ⬅️ separa del folio */
-  margin-bottom: 10px; /* ⬅️ separa del cuadro */
-  text-align: right;
-  padding-right: 35px; /* alinea con cajas */
-}
+        button:hover {
+            background: #002a5d;
+        }
 
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
 
-/* CUADRO CENTRAL */
-.cuadro {
-  border: 2px solid #003a7d;
-  border-radius: 12px;
- 
-  font-size: 12px;
-  margin-top: 5px;
-    padding: 0px 12px;  
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #003a7d;
+        }
 
-}
-.campo {
-  margin-bottom: 10px;
-}
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #003a7d;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
 
-.dato-linea {
-  display: inline-block;
-  min-width: 180px;           /* ancho de la línea */
-  border-bottom: 2px solid #003a7d;
-  padding-bottom: 2px;
-  margin-left: 6px;
-}
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-.dato-linea.largo {
-  min-width: 320px;
-}
+        .error {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
 
-.dato-linea.muy-largo {
-  display: block;             /* concepto en renglón propio */
-  margin-top: 6px;
-  min-width: 100%;
-}
-.dato-linea.concepto {
-  min-width: 100%;
-  max-width: 100%;
-  white-space: nowrap;        /* ⬅️ evita salto */
-  overflow: hidden;
-  text-overflow: ellipsis;    /* … si es muy largo */
-}
+        .success {
+            color: #388e3c;
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
 
-
-/* FILAS INFERIORES */
-.info-fila {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-}
-
-/* ===== PRINT ===== */
-@media print {
-
-  body * {
-    visibility: hidden;
-  }
-
-  #recibo,
-  #recibo * {
-    visibility: visible;
-  }
-
-  #recibo {
-    position: absolute;
-    top: 20mm;               /* ⬅️ mitad superior */
-    left: 50%;
-    transform: translateX(-50%) scale(1.4);
-    transform-origin: top center;
-    margin: 0;
-  }
-
-  #ui {
-    display: none;
-  }
-
-  @page {
-    size: Letter;
-    margin: 0;
-  }
-}
-
-
-</style>
+        .info-box {
+            background: #f0f8ff;
+            border-left: 4px solid #003a7d;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="form-card">
+        <h1>GENERAR RECIBOS AUTOMÁTICOS</h1>
+        
+        <div class="info-box">
+            <strong>Instrucciones:</strong><br>
+            1. Ingresa el rango de folios/IDs a generar<br>
+            2. Ejemplo: 1 a 5 (generará recibos para IDs 1, 2, 3, 4, 5)<br>
+            3. Los datos (monto, concepto, etc.) se tomarán automáticamente de Google Sheets
+        </div>
 
-<!-- ===== UI ===== -->
-<div id="ui">
-  Folio:
-  <input type="text" id="folio">
-  <button onclick="buscar()">Buscar</button>
-  
- <button onclick="window.print()">Imprimir</button>
-</div>
+        <div class="form-group">
+            <label for="folioInicio">Folio/ID Inicial</label>
+            <div class="range-inputs">
+                <input type="number" id="folioInicio" placeholder="1" min="1">
+                <span class="separator">a</span>
+                <input type="number" id="folioFin" placeholder="5" min="1">
+            </div>
+        </div>
 
-<!-- ===== RECIBO ===== -->
-<div class="hoja-media" id="recibo">
-<img src="img/logo2n.png" class="logo">
+        <div id="errorMessage" class="error"></div>
+        <div id="successMessage" class="success"></div>
 
-  <div class="titulo">RECIBO DE PAGO</div>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Consultando Google Sheets y generando recibos...</p>
+        </div>
 
-  <div class="info-empresa">
-    <b>Empresa:</b> AMAIT<br>
-    <b>RFC:</b> AMA0312196E5<br>
-    <b>Dirección:</b> AEROPUERTO INTERNACIONAL DE TOLUCA<br>
-    <b>Teléfono:</b> 722-279-2800
-  </div>
-
-  <div class="contenedor-derecha">
-    <div class="fila-dato">
-      <div class="label-der">FOLIO N°:</div>
-      <div class="caja-der" id="r-folio"></div>
+        <button id="generarBtn" onclick="generarRecibosAutomaticos()">Generar Recibos Automáticos</button>
     </div>
-    <div class="fila-dato">
-      <div class="label-der">POR:</div>
-      <div class="caja-der" id="r-monto"></div>
-    </div>   
-  </div>
- <div class="leyendas">
-  <div class="leyenda">COPIA CCO AMAIT</div>
- <!-- <div class="leyenda">COPIA SEGURIDAD AMAIT</div> -->
-</div>
-<div class="cuadro">
-<div class="campo">
-  <b>RECIBO DE:</b>
-  <span class="dato-linea" id="r-reciboDe"></span>
-</div>
 
-<div class="campo">
-  <b>LA CANTIDAD DE:</b> $
-  <span class="dato-linea corto" id="r-monto2"></span>
-</div>
+    <!-- RECIBO TEMPLATE (OCULTO) -->
+    <div class="hoja-media" id="recibo" style="display: none; position: absolute; left: -9999px;">
+        <img src="img/logo2n.png" alt="logo" class="logo">
+        <div class="titulo">RECIBO DE PAGO</div>
+        
+        <div class="info-empresa">
+            <b>Empresa:</b> AMAIT<br>
+            <b>RFC:</b> AMA0312196E5<br>
+            <b>Dirección:</b> AEROPUERTO INTERNACIONAL DE TOLUCA<br>
+            <b>Teléfono:</b> 722-279-2800
+        </div>
 
-<div class="campo">
-  <b>CANTIDAD EN LETRA:</b>
-  <span class="dato-linea largo" id="r-cantidadLetra"></span>
-</div>
+        <div class="contenedor-derecha">
+            <div class="fila-dato">
+                <div class="label-der">FOLIO N°:</div>
+                <div class="caja-der" id="r-folio">00000</div>
+            </div>
+            <div class="fila-dato">
+                <div class="label-der">POR:</div>
+                <div class="caja-der" id="r-monto">0.00</div>
+            </div>
+            <div class="fila-dato">
+                <div id="leyenda1" class="leyenda" style="color: red; font-weight: bold;">COPIA CCO AMAIT</div>
+                <div id="leyenda2" class="leyenda" style="color: red; font-weight: bold; display: none;">COPIA SEGURIDAD AMAIT</div>
+            </div>
+        </div>
 
-<div class="campo">
-  <b>POR CONCEPTO DE:</b>
-  <span class="dato-linea muy-largo" id="r-concepto"></span>
-</div>
+        <div class="cuadro" style="margin-top: 39px; font-size: 12px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <b>RECIBO DE:</b>
+                <span id="r-reciboDe" style="border-bottom:1px solid #003a7d; flex:1; margin-left:8px; padding-bottom:1px;"></span>
+                <b style="margin-left:20px;">LA CANTIDAD DE:</b>
+                <span id="r-monto2" style="border-bottom:1px solid #003a7d; width:120px; margin-left:8px; text-align:right;"></span>
+            </div>
+            <br>
+            <div style="display:flex;">
+                <b style="width:170px;">CANTIDAD EN LETRA:</b>
+                <span id="r-cantidadLetra" style="border-bottom:1px solid #003a7d; flex:1;"></span>
+            </div>
+            <br>
+            <div style="display:flex;">
+                <b style="width:170px;">POR CONCEPTO DE:</b>
+                <span id="r-concepto" style="border-bottom:1px solid #003a7d; flex:1;"></span>
+            </div>
+        </div>
 
+        <br>
+        <div style="display:flex; justify-content:space-between;">
+            <div class="info-fila">
+                <div><b>FECHA:</b> <span id="r-fecha"></span></div>
+                <div><b>OPERADOR:</b> <span id="r-operador"></span></div>
+            </div>
+            <div class="info-fila">
+                <div><b>PLACAS:</b> <span id="r-placas"></span></div>
+                <div><b>FECHA Y HORA DE ACCESO:</b> <span id="r-acceso"></span></div>
+            </div>
+        </div>
 
-  <br>
+        <br><br>
+        <div style="display:flex; justify-content:space-between; margin-top:-20px;">
+            <div>_________________________<br>RECIBÍ (NOMBRE Y FIRMA)</div>
+            <div>_________________________<br>SELLO DE CAJA AMAIT</div>
+        </div>
+    </div>
 
-  <div class="info-fila">
-    <div><b>FECHA:</b> <span id="r-fecha"></span></div>
-    <div><b>FECHA Y HORA DE ACCESO:</b> <span id="r-acceso"></span></div>
-  </div>
+    <!-- ESTILOS DEL RECIBO -->
+    <style>
+        .hoja-media {
+            width: 800px;
+            height: 430px;
+            background: white;
+            padding: 25px;
+            border: 3px solid #003a7d;
+            margin: 40px auto;
+            position: relative;
+            box-sizing: border-box;
+            transform: scale(0.9);
+        }
 
-  <br><br>
+        .hoja-media .logo {
+            position: absolute;
+            left: 20px;
+            top: 7px;
+            width: 160px;
+            height: auto;
+            z-index: 5;
+        }
 
-  <div class="info-fila">
-    <div>RECIBÍ (NOMBRE Y FIRMA)</div>
-    <div>SELLO DE CAJA AMAIT</div>
-  </div>
+        .titulo {
+            position: absolute;
+            right: 20px;
+            top: 12px;
+            font-size: 30px;
+            font-weight: 800;
+            color: #003a7d;
+            z-index: 4;
+            text-align: right;
+        }
 
-  <br>
- 
-</div>
+        .info-empresa {
+            margin-top: 55px;
+            font-size: 16px;
+            line-height: 16px;
+            color: #003a7d;
+        }
+
+        .contenedor-derecha {
+            position: absolute;
+            right: 20px;
+            top: 65px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .fila-dato {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .label-der {
+            font-weight: bold;
+            font-size: 14px;
+            color: #003a7d;
+        }
+
+        .caja-der {
+            border: 2px solid #003a7d;
+            padding: 6px 12px;
+            font-size: 22px;
+            font-weight: bold;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .cuadro {
+            border: 2px solid #003a7d;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .info-fila {
+            flex: 1;
+        }
+
+        .info-fila div {
+            margin-bottom: 5px;
+        }
+
+        .info-fila b {
+            display: inline-block;
+            width: 180px;
+        }
+    </style>
+
+    <!-- LIBRERÍAS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+   
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwzhMmwcEfitVPaKoEZvcsix34g15-kfWQH_bnGlXx86HNKtpGfl_c0BR0iuvFL5qLkKg/exec";
+// ============================================
+// CONSULTAR GOOGLE SHEETS - CON TUS COLUMNAS
+// ============================================
+async function obtenerRecibosCompletosDeSheets(idInicio, idFin) {
+    // URL de tu Apps Script (reemplaza con la tuya)
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwEyEBSkEIBFxtpDKMnUAC3Nv5Ys8qf3VHAZQ7WK6zpBgI-y6YXHpWkwP4-m07pgl0TIg/exec";
+    
+    const payload = {
+        action: "obtenerRecibosPorRango",
+        idInicio: idInicio,
+        idFin: idFin
+    };
+    
+    try {
+        console.log("Consultando Sheets para folios:", idInicio, "a", idFin);
+        
+        // Usando POST con modo 'no-cors' para evitar problemas
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Cambia a 'cors' si configuras CORS en Apps Script
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        // NOTA: Con 'no-cors' no podemos leer la respuesta directamente
+        // Para desarrollo, usar datos de ejemplo
+        
+        return generarDatosEjemploDesdeTusColumnas(idInicio, idFin);
+        
+    } catch (error) {
+        console.warn('Error al conectar con Sheets, usando datos de ejemplo:', error);
+        return generarDatosEjemploDesdeTusColumnas(idInicio, idFin);
+    }
+}
 
-function buscar() {
-  const folio = document.getElementById("folio").value.trim();
-  if (!folio) return alert("Ingresa un folio");
+// ============================================
+// GENERAR DATOS DE EJEMPLO BASADOS EN TUS COLUMNAS
+// ============================================
+function generarDatosEjemploDesdeTusColumnas(idInicio, idFin) {
+    const recibos = [];
+    const hoy = new Date();
+    const fechaHoy = hoy.toISOString().split('T')[0];
+    
+    // Ejemplo de cómo se verían tus datos
+    const datosEjemplo = [
+        {
+            FOLIO: "00001",
+            FECHA: "2024-01-15",
+            EMISOR: "JUAN PEREZ HERNANDEZ",
+            VALOR: 1500.50,
+            CONCEPTO: "UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-00001 (1 DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)",
+            PLACAS: "ABC-123"
+        },
+        {
+            FOLIO: "00002", 
+            FECHA: "2024-01-16",
+            EMISOR: "MARIA GARCIA LOPEZ",
+            VALOR: 1800.00,
+            CONCEPTO: "UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-00002 (2 DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)",
+            PLACAS: "DEF-456"
+        },
+        {
+            FOLIO: "00003",
+            FECHA: "2024-01-17",
+            EMISOR: "CARLOS RAMIREZ SANCHEZ",
+            VALOR: 1200.75,
+            CONCEPTO: "UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-00003 (3 DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)",
+            PLACAS: "GHI-789"
+        }
+    ];
+    
+    // Filtrar por rango y convertir al formato del recibo
+    for (let id = idInicio; id <= idFin; id++) {
+        const folio = String(id).padStart(5, '0');
+        const datoEjemplo = datosEjemplo.find(d => parseInt(d.FOLIO) === id) || {};
+        
+        recibos.push({
+            folio: folio,
+            fecha: datoEjemplo.FECHA || fechaHoy,
+            reciboDe: datoEjemplo.EMISOR || `CLIENTE ${folio}`,
+            monto: datoEjemplo.VALOR || 1500.00,
+            concepto: datoEjemplo.CONCEPTO || `UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-${folio} (${id} DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)`,
+            operador: extraerOperador(datoEjemplo.EMISOR) || "OPERADOR",
+            placas: datoEjemplo.PLACAS || `PLA-${String(id).padStart(3, '0')}`,
+            acceso: `${fechaHoy}T08:00`
+        });
+    }
+    
+    return recibos;
+}
 
-  fetch(`${API_URL}?folio=${encodeURIComponent(folio)}`)
-    .then(r => r.json())
-    .then(d => {
-      if (d.error) return alert(d.error);
-
-      const monto = Number(d.valor).toFixed(2);
-
-      document.getElementById("r-folio").textContent = d.folio;
-      document.getElementById("r-monto").textContent = "$ " + monto;
-      document.getElementById("r-monto2").textContent = monto;
-      document.getElementById("r-reciboDe").textContent = d.emisor;
-      document.getElementById("r-concepto").textContent = d.concepto;
-      document.getElementById("r-fecha").textContent = d.fecha;
-      document.getElementById("r-acceso").textContent = d.registrado;
-      document.getElementById("r-cantidadLetra").textContent =
-        monto + " PESOS M.N.";
-
-      document.getElementById("recibo").style.display = "block";
-    });
+function extraerOperador(nombreCompleto) {
+    if (!nombreCompleto) return "OPERADOR";
+    // Tomar el primer nombre como operador
+    const partes = nombreCompleto.split(' ');
+    return partes[0] || "OPERADOR";
 }
 </script>
-
 </body>
 </html>

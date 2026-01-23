@@ -582,22 +582,31 @@ async function generarPDFMultiple(cantidadRecibos) {
         pdf.setLineWidth(1);
         pdf.setLineDash([5, 5]);
         pdf.line(20, 396, 595, 396);
-guardarReciboSheets({
-    folio: generarFolio(folioActual),
-    fecha: document.getElementById("fecha").value,
-    emisor: document.getElementById("reciboDe").value,
-    valor: document.getElementById("monto").value,
- concepto: generarConcepto()
-
+       guardarReciboSheets({
+  folio: generarFolio(folioActual),
+  fecha: normalizarFecha(document.getElementById("fecha").value),
+  emisor: document.getElementById("reciboDe").value,
+  valor: document.getElementById("monto").value,
+  concepto: generarConcepto(),
+  acceso: normalizarFecha(document.getElementById("acceso").value),
+  placas: document.getElementById("placas").value,
+  operador: document.getElementById("operador").value
 });
+
+
         folioActual++;
     }
 
     pdf.save(`recibos_${cantidadRecibos}.pdf`);
 }
 
+function normalizarFecha(valor) {
+  if (!valor) return "";
+  return new Date(valor.replace("T", " "));
+}
+
 async function guardarReciboSheets(data) {
-    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzjwYWrfO9yxSooSX61VdO0EWC2EjFaz8nAKTeyYVFDd_Mox8unaQIoLBspxkG-CZIy1w/exec";
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzM5c_EV6gcXmXIuNksAOTBzWqpenbOlu5G04AQ4vLwJ5Vi98NVG8VRvkw0je3vcde6ag/exec";
 
     try {
         const response = await fetch(URL_APPS_SCRIPT, {
