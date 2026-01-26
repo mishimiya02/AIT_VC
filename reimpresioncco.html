@@ -535,17 +535,63 @@ async function generarPDFUno() {
   const { jsPDF } = window.jspdf;
   const recibo = document.getElementById("recibo");
 
-  llenarRecibo(document.getElementById("conceptoFolio").value);
-
-  await new Promise(r => setTimeout(r, 200));
-
-  const canvas = await html2canvas(recibo, { scale: 2 });
-  const img = canvas.toDataURL("image/png");
+  const folio = document.getElementById("conceptoFolio").value || "00000";
 
   const pdf = new jsPDF("portrait", "pt", "letter");
-  pdf.addImage(img, "PNG", 20, 30, 575, 280);
 
-  pdf.save(`recibo_${document.getElementById("conceptoFolio").value}.pdf`);
+  const ancho = 575;
+  const alto = 280;
+  const margenLateral = 20;
+  const margenSuperior = 30;
+  const espacioEntre = 135;
+
+  // ==========================
+  // COPIA CCO AMAIT (ARRIBA)
+  // ==========================
+  llenarRecibo(folio);
+  document.getElementById("leyenda1").style.display = "block";
+  document.getElementById("leyenda2").style.display = "none";
+
+  await new Promise(r => setTimeout(r, 200));
+  const canvas1 = await html2canvas(recibo, { scale: 2 });
+  const img1 = canvas1.toDataURL("image/png");
+
+  pdf.addImage(
+    img1,
+    "PNG",
+    margenLateral,
+    margenSuperior,
+    ancho,
+    alto
+  );
+
+  // ==========================
+  // COPIA SEGURIDAD AMAIT (ABAJO)
+  // ==========================
+  document.getElementById("leyenda1").style.display = "none";
+  document.getElementById("leyenda2").style.display = "block";
+
+  await new Promise(r => setTimeout(r, 200));
+  const canvas2 = await html2canvas(recibo, { scale: 2 });
+  const img2 = canvas2.toDataURL("image/png");
+
+  pdf.addImage(
+    img2,
+    "PNG",
+    margenLateral,
+    margenSuperior + alto + espacioEntre,
+    ancho,
+    alto
+  );
+
+  // ==========================
+  // LÍNEA PUNTEADA
+  // ==========================
+  pdf.setLineWidth(1);
+  pdf.setLineDash([5, 5]);
+  pdf.line(20, 396, 595, 396);
+
+  pdf.save(`recibo_${folio}.pdf`);
 }
 
 
