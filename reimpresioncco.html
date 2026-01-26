@@ -1,442 +1,612 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generar Recibos Automáticos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<title>Generar Recibo</title>
 
-        body {
-            background: #f3f4f6;
-            padding: 20px;
-            min-height: 100vh;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        .form-card {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
+<script src="java/avion-loading.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        h1 {
-            text-align: center;
-            color: #003a7d;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+<script src="java/theme-switcherrecibos.js"></script>
+<link rel="stylesheet" href="css/recibos.css">
+<link id="theme-style" rel="stylesheet" href="css/recibos.css">
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #003a7d;
-        }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+ <script>
+        // Mostrar el loader cuando la página comience a cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            AvionLoading.mostrar();
+        });
 
-        .range-inputs {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
+        // Ocultar el loader cuando todo esté cargado
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                AvionLoading.ocultar();
+            }, 2000); // 2 segundos de demostración
+        });
 
-        .range-inputs input {
-            flex: 1;
-            text-align: center;
-        }
-
-        .separator {
-            font-size: 18px;
-            font-weight: bold;
-            color: #003a7d;
-        }
-
-        button {
-            background: #003a7d;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            width: 100%;
-            transition: background 0.3s;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background: #002a5d;
-        }
-
-        button:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-            color: #003a7d;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #003a7d;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error {
-            color: #d32f2f;
-            background: #ffebee;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            display: none;
-        }
-
-        .success {
-            color: #388e3c;
-            background: #e8f5e9;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            display: none;
-        }
-
-        .info-box {
-            background: #f0f8ff;
-            border-left: 4px solid #003a7d;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-    </style>
+   
+    </script>
 </head>
 <body>
-    <div class="form-card">
-        <h1>GENERAR RECIBOS AUTOMÁTICOS</h1>
-        
-        <div class="info-box">
-            <strong>Instrucciones:</strong><br>
-            1. Ingresa el rango de folios/IDs a generar<br>
-            2. Ejemplo: 1 a 5 (generará recibos para IDs 1, 2, 3, 4, 5)<br>
-            3. Los datos (monto, concepto, etc.) se tomarán automáticamente de Google Sheets
-        </div>
 
-        <div class="form-group">
-            <label for="folioInicio">Folio/ID Inicial</label>
-            <div class="range-inputs">
-                <input type="number" id="folioInicio" placeholder="1" min="1">
-                <span class="separator">a</span>
-                <input type="number" id="folioFin" placeholder="5" min="1">
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+
+        <a href='loginprincipal.html'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">VALUACION</a>
+            <div class="dropdown-content">
+               
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+          <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">COMPROBANTES</a>
+            <div class="dropdown-content">
+                 <a href='comprobante'>COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href='cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
+                     <a href="recibos.html" target="_blank">RECIBOS CCO AMAIT</a>
+                 <a href="https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit?usp=sharing" target="_blank">REGISTROS</a>
             </div>
         </div>
 
-        <div id="errorMessage" class="error"></div>
-        <div id="successMessage" class="success"></div>
+        <a href='/index.html'>CDB</a>
+       
+       <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
+🌙 Nocturno
+</button>
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
 
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Consultando Google Sheets y generando recibos...</p>
-        </div>
+    <br><br>
+<div class="form-card">
+    <h2>GENERAR RECIBO CCO</h2>
 
-        <button id="generarBtn" onclick="generarRecibosAutomaticos()">Generar Recibos Automáticos</button>
+
+    <label for="folioBuscar">Buscar por folio</label>
+<input id="folioBuscar" type="text" placeholder="Ej. 00012">
+
+<button class="btn" onclick="buscarPorFolio()">Buscar</button>
+
+<label for="monto">Monto</label>
+    <input id="monto" type="number" step="0.01">
+
+    <label for="reciboDe">Recibo de</label>
+    <input id="reciboDe" type="text">
+
+    <label for="cantidadLetra">Cantidad en letra</label>
+    <textarea id="cantidadLetra"></textarea>
+
+     <label>Folio de acceso</label>
+<input id="conceptoFolio" type="text" placeholder="Ej. 00000000">
+
+
+    <label><!--aqui esta el checkbox para ocultar el folio acumulado -->
+  <input type="checkbox" id="usarParentesis" checked>
+  Incluir leyenda de folios acumulados ()
+</label>
+
+<div id="bloqueParentesis">
+  <label>Número consecutivo</label>
+  <input id="conceptoNumero" type="number">
+
+  <label>Año</label>
+  <input id="conceptoAnio" type="number">
+
+  <label>Total de folios del año</label>
+  <input id="conceptoTotal" type="number">
+</div>
+
+    <label for="fecha">Fecha</label>
+    <input id="fecha" type="date">
+
+    <label for="operador">Operador</label>
+    <input id="operador" type="text">
+
+    <label for="placas">Placas</label>
+    <input id="placas" type="text">
+
+    <label for="fechaAcceso">Fecha de acceso</label>
+<input id="fechaAcceso" type="date">
+
+<label for="horaAcceso">Hora de acceso</label>
+<input id="horaAcceso" type="time" step="1">
+
+
+    <button onclick="window.open('https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit', '_blank')">Abrir Google Sheets</button>
+
+<button class="btn" onclick="generarPDFUno()">Generar y Descargar PDF</button>
+
+
+<div class="hoja-media" id="recibo">
+
+    <img src="img/logo2n.png" alt="logo" class="logo">
+
+
+    <div class="titulo">RECIBO DE PAGO</div>
+
+    <!-- INFO EMPRESA A LA IZQUIERDA (empezando debajo del título) -->
+    <div class="info-empresa">
+        <b>Empresa:</b> AMAIT<br>
+        <b>RFC:</b> AMA0312196E5<br>
+        <b>Dirección:</b> AEROPUERTO INTERNACIONAL DE TOLUCA<br>
+        <b>Teléfono:</b> 722-279-2800
     </div>
 
-    <!-- RECIBO TEMPLATE (OCULTO) -->
-    <div class="hoja-media" id="recibo" style="display: none; position: absolute; left: -9999px;">
-        <img src="img/logo2n.png" alt="logo" class="logo">
-        <div class="titulo">RECIBO DE PAGO</div>
-        
-        <div class="info-empresa">
-            <b>Empresa:</b> AMAIT<br>
-            <b>RFC:</b> AMA0312196E5<br>
-            <b>Dirección:</b> AEROPUERTO INTERNACIONAL DE TOLUCA<br>
-            <b>Teléfono:</b> 722-279-2800
-        </div>
+    <!-- CAJAS DE FOLIO Y MONTO: quedarán justo debajo del título -->
+<!-- BLOQUE DERECHA: FOLIO Y MONTO EN UNA COLUMNA -->
+<div class="contenedor-derecha">
 
-        <div class="contenedor-derecha">
-            <div class="fila-dato">
-                <div class="label-der">FOLIO N°:</div>
-                <div class="caja-der" id="r-folio">00000</div>
-            </div>
-            <div class="fila-dato">
-                <div class="label-der">POR:</div>
-                <div class="caja-der" id="r-monto">0.00</div>
-            </div>
-            <div class="fila-dato">
-                <div id="leyenda1" class="leyenda" style="color: red; font-weight: bold;">COPIA CCO AMAIT</div>
-                <div id="leyenda2" class="leyenda" style="color: red; font-weight: bold; display: none;">COPIA SEGURIDAD AMAIT</div>
-            </div>
-        </div>
+    <!-- FOLIO -->
+    <div class="fila-dato">
+        <div class="label-der">FOLIO N°:</div>
+        <div class="caja-der" id="r-folio">00000</div>
+    </div>
 
-        <div class="cuadro" style="margin-top: 39px; font-size: 12px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                <b>RECIBO DE:</b>
-                <span id="r-reciboDe" style="border-bottom:1px solid #003a7d; flex:1; margin-left:8px; padding-bottom:1px;"></span>
-                <b style="margin-left:20px;">LA CANTIDAD DE:</b>
-                <span id="r-monto2" style="border-bottom:1px solid #003a7d; width:120px; margin-left:8px; text-align:right;"></span>
-            </div>
-            <br>
-            <div style="display:flex;">
-                <b style="width:170px;">CANTIDAD EN LETRA:</b>
-                <span id="r-cantidadLetra" style="border-bottom:1px solid #003a7d; flex:1;"></span>
-            </div>
-            <br>
-            <div style="display:flex;">
-                <b style="width:170px;">POR CONCEPTO DE:</b>
-                <span id="r-concepto" style="border-bottom:1px solid #003a7d; flex:1;"></span>
-            </div>
+    <!-- MONTO POR -->
+    <div class="fila-dato">
+        <div class="label-der">POR:</div>
+        <div class="caja-der" id="r-monto">0.00</div>
+     
+    </div>
+     <div class="fila-dato">
+       <!--<div class="label-der" style="color: red; font-weight: bold;">COPIA CCO AMAIT</div> -->
+        <div id="leyenda1" class="leyenda", style="color: red; font-weight: bold">COPIA CCO AMAIT</div>
+            <div id="leyenda2" class="leyenda" class="leyenda", style="color: red; font-weight: bold">COPIA SEGURIDAD AMAIT</div>
+
+    </div>
+
+</div>
+
+
+    <!-- CUADRO PRINCIPAL EXACTO COMO LA FOTO -->
+    <div class="cuadro" style="margin-top:39px; font-size:12px;">
+        <!-- RECIBO DE -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <b>RECIBO DE:</b>
+            <span id="r-reciboDe" 
+      style="border-bottom:1px solid #003a7d; flex:1; margin-left:8px; padding-bottom:1px; display:inline-block;">
+</span>
+
+
+            <b style="margin-left:20px;">LA CANTIDAD DE:</b>
+            <span id="r-monto2" style="border-bottom:1px solid #003a7d; width:120px; margin-left:8px; text-align:right;"></span>
         </div>
 
         <br>
-        <div style="display:flex; justify-content:space-between;">
-            <div class="info-fila">
-                <div><b>FECHA:</b> <span id="r-fecha"></span></div>
-                <div><b>OPERADOR:</b> <span id="r-operador"></span></div>
-            </div>
-            <div class="info-fila">
-                <div><b>PLACAS:</b> <span id="r-placas"></span></div>
-                <div><b>FECHA Y HORA DE ACCESO:</b> <span id="r-acceso"></span></div>
-            </div>
+
+        <!-- CANTIDAD EN LETRA (ENFRENTE) -->
+        <div style="display:flex;">
+            <b style="width:170px;">CANTIDAD EN LETRA:</b>
+            <span id="r-cantidadLetra" style="border-bottom:1px solid #003a7d; flex:1;"></span>
         </div>
 
-        <br><br>
-        <div style="display:flex; justify-content:space-between; margin-top:-20px;">
-            <div>_________________________<br>RECIBÍ (NOMBRE Y FIRMA)</div>
-            <div>_________________________<br>SELLO DE CAJA AMAIT</div>
+        <br>
+
+        <!-- POR CONCEPTO DE (ENFRENTE TAMBIÉN) -->
+        <div style="display:flex;">
+            <b style="width:170px;">POR CONCEPTO DE:</b>
+            <span id="r-concepto" style="border-bottom:1px solid #003a7d; flex:1;"></span>
         </div>
     </div>
 
-    <!-- ESTILOS DEL RECIBO -->
-    <style>
-        .hoja-media {
-            width: 800px;
-            height: 430px;
-            background: white;
-            padding: 25px;
-            border: 3px solid #003a7d;
-            margin: 40px auto;
-            position: relative;
-            box-sizing: border-box;
-            transform: scale(0.9);
-        }
+    <!-- resto del contenido (fecha, operador, placas...) sigue igual -->
+    <br>
+    <div style="display:flex; justify-content:space-between;">
+       <!-- FECHA Y OPERADOR -->
+<div class="info-fila">
+    <div><b>FECHA:</b> <span id="r-fecha"></span></div>
+    <div><b>OPERADOR:</b> <span id="r-operador"></span></div>
+</div>
 
-        .hoja-media .logo {
-            position: absolute;
-            left: 20px;
-            top: 7px;
-            width: 160px;
-            height: auto;
-            z-index: 5;
-        }
+<!-- PLACAS Y FECHA/HORA -->
+<div class="info-fila">
+    <div><b>PLACAS:</b> <span id="r-placas"></span></div>
+    <div><b>FECHA Y HORA DE ACCESO:</b> <span id="r-acceso"></span></div>
+</div>
 
-        .titulo {
-            position: absolute;
-            right: 20px;
-            top: 12px;
-            font-size: 30px;
-            font-weight: 800;
-            color: #003a7d;
-            z-index: 4;
-            text-align: right;
-        }
+    </div>
 
-        .info-empresa {
-            margin-top: 55px;
-            font-size: 16px;
-            line-height: 16px;
-            color: #003a7d;
-        }
+    <br><br>
 
-        .contenedor-derecha {
-            position: absolute;
-            right: 20px;
-            top: 65px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: flex-end;
-        }
+    <div style="display:flex; justify-content:space-between; margin-top:-20px;">
+        <div>_________________________<br>RECIBÍ (NOMBRE Y FIRMA)</div>
+        <div>_________________________<br>SELLO DE CAJA  AMAIT</div>
+    </div>
+</div>
 
-        .fila-dato {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+</div>
 
-        .label-der {
-            font-weight: bold;
-            font-size: 14px;
-            color: #003a7d;
-        }
 
-        .caja-der {
-            border: 2px solid #003a7d;
-            padding: 6px 12px;
-            font-size: 22px;
-            font-weight: bold;
-            min-width: 160px;
-            text-align: center;
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        .cuadro {
-            border: 2px solid #003a7d;
-            border-radius: 12px;
-            padding: 12px;
-        }
 
-        .info-fila {
-            flex: 1;
-        }
-
-        .info-fila div {
-            margin-bottom: 5px;
-        }
-
-        .info-fila b {
-            display: inline-block;
-            width: 180px;
-        }
-    </style>
-
-    <!-- LIBRERÍAS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-   
 <script>
-// ============================================
-// CONSULTAR GOOGLE SHEETS - CON TUS COLUMNAS
-// ============================================
-async function obtenerRecibosCompletosDeSheets(idInicio, idFin) {
-    // URL de tu Apps Script (reemplaza con la tuya)
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwEyEBSkEIBFxtpDKMnUAC3Nv5Ys8qf3VHAZQ7WK6zpBgI-y6YXHpWkwP4-m07pgl0TIg/exec";
-    
-    const payload = {
-        action: "obtenerRecibosPorRango",
-        idInicio: idInicio,
-        idFin: idFin
-    };
-    
+
+    document.getElementById("usarParentesis").addEventListener("change", function () {
+    document.getElementById("bloqueParentesis").style.display =
+        this.checked ? "block" : "none";
+});
+
+
+async function obtenerFolioDesdeSheets() {
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbx6ipuEWdp04-8tSp_ayZ-kp1jokq6IjdmAN9JGE61a7LnkIDKXVHtrjpFCI6RqeohVnA/exec";
+
     try {
-        console.log("Consultando Sheets para folios:", idInicio, "a", idFin);
-        
-        // Usando POST con modo 'no-cors' para evitar problemas
-        const response = await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // Cambia a 'cors' si configuras CORS en Apps Script
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-        
-        // NOTA: Con 'no-cors' no podemos leer la respuesta directamente
-        // Para desarrollo, usar datos de ejemplo
-        
-        return generarDatosEjemploDesdeTusColumnas(idInicio, idFin);
-        
-    } catch (error) {
-        console.warn('Error al conectar con Sheets, usando datos de ejemplo:', error);
-        return generarDatosEjemploDesdeTusColumnas(idInicio, idFin);
+        const res = await fetch(URL_APPS_SCRIPT);
+        const data = await res.json();
+
+        folioBase = Number(data.folio);
+        console.log("Folio inicial desde Sheets:", folioBase);
+
+    } catch (err) {
+        console.error("No se pudo obtener el folio, usando 1", err);
+        folioBase = 1;
     }
 }
 
-// ============================================
-// GENERAR DATOS DE EJEMPLO BASADOS EN TUS COLUMNAS
-// ============================================
-function generarDatosEjemploDesdeTusColumnas(idInicio, idFin) {
-    const recibos = [];
-    const hoy = new Date();
-    const fechaHoy = hoy.toISOString().split('T')[0];
-    
-    // Ejemplo de cómo se verían tus datos
-    const datosEjemplo = [
-        {
-            FOLIO: "00001",
-            FECHA: "2024-01-15",
-            EMISOR: "JUAN PEREZ HERNANDEZ",
-            VALOR: 1500.50,
-            CONCEPTO: "UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-00001 (1 DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)",
-            PLACAS: "ABC-123"
-        },
-        {
-            FOLIO: "00002", 
-            FECHA: "2024-01-16",
-            EMISOR: "MARIA GARCIA LOPEZ",
-            VALOR: 1800.00,
-            CONCEPTO: "UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-00002 (2 DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)",
-            PLACAS: "DEF-456"
-        },
-        {
-            FOLIO: "00003",
-            FECHA: "2024-01-17",
-            EMISOR: "CARLOS RAMIREZ SANCHEZ",
-            VALOR: 1200.75,
-            CONCEPTO: "UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-00003 (3 DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)",
-            PLACAS: "GHI-789"
+
+
+// ----------------- CONVERSOR NÚMERO -> LETRAS (ESPAÑOL) -----------------
+function numeroALetras(numero) {
+    if (numero === "" || numero === null || typeof numero === "undefined") return "";
+    numero = Number(String(numero).replace(/,/g, ''));
+    if (isNaN(numero)) return "";
+
+    if (numero === 0) return "CERO PESOS 00/100 M.N.";
+
+    const unidades = ["", "UN", "DOS", "TRES", "CUATRO", "CINCO", "SEIS", "SIETE", "OCHO", "NUEVE"];
+    const especiales = ["DIEZ", "ONCE", "DOCE", "TRECE", "CATORCE", "QUINCE", "DIECISEIS", "DIECISIETE", "DIECIOCHO", "DIECINUEVE"];
+    const decenas = ["", "", "VEINTE", "TREINTA", "CUARENTA", "CINCUENTA", "SESENTA", "SETENTA", "OCHENTA", "NOVENTA"];
+    const centenas = ["", "CIENTO", "DOSCIENTOS", "TRESCIENTOS", "CUATROCIENTOS", "QUINIENTOS", "SEISCIENTOS", "SETECIENTOS", "OCHOCIENTOS", "NOVECIENTOS"];
+
+    function convertirGrupo(n) {
+        let out = "";
+        n = Number(n);
+        if (n === 0) return "";
+        if (n === 100) return "CIEN";
+
+        if (n >= 100) {
+            const c = Math.floor(n / 100);
+            out += centenas[c] + (n % 100 === 0 ? "" : " ");
+            n = n % 100;
         }
-    ];
-    
-    // Filtrar por rango y convertir al formato del recibo
-    for (let id = idInicio; id <= idFin; id++) {
-        const folio = String(id).padStart(5, '0');
-        const datoEjemplo = datosEjemplo.find(d => parseInt(d.FOLIO) === id) || {};
-        
-        recibos.push({
-            folio: folio,
-            fecha: datoEjemplo.FECHA || fechaHoy,
-            reciboDe: datoEjemplo.EMISOR || `CLIENTE ${folio}`,
-            monto: datoEjemplo.VALOR || 1500.00,
-            concepto: datoEjemplo.CONCEPTO || `UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-${folio} (${id} DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO 2024 DE 100)`,
-            operador: extraerOperador(datoEjemplo.EMISOR) || "OPERADOR",
-            placas: datoEjemplo.PLACAS || `PLA-${String(id).padStart(3, '0')}`,
-            acceso: `${fechaHoy}T08:00`
-        });
+
+        if (n >= 10 && n <= 19) {
+            out += especiales[n - 10];
+            return out;
+        }
+
+        if (n >= 20 && n <= 29) {
+            // 21 -> VEINTIUNO (sin espacio)
+            if (n === 20) return out + "VEINTE";
+            return out + "VEINTI" + unidades[n - 20];
+        }
+
+        if (n >= 30) {
+            const d = Math.floor(n / 10);
+            out += decenas[d];
+            if (n % 10 !== 0) out += " Y " + unidades[n % 10];
+            return out;
+        }
+
+        if (n > 0 && n < 10) {
+            out += unidades[n];
+            return out;
+        }
+
+        return out;
     }
-    
-    return recibos;
+
+    function seccion(numero, divisor, sufijo) {
+        const cientos = Math.floor(numero / divisor);
+        const resto = numero - (cientos * divisor);
+        let letras = "";
+        if (cientos > 0) {
+            if (cientos === 1 && divisor === 1000) letras = "MIL";
+            else if (cientos === 1 && divisor === 1000000) letras = "UN MILLÓN";
+            else letras = convertirGrupo(cientos) + " " + sufijo;
+        }
+        return { letras, resto };
+    }
+
+    const entero = Math.floor(Math.abs(numero));
+    const decimales = Math.round((Math.abs(numero) - entero) * 100);
+
+    let resultado = "";
+
+    // millones
+    if (entero >= 1000000) {
+        const millones = Math.floor(entero / 1000000);
+        const restoMillones = entero - millones * 1000000;
+        if (millones === 1) resultado += "UN MILLÓN";
+        else resultado += convertirGrupo(Math.floor(millones / 1000)) !== "" && millones >= 1000
+            ? convertirGrupo(Math.floor(millones / 1000)) + " MIL " + convertirGrupo(millones % 1000)
+            : convertirGrupo(Math.floor(millones / 1000)) + (millones % 1000 ? " " + convertirGrupo(millones % 1000) : "");
+        // Simplify: we'll just use a reliable split below instead of overcomplicating
+    }
+
+    // We'll build more robustly by splitting in groups: millones / miles / cientos
+    function convertirNumeroCompleto(n) {
+        if (n === 0) return "CERO";
+        let s = "";
+        const millones = Math.floor(n / 1000000);
+        const miles = Math.floor((n % 1000000) / 1000);
+        const cientosRem = n % 1000;
+
+        if (millones > 0) {
+            if (millones === 1) s += "UN MILLÓN";
+            else s += convertirGrupo(millones) + " MILLONES";
+        }
+
+        if (miles > 0) {
+            if (s !== "") s += " ";
+            if (miles === 1) s += "MIL";
+            else s += convertirGrupo(miles) + " MIL";
+        }
+
+        if (cientosRem > 0) {
+            if (s !== "") s += " ";
+            s += convertirGrupo(cientosRem);
+        }
+
+        return s;
+    }
+
+    const letrasEntero = convertirNumeroCompleto(entero);
+
+    // Decide singular/plural PESO/PESOS
+    const moneda = entero === 1 ? "PESO" : "PESOS";
+
+    // Formato de centavos "00/100 M.N."
+    const centStr = (decimales < 10 ? "0" + decimales : decimales) + "/100 M.N.";
+
+    // Resultado final en mayúsculas
+    return letrasEntero + " " + moneda + " " + centStr;
 }
 
-function extraerOperador(nombreCompleto) {
-    if (!nombreCompleto) return "OPERADOR";
-    // Tomar el primer nombre como operador
-    const partes = nombreCompleto.split(' ');
-    return partes[0] || "OPERADOR";
+// ----------------- ACTUALIZAR TEXTAREA EN TIEMPO REAL -----------------
+const montoInput = document.getElementById("monto");
+const cantidadLetraEl = document.getElementById("cantidadLetra");
+const reciboDiv = document.getElementById("recibo");
+
+montoInput.addEventListener("input", function () {
+    const val = this.value;
+    // Si el campo es vacío, dejamos vacío el textarea
+    if (val === "" || val === null) {
+        cantidadLetraEl.value = "";
+    } else {
+        cantidadLetraEl.value = numeroALetras(val);
+    }
+    // Si el recibo ya está visible, también actualizamos el campo dentro del recibo
+    const rCantidad = document.getElementById("r-cantidadLetra");
+    if (rCantidad) rCantidad.innerText = cantidadLetraEl.value;
+});
+
+// ----------------- RELLENAR RECIBO (YA EXISTENTE) -----------------
+// =======================
+// LLENAR RECIBO
+// =======================
+function llenarRecibo(folioActual){
+    const recibo = document.getElementById("recibo");
+    recibo.style.display = "block";
+
+    const montoRaw = document.getElementById("monto").value;
+    const monto = montoRaw !== "" ? parseFloat(montoRaw).toFixed(2) : "0.00";
+
+    document.getElementById("r-folio").innerText = generarFolio(folioActual);
+document.getElementById("r-monto").innerText = formatearMoneda(monto);
+document.getElementById("r-monto2").innerText = formatearMoneda(monto);
+
+
+    document.getElementById("r-reciboDe").innerText =
+        document.getElementById("reciboDe").value || "";
+
+    document.getElementById("r-cantidadLetra").innerText =
+        document.getElementById("cantidadLetra").value;
+
+        document.getElementById("r-concepto").innerText = generarConcepto();
+
+
+    document.getElementById("r-fecha").innerText =
+        document.getElementById("fecha").value;
+
+    document.getElementById("r-operador").innerText =
+        document.getElementById("operador").value;
+
+    document.getElementById("r-placas").innerText =
+        document.getElementById("placas").value;
+
+    const fechaAcceso = document.getElementById("fechaAcceso").value;
+const horaAcceso  = document.getElementById("horaAcceso").value;
+
+document.getElementById("r-acceso").innerText =
+    fechaAcceso && horaAcceso
+      ? `${fechaAcceso} ${horaAcceso}`
+      : "";
+
 }
+
+
+function generarConcepto() {
+    const folio = document.getElementById("conceptoFolio").value || "______";
+    const numero = document.getElementById("conceptoNumero").value || "__";
+    const anio = document.getElementById("conceptoAnio").value || "20__";
+    const total = document.getElementById("conceptoTotal").value || "__";
+
+    const usarParentesis = document.getElementById("usarParentesis").checked;
+
+    let concepto = `UN DERECHO DE ACCESO ESPORADICO/ZONA AMAIT F-${folio}`;
+
+    // 👉 SOLO si el usuario lo autoriza
+    if (usarParentesis) {
+        concepto += ` (${numero} DE UN ACUMULADO EN FOLIOS DURANTE EL AÑO ${anio} DE ${total})`;
+    }
+
+    return concepto;
+}
+
+
+// =======================
+// CONFIGURACIÓN DE FOLIO
+// =======================
+let folioBase = 1; // ← aquí decides desde qué folio empieza
+
+function generarFolio(numero) {
+    return String(numero).padStart(5, "0");
+}
+
+// =======================
+// GENERAR + DESCARGAR PDF (UN SOLO BOTÓN)
+// =======================
+async function generarYDescargar() {
+
+    // 🔔 PREGUNTAR CANTIDAD ANTES DE CARGAR
+    const { value: cantidad } = await Swal.fire({
+        title: "Generar recibos",
+        text: "¿Cuántos recibos desea generar?",
+        input: "number",
+        inputValue: 1,
+        inputAttributes: {
+            min: 1
+        },
+        showCancelButton: true,
+        confirmButtonText: "Generar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!cantidad || cantidad <= 0) return;
+
+    // 🔄 MOSTRAR LOADING
+    Swal.fire({
+        title: "Generando comprobantes",
+        text: "Por favor espere…",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    try {
+        await obtenerFolioDesdeSheets();
+        await generarPDFMultiple(parseInt(cantidad));
+
+        // ✅ ÉXITO
+        Swal.fire({
+            icon: "success",
+            title: "¡Listo!",
+            text: "Los recibos se generaron correctamente",
+            confirmButtonText: "Aceptar"
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        // ❌ ERROR
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un problema al generar los recibos"
+        });
+    }
+}
+
+async function generarPDFUno() {
+  const { jsPDF } = window.jspdf;
+  const recibo = document.getElementById("recibo");
+
+  llenarRecibo(document.getElementById("conceptoFolio").value);
+
+  await new Promise(r => setTimeout(r, 200));
+
+  const canvas = await html2canvas(recibo, { scale: 2 });
+  const img = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF("portrait", "pt", "letter");
+  pdf.addImage(img, "PNG", 20, 30, 575, 280);
+
+  pdf.save(`recibo_${document.getElementById("conceptoFolio").value}.pdf`);
+}
+
+
+function normalizarFecha(valor) {
+  if (!valor) return "";
+  return new Date(valor.replace("T", " "));
+}
+
+function formatearMoneda(valor) {
+    const numero = Number(valor);
+    if (isNaN(numero)) return "$ 0.00";
+
+    return "$ " + numero.toLocaleString("es-MX", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+async function buscarPorFolio() {
+  const folio = document.getElementById("folioBuscar").value.trim();
+  if (!folio) {
+    alert("Ingresa un folio");
+    return;
+  }
+
+  const URL = "https://script.google.com/macros/s/AKfycbxXkOtvOQKdHGpWyzOOrtZr6UE4HHpknJ9sLqtRYIDEKY2AahPrWdlNt8ztlc8cmVi5hg/exec?folio=" + folio;
+
+  try {
+    const res = await fetch(URL);
+    const data = await res.json();
+
+    // ✅ VALIDACIÓN REAL
+    if (!data || !data.folio) {
+      alert("Folio no encontrado");
+      return;
+    }
+
+    // 🔥 LLENAR INPUTS
+    document.getElementById("monto").value = data.valor;
+    document.getElementById("reciboDe").value = data.emisor;
+    document.getElementById("cantidadLetra").value = numeroALetras(data.valor);
+
+    document.getElementById("conceptoFolio").value = data.folio;
+
+    document.getElementById("fecha").value = data.fecha;
+    document.getElementById("operador").value = data.operador;
+    document.getElementById("placas").value = data.placas;
+
+    document.getElementById("fechaAcceso").value = data.fechaAcceso;
+    document.getElementById("horaAcceso").value = data.horaAcceso;
+
+    alert("Recibo cargado ✔️");
+
+  } catch (err) {
+    console.error(err);
+    alert("Error al consultar folio");
+  }
+}
+
+
 </script>
+
 </body>
 </html>
