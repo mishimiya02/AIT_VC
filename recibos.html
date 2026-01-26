@@ -118,8 +118,12 @@
     <label for="placas">Placas</label>
     <input id="placas" type="text">
 
-    <label for="acceso" >Fecha y hora de acceso</label>
-    <input id="acceso" type="datetime-local">
+    <label for="fechaAcceso">Fecha de acceso</label>
+<input id="fechaAcceso" type="date">
+
+<label for="horaAcceso">Hora de acceso</label>
+<input id="horaAcceso" type="time" step="1">
+
 
     <button onclick="window.open('https://docs.google.com/spreadsheets/d/11vu6KjK37t8RudruVjdKHqowZ4K-67jr74mKH5Y58AI/edit', '_blank')">Abrir Google Sheets</button>
 
@@ -425,8 +429,14 @@ document.getElementById("r-monto2").innerText = formatearMoneda(monto);
     document.getElementById("r-placas").innerText =
         document.getElementById("placas").value;
 
-    document.getElementById("r-acceso").innerText =
-        document.getElementById("acceso").value;
+    const fechaAcceso = document.getElementById("fechaAcceso").value;
+const horaAcceso  = document.getElementById("horaAcceso").value;
+
+document.getElementById("r-acceso").innerText =
+    fechaAcceso && horaAcceso
+      ? `${fechaAcceso} ${horaAcceso}`
+      : "";
+
 }
 
 
@@ -582,16 +592,21 @@ async function generarPDFMultiple(cantidadRecibos) {
         pdf.setLineWidth(1);
         pdf.setLineDash([5, 5]);
         pdf.line(20, 396, 595, 396);
-       guardarReciboSheets({
+
+        guardarReciboSheets({
   folio: generarFolio(folioActual),
   fecha: normalizarFecha(document.getElementById("fecha").value),
   emisor: document.getElementById("reciboDe").value,
   valor: document.getElementById("monto").value,
   concepto: generarConcepto(),
-  acceso: normalizarFecha(document.getElementById("acceso").value),
+
+  fechaAcceso: document.getElementById("fechaAcceso").value,
+  horaAcceso: document.getElementById("horaAcceso").value,
+
   placas: document.getElementById("placas").value,
   operador: document.getElementById("operador").value
 });
+
 
 
         folioActual++;
@@ -606,7 +621,7 @@ function normalizarFecha(valor) {
 }
 
 async function guardarReciboSheets(data) {
-    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbxraaSH1Km2WYG6Xv8oiDLy-xiL63ZgGDCvFe_naro6xHhRnHx2UArKwhW7iGrpnwN9qg/exec";
+    const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzMa_YVNdeXfTYhqBAm7z1EYyZebhy80LGrrUrMQw_STNBT294bOOrHgYN62btqpUzMjA/exec";
 
     try {
         const response = await fetch(URL_APPS_SCRIPT, {
