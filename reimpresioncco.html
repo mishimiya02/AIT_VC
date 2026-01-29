@@ -1,59 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Consulta por Folio</title>
-  <style>
-    body { font-family: Arial; background:#f4f6f8; }
-    .card { background:#fff; padding:20px; max-width:500px; margin:auto; border-radius:12px; }
-    label { font-weight:bold; display:block; margin-top:10px; }
-    input { width:100%; padding:8px; margin-top:5px; }
-    button { margin-top:15px; padding:10px; width:100%; }
-  </style>
-</head>
+<meta charset="UTF-8">
+<title>Generar Recibo</title>
+
 <body>
+    <div class="form-card">
+<label for="folioBuscar">Folio</label>
+<input id="folioBuscar" type="text">
 
-<div class="card">
-  <h2>Buscar por folio</h2>
+<button onclick="buscarPorFolio()">Buscar</button>
 
-  <label>Folio</label>
-  <input id="folio" placeholder="Ej. 00012">
+<label for="fecha">Fecha</label>
+<input id="fecha" type="text">
 
-  <button onclick="buscar()">Buscar</button>
+<label for="emisor">Emisor</label>
+<input id="emisor" type="text">
 
-  <label>Fecha</label>
-  <input id="fecha">
+<label for="valor">Valor</label>
+<input id="valor" type="text">
 
-  <label>Emisor</label>
-  <input id="emisor">
+<label for="concepto">Concepto</label>
+<input id="concepto" type="text">
 
-  <label>Valor</label>
-  <input id="valor">
+<label for="placas">Placas</label>
+<input id="placas" type="text">
 
-  <label>Concepto</label>
-  <input id="concepto">
+<label for="operador">Operador</label>
+<input id="operador" type="text">
 
-  <label>Placas</label>
-  <input id="placas">
+<label for="fechaAcceso">Fecha acceso</label>
+<input id="fechaAcceso" type="text">
+    </div>
 
-  <label>Operador</label>
-  <input id="operador">
-
-  <label>Fecha acceso</label>
-  <input id="fechaAcceso">
-
-  <label> Fecha y Hora acceso</label>
-  <input id="horaAcceso">
-</div>
 
 <script>
-const URL = "https://script.google.com/macros/s/AKfycbyblEZun4EUftrzo-Nf4zySCsIfAu1MqYZGsIf7dOfG5llpFI_Es6P2L8WZ9dSGt-tnDg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwLRmVdVjdRE7R9yneKltho-nq12M8hTx1xBttT1N88EOdnRTrAHgqdQeVJA_hiruuVaQ/exec";
+function buscarPorFolio() {
+  const folio = document.getElementById("folioBuscar").value;
+  if (!folio) return alert("Ingresa un folio");
 
-function buscar() {
-  const folio = document.getElementById("folio").value;
-
-  fetch(`${URL}?folio=${encodeURIComponent(folio)}`)
-    .then(res => res.json())
+  fetch(`${WEB_APP_URL}?folio=${folio}`)
+    .then(r => r.json())
     .then(res => {
       if (!res.ok) {
         alert(res.error);
@@ -61,21 +49,19 @@ function buscar() {
       }
 
       const d = res.data;
-      fecha.value = d.fecha;
-      emisor.value = d.emisor;
-      valor.value = d.valor;
-      concepto.value = d.concepto;
-      placas.value = d.placas;
-      operador.value = d.operador;
-      fechaAcceso.value = d.fechaAcceso;
-      horaAcceso.value = d.horaAcceso;
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Error de conexión");
+
+      fecha.value = d.fecha || "";
+      emisor.value = d.emisor || "";
+      valor.value = d.valor || "";
+      concepto.value = d.concepto || "";
+      placas.value = d.placas || "";
+      operador.value = d.operador || "";
+      fechaAcceso.value = d.fechaAcceso || "";
     });
 }
+
 </script>
+
 
 </body>
 </html>
