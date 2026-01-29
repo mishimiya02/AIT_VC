@@ -239,6 +239,16 @@ function llenarRecibo(folioActual) {
   const recibo = document.getElementById("recibo");
   recibo.style.display = "block";
 
+// ================== MONTO ==================
+const valor = document.getElementById("valor")?.value || "";
+
+document.getElementById("r-monto").innerText =
+  valor ? `$ ${valor}` : "";
+
+document.getElementById("r-monto2").innerText =
+  valor ? `$ ${valor}` : "";
+
+
   // TODO ES TEXTO, VIENE DEL FORMULARIO
   document.getElementById("r-folio").innerText =
   document.getElementById("folioBuscar").value || "";
