@@ -247,7 +247,8 @@ document.getElementById("r-monto").innerText =
 
 document.getElementById("r-monto2").innerText =
   valor ? `$ ${valor}` : "";
-
+  
+document.getElementById("r-cantidadLetra").innerText = numeroALetras(valor);
 
   // TODO ES TEXTO, VIENE DEL FORMULARIO
   document.getElementById("r-folio").innerText =
