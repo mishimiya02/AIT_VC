@@ -8,11 +8,8 @@
 
 <script src="java/avion-loading.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-<script src="java/theme-switcherrecibos.js"></script>
-<link rel="stylesheet" href="css/recibos.css">
-<link id="theme-style" rel="stylesheet" href="css/recibos.css">
+<link rel="stylesheet" href="css/reimprecion.css">
+<link id="theme-style" rel="stylesheet" href="css/reimprecion.css">
 
 
  <script>
@@ -68,10 +65,7 @@
         </div>
 
         <a href='/index.html'>CDB</a>
-       
-       <button id="theme-toggle" style="font-weight: bold; font-size: 22px;">
-🌙 Nocturno
-</button>
+   
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
     </nav>
@@ -406,8 +400,6 @@ async function generarPDF() {
   const { jsPDF } = window.jspdf;
 
   const recibo = document.getElementById("recibo");
-
-  // asegurar que esté visible
   recibo.style.display = "block";
 
   const canvas = await html2canvas(recibo, {
@@ -422,15 +414,20 @@ async function generarPDF() {
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
 
+  // 👉 USAR SOLO LA MITAD SUPERIOR
   const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  const imgHeight = pageHeight / 2;
 
-  let y = 0;
-  if (imgHeight < pageHeight) {
-    y = (pageHeight - imgHeight) / 2;
-  }
-
-  pdf.addImage(imgData, "PNG", 0, y, imgWidth, imgHeight);
+  pdf.addImage(
+    imgData,
+    "PNG",
+    0,
+    0,
+    imgWidth,
+    imgHeight,
+    undefined,
+    "FAST"
+  );
 
   pdf.save("recibo.pdf");
 }
