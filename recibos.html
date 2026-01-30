@@ -596,7 +596,8 @@ async function generarPDFMultiple(cantidadRecibos) {
 
         guardarReciboSheets({
   folio: generarFolio(folioActual),
-  fecha: normalizarFecha(document.getElementById("fecha").value),
+  fecha: formatearFechaMX(document.getElementById("fecha").value),
+
   emisor: document.getElementById("reciboDe").value,
   valor: document.getElementById("monto").value,
   concepto: generarConcepto(),
@@ -616,9 +617,12 @@ async function generarPDFMultiple(cantidadRecibos) {
     pdf.save(`recibos_${cantidadRecibos}.pdf`);
 }
 
-function normalizarFecha(valor) {
+
+
+function formatearFechaMX(valor) {
   if (!valor) return "";
-  return new Date(valor.replace("T", " "));
+  const [y, m, d] = valor.split("-");
+  return `${d}/${m}/${y}`;
 }
 
 async function guardarReciboSheets(data) {
