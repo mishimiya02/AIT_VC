@@ -78,7 +78,8 @@
 <label for="folioBuscar">Folio</label>
 <input id="folioBuscar" type="text">
 
-<button onclick="buscarPorFolio()">Buscar</button>
+<br><br>
+<button id="btnBuscar" class="btn-buscar" onclick="buscarPorFolio()"> Buscar</button>
 
 <label for="fecha">Fecha</label>
 <input id="fecha" type="text">
@@ -216,6 +217,81 @@ function buscarPorFolio() {
   const folio = document.getElementById("folioBuscar").value;
   if (!folio) return alert("Ingresa un folio");
 
+  
+
+
+
+
+
+
+  // 1️⃣ Validación primero
+  if (!folio) {
+    Swal.fire({
+      icon: "warning",
+      text: "Ingresa un folio"
+    });
+    return;
+  }
+
+  // 2️⃣ DESPUÉS el loading
+  Swal.fire({
+    title: "Buscando recibo",
+    text: "Por favor espera…",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  // 3️⃣ Luego el fetch
+  fetch(`${WEB_APP_URL}?folio=${folio}`)
+    .then(r => r.json())
+    .then(res => {
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          text: res.error
+        });
+        return;
+      }
+
+      const d = res.data;
+      fecha.value = d.fecha || "";
+      emisor.value = d.emisor || "";
+      valor.value = d.valor || "";
+      concepto.value = d.concepto || "";
+      placas.value = d.placas || "";
+      operador.value = d.operador || "";
+      fechaAcceso.value = d.fechaAcceso || "";
+
+      // 4️⃣ Cerrar loading cuando TODO salió bien
+      Swal.close();
+    })
+    .catch(err => {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo consultar el folio"
+      });
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   fetch(`${WEB_APP_URL}?folio=${folio}`)
     .then(r => r.json())
     .then(res => {
@@ -234,7 +310,7 @@ function buscarPorFolio() {
       operador.value = d.operador || "";
       fechaAcceso.value = d.fechaAcceso || "";
     });
-}
+
 
 function llenarRecibo(folioActual) {
 

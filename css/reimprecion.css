@@ -466,3 +466,37 @@ body {
   display: none;            /* solo para reimpresión */
   pointer-events: none;
 }
+
+.btn-buscar {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(79, 70, 229, 0.25);
+  transition: all 0.25s ease;
+
+    display: block;
+  margin: 12px auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-buscar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.35);
+}
+
+.btn-buscar:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+}
+
+.btn-buscar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
