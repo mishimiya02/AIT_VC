@@ -454,3 +454,15 @@ body {
     display: none;
     font-weight: bold;
 }
+#marcaReimpresion {
+  position: absolute;
+  left: -462px;               /* lado izquierdo */
+  top: 95px;                /* ajusta según tus leyendas */
+  font-size: 9px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.35);
+  letter-spacing: 1px;
+  transform: rotate(0deg);
+  display: none;            /* solo para reimpresión */
+  pointer-events: none;
+}

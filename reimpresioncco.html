@@ -141,6 +141,7 @@
             <div id="leyenda2" class="leyenda" class="leyenda", style="color: red; font-weight: bold">COPIA SEGURIDAD AMAIT</div>
 
     </div>
+<div id="marcaReimpresion">R</div>
 
 </div>
 
@@ -420,6 +421,10 @@ async function generarPDF() {
   const x = 10;
   const imgWidth = pageWidth - 20;
 
+  document.getElementById("marcaReimpresion").style.display = "block";
+
+
+
   // ==========================
   // COPIA CCO (ARRIBA)
   // ==========================
@@ -465,7 +470,8 @@ async function generarPDF() {
   pdf.setLineDash([4, 4]);
   pdf.line(10, y2 - 8, pageWidth - 10, y2 - 8);
 
-  pdf.save("recibo_reimpresion.pdf");
+  pdf.save("recibo.pdf");
+    document.getElementById("marcaReimpresion").style.display = "none";
 }
 
 
