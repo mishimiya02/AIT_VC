@@ -168,10 +168,10 @@
 </button>
 
 <button onclick="generarTodo()">Generar y descargar PDF</button>
-<button type="button" class="btn-limpiar"
-  onclick="limpiarFormulario(true, 'Formulario vaciado')">
-  Vaciar formulario
+<button type="button" class="btn btn-secondary" onclick="limpiarTodo()">
+  Vaciar campos
 </button>
+
 
 
 
@@ -336,7 +336,7 @@ function limpiarFormulario(mostrarToast = false, mensaje) {
   if (btnPDF) btnPDF.disabled = true;
 
   if (mostrarToast) {
-    toast(mensaje || "Formulario limpiado");
+    toast(mensaje || "Formulario vacío");
   }
 }
 
@@ -621,6 +621,10 @@ Swal.fire({
   }, 300);
 }
 
+function limpiarTodo() {
+  document.getElementById("empleado").value = "";
+  limpiarFormulario(true);
+}
 
 function buscarEmpleado() {
   limpiarFormulario(true, "Formulario limpiado para nueva búsqueda");
