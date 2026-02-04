@@ -419,7 +419,8 @@ function crearFechas() {
 
     div.innerHTML = `
       <label>Fecha día ${i}</label>
-      <input type="date" class="fecha-vacacion" onchange="llenarTabla()">
+      <input type="date" class="fecha-vacacion" onchange="validarFechasRepetidas(this)">
+
     `;
 
     contenedor.appendChild(div);
@@ -542,6 +543,36 @@ function validarAntesDeImprimir() {
 
 
 
+function validarFechasRepetidas(inputActual) {
+  const fechas = document.querySelectorAll(".fecha-vacacion");
+  const valorActual = inputActual.value;
+
+  if (!valorActual) return;
+
+  let repetida = false;
+
+  fechas.forEach(input => {
+    if (input !== inputActual && input.value === valorActual) {
+      repetida = true;
+    }
+  });
+
+  if (repetida) {
+    Swal.fire({
+      icon: "warning",
+      title: "Fecha repetida",
+      text: "No puedes seleccionar el mismo día más de una vez.",
+      timer: 2000,
+      showConfirmButton: false
+    });
+
+    inputActual.value = ""; // 👈 se limpia solo el duplicado
+    return;
+  }
+
+  // Si todo está bien, actualiza la tabla
+  llenarTabla();
+}
 
 
 
