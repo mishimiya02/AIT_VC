@@ -660,3 +660,10 @@ body.dark .campo-textarea label {
 .btn-buscar:hover{
     background: #1e40af;
 }
+
+
+
+.leyenda-dias {
+  margin-bottom: 10px;
+  font-weight: normal;
+}

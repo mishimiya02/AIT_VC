@@ -238,6 +238,12 @@
         </div>
     </div>
 
+
+    <div class="leyenda-dias">
+  <strong>Días disponibles antes de vacaciones:</strong>
+  <span id="rDiasDisponibles">0</span>
+</div>
+
     <div class="titulo">FECHAS Y PERIODO A DISFRUTAR</div>
 
 <table id="tablaFechas">
@@ -360,6 +366,7 @@ function limpiarFormulario(mostrarToast = false, mensaje) {
     document.getElementById("rArea").textContent = area.value;
     document.getElementById("rPuesto").textContent = puesto.value;
     document.getElementById("rIngreso").textContent = ingreso.value;
+     document.getElementById("rDiasDisponibles").textContent =isNaN(diasOriginales) ? "0" : diasOriginales;
 
     document.getElementById("rObservaciones").textContent =
         document.getElementById("observaciones").value;
