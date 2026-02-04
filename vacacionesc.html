@@ -146,22 +146,22 @@
 
 <div class="campo-form">
     <label for="firmaSolicitante">Nombre del solicitante</label>
-    <input id="firmaSolicitante" type="text" placeholder="Ej. Juan Pérez">
+    <input id="firmaSolicitante" type="text" placeholder="Solicitante:">
 </div>
 
 <div class="campo-form">
     <label for="firmaAutoriza">Nombre de quien autoriza</label>
-    <input id="firmaAutoriza" type="text" placeholder="Ej. María López">
+    <input id="firmaAutoriza" type="text" placeholder="Autoriza:">
 </div>
 
 <div class="campo-form">
     <label for="firmaJefe">Vo.Bo.R.H.</label>
-    <input id="firmaJefe" type="text" placeholder="Vo.Bo.R.H.">
+    <input id="firmaJefe" type="text" placeholder="Vo.Bo.R.H." value="VILLAGRAN GUTIERREZ RUBEN">
 </div>
 
 <div class="campo-form">
     <label for="firmaRH">Vo.Bo.R.H.</label>
-    <input id="firmaRH" type="text" placeholder="Vo.Bo.R.H.">
+    <input id="firmaRH" type="text" placeholder="Vo.Bo.R.H." value="OSWALDO RODRIGUEZ ORTEGA">
 </div>
 <button type="button" onclick="guardarVacaciones()">
   Guardar vacaciones
@@ -307,6 +307,13 @@ function toast(msg, icon = "info") {
     timerProgressBar: true
   });
 }
+
+
+const firmasPorDefecto = {
+
+  jefe: "VILLAGRAN GUTIERREZ RUBEN",
+  rh: "RODRIGUEZ ORTEGA OSWALDO"
+};
 function limpiarFormulario(mostrarToast = false, mensaje) {
 
 
@@ -323,9 +330,9 @@ function limpiarFormulario(mostrarToast = false, mensaje) {
   document.getElementById("periodo").value = "";
 
   document.getElementById("observaciones").value = "";
-  document.getElementById("firmaAutoriza").value = "";
-  document.getElementById("firmaJefe").value = "";
-  document.getElementById("firmaRH").value = "";
+  
+  document.getElementById("firmaJefe").value = firmasPorDefecto.jefe;
+  document.getElementById("firmaRH").value = firmasPorDefecto.rh;
 
   diasOriginales = undefined;
 
@@ -339,6 +346,8 @@ function limpiarFormulario(mostrarToast = false, mensaje) {
     toast(mensaje || "Formulario vacío");
   }
 }
+
+
 
 
 
@@ -852,7 +861,10 @@ window.addEventListener("load", () => {
   actualizarFechaSolicitud();
 });
 
-
+ window.addEventListener("load", () => {
+    document.getElementById("firmaJefe").value = firmasPorDefecto.jefe;
+    document.getElementById("firmaRH").value = firmasPorDefecto.rh;
+  });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
