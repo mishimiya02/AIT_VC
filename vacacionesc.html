@@ -290,6 +290,37 @@
 </div>
 </div>
 <script>
+function limpiarFormulario() {
+
+  document.getElementById("nombre").value = "";
+  document.getElementById("firmaSolicitante").value = "";
+  document.getElementById("horario").value = "";
+  document.getElementById("area").value = "";
+  document.getElementById("puesto").value = "";
+  document.getElementById("ingreso").value = "";
+
+  document.getElementById("diasDisp").value = "";
+  document.getElementById("diasDisf").value = "";
+  document.getElementById("diasRest").value = "";
+  document.getElementById("periodo").value = "";
+
+  document.getElementById("observaciones").value = "";
+  document.getElementById("firmaAutoriza").value = "";
+  document.getElementById("firmaJefe").value = "";
+  document.getElementById("firmaRH").value = "";
+
+  diasOriginales = undefined;
+
+  document.getElementById("contenedor-fechas").innerHTML = "";
+  document.querySelector("#tablaFechas tbody").innerHTML = "";
+
+  const btnPDF = document.getElementById("btnPDF");
+  if (btnPDF) btnPDF.disabled = true;
+}
+
+
+
+
     function generar(){
     document.getElementById("rNombre").textContent = nombre.value;
     document.getElementById("rEmpleado").textContent = empleado.value;
@@ -421,19 +452,87 @@ function generarPDF() {
 }
 
 
+
+function validarAntesDeImprimir() {
+  const empleado = document.getElementById("empleado").value.trim();
+  const diasDisf = parseInt(document.getElementById("diasDisf").value) || 0;
+  const fechas = document.querySelectorAll(".fecha-vacacion");
+  const tbody = document.querySelector("#tablaFechas tbody");
+
+  if (!empleado) {
+    Swal.fire("Falta empleado", "Busca un empleado válido antes de imprimir.", "warning");
+    return false;
+  }
+
+  if (isNaN(diasOriginales)) {
+    Swal.fire("Datos incompletos", "Primero busca un empleado válido.", "warning");
+    return false;
+  }
+
+  if (diasDisf <= 0) {
+    Swal.fire("Sin días", "Indica los días a disfrutar.", "warning");
+    return false;
+  }
+
+  if (fechas.length !== diasDisf) {
+    Swal.fire("Fechas incompletas", "Genera nuevamente las fechas.", "warning");
+    return false;
+  }
+
+  for (let f of fechas) {
+    if (!f.value) {
+      Swal.fire("Fechas faltantes", "Todas las fechas deben estar seleccionadas.", "warning");
+      return false;
+    }
+  }
+
+  // 🔥 fuerza llenado limpio
+  tbody.innerHTML = "";
+  llenarTabla();
+
+  if (tbody.children.length === 0) {
+    Swal.fire("Tabla vacía", "No se pudo generar la tabla de fechas.", "error");
+    return false;
+  }
+
+  return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function generarTodo() {
 
-    // 1️⃣ Generar contenido
+    if (!validarAntesDeImprimir()) return;
+
     generar();
     llenarTabla();
 
-    // 2️⃣ Mostrar solo para PDF
     const wrapper = document.querySelector(".pdf-wrapper");
     wrapper.style.display = "block";
 
-    // 3️⃣ Esperar a que el DOM se pinte
     setTimeout(() => {
-
         html2pdf().set({
             filename: 'Solicitud_Vacaciones.pdf',
             margin: [8, 8, 8, 8],
@@ -450,21 +549,15 @@ function generarTodo() {
                 orientation: 'portrait'
             }
         }).from(wrapper.querySelector(".hoja")).save().then(() => {
-
-            // 4️⃣ Volver a ocultar
             wrapper.style.display = "none";
         });
-
-    }, 200); // ← tiempo mínimo necesario
+    }, 200);
 }
 
 
 
-
-
-
-
 function buscarEmpleado() {
+  limpiarFormulario();
     
   const id = document.getElementById("empleado").value.trim();
   if (id === "") {
@@ -499,6 +592,24 @@ function buscarEmpleado() {
           text: "El número de empleado no existe.",
           confirmButtonColor: "#dc2626"
         });
+       
+         // 🔥 LIMPIEZA TOTAL DEL ESTADO
+  diasOriginales = undefined;
+
+  document.getElementById("nombre").value = "";
+  document.getElementById("firmaSolicitante").value = "";
+  document.getElementById("horario").value = "";
+  document.getElementById("area").value = "";
+  document.getElementById("puesto").value = "";
+  document.getElementById("ingreso").value = "";
+
+  document.getElementById("diasDisp").value = "";
+  document.getElementById("diasDisf").value = "";
+  document.getElementById("diasRest").value = "";
+
+  document.getElementById("contenedor-fechas").innerHTML = "";
+  document.querySelector("#tablaFechas tbody").innerHTML = "";
+
         return;
       }
 
