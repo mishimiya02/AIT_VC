@@ -156,15 +156,14 @@
  				background-color: #2f517c;
  				color: white;
  			}
-   
-#theme-toggle {
-   font-weight: bold;
-     font-size: 17px;
-     background-color: #00529e;
-     border: none;
-     cursor: pointer;
-     transition: background-color 0.3s;
-         
+  #theme-toggle {
+        font-weight: bold;
+        font-size: 17px;
+        background-color:  #002ec7;;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
 }
 
 
