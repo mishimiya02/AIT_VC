@@ -13,7 +13,7 @@
 
 
 <script src="java/theme-switchervacaciones.js"></script>
-<link rel="stylesheet" href="css/recibos.css">
+
 <link id="theme-style" rel="stylesheet" href="css/vacaciones.css">
 
 
@@ -168,6 +168,10 @@
 </button>
 
 <button onclick="generarTodo()">Generar y descargar PDF</button>
+<button type="button" class="btn-limpiar"
+  onclick="limpiarFormulario(true, 'Formulario vaciado')">
+  Vaciar formulario
+</button>
 
 
 
@@ -290,9 +294,21 @@
 </div>
 </div>
 <script>
-  let pdfGenerando = false;
 
-function limpiarFormulario() {
+  let pdfGenerando = false;
+function toast(msg, icon = "info") {
+  Swal.fire({
+    toast: true,
+    position: "top-end",
+    icon,
+    title: msg,
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true
+  });
+}
+function limpiarFormulario(mostrarToast = false, mensaje) {
+
 
   document.getElementById("nombre").value = "";
   document.getElementById("firmaSolicitante").value = "";
@@ -318,7 +334,12 @@ function limpiarFormulario() {
 
   const btnPDF = document.getElementById("btnPDF");
   if (btnPDF) btnPDF.disabled = true;
+
+  if (mostrarToast) {
+    toast(mensaje || "Formulario limpiado");
+  }
 }
+
 
 
 
@@ -602,7 +623,8 @@ Swal.fire({
 
 
 function buscarEmpleado() {
-  limpiarFormulario();
+  limpiarFormulario(true, "Formulario limpiado para nueva búsqueda");
+
     
   const id = document.getElementById("empleado").value.trim();
   if (id === "") {
@@ -691,6 +713,22 @@ function buscarEmpleado() {
       });
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function calcularDiasRestantes() {
   const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
   const diasInput = document.getElementById("diasDisf");
