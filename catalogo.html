@@ -6,29 +6,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REGISTRAR CONTRATO</title>
+    <title>Cálculo de Garantía</title>
       <link rel="stylesheet" href="css/catalogo.css" id="theme-style">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="java/avion-loading.js"></script>
 
-<!--<script src="java/theme-switchercedula.js"></script>-->
-  <script>
-        // Mostrar el loader cuando la página comience a cargar
-        document.addEventListener('DOMContentLoaded', function() {
-            AvionLoading.mostrar();
-        });
-
-        // Ocultar el loader cuando todo esté cargado
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                AvionLoading.ocultar();
-            }, 2000); // 2 segundos de demostración
-        });
-
-    
-
-       
-    </script>
 </head>
 <body>
      
@@ -43,46 +24,33 @@
         
         <!-- Dropdown de Servicios -->
         <div class="dropdown">
-            <a  class="dropbtn">REGISTRAR</a>
+            <a  class="dropbtn">Servicios</a>
             <div class="dropdown-content">
-                <a href='/registrar'>REGISTRAR CLIENTE </a>
-                   
-                    <a href='/catalogo'>REGISTRAR CONTRATO</a>
                
+                <a href='https://www.inegi.org.mx/app/indicesdeprecios/calculadorainflacion.aspx' target='_blank'>CALCULADORA DE INFLACIÓN</a>
+                 <a href='/comparacion' target='_blank'>Comparación</a>
+                 <a href='/comprobante'>COMPROBANTES DE DEPOSITOS</a>
+            
+                 <a href='/cedula' target='_blank'>CEDULA DE DETERMINACIÓN</a>
+                   <a href="cancelar.html"target="_blank">CANCELACIÓN DE COMPROBANTES</a>
             </div>
         </div>
         
          <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
             <div class="dropdown">
-                <a class="dropbtn">MODIFICAR</a>
+                <a class="dropbtn">BD CLIENTES</a>
                 <div class="dropdown-content">
-                <a href='/modificar.html'>MODIFICAR POR ID</a>
-                <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
-               
-                           
-                        </div>
-                    </div>
-                  <div class="dropdown">
-                <a class="dropbtn">CONSULTAR</a>
-                <div class="dropdown-content">
-               <a href='/editar'>CONSULTAR CLIENTE</a>
-              <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
-                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
-                        </div>
-                    </div>    
-                    
-                    <a href='contacto.html'>REGISTROS</a>
-                   <button id="theme-toggle">🌙 Modo Nocturno</button>
-
+                    <a href='/registrar'>REGISTRAR CLIENTE </a>
+                    <a href='/editar'>CONSULTAR CLIENTE</a>
+                    <a href='/catalogo'>REGISTRAR CONTRATO</a>
+                     <a href='/modificar'>MODIFICAR CONTRATO</a>
+                     <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                   
                 </div>
-                
             </div>
 
-        
-    <!--    <a href="acerca.html">Acerca de</a>-->
-    </div>
-    </nav>
-
+        <a href='/contacto'>Contacto</a>
+        <button id="theme-toggle">🌙 Modo Nocturno</button>
 
     <!--    <a href="acerca.html">Acerca de</a>-->
     </div>
@@ -477,10 +445,8 @@ function abrirVentanaOCR() {
     <h4>TOTAL:</h4> <div id="total"></div>    
 
 <button id="btnResumen" type="button"> RESUMEN DEL CONTRATO</button>
-			<button type="button" id="btnEnviar">Enviar a Google Sheets</button>
-
 <button id="btnSheets" style="display: none;" onclick="window.open('//docs.google.com/spreadsheets/d/1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk/edit?usp=sharing', '_blank')">
-  Abrir Google Sheets
+  📄🛫 Abrir Google Sheets
 </button>
 
 
@@ -544,7 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
 
 
 
@@ -787,9 +752,8 @@ document.getElementById("btnResumen").addEventListener("click", () => {
     "CONCEPTO": document.getElementById("instrumento").selectedOptions[0].text,
     "UNIDADES/ELEMENTOS/M2": document.getElementById("unidades").value,
      "TA. * UNIDADES/ELEMENTOS/M2": (parseFloat(document.getElementById("tarifa").value) * parseFloat(document.getElementById("unidades").value) || 0).toFixed(2),
-"INICIO VIGENCIA": convertirA_DDMMYYYY(document.getElementById("fecha-inicio").value),
-"FIN VIGENCIA": convertirA_DDMMYYYY(document.getElementById("fecha-fin").value),
-
+    "INICIO VIGENCIA": document.getElementById("fecha-inicio").value,
+    "FIN VIGENCIA": document.getElementById("fecha-fin").value,
      "DÍAS X VENCER": Math.floor(extraerNumero(document.getElementById("porvencer").innerText)),
  "DÍAS VENCIDOS": Math.floor(extraerNumero(document.getElementById("vencidos").innerText)),
   "ESTATUS DE VIGENCIA": extraerTexto(document.getElementById("estatus").innerText),
@@ -993,7 +957,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 <script src="java/enviarcontrato.js"></script>
 <div id="mensaje" style="position: fixed; top: 20px; right: 20px; padding: 15px 25px; border-radius: 8px; display: none; font-weight: bold; color: #fff; z-index: 999;"></div>
 
-<script src="java/theme-switchercatalogo.js"></script>
 
 
 
