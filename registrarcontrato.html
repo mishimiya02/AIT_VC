@@ -15,8 +15,9 @@
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: var(--bg);
-            padding: 20px;
+            padding: 0px;
             color: var(--text);
+            margin:0px;
         }
 
         .container {
@@ -92,9 +93,145 @@
         .btn-submit:hover {
             background: #1a3bc7;
         }
+        
+
+ 			nav {
+ 				background-color: #008d3b;
+        padding-left: 0;
+ 				display: flex;
+ 				justify-content: space-between;
+ 				align-items: stretch;
+ 				position: relative;
+ 				height: 100px; /* altura */
+ 			}
+
+          
+ 
+ 			.menu-center {
+ 				display: flex;
+ 				position: absolute;
+ 				left: 50%;
+ 				transform: translateX(-50%);
+ 				height: 100%;
+ 			}
+ 
+ 			nav a {
+ 				color: white;
+ 				font-weight: bold;
+ 				font-size: 25px;
+ 				padding: 0 25px;
+ 				text-decoration: none;
+ 				font-family: 'Segoe UI', sans-serif;
+ 				letter-spacing: 1px;
+ 				text-transform: uppercase;
+ 				/*display: flex;*/
+ 				align-items: center;
+ 				height: 100%;
+ 				transition: all 0.3s;
+                display: flex;
+ 			}
+ 
+ 			nav a:hover {
+ 				background-color: #68d800;
+ 				color: white;
+ 			}
+ 
+ 			/* Estilos NUEVOS para el dropdown  */
+ 			.dropdown {
+ 				position: relative;
+ 				height: 100%;
+ 				display: flex;
+ 				align-items: center;
+ 			}
+ 
+ 			.dropdown-content {
+ 				display: none;
+ 				position: absolute;
+ 				top: 100%;
+ 				left: 0;
+ 				background-color: white;
+ 				min-width: 200px;
+ 				box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+ 				z-index: 1000;
+ 			}
+ 
+ 			.dropdown-content a {
+ 				padding: 15px 25px;
+ 				color: black;
+ 				font-size: 16px;
+ 				text-transform: uppercase;
+ 				border-bottom: 1px solid #f0f0f0;
+ 			}
+ 
+ 			.dropdown-content a:hover {
+ 				background-color: #6adc35; /* Rojo al hover */
+ 				color: white;
+ 			}
+ 
+ 			.dropdown:hover .dropdown-content {
+ 				display: block;
+ 			}
+ 
+ 			/* Mantener hover azul en el botón principal */
+ 			.dropdown:hover > .dropbtn {
+ 				background-color: #00cf56;
+ 				color: white;
+ 			}
     </style>
 </head>
 <body>
+
+
+    
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">REGISTRAR</a>
+            <div class="dropdown-content">
+                <a href='/registrar'>REGISTRAR CLIENTE </a>
+                   
+                    <a href='/registrarcontrato.html'>REGISTRAR CONTRATO</a>
+               
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos -->
+            <div class="dropdown">
+                <a class="dropbtn">MODIFICAR</a>
+                <div class="dropdown-content">
+                <a href='/modificar.html'>MODIFICAR POR ID</a>
+                <a href='/buscarNC.html'>MODIFICAR POR N. CLIENTE</a>
+               
+                           
+                        </div>
+                    </div>
+                  <div class="dropdown">
+                <a class="dropbtn">CONSULTAR</a>
+                <div class="dropdown-content">
+               <a href='/editar'>CONSULTAR CLIENTE</a>
+              <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
+                        </div>
+                    </div>    
+                    
+                    <a href='contacto.html'>REGISTROS</a>
+                </div>
+                
+            </div>
+
+        
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
+
 
 <div class="container">
     <h2>REGISTRO DE CONTRATO Y FACTURACIÓN</h2>
