@@ -1,53 +1,44 @@
-function validarAcceso(destino) {
-  const pass = document.getElementById("password").value.trim().toUpperCase();
+function validarAcceso(paginaDestino) {
+    // 1. Obtenemos la contraseña y la pasamos a Mayúsculas
+    const passwordInput = document.getElementById('password').value.toUpperCase();
 
-  Swal.fire({
-    title: "Validando contraseña",
-    text: "Por favor espere…",
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    didOpen: () => Swal.showLoading()
-  });
+    // 2. Definimos nuestras llaves (Cámbialas por las que tú quieras)
+    const CLAVE_GLOBAL = "CXC"; // Entra a todo
+    const CLAVES_SECCIONES = {
+        'loginprincipal.html': 'RMV',
+        'cdblogin.html':       'JM',
+        'vacacionesc.html':    'OOR'
+    };
 
-  const url = new URL("https://script.google.com/macros/s/AKfycbw2v_SBVoTadLFwjuZkMkS0gp6a-eux8VnlXSJ9UkLPDoxtdY-J1hCyAPZGe1VQQ415kQ/exec");
-  url.searchParams.append("password", pass);
-  url.searchParams.append("destino", destino);
-
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      Swal.close();
-
-      if (data.ok) {
+    // 3. Validación
+    if (passwordInput === "") {
         Swal.fire({
-          icon: "success",
-          title: "Acceso permitido",
-          text: "Redirigiendo…",
-          timer: 1200,
-          showConfirmButton: false
+            icon: 'warning',
+            title: 'Campo vacío',
+            text: 'Por favor, ingresa una contraseña.'
+        });
+        return;
+    }
+
+    // Verificamos si es la clave maestra O si es la clave de la sección específica
+    if (passwordInput === CLAVE_GLOBAL || passwordInput === CLAVES_SECCIONES[paginaDestino]) {
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Acceso Correcto',
+            text: 'Redirigiendo...',
+            timer: 1500,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = paginaDestino;
         });
 
-        setTimeout(() => {
-          window.location.href = destino;
-        }, 1200);
-
-      } else {
+    } else {
+        // Si no coincide con ninguna
         Swal.fire({
-          icon: "error",
-          title: "Contraseña incorrecta",
-          text: data.msg || "Verifique la contraseña"
+            icon: 'error',
+            title: 'Contraseña Incorrecta',
+            text: 'Verifica tus datos e intenta de nuevo.'
         });
-
-        document.getElementById("password").value = "";
-        document.getElementById("password").focus();
-      }
-    })
-    .catch(() => {
-      Swal.close();
-      Swal.fire({
-        icon: "error",
-        title: "Error de conexión",
-        text: "No fue posible validar la contraseña"
-      });
-    });
+    }
 }
