@@ -201,3 +201,26 @@ tr:hover {
         grid-column: span 1;
     }
 }
+
+/* --- Checkbox full width --- */
+.checkbox-group {
+    grid-column: span 2;           /* ocupa todo el ancho del form */
+    flex-direction: row;           /* label + checkbox en línea */
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+}
