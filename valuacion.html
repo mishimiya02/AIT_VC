@@ -146,6 +146,7 @@
                         <th>Fecha</th>
                         <th>Fecha límite</th>
                         <th>Días de vigencia</th>
+                        <th>Tarifa proporcional</th>
                         <th>Importe bruto</th>
                         <th>Inflación Año</th>
                         <th>Inflación Acumulativa</th>
@@ -325,6 +326,12 @@ if (
     diasVigencia = fechaFin.getDate();
 }
 
+
+const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
+
+
+
+
                     // Calcular inflación si es necesario
                     let inflacionAplicada = 0;
                     if (aplicarInflacion) {
@@ -372,6 +379,7 @@ if (
                         fecha: new Date(mesActual),
                         fechaLimite: fechaLimite,
                            diasVigencia: diasVigencia,
+                           tarifaProporcional: tarifaProporcional,
                         importeBruto: importeBruto,
                         inflacionAnual: inflacionAplicada,
                         inflacionAcumulativa: inflacionAcumuladaAniversario,
@@ -505,8 +513,9 @@ if (
                         <td>${formatearFecha(row.fecha)}</td>
                         <td>${formatearFecha(row.fechaLimite)}</td>
                         <td>${row.diasVigencia}</td>
-
+                        <td>${formatearMoneda(row.tarifaProporcional)}</td>
                         <td>${formatearMoneda(row.importeBruto)}</td>
+                        
                         <td>${formatearMoneda(row.inflacionAnual)}</td>
                         <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
                         <td>${formatearMoneda(row.montoActualizado)}</td>
