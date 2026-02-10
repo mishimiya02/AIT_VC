@@ -251,6 +251,29 @@ tr:hover {
 
 /* Scroll inferior real */
 .scroll-bottom {
-    max-height: 450px;
+    max-height: 65vh;        /* usa la pantalla, no un número fijo */
+    min-height: 420px;       /* asegura que no quede chaparra */
     overflow: auto;
+}
+.scroll-x::-webkit-scrollbar,
+.scroll-bottom::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.scroll-x::-webkit-scrollbar-track,
+.scroll-bottom::-webkit-scrollbar-track {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+}
+
+.scroll-x::-webkit-scrollbar-thumb,
+.scroll-bottom::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border: 2px solid #ffffff;
+}
+
+.scroll-x::-webkit-scrollbar-thumb:hover,
+.scroll-bottom::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
 }
