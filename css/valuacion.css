@@ -224,3 +224,33 @@ tr:hover {
     width: 22px;
     height: 22px;
 }
+
+
+/* Contenedor general */
+.table-wrapper {
+    width: 100%;
+}
+
+/* Scroll horizontal (arriba y abajo) */
+.scroll-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+}
+
+/* Barra superior */
+.scroll-top {
+    height: 18px;              /* fuerza a que exista scrollbar */
+    margin-bottom: 6px;
+}
+
+/* Div interno que provoca el scroll */
+.scroll-inner {
+    height: 1px;
+}
+
+/* Scroll inferior real */
+.scroll-bottom {
+    max-height: 450px;
+    overflow: auto;
+}
