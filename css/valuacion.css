@@ -1,0 +1,203 @@
+/* --- Estilos Generales --- */
+:root {
+    --primary-color: #1e3a8a; /* Azul institucional */
+    --secondary-color: #3b82f6;
+    --accent-color: #10b981; /* Verde para acciones */
+    --bg-color: #f3f4f6;
+    --text-color: #1f2937;
+    --white: #ffffff;
+    --error: #ef4444;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Encabezados --- */
+.airport-header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 20px;
+}
+
+.airport-header h2 {
+    margin: 5px 0;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Formulario Moderno --- */
+#valuation-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Divide el formulario en 2 columnas */
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Campos que ocupan todo el ancho */
+.form-group:nth-child(1), 
+.form-group:nth-child(2),
+#inflacion-aniversario-container,
+#meses-penalizacion-container,
+.form-group:has(button) {
+    grid-column: span 2;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.required-field::after {
+    content: " *";
+    color: var(--error);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background-color: var(--white);
+}
+
+/* Checkboxes */
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.form-group-inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- Botones --- */
+button {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+    font-size: 1rem;
+}
+
+#calcular {
+    background-color: var(--primary-color);
+    color: white;
+    grid-column: span 2;
+    margin-top: 20px;
+}
+
+#calcular:hover {
+    background-color: #172554;
+    transform: translateY(-2px);
+}
+
+button[onclick*="exportTableToWord"] {
+    background-color: #2b5797;
+    color: white;
+}
+
+.boton-recargar1 {
+    display: inline-block;
+    margin-top: 20px;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+}
+
+/* --- Tablas de Resultados --- */
+#resultados {
+    background: #1e293b; /* Fondo oscuro para que resalte la tabla */
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 40px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.85rem;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover {
+    background-color: #f8fafc;
+}
+
+.total-row {
+    background-color: #f1f5f9;
+    font-weight: bold;
+}
+
+/* --- Mensajes de Error --- */
+.error-message {
+    color: var(--error);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    display: none; /* Se activa con JS */
+}
+
+/* --- Responsividad --- */
+@media (max-width: 768px) {
+    #valuation-form {
+        grid-template-columns: 1fr;
+    }
+    .form-group:nth-child(n) {
+        grid-column: span 1;
+    }
+}
