@@ -145,6 +145,7 @@
                         <th>Consecutivo</th>
                         <th>Fecha</th>
                         <th>Fecha límite</th>
+                        <th>Días de vigencia</th>
                         <th>Importe bruto</th>
                         <th>Inflación Año</th>
                         <th>Inflación Acumulativa</th>
@@ -165,6 +166,7 @@
                 <tfoot>
                     <tr class="total-row">
                         <th colspan="3">Totales:</th>
+                        <td id="total-dias-vigencia"></td>
                         <td id="total-importe-bruto"></td>
                         <td></td>
                         <td></td>
@@ -284,6 +286,40 @@
                     // Establecer la fecha al primer día del mes
                     mesActual.setDate(1);
                     
+
+                    // ================== DÍAS DE VIGENCIA ==================
+const year = mesActual.getFullYear();
+const month = mesActual.getMonth();
+
+// último día del mes actual
+const ultimoDiaMes = new Date(year, month + 1, 0).getDate();
+
+let diasVigencia = ultimoDiaMes;
+
+// mismo mes de inicio y fin
+if (
+    year === fechaInicio.getFullYear() &&
+    month === fechaInicio.getMonth() &&
+    year === fechaFin.getFullYear() &&
+    month === fechaFin.getMonth()
+) {
+    diasVigencia = fechaFin.getDate() - fechaInicio.getDate() + 1;
+
+// primer mes
+} else if (
+    year === fechaInicio.getFullYear() &&
+    month === fechaInicio.getMonth()
+) {
+    diasVigencia = ultimoDiaMes - fechaInicio.getDate() + 1;
+
+// último mes
+} else if (
+    year === fechaFin.getFullYear() &&
+    month === fechaFin.getMonth()
+) {
+    diasVigencia = fechaFin.getDate();
+}
+
                     // Calcular inflación si es necesario
                     let inflacionAplicada = 0;
                     if (aplicarInflacion) {
@@ -330,6 +366,7 @@
                         consecutivo: i + 1,
                         fecha: new Date(mesActual),
                         fechaLimite: fechaLimite,
+                           diasVigencia: diasVigencia,
                         importeBruto: importeBruto,
                         inflacionAnual: inflacionAplicada,
                         inflacionAcumulativa: inflacionAcumuladaAniversario,
@@ -430,6 +467,8 @@
                 tablaGarantia.innerHTML = '';
                 
                 // Calcular totales
+                let totalDiasVigencia = 0;
+
                 let totalIB = 0;
                 let totalMA = 0;
                 let totalAL = 0;
@@ -443,6 +482,7 @@
                 
                 // Agregar filas a la tabla principal
                 data.forEach(row => {
+                    totalDiasVigencia += row.diasVigencia;
                     totalIB += row.importeBruto;
                     totalMA += row.montoActualizado;
                     totalAL += row.alicuotas;
@@ -459,6 +499,8 @@
                         <td>${row.consecutivo}</td>
                         <td>${formatearFecha(row.fecha)}</td>
                         <td>${formatearFecha(row.fechaLimite)}</td>
+                        <td>${row.diasVigencia}</td>
+
                         <td>${formatearMoneda(row.importeBruto)}</td>
                         <td>${formatearMoneda(row.inflacionAnual)}</td>
                         <td>${formatearMoneda(row.inflacionAcumulativa)}</td>
@@ -476,6 +518,9 @@
                 });
                 
                 // Actualizar totales
+                const totalDiasVigenciaElement = document.getElementById('total-dias-vigencia');
+                totalDiasVigenciaElement.textContent = totalDiasVigencia;
+
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
                 totalMontoActualizado.textContent = formatearMoneda(totalMA);
                 totalAlicuota.textContent = formatearMoneda(totalAL);
