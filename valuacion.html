@@ -239,9 +239,14 @@
                 // Obtener valores del formulario
                 const nombre = document.getElementById('nombre').value;
                 const numeroContrato = document.getElementById('numero-contrato').value;
-               const fechaInicio = new Date(document.getElementById('fecha-inicio').value);
+                 function crearFechaLocal(valor) {
+                const [anio, mes, dia] = valor.split('-').map(Number);
+                return new Date(anio, mes - 1, dia);
+                }
+                const fechaInicio = crearFechaLocal(document.getElementById('fecha-inicio').value);
 
-                const fechaFin = new Date(document.getElementById('fecha-fin').value);
+
+                const fechaFin = crearFechaLocal(document.getElementById('fecha-fin').value);
                 const importeBruto = parseFloat(document.getElementById('importe-bruto').value);
                 const porcentajeAlicuotas = parseFloat(document.getElementById('alicuotas').value) / 100;
                 const porcentajeImpuestos = parseFloat(document.getElementById('impuestos').value) / 100;
