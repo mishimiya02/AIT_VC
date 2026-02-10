@@ -470,3 +470,28 @@
                 });
             }
         });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+    const scrollTop = document.querySelector('.scroll-top');
+    const scrollInner = document.querySelector('.scroll-inner');
+    const scrollBottom = document.getElementById('scroll-bottom');
+
+    function ajustarScroll() {
+        scrollInner.style.width = scrollBottom.scrollWidth + 'px';
+    }
+
+    // Sincronizar movimientos
+    scrollTop.addEventListener('scroll', () => {
+        scrollBottom.scrollLeft = scrollTop.scrollLeft;
+    });
+
+    scrollBottom.addEventListener('scroll', () => {
+        scrollTop.scrollLeft = scrollBottom.scrollLeft;
+    });
+
+    // Ajustar cuando cargue y cuando cambie tamaño
+    ajustarScroll();
+    window.addEventListener('resize', ajustarScroll);
+});

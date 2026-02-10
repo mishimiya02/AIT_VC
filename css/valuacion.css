@@ -1,12 +1,12 @@
-/* --- Estilos Generales --- */
+/* --- Estilos Generales DARK MODE --- */
 :root {
-    --primary-color: #1e3a8a; /* Azul institucional */
+    --primary-color: #60a5fa;      /* Azul suave */
     --secondary-color: #3b82f6;
-    --accent-color: #10b981; /* Verde para acciones */
-    --bg-color: #f3f4f6;
-    --text-color: #1f2937;
-    --white: #ffffff;
-    --error: #ef4444;
+    --accent-color: #34d399;       /* Verde acciones */
+    --bg-color: #0f172a;           /* Fondo general */
+    --text-color: #e5e7eb;         /* Texto claro */
+    --white: #111827;              /* “Blanco” oscuro */
+    --error: #f87171;
 }
 
 body {
@@ -21,10 +21,10 @@ body {
 .container {
     max-width: 1100px;
     margin: 0 auto;
-    background: var(--white);
+    background: #020617;
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 /* --- Encabezados --- */
@@ -42,10 +42,10 @@ body {
     letter-spacing: 1px;
 }
 
-/* --- Formulario Moderno --- */
+/* --- Formulario --- */
 #valuation-form {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Divide el formulario en 2 columnas */
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
@@ -54,7 +54,6 @@ body {
     flex-direction: column;
 }
 
-/* Campos que ocupan todo el ancho */
 .form-group:nth-child(1), 
 .form-group:nth-child(2),
 #inflacion-aniversario-container,
@@ -67,7 +66,7 @@ label {
     font-weight: 600;
     margin-bottom: 8px;
     font-size: 0.9rem;
-    color: #4b5563;
+    color: #cbd5f5;
 }
 
 .required-field::after {
@@ -80,18 +79,19 @@ input[type="number"],
 input[type="date"],
 select {
     padding: 12px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #334155;
     border-radius: 8px;
     font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: #f9fafb;
+    background-color: #020617;
+    color: var(--text-color);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+    background-color: #020617;
 }
 
 /* Checkboxes */
@@ -99,7 +99,7 @@ input[type="checkbox"] {
     width: 20px;
     height: 20px;
     cursor: pointer;
-    accent-color: var(--primary-color);
+    accent-color: var(--secondary-color);
 }
 
 .form-group-inline {
@@ -115,39 +115,38 @@ button {
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.3s;
     font-size: 1rem;
+    transition: transform 0.2s, background-color 0.3s;
 }
 
 #calcular {
     background-color: var(--primary-color);
-    color: white;
+    color: #020617;
     grid-column: span 2;
     margin-top: 20px;
 }
 
 #calcular:hover {
-    background-color: #172554;
+    background-color: #3b82f6;
     transform: translateY(-2px);
 }
 
 button[onclick*="exportTableToWord"] {
-    background-color: #2b5797;
+    background-color: #2563eb;
     color: white;
 }
 
 .boton-recargar1 {
     display: inline-block;
     margin-top: 20px;
-    color: #6b7280;
+    color: #94a3b8;
     text-decoration: none;
     font-size: 0.85rem;
-    text-transform: uppercase;
 }
 
-/* --- Tablas de Resultados --- */
+/* --- Resultados --- */
 #resultados {
-    background: #1e293b; /* Fondo oscuro para que resalte la tabla */
+    background: #020617;
     padding: 30px;
     border-radius: 12px;
     margin-top: 40px;
@@ -157,42 +156,41 @@ button[onclick*="exportTableToWord"] {
 table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
+    background: #020617;
     border-radius: 8px;
     overflow: hidden;
     font-size: 0.85rem;
 }
 
 th {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: #1e293b;
+    color: #e5e7eb;
     padding: 12px;
-    text-align: left;
 }
 
 td {
     padding: 10px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #1e293b;
 }
 
 tr:hover {
-    background-color: #f8fafc;
+    background-color: #020617;
 }
 
 .total-row {
-    background-color: #f1f5f9;
+    background-color: #020617;
     font-weight: bold;
 }
 
-/* --- Mensajes de Error --- */
+/* --- Errores --- */
 .error-message {
     color: var(--error);
     font-size: 0.75rem;
     margin-top: 4px;
-    display: none; /* Se activa con JS */
+    display: none;
 }
 
-/* --- Responsividad --- */
+/* --- Responsive --- */
 @media (max-width: 768px) {
     #valuation-form {
         grid-template-columns: 1fr;
@@ -204,57 +202,23 @@ tr:hover {
 
 /* --- Checkbox full width --- */
 .checkbox-group {
-    grid-column: span 2;           /* ocupa todo el ancho del form */
-    flex-direction: row;           /* label + checkbox en línea */
+    grid-column: span 2;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 12px 14px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #334155;
     border-radius: 8px;
-    background-color: #f9fafb;
+    background-color: #020617;
 }
 
 .checkbox-group label {
     margin: 0;
     font-weight: 600;
-    cursor: pointer;
+    color: #e5e7eb;
 }
 
-.checkbox-group input[type="checkbox"] {
-    width: 22px;
-    height: 22px;
-}
-
-
-/* Contenedor general */
-.table-wrapper {
-    width: 100%;
-}
-
-/* Scroll horizontal (arriba y abajo) */
-.scroll-x {
-    overflow-x: auto;
-    overflow-y: hidden;
-    width: 100%;
-}
-
-/* Barra superior */
-.scroll-top {
-    height: 18px;              /* fuerza a que exista scrollbar */
-    margin-bottom: 6px;
-}
-
-/* Div interno que provoca el scroll */
-.scroll-inner {
-    height: 1px;
-}
-
-/* Scroll inferior real */
-.scroll-bottom {
-    max-height: 65vh;        /* usa la pantalla, no un número fijo */
-    min-height: 420px;       /* asegura que no quede chaparra */
-    overflow: auto;
-}
+/* --- Scrollbars modernas --- */
 .scroll-x::-webkit-scrollbar,
 .scroll-bottom::-webkit-scrollbar {
     width: 12px;
@@ -263,17 +227,17 @@ tr:hover {
 
 .scroll-x::-webkit-scrollbar-track,
 .scroll-bottom::-webkit-scrollbar-track {
-    background: #ffffff;
-    border: 1px solid #d1d5db;
+    background: #020617;
+    border: 1px solid #334155;
 }
 
 .scroll-x::-webkit-scrollbar-thumb,
 .scroll-bottom::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border: 2px solid #ffffff;
+    background: #475569;
+    border-radius: 6px;
 }
 
 .scroll-x::-webkit-scrollbar-thumb:hover,
 .scroll-bottom::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+    background: #64748b;
 }
