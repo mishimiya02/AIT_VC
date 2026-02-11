@@ -57,6 +57,13 @@
                 <input type="number" id="alicuotas" step="0.01" required>
                 <div class="error-message">Por favor ingrese un valor entre 0 y 100</div>
             </div>
+            <div class="form-group checkbox-group">
+    <label>
+        <input type="checkbox" id="alicuotas-completas">
+        Aplicar alícuotas completas incluso si el mes no es completo
+    </label>
+</div>
+
             
             <div class="form-group">
                 <label for="impuestos" class="required-field">Porcentaje de impuestos (%):</label>
@@ -239,6 +246,7 @@
             const descuentosCheckbox = document.getElementById('descuentos');
             const porcentajeDescuentoContainer = document.getElementById('porcentaje-descuento-container');
             const mesesDescuentoContainer = document.getElementById('meses-descuento-container');
+
             
             // Mostrar/ocultar el campo de inflación por aniversario según la selección
             inflacionCheckbox.addEventListener('change', function() {
@@ -279,6 +287,8 @@ if (mecanismoGarantiaSelect && factorGarantiaContainer) {
                 const fechaFin = crearFechaLocal(document.getElementById('fecha-fin').value);
                 const importeBruto = parseFloat(document.getElementById('importe-bruto').value);
                 const porcentajeAlicuotas = parseFloat(document.getElementById('alicuotas').value) / 100;
+                
+              const aplicarAlicuotasCompletas = document.getElementById('alicuotas-completas').checked;
                 const porcentajeImpuestos = parseFloat(document.getElementById('impuestos').value) / 100;
                 const aplicarInflacion = document.getElementById('inflacion').checked;
                 const inflacionAniversarioStr = document.getElementById('inflacion-aniversario').value;
@@ -361,6 +371,8 @@ if (
 
 
 const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
+let baseCalculo = tarifaProporcional;
+
 
 
 
@@ -373,9 +385,10 @@ const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
                             aniversarioActual++;
                             if (aniversarioActual <= inflacionPorAniversario.length) {
                                 const inflacionAniversario = inflacionPorAniversario[aniversarioActual - 1];
-                                inflacionAplicada = importeBruto * inflacionAniversario;
-                                inflacionAcumuladaAniversario += inflacionAplicada;
-                                importeBrutoActualizado = importeBruto + inflacionAcumuladaAniversario;
+                              
+                                inflacionAplicada = baseCalculo * inflacionAniversario;
+                                baseCalculo = baseCalculo + inflacionAplicada;
+
                             }
                         }
                     }
@@ -383,20 +396,32 @@ const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
                     // Calcular descuento/incentivo si aplica
                     let descuento = 0;
                     if (concederDescuentos && mesesDescuento.includes(i + 1)) {
-                        descuento = porcentajeDescuento * importeBrutoActualizado;
+                      descuento = porcentajeDescuento * baseCalculo;
+
                     }
                     
                     // Calcular subtotal
-                    const subtotal = importeBrutoActualizado - descuento;
+                  const subtotal = baseCalculo - descuento;
+
                     
                     // Calcular alicuotas e impuestos
-                    const alicuotas = porcentajeAlicuotas * subtotal;
+                    let baseAlicuota;
+
+                    if (aplicarAlicuotasCompletas) {
+                    baseAlicuota = importeBruto; // mes completo
+                    } else {
+                    baseAlicuota = subtotal; // proporcional
+                    }
+
+                    const alicuotas = porcentajeAlicuotas * baseAlicuota;
+
                     const impuestoSobreMonto = porcentajeImpuestos * subtotal;
                     const impuestoSobreAlicuotas = porcentajeImpuestos * alicuotas;
                     
                     // Calcular penalización si el mes está en la lista
                     const esMesPenalizacion = mesesPenalizacion.includes(i + 1);
-                    const penalizacion = esMesPenalizacion ? porcentajePenalizaciones * importeBrutoActualizado : 0;
+                  const penalizacion = esMesPenalizacion ? porcentajePenalizaciones * baseCalculo : 0;
+
                     
                     // Calcular totales
                     const totalMes = subtotal + alicuotas + impuestoSobreMonto + impuestoSobreAlicuotas + penalizacion;
@@ -416,7 +441,8 @@ const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
                         importeBruto: importeBruto,
                         inflacionAnual: inflacionAplicada,
                         inflacionAcumulativa: inflacionAcumuladaAniversario,
-                        montoActualizado: importeBrutoActualizado,
+                         montoActualizado: baseCalculo,
+
                         descuento: descuento,
                         subtotal: subtotal,
                         alicuotas: alicuotas,
