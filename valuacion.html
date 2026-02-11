@@ -82,7 +82,7 @@
                 <div class="error-message">Por favor ingrese valores numéricos separados por comas</div>
             </div>
             <div class="form-group checkbox-group">
-         <label> Aplicar inflación completa aunque el mes sea proporcional</label>
+         <label> Aplicar inflación completa aunque el mes sea incompleto:</label>
          <input type="checkbox" id="inflacion-completa">
     </div>
 
@@ -198,6 +198,7 @@
                     <tr class="total-row">
                         <th colspan="3">Totales:</th>
                         <td id="total-dias-vigencia"></td>
+                        <td id="total-tarifa-proporcional"></td> <!-- NUEVA -->
                         <td id="total-importe-bruto"></td>
                         <td></td>
                         <td></td>
@@ -581,6 +582,7 @@ if (valorGarantia > 0) {
                 
                 // Calcular totales
                 let totalDiasVigencia = 0;
+                let totalTP = 0;
 
                 let totalIB = 0;
                 let totalMA = 0;
@@ -596,6 +598,8 @@ if (valorGarantia > 0) {
                 // Agregar filas a la tabla principal
                 data.forEach(row => {
                     totalDiasVigencia += row.diasVigencia;
+                    totalTP += row.tarifaProporcional;
+
                     totalIB += row.importeBruto;
                     totalMA += row.montoActualizado;
                     totalAL += row.alicuotas;
@@ -634,6 +638,7 @@ if (valorGarantia > 0) {
                 // Actualizar totales
                 const totalDiasVigenciaElement = document.getElementById('total-dias-vigencia');
                 totalDiasVigenciaElement.textContent = totalDiasVigencia;
+                document.getElementById('total-tarifa-proporcional').textContent =formatearMoneda(totalTP);
 
                 totalImporteBruto.textContent = formatearMoneda(totalIB);
                 totalMontoActualizado.textContent = formatearMoneda(totalMA);
@@ -789,24 +794,47 @@ if (valorGarantia > 0) {
                         datasets: [ {
                             label: 'Total Mensual',
                             data: totalesMensuales,
-                            borderColor: '#003366',
+                            borderColor: '#13FF00',
                             backgroundColor: 'rgba(0, 51, 102, 0.1)',
                             tension: 0.4,
                             fill: true
                         } ]
                     },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución del Total Mensual'
-                            }
-                        }
-                    }
+                   options: {
+    responsive: true,
+    plugins: {
+        legend: {
+            labels: {
+                color: '#ffffff'   // ← leyenda blanca
+            }
+        },
+        title: {
+            display: true,
+            text: 'Evolución del Total Mensual',
+            color: '#ffffff'      // ← título blanco
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                color: '#ffffff'  // ← números eje X
+            },
+            grid: {
+                color: '#334155'  // ← líneas verticales
+            }
+        },
+        y: {
+            ticks: {
+                color: '#ffffff'  // ← números eje Y
+            },
+            grid: {
+                color: '#334155'  // ← líneas horizontales
+            }
+        }
+    }
+}
+
+
                 });
                 
                 // Gráfico de Inflación Acumulativa por Mes
@@ -818,24 +846,46 @@ if (valorGarantia > 0) {
                         datasets: [ {
                             label: 'Inflación Acumulativa',
                             data: inflaciones,
-                            borderColor: '#28a745',
+                            borderColor: '#00FFFF',
                             backgroundColor: 'rgba(40, 167, 69, 0.1)',
                             tension: 0.4,
                             fill: true
                         } ]
                     },
                     options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Evolución de la Inflación Acumulativa'
-                            }
-                        }
-                    }
+    responsive: true,
+    plugins: {
+        legend: {
+            labels: {
+                color: '#ffffff'   // ← leyenda blanca
+            }
+        },
+        title: {
+            display: true,
+            text: 'Evolución del Total Mensual',
+            color: '#ffffff'      // ← título blanco
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                color: '#ffffff'  // ← números eje X
+            },
+            grid: {
+                color: '#334155'  // ← líneas verticales
+            }
+        },
+        y: {
+            ticks: {
+                color: '#ffffff'  // ← números eje Y
+            },
+            grid: {
+                color: '#334155'  // ← líneas horizontales
+            }
+        }
+    }
+}
+
                 });
             }
         });
@@ -865,6 +915,9 @@ if (valorGarantia > 0) {
     ajustarScroll();
     window.addEventListener('resize', ajustarScroll);
 });
+
+
+
 
     </script>
     <!-- Incluimos la biblioteca SheetJS para exportación segura a Excel -->
