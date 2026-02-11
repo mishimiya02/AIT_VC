@@ -385,11 +385,15 @@ let baseCalculo = tarifaProporcional;
 
 
                     // Calcular inflación si es necesario
-                  let inflacionAplicada = 0;
+             let inflacionAplicada = 0;
 
 if (aplicarInflacion) {
 
-    if (mesActual.getMonth() === fechaInicio.getMonth()) {
+    if (
+        mesActual.getMonth() === fechaInicio.getMonth() &&
+        i !== 0
+    ) {
+
         aniversarioActual++;
 
         if (aniversarioActual <= inflacionPorAniversario.length) {
@@ -400,13 +404,15 @@ if (aplicarInflacion) {
             let baseInflacion;
 
             if (aplicarInflacionCompleta) {
-                baseInflacion = importeBruto; // mes completo
+                baseInflacion = importeBruto;
             } else {
-                baseInflacion = baseCalculo; // proporcional
+                baseInflacion = baseCalculo;
             }
 
             inflacionAplicada =
                 baseInflacion * inflacionAniversario;
+
+            inflacionAcumuladaAniversario += inflacionAplicada;
 
             baseCalculo += inflacionAplicada;
         }
