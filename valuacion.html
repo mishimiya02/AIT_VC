@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -105,12 +107,28 @@
             <div class="form-group">
                 <label for="mecanismo-garantia" class="required-field">Mecanismo de garantía:</label>
                 <select id="mecanismo-garantia" required>
-                    <option value="">Seleccionar</option>
-                    <option value="fianza">Fianza</option>
-                    <option value="deposito">Depósito en Garantía</option>
+                  <option value="">Seleccionar</option>
+    <option value="fianza">Fianza</option>
+    <option value="deposito">Depósito en Garantía</option>
+    <option value="pensiones">Pensiones</option>
+    <option value="otros">Otros</option>
                 </select>
+           
+
                 <div class="error-message">Este campo es obligatorio</div>
             </div>
+                 <div class="form-group" id="factor-garantia-container" style="display: none;">
+    <label for="factor-garantia">
+        Factor multiplicador de garantía
+    </label>
+    <input 
+        type="number" 
+        id="factor-garantia" 
+        step="0.01" 
+        min="0"
+        placeholder="Ej. 6"
+    >
+</div>
             
             <div class="form-group">
                 <label for="monto-garantia-exhibida">Monto de Garantía Exhibida o Vigente (opcional):</label>
@@ -226,6 +244,17 @@
             inflacionCheckbox.addEventListener('change', function() {
                 inflacionAniversarioContainer.style.display = this.checked ? 'block' : 'none';
             });
+            // ================== MECANISMO DE GARANTÍA ==================
+const mecanismoGarantiaSelect = document.getElementById('mecanismo-garantia');
+const factorGarantiaContainer = document.getElementById('factor-garantia-container');
+
+if (mecanismoGarantiaSelect && factorGarantiaContainer) {
+    mecanismoGarantiaSelect.addEventListener('change', function () {
+        factorGarantiaContainer.style.display =
+            this.value === 'otros' ? 'block' : 'none';
+    });
+}
+
             
             // Mostrar/ocultar el campo de porcentaje de descuento según la selección
             descuentosCheckbox.addEventListener('change', function() {
@@ -261,7 +290,11 @@
                 const porcentajeDescuento = parseFloat(document.getElementById('porcentaje-descuento').value) || 0;
                 const mesesDescuentoStr = document.getElementById('meses-descuento').value;
                 const montoGarantiaExhibida = parseFloat(document.getElementById('monto-garantia-exhibida').value) || 0;
-                
+                let factorGarantia = parseFloat(document.getElementById('factor-garantia').value) || 0;
+
+
+
+
                 // Procesar inflación por aniversario si está habilitada
                 let inflacionPorAniversario = [];
                 if (aplicarInflacion && inflacionAniversarioStr) {
@@ -398,26 +431,40 @@ const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
                     mesActual.setMonth(mesActual.getMonth() + 1);
                 }
                 
-                // Calcular garantías según el mecanismo seleccionado
-                const garantias = [];
-                const valorMensual = data[0] ? data[0].totalMes : 0;
-                
-                if (mecanismoGarantia === 'fianza') {
-                    garantias.push({
-                        tipo: 'Fianza',
-                        valor: valorMensual * 12,
-                        montoExhibido: montoGarantiaExhibida,
-                        saldo: valorMensual * 12 - montoGarantiaExhibida
-                    });
-                } else if (mecanismoGarantia === 'deposito') {
-                    garantias.push({
-                        tipo: 'Depósito en Garantía',
-                        valor: valorMensual * 3,
-                        montoExhibido: montoGarantiaExhibida,
-                        saldo: valorMensual * 3 - montoGarantiaExhibida
-                    });
-                }
-                
+                // ================== GARANTÍAS ==================
+const garantias = [];
+const indiceBaseGarantia = data.length >= 2 ? data.length - 2 : 0;
+const valorMensual = data[indiceBaseGarantia].totalMes;
+
+let valorGarantia = 0;
+let nombreTipo = '';
+
+if (mecanismoGarantia === 'fianza') {
+    nombreTipo = 'Fianza';
+    valorGarantia = valorMensual * 12;
+
+} else if (mecanismoGarantia === 'deposito') {
+    nombreTipo = 'Depósito en Garantía';
+    valorGarantia = valorMensual * 3;
+
+} else if (mecanismoGarantia === 'pensiones') {
+    nombreTipo = 'Pensiones';
+    valorGarantia = valorMensual * 1; // aquí puedes cambiar el factor
+
+} else if (mecanismoGarantia === 'otros' && factorGarantia > 0) {
+    nombreTipo = 'Otros';
+    valorGarantia = valorMensual * factorGarantia;
+}
+
+if (valorGarantia > 0) {
+    garantias.push({
+        tipo: nombreTipo,
+        valor: valorGarantia,
+        montoExhibido: montoGarantiaExhibida,
+        saldo: valorGarantia - montoGarantiaExhibida
+    });
+}
+
                 // Calcular valor total del contrato y saldo
                 const valorTotalContrato = acumuladoTotal;
                 const saldoContrato = valorTotalContrato - totalPagado;
@@ -741,17 +788,19 @@ const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
         });
 
 
-        document.addEventListener('DOMContentLoaded', () => {
+       document.addEventListener('DOMContentLoaded', () => {
 
     const scrollTop = document.querySelector('.scroll-top');
     const scrollInner = document.querySelector('.scroll-inner');
     const scrollBottom = document.getElementById('scroll-bottom');
 
+    // ⛔ si no existen, salimos sin error
+    if (!scrollTop || !scrollInner || !scrollBottom) return;
+
     function ajustarScroll() {
         scrollInner.style.width = scrollBottom.scrollWidth + 'px';
     }
 
-    // Sincronizar movimientos
     scrollTop.addEventListener('scroll', () => {
         scrollBottom.scrollLeft = scrollTop.scrollLeft;
     });
@@ -760,10 +809,10 @@ const tarifaProporcional = (importeBruto / ultimoDiaMes) * diasVigencia;
         scrollTop.scrollLeft = scrollBottom.scrollLeft;
     });
 
-    // Ajustar cuando cargue y cuando cambie tamaño
     ajustarScroll();
     window.addEventListener('resize', ajustarScroll);
 });
+
     </script>
     <!-- Incluimos la biblioteca SheetJS para exportación segura a Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
