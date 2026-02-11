@@ -81,6 +81,11 @@
                 <input type="text" id="inflacion-aniversario">
                 <div class="error-message">Por favor ingrese valores numéricos separados por comas</div>
             </div>
+            <div class="form-group checkbox-group">
+         <label> Aplicar inflación completa aunque el mes sea proporcional</label>
+         <input type="checkbox" id="inflacion-completa">
+    </div>
+
             
             <div class="form-group">
                 <label for="meses-penalizacion" class="required-field">Meses con penalización (consecutivos separados por comas o guiones para rangos):</label>
@@ -289,6 +294,8 @@ if (mecanismoGarantiaSelect && factorGarantiaContainer) {
                 const porcentajeAlicuotas = parseFloat(document.getElementById('alicuotas').value) / 100;
                 
               const aplicarAlicuotasCompletas = document.getElementById('alicuotas-completas').checked;
+              const aplicarInflacionCompleta = document.getElementById('inflacion-completa').checked;
+
                 const porcentajeImpuestos = parseFloat(document.getElementById('impuestos').value) / 100;
                 const aplicarInflacion = document.getElementById('inflacion').checked;
                 const inflacionAniversarioStr = document.getElementById('inflacion-aniversario').value;
@@ -378,20 +385,34 @@ let baseCalculo = tarifaProporcional;
 
 
                     // Calcular inflación si es necesario
-                    let inflacionAplicada = 0;
-                    if (aplicarInflacion) {
-                        // Verificar si es un mes de aniversario
-                        if (mesActual.getMonth() === fechaInicio.getMonth()) {
-                            aniversarioActual++;
-                            if (aniversarioActual <= inflacionPorAniversario.length) {
-                                const inflacionAniversario = inflacionPorAniversario[aniversarioActual - 1];
-                              
-                                inflacionAplicada = baseCalculo * inflacionAniversario;
-                                baseCalculo = baseCalculo + inflacionAplicada;
+                  let inflacionAplicada = 0;
 
-                            }
-                        }
-                    }
+if (aplicarInflacion) {
+
+    if (mesActual.getMonth() === fechaInicio.getMonth()) {
+        aniversarioActual++;
+
+        if (aniversarioActual <= inflacionPorAniversario.length) {
+
+            const inflacionAniversario =
+                inflacionPorAniversario[aniversarioActual - 1];
+
+            let baseInflacion;
+
+            if (aplicarInflacionCompleta) {
+                baseInflacion = importeBruto; // mes completo
+            } else {
+                baseInflacion = baseCalculo; // proporcional
+            }
+
+            inflacionAplicada =
+                baseInflacion * inflacionAniversario;
+
+            baseCalculo += inflacionAplicada;
+        }
+    }
+}
+
                     
                     // Calcular descuento/incentivo si aplica
                     let descuento = 0;
