@@ -54,8 +54,6 @@ body {
     flex-direction: column;
 }
 
-.form-group:nth-child(1), 
-.form-group:nth-child(2),
 #inflacion-aniversario-container,
 #meses-penalizacion-container,
 .form-group:has(button) {
@@ -240,4 +238,8 @@ tr:hover {
 .scroll-x::-webkit-scrollbar-thumb:hover,
 .scroll-bottom::-webkit-scrollbar-thumb:hover {
     background: #64748b;
+}
+
+.full-width {
+    grid-column: span 2;
 }
