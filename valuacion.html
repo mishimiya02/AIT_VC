@@ -243,6 +243,11 @@
     </div>
 
     <script>
+
+
+let totalMensualChartInstance = null;
+let inflacionChartInstance = null;
+
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('valuation-form');
             const calcularBtn = document.getElementById('calcular');
@@ -787,7 +792,12 @@ if (valorGarantia > 0) {
                 
                 // Gráfico de Evolución del Total Mensual
                 const ctx1 = document.getElementById('totalMensualChart').getContext('2d');
-                new Chart(ctx1, {
+            if (totalMensualChartInstance) {
+    totalMensualChartInstance.destroy();
+}
+
+totalMensualChartInstance = new Chart(ctx1, {
+
                     type: 'line',
                     data: {
                         labels: meses,
@@ -839,7 +849,12 @@ if (valorGarantia > 0) {
                 
                 // Gráfico de Inflación Acumulativa por Mes
                 const ctx3 = document.getElementById('inflacionChart').getContext('2d');
-                new Chart(ctx3, {
+              if (inflacionChartInstance) {
+    inflacionChartInstance.destroy();
+}
+
+inflacionChartInstance = new Chart(ctx3, {
+
                     type: 'line',
                     data: {
                         labels: meses,
