@@ -19,7 +19,7 @@ body {
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 1400px;/*ancho del contenedor*/
     margin: 0 auto;
     background: #020617;
     padding: 40px;
