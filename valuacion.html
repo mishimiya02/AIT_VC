@@ -695,16 +695,149 @@ if (valorGarantia > 0) {
                 resultadosDiv.style.display = 'block';
             }
             
-            // Función para exportar a Excel de manera segura
-            exportarBtn.addEventListener('click', function() {
-                const tabla = document.getElementById('tabla-resultados');
-                const worksheet = XLSX.utils.table_to_sheet(tabla);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Valuación");
-                
-                // Guardar el archivo
-                XLSX.writeFile(workbook, "valuacion_contrato.xlsx");
-            });
+
+            exportarBtn.addEventListener('click', async function () {
+
+    const tabla = document.getElementById('tabla-resultados');
+    const nombre = document.getElementById('nombre').value.trim() || "Usuario no especificado";
+    const numeroContrato = document.getElementById('numero-contrato').value.trim() || "Sin contrato";
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Valuación');
+
+    const columnasTabla = tabla.querySelectorAll('thead th').length;
+
+    // 🔠 Convierte número a letra Excel
+    function numeroAColumnaExcel(num) {
+        let col = '';
+        while (num > 0) {
+            let modulo = (num - 1) % 26;
+            col = String.fromCharCode(65 + modulo) + col;
+            num = Math.floor((num - 1) / 26);
+        }
+        return col;
+    }
+
+    const ultimaCol = numeroAColumnaExcel(columnasTabla);
+
+    // ===============================
+    // 🖼 Agregar LOGO
+    // ===============================
+    const response = await fetch('img/logo.png');
+    const blob = await response.blob();
+    const arrayBuffer = await blob.arrayBuffer();
+
+    const imageId = workbook.addImage({
+        buffer: arrayBuffer,
+        extension: 'png'
+    });
+
+    worksheet.addImage(imageId, {
+        tl: { col: 0, row: 0 },
+        ext: { width: 150, height: 80 }
+    });
+
+    // ===============================
+    // 🏢 TÍTULO EMPRESA
+    // ===============================
+    worksheet.mergeCells(`A2:${ultimaCol}2`);
+    const tituloEmpresa = worksheet.getCell('A2');
+    tituloEmpresa.value = "ADMINISTRADORA MEXIQUENSE DEL AEROPUERTO INTERNACIONAL DE TOLUCA";
+    tituloEmpresa.font = { name: 'Aptos', size: 20, bold: true };
+    tituloEmpresa.alignment = { horizontal: 'center', vertical: 'middle' };
+
+    worksheet.addRow([]);
+
+    // ===============================
+    // 👤 DATOS DEL CONTRATO
+    // ===============================
+    worksheet.mergeCells(`A4:${ultimaCol}4`);
+    worksheet.getCell('A4').value = `Nombre: ${nombre}`;
+    worksheet.getCell('A4').font = { bold: true };
+
+    worksheet.mergeCells(`A5:${ultimaCol}5`);
+    worksheet.getCell('A5').value = `Contrato: ${numeroContrato}`;
+    worksheet.getCell('A5').font = { italic: true };
+
+    worksheet.addRow([]);
+
+    // ===============================
+    // 📊 ENCABEZADOS
+    // ===============================
+    const headers = Array.from(tabla.querySelectorAll('thead th'))
+        .map(th => th.textContent.trim());
+
+    const headerRow = worksheet.addRow(headers);
+
+    headerRow.eachCell(cell => {
+        cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FF1E3A8A' } // azul institucional
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+        };
+    });
+
+    // ===============================
+    // 📈 FILAS DE DATOS
+    // ===============================
+    const rows = tabla.querySelectorAll('tbody tr');
+
+    rows.forEach(htmlRow => {
+        const rowData = Array.from(htmlRow.querySelectorAll('td'))
+            .map(td => td.textContent.trim());
+
+        const row = worksheet.addRow(rowData);
+
+        row.eachCell(cell => {
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+        });
+    });
+
+    // ===============================
+    // 📐 AUTO AJUSTE COLUMNAS
+    // ===============================
+    worksheet.columns.forEach(column => {
+        let maxLength = 10;
+        column.eachCell({ includeEmpty: true }, cell => {
+            const length = cell.value ? cell.value.toString().length : 0;
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        });
+        column.width = maxLength + 3;
+    });
+
+    // ===============================
+    // 📤 DESCARGA
+    // ===============================
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    const blobFile = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    const url = URL.createObjectURL(blobFile);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Valuacion_${numeroContrato}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
             
             // Función para parsear meses con formatos de comas y guiones
             function parseMeses(mesesStr) {
@@ -951,7 +1084,8 @@ inflacionChartInstance = new Chart(ctx3, {
 
     </script>
     <!-- Incluimos la biblioteca SheetJS para exportación segura a Excel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
+
     <!-- Incluimos la biblioteca Chart.js para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
