@@ -463,11 +463,26 @@ if (aplicarInflacion) {
                     // Calcular fecha límite (fecha + 4 días)
                     const fechaLimite = new Date(mesActual);
                     fechaLimite.setDate(fechaLimite.getDate() + 4);
+                    // ================== FECHA SOLO VISUAL ==================
+let fechaMostrar;
+
+if (i === 0) {
+    // Primer mes
+    fechaMostrar = new Date(fechaInicio);
+} else if (i === mesesContrato - 1) {
+    // Último mes
+    fechaMostrar = new Date(fechaFin);
+} else {
+    // Mes intermedio (como ya lo tienes)
+    fechaMostrar = new Date(mesActual);
+}
+
                     
                     // Agregar fila a los datos
                     data.push({
                         consecutivo: i + 1,
-                        fecha: new Date(mesActual),
+                        fecha: fechaMostrar,
+
                         fechaLimite: fechaLimite,
                            diasVigencia: diasVigencia,
                            tarifaProporcional: tarifaProporcional,
