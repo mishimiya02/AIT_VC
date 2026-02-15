@@ -807,6 +807,80 @@ if (valorGarantia > 0) {
         });
     });
 
+
+
+
+
+
+
+
+   // ===============================
+// 🛡 TABLA DE GARANTÍAS
+// ===============================
+
+const tablaGarantiaHTML = document.getElementById('garantia-tabla');
+
+if (tablaGarantiaHTML && tablaGarantiaHTML.rows.length > 0) {
+
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+
+    const filaTituloGarantia = worksheet.addRow(["Resumen de Garantías"]);
+    worksheet.mergeCells(`A${filaTituloGarantia.number}:D${filaTituloGarantia.number}`);
+
+    filaTituloGarantia.getCell(1).font = { bold: true, size: 16 };
+    filaTituloGarantia.getCell(1).alignment = { horizontal: 'center' };
+
+    worksheet.addRow([]);
+
+    const headersGarantia = [
+        "Tipo de Garantía",
+        "Valor de Garantía",
+        "Monto Exhibido/Vigente",
+        "Saldo"
+    ];
+
+    const headerRowGarantia = worksheet.addRow(headersGarantia);
+
+    headerRowGarantia.eachCell(cell => {
+        cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FF1E3A8A' }
+        };
+        cell.alignment = { horizontal: 'center', vertical: 'middle' };
+        cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+        };
+    });
+
+    const filasGarantia = tablaGarantiaHTML.querySelectorAll('tr');
+
+    filasGarantia.forEach((filaHTML, index) => {
+        if (index === 0) return;
+
+        const datos = Array.from(filaHTML.querySelectorAll('td'))
+            .map(td => td.textContent.trim());
+
+        const row = worksheet.addRow(datos);
+
+        row.eachCell(cell => {
+            cell.alignment = { horizontal: 'center', vertical: 'middle' };
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+        });
+    });
+
+}
+
     // ===============================
     // 📐 AUTO AJUSTE COLUMNAS
     // ===============================
@@ -836,6 +910,7 @@ if (valorGarantia > 0) {
     a.download = `Valuacion_${numeroContrato}.xlsx`;
     a.click();
     URL.revokeObjectURL(url);
+
 });
 
             
@@ -1078,8 +1153,7 @@ inflacionChartInstance = new Chart(ctx3, {
     ajustarScroll();
     window.addEventListener('resize', ajustarScroll);
 });
-
-
+       
 
 
     </script>
