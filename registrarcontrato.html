@@ -236,7 +236,8 @@
 
         <div class="field">
             <label>ID</label>
-            <input type="text" name="id">
+           <input type="text" name="id" id="id" readonly>
+
         </div>
 
         <div class="field">
@@ -283,6 +284,9 @@
             </select>
         </div>
 
+        <div class="field"><label>Comunicado</label><input type="text" name="comunicado"></div>
+
+    
         <div class="field">
          <div class="field full-width"><label>Observaciones cliente</label><textarea name="observaciones_cliente"></textarea></div>
         </div>
@@ -400,7 +404,7 @@
         <div class="field"><label>Metodología Actualización</label><input type="text" name="metodologia_actualizacion"></div>
         <div class="field"><label>Próxima Fecha Actualización</label><input type="date" name="prox_fecha_actualizacion"></div>
         <div class="field"><label>C. Actualización</label><input type="text" name="c_actualizacion"></div>
-        <div class="field"><label>Comunicado</label><input type="text" name="comunicado"></div>
+        
         <div class="field"><label>Interés</label><input type="text" name="interes"></div>
         <div class="field"><label>Días de Crédito</label><input type="number" name="dias_credito"></div>
         <div class="field"><label>Garantía</label><input type="text" name="garantia"></div>
@@ -433,53 +437,89 @@
 
 <script>
     // 1. Guardamos la URL que te dio SheetDB
-const MI_API_URL = "https://script.google.com/macros/s/AKfycbzKnkUZe0cfqpW7o1EpBv3-4AVDpP5_1X5RDumW7uwvzHyjL8jHlJJvmiOE-cV5RTTmiw/exec"; 
+const MI_API_URL = "https://script.google.com/macros/s/AKfycbxZzAcVUE5r6EJrzYS8ladyIzjWux5IZYxgQssHpzVsO8pXue0EFxn9AiPJycEim8xFrw/exec"; 
+
+
+
+async function generarIdAutomatico() {
+    try {
+        const response = await fetch(MI_API_URL);
+        const data = await response.json();
+
+        let nuevoNumero = 1;
+
+        if (data.length > 0) {
+            const ultimoRegistro = data[data.length - 1];
+            const ultimoId = ultimoRegistro.id;
+
+            if (ultimoId && ultimoId.startsWith("AIT")) {
+                const numero = parseInt(ultimoId.replace("AIT", ""));
+                nuevoNumero = numero + 1;
+            }
+        }
+
+        const numeroFormateado = String(nuevoNumero).padStart(5, "0");
+        const idFinal = "AIT" + numeroFormateado;
+
+        document.getElementById('id').value = idFinal;
+
+    } catch (error) {
+        console.error("Error generando ID:", error);
+        document.getElementById('id').value = "AIT00001";
+    }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    generarIdAutomatico();
+});
+
+
+
+
+
+
+
+
+
 
 const formContrato = document.getElementById('formContrato');
-
 formContrato.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+    e.preventDefault();
 
-    // 2. Mostrar mensaje de "Guardando..." con SweetAlert2
     Swal.fire({
         title: 'Guardando datos...',
         text: 'Por favor espera un momento',
         allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        }
+        didOpen: () => Swal.showLoading()
     });
 
-    // 3. Capturar todos los datos del formulario automáticamente
     const formData = new FormData(formContrato);
     const datosParaEnviar = Object.fromEntries(formData.entries());
 
     try {
-        // 4. Enviar los datos a SheetDB mediante una petición POST
-       const respuesta = await fetch(MI_API_URL, {
-    method: 'POST',
-    body: JSON.stringify({
-        data: datosParaEnviar
-    })
-});
+        const respuesta = await fetch(MI_API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                data: datosParaEnviar
+            })
+        });
 
-const resultado = await respuesta.json();
+        const resultado = await respuesta.json();
 
-if (resultado.result === "success") {
+        if (resultado.result === "success") {
 
-    Swal.fire({
-        icon: 'success',
-        title: '¡Éxito!',
-        text: 'Los datos se han guardado correctamente.',
-        confirmButtonColor: '#2149ff'
-    });
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: 'Los datos se han guardado correctamente.',
+                confirmButtonColor: '#2149ff'
+            });
 
-    formContrato.reset();
+            formContrato.reset();
 
-} else {
-    throw new Error("No se pudo guardar");
-}
-
+        } else {
+            throw new Error("No se pudo guardar");
+        }
 
     } catch (error) {
         console.error("Error:", error);
@@ -491,6 +531,7 @@ if (resultado.result === "success") {
         });
     }
 });
+
 </script>
 
 </body>
