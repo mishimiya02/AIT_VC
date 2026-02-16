@@ -273,6 +273,16 @@
             <input type="text" name="nombre_comercial">
         </div>
 
+         <div class="field">
+            <label>Estatus Facturación</label>
+            <select name="estatus_facturacion">
+                <option value="activo">ACTIVO</option>
+                <option value="concluido">CONCLUIDO</option>
+                <option value="oag">OAG</option>
+                   <option value="pausado">PAUSADO POR SITUACIÓN LEGAL</option>
+            </select>
+        </div>
+
         <div class="field">
          <div class="field full-width"><label>Observaciones cliente</label><textarea name="observaciones_cliente"></textarea></div>
         </div>
@@ -296,11 +306,7 @@
             <input type="number" step="0.01" name="tarifa_unidades">
         </div>
 
-        <div class="field">
-            <label>Elementos / M2</label>
-            <input type="number" step="0.01" name="elementos_m2">
-        </div>
-
+       
         <div class="field">
             <label>Tarifa</label>
             <input type="number" step="0.01" name="tarifa">
@@ -411,14 +417,7 @@
         <div class="field"><label>Correo</label><input type="email" name="correo"></div>
         <div class="field"><label>Enlace</label><input type="url" name="enlace"></div>
 
-        <div class="field">
-            <label>Estatus Facturación</label>
-            <select name="estatus_facturacion">
-                <option value="Pendiente">Pendiente</option>
-                <option value="Facturado">Facturado</option>
-                <option value="Cancelado">Cancelado</option>
-            </select>
-        </div>
+       
     </fieldset>
 
     <button type="submit" class="btn-submit">
