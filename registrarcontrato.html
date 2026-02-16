@@ -229,140 +229,189 @@
 
 <div class="container">
     <h2>REGISTRO DE CONTRATO Y FACTURACIÓN</h2>
-    
     <form id="formContrato">
-        
-        <fieldset>
-            <legend>Identificación y Cliente</legend>
-            <div class="field">
-                <label>ID</label>
-                <input type="text" name="id">
-            </div>
-            <div class="field">
-                <label>No. Cliente</label>
-                <input type="text" name="no_cliente">
-            </div>
-            <div class="field">
-                <label>No. Dcto SAP</label>
-                <input type="text" name="dcto_sap">
-            </div>
-            <div class="field">
-                <label>No. Contrato</label>
-                <input type="text" name="no_contrato">
-            </div>
-            <div class="field">
-                <label>Tipo Contrato</label>
-                <select name="tipo_contrato">
-                    <option value="Arrendamiento">Arrendamiento</option>
-                    <option value="Servicios">Servicios</option>
-                    <option value="Otro">Otro</option>
-                </select>
-            </div>
-            <div class="field">
-                <label>Razón Social</label>
-                <input type="text" name="razon_social">
-            </div>
-            <div class="field">
-                <label>Nombre Comercial</label>
-                <input type="text" name="nombre_comercial">
-            </div>
-        </fieldset>
 
-        <fieldset>
-            <legend>Detalles del Concepto</legend>
-            <div class="field full-width">
-                <label>Concepto / Objeto</label>
-                <input type="text" name="concepto_objeto">
-            </div>
-            <div class="field">
-                <label>Unidades / Elementos / M2</label>
-                <input type="number" step="0.01" name="unidades">
-            </div>
-            <div class="field">
-                <label>Tarifa x Unidad</label>
-                <input type="number" step="0.01" name="tarifa_unidades">
-            </div>
-            <div class="field">
-                <label>Subtotal</label>
-                <input type="number" step="0.01" name="subtotal">
-            </div>
-            <div class="field">
-                <label>Total</label>
-                <input type="number" step="0.01" name="total">
-            </div>
-        </fieldset>
+    <fieldset>
+        <legend>Identificación y Cliente</legend>
 
-        <fieldset>
-            <legend>Vigencia y Estatus</legend>
-            <div class="field">
-                <label>Inicio Vigencia</label>
-                <input type="date" name="inicio_vigencia">
-            </div>
-            <div class="field">
-                <label>Fin Vigencia</label>
-                <input type="date" name="fin_vigencia">
-            </div>
-            <div class="field">
-                <label>Días por Vencer</label>
-                <input type="number" name="dias_x_vencer" readonly>
-            </div>
-            <div class="field">
-                <label>Días Vencidos</label>
-                <input type="number" name="dias_vencidos" readonly>
-            </div>
-            <div class="field">
-                <label>Estatus Vigencia</label>
-                <input type="text" name="estatus_vigencia">
-            </div>
-            <div class="field">
-                <label>Vigencia (Días)</label>
-                <input type="number" name="vigencia_total">
-            </div>
-            <div class="field">
-                <label>Tipo Vigencia</label>
-                <input type="text" name="tipo_vigencia">
-            </div>
-        </fieldset>
+        <div class="field">
+            <label>ID</label>
+            <input type="text" name="id">
+        </div>
 
-        <fieldset>
-            <legend>Costos Adicionales e Incentivos</legend>
-            <div class="field"><label>% Mtto</label><input type="number" step="0.01" name="p_mtto"></div>
-            <div class="field"><label>$ Mtto</label><input type="number" step="0.01" name="monto_mtto"></div>
-            <div class="field"><label>% Luz</label><input type="number" step="0.01" name="p_luz"></div>
-            <div class="field"><label>% Agua</label><input type="number" step="0.01" name="p_agua"></div>
-            <div class="field"><label>$ Agua</label><input type="number" step="0.01" name="monto_agua"></div>
-            <div class="field"><label>% Incentivo</label><input type="number" step="0.01" name="p_incentivo"></div>
-            <div class="field"><label>% Variable</label><input type="number" step="0.01" name="p_variable"></div>
-            <div class="field"><label>% Penalización</label><input type="number" step="0.01" name="p_penalizacion"></div>
-        </fieldset>
+        <div class="field">
+            <label>No. Cliente</label>
+            <input type="text" name="no_cliente">
+        </div>
 
-        <fieldset>
-            <legend>Actualización y Garantías</legend>
-            <div class="field"><label>Premisa</label><input type="text" name="premisa"></div>
-            <div class="field"><label>Base de Premisa</label><input type="text" name="base_premisa"></div>
-            <div class="field"><label>Periodicidad</label><input type="text" name="periodicidad"></div>
-            <div class="field"><label>Próxima Fecha Actualización</label><input type="date" name="prox_actualizacion"></div>
-            <div class="field"><label>Comunicado</label><input type="text" name="comunicado"></div>
-            <div class="field"><label>Días de Crédito</label><input type="number" name="dias_credito"></div>
-            <div class="field"><label>Garantía</label><input type="text" name="garantia"></div>
-            <div class="field"><label>Monto Garantía</label><input type="number" step="0.01" name="monto_garantia"></div>
-        </fieldset>
+        <div class="field">
+            <label>No. Dcto SAP</label>
+            <input type="text" name="no_dcto_sap">
+        </div>
 
-        <fieldset>
-            <legend>Ubicación y Contacto</legend>
-            <div class="field"><label>Ubicación</label><input type="text" name="ubicacion"></div>
-            <div class="field full-width"><label>Detalle de Ubicación</label><textarea name="detalle_ubicacion"></textarea></div>
-            <div class="field"><label>Correo Electrónico SAP</label><input type="email" name="email_sap"></div>
-            <div class="field"><label>Enlace</label><input type="url" name="enlace"></div>
-            <div class="field"><label>Estatus Facturación</label><select name="estatus_facturacion">
+        <div class="field">
+            <label>No. Contrato</label>
+            <input type="text" name="no_contrato">
+        </div>
+
+        <div class="field">
+            <label>Tipo Contrato</label>
+            <select name="tipo_contrato">
+                <option value="Arrendamiento">Arrendamiento</option>
+                <option value="Servicios">Servicios</option>
+                <option value="Otro">Otro</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Razón Social</label>
+            <input type="text" name="razon_social">
+        </div>
+
+        <div class="field">
+            <label>Nombre Comercial</label>
+            <input type="text" name="nombre_comercial">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Detalles del Concepto</legend>
+
+        <div class="field full-width">
+            <label>Concepto / Objeto</label>
+            <input type="text" name="concepto">
+        </div>
+
+        <div class="field">
+            <label>Unidades / M2</label>
+            <input type="number" step="0.01" name="unidades_m2">
+        </div>
+
+        <div class="field">
+            <label>Tarifa x Unidad</label>
+            <input type="number" step="0.01" name="tarifa_unidades">
+        </div>
+
+        <div class="field">
+            <label>Elementos / M2</label>
+            <input type="number" step="0.01" name="elementos_m2">
+        </div>
+
+        <div class="field">
+            <label>Tarifa</label>
+            <input type="number" step="0.01" name="tarifa">
+        </div>
+
+        <div class="field">
+            <label>Subtotal</label>
+            <input type="number" step="0.01" name="subtotal">
+        </div>
+
+        <div class="field">
+            <label>Total</label>
+            <input type="number" step="0.01" name="total">
+        </div>
+
+        <div class="field">
+            <label>Objeto</label>
+            <input type="text" name="objeto">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Vigencia y Estatus</legend>
+
+        <div class="field">
+            <label>Inicio Vigencia</label>
+            <input type="date" name="inicio_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Fin Vigencia</label>
+            <input type="date" name="fin_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Días por Vencer</label>
+            <input type="number" name="dias_vencer">
+        </div>
+
+        <div class="field">
+            <label>Días Vencidos</label>
+            <input type="number" name="dias_vencidos">
+        </div>
+
+        <div class="field">
+            <label>Estatus Vigencia</label>
+            <input type="text" name="estatus_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Días Vigencia</label>
+            <input type="number" name="dias_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Tipo Vigencia</label>
+            <input type="text" name="tipo_vigencia">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Costos Adicionales e Incentivos</legend>
+
+        <div class="field"><label>% Mtto</label><input type="number" step="0.01" name="p_mtto"></div>
+        <div class="field"><label>$ Mtto</label><input type="number" step="0.01" name="monto_mtto"></div>
+        <div class="field"><label>% Luz</label><input type="number" step="0.01" name="p_luz"></div>
+        <div class="field"><label>% Agua</label><input type="number" step="0.01" name="p_agua"></div>
+        <div class="field"><label>$ Agua</label><input type="number" step="0.01" name="monto_agua"></div>
+        <div class="field"><label>% Incentivo</label><input type="number" step="0.01" name="p_incentivo"></div>
+        <div class="field"><label>% Variable</label><input type="number" step="0.01" name="p_variable"></div>
+        <div class="field"><label>% Penalización</label><input type="number" step="0.01" name="p_penalizacion"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Actualización y Garantías</legend>
+
+        <div class="field"><label>Premisa</label><input type="text" name="premisa"></div>
+        <div class="field"><label>Base de Premisa</label><input type="text" name="base_premisa"></div>
+        <div class="field"><label>Periodicidad</label><input type="text" name="periodicidad"></div>
+        <div class="field"><label>Metodología Actualización</label><input type="text" name="metodologia_actualizacion"></div>
+        <div class="field"><label>Próxima Fecha Actualización</label><input type="date" name="prox_fecha_actualizacion"></div>
+        <div class="field"><label>C. Actualización</label><input type="text" name="c_actualizacion"></div>
+        <div class="field"><label>Comunicado</label><input type="text" name="comunicado"></div>
+        <div class="field"><label>Interés</label><input type="text" name="interes"></div>
+        <div class="field"><label>Días de Crédito</label><input type="number" name="dias_credito"></div>
+        <div class="field"><label>Garantía</label><input type="text" name="garantia"></div>
+        <div class="field"><label>Monto Garantía</label><input type="number" step="0.01" name="monto_garantia"></div>
+        <div class="field full-width"><label>Observaciones</label><textarea name="observaciones"></textarea></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Ubicación y Contacto</legend>
+
+        <div class="field"><label>Ubicación</label><input type="text" name="ubicacion"></div>
+        <div class="field full-width"><label>Detalle de Ubicación</label><textarea name="detalle_ubicacion"></textarea></div>
+        <div class="field"><label>Correo Electrónico SAP</label><input type="email" name="correo_electronico_sap"></div>
+        <div class="field"><label>Correo</label><input type="email" name="correo"></div>
+        <div class="field"><label>Enlace</label><input type="url" name="enlace"></div>
+
+        <div class="field">
+            <label>Estatus Facturación</label>
+            <select name="estatus_facturacion">
                 <option value="Pendiente">Pendiente</option>
                 <option value="Facturado">Facturado</option>
                 <option value="Cancelado">Cancelado</option>
-            </select></div>
-        </fieldset>
+            </select>
+        </div>
+    </fieldset>
 
-        <button type="submit" class="btn-submit">GUARDAR DATOS EN GOOGLE SHEETS</button>
-    </form>
+    <button type="submit" class="btn-submit">
+        GUARDAR DATOS EN GOOGLE SHEETS
+    </button>
+
+</form>
+
 </div>
 
 
@@ -370,7 +419,7 @@
 
 <script>
     // 1. Guardamos la URL que te dio SheetDB
-const MI_API_URL = "https://sheetdb.io/api/v1/ide0kfsk1dap0"; 
+const MI_API_URL = "https://script.google.com/macros/s/AKfycbzKnkUZe0cfqpW7o1EpBv3-4AVDpP5_1X5RDumW7uwvzHyjL8jHlJJvmiOE-cV5RTTmiw/exec"; 
 
 const formContrato = document.getElementById('formContrato');
 
@@ -393,30 +442,30 @@ formContrato.addEventListener('submit', async (e) => {
 
     try {
         // 4. Enviar los datos a SheetDB mediante una petición POST
-        const respuesta = await fetch(MI_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                data: [datosParaEnviar] // SheetDB espera un arreglo de objetos
-            })
-        });
+       const respuesta = await fetch(MI_API_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+        data: datosParaEnviar
+    })
+});
 
-        const resultado = await respuesta.json();
+const resultado = await respuesta.json();
 
-        // 5. Si se creó con éxito (SheetDB devuelve 'created': 1)
-        if (resultado.created === 1) {
-            Swal.fire({
-                icon: 'success',
-                title: '¡Éxito!',
-                text: 'Los datos se han guardado en Google Sheets.',
-                confirmButtonColor: '#2149ff'
-            });
-            formContrato.reset(); // Limpia el formulario para un nuevo registro
-        } else {
-            throw new Error("No se pudo guardar");
-        }
+if (resultado.result === "success") {
+
+    Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Los datos se han guardado correctamente.',
+        confirmButtonColor: '#2149ff'
+    });
+
+    formContrato.reset();
+
+} else {
+    throw new Error("No se pudo guardar");
+}
+
 
     } catch (error) {
         console.error("Error:", error);
