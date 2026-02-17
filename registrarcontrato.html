@@ -379,44 +379,72 @@ inputUnidades.addEventListener("input", calcularTarifa);
 inputTarifaUnidad.addEventListener("input", calcularTarifa);
 
 
-
 const inputInicio = document.querySelector('[name="inicio_vigencia"]');
 const inputFin = document.querySelector('[name="fin_vigencia"]');
 const inputDiasVencer = document.querySelector('[name="dias_vencer"]');
 const inputDiasVencidos = document.querySelector('[name="dias_vencidos"]');
+const inputEstatus = document.querySelector('[name="estatus_vigencia"]');
+const inputDiasVigencia = document.querySelector('[name="dias_vigencia"]');
+const inputTipoVigencia = document.querySelector('[name="tipo_vigencia"]');
 
-function calcularVigencia() {
+function calcularVigenciaCompleta() {
 
-    if (!inputFin.value) {
+    if (!inputInicio.value || !inputFin.value) {
         inputDiasVencer.value = "";
         inputDiasVencidos.value = "";
+        inputEstatus.value = "";
+        inputDiasVigencia.value = "";
+        inputTipoVigencia.value = "";
         return;
     }
 
     const hoy = new Date();
     hoy.setHours(0,0,0,0);
 
+    const fechaInicio = new Date(inputInicio.value + "T00:00:00");
     const fechaFin = new Date(inputFin.value + "T00:00:00");
 
-    const diferencia = fechaFin - hoy;
-    const dias = Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+    // 🔹 DÍAS TOTALES DE VIGENCIA
+    const totalMs = fechaFin - fechaInicio;
+    const totalDias = Math.ceil(totalMs / (1000 * 60 * 60 * 24));
+    inputDiasVigencia.value = totalDias > 0 ? totalDias : 0;
+
+    // 🔹 DÍAS POR VENCER / VENCIDOS
+    const diferenciaMs = fechaFin - hoy;
+    const dias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
 
     if (dias >= 0) {
-        // Aún vigente
         inputDiasVencer.value = dias;
         inputDiasVencidos.value = 0;
+
+        if (dias <= 30) {
+            inputEstatus.value = "POR VENCER";
+        } else {
+            inputEstatus.value = "ACTIVO";
+        }
+
     } else {
-        // Ya vencido
         inputDiasVencer.value = 0;
         inputDiasVencidos.value = Math.abs(dias);
+        inputEstatus.value = "VENCIDO";
     }
+
+    // 🔹 TIPO DE VIGENCIA
+    // 🔹 TIPO DE VIGENCIA (nueva lógica)
+if (totalDias > 365) {
+    inputTipoVigencia.value = "MULTIANUAL";
+} else {
+    inputTipoVigencia.value = "ANUAL";
+}
+
 }
 
 // Escuchar cambios
-inputFin.addEventListener("change", calcularVigencia);
+inputInicio.addEventListener("change", calcularVigenciaCompleta);
+inputFin.addEventListener("change", calcularVigenciaCompleta);
 
-// También al cargar página
-window.addEventListener("DOMContentLoaded", calcularVigencia);
+// Ejecutar al cargar
+window.addEventListener("DOMContentLoaded", calcularVigenciaCompleta);
 
 </script>
 
