@@ -7,7 +7,7 @@ function validarAcceso(paginaDestino) {
     const CLAVES_SECCIONES = {
         'loginprincipal.html': 'RMV',
         'cdblogin.html':       'JM',
-        'vacacionesc.html':    'OOR'
+        'vacacionesc.html':    'ORO'
     };
 
     // 3. Validación
