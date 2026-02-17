@@ -150,9 +150,16 @@
 </div>
 
 <div class="campo-form">
-    <label for="firmaAutoriza">Nombre de quien autoriza</label>
+    <label>ID de quien autoriza</label>
+    <input id="idAutoriza" type="text" placeholder="Ej. 200">
+    <button type="button" onclick="buscarAutoriza()">Buscar</button>
+</div>
+
+<div class="campo-form">
+    <label>Nombre de quien autoriza</label>
     <input id="firmaAutoriza" type="text" placeholder="Autoriza:">
 </div>
+
 
 <div class="campo-form">
     <label for="firmaJefe">Vo.Bo.R.H.</label>
@@ -168,10 +175,11 @@
 </button>
 
 <button onclick="generarTodo()">Generar y descargar PDF</button>
-<button type="button" class="btn btn-secondary" onclick="limpiarTodo()">
-  Vaciar campos
+<button type="button" class="btn btn-secondary" onclick="limpiarTodo()">  Vaciar campos
 </button>
-
+  <button type="button" onclick="descargarExcel()">
+  Descargar última versión Excel
+</button>
 
 
 
@@ -300,6 +308,69 @@
 </div>
 </div>
 <script>
+
+let cacheAutoriza = JSON.parse(localStorage.getItem("cacheAutoriza")) || {};
+function buscarAutoriza() {
+  const id = document.getElementById("idAutoriza").value.trim();
+
+  if (!id) {
+    Swal.fire("Campo vacío", "Escribe el ID de quien autoriza.", "warning");
+    return;
+  }
+
+  // 🔥 Si ya existe en memoria local
+  if (cacheAutoriza[id]) {
+    document.getElementById("firmaAutoriza").value = cacheAutoriza[id];
+    toast("Cargado desde memoria local", "success");
+    return;
+  }
+
+  Swal.fire({
+    title: "Buscando...",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading()
+  });
+
+  fetch(`https://script.google.com/macros/s/AKfycbyh682YSIFKowdvIGPhCJeKde6rpprRXMnnqNR8h8VqqPite-DtkkTsaZVXd4UrL6Wk/exec?id=${id}`)
+    .then(r => r.json())
+    .then(data => {
+      Swal.close();
+
+      if (data.error) {
+        Swal.fire("No encontrado", "No existe ese ID.", "error");
+        return;
+      }
+
+      const nombre = data.nombre;
+
+      document.getElementById("firmaAutoriza").value = nombre;
+
+      // 🔥 Guardar en memoria local
+      cacheAutoriza[id] = nombre;
+      localStorage.setItem("cacheAutoriza", JSON.stringify(cacheAutoriza));
+
+      toast("Guardado en memoria local", "success");
+    })
+    .catch(() => {
+      Swal.fire("Error", "No se pudo consultar.", "error");
+    });
+}
+
+
+
+  function descargarExcel() {
+  const url = "https://docs.google.com/spreadsheets/d/11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8/export?format=xlsx";
+
+  Swal.fire({
+    icon: "info",
+    title: "Descargando Excel...",
+    timer: 1200,
+    showConfirmButton: false
+  });
+
+  window.open(url, "_blank");
+}
+
 
   let pdfGenerando = false;
 function toast(msg, icon = "info") {
