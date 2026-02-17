@@ -447,6 +447,59 @@ inputFin.addEventListener("change", calcularVigenciaCompleta);
 // Ejecutar al cargar
 window.addEventListener("DOMContentLoaded", calcularVigenciaCompleta);
 
+
+const inputTarifaBase = document.querySelector('[name="tarifa"]');
+
+// MTTO
+const pMtto = document.querySelector('[name="p_mtto"]');
+const montoMtto = document.querySelector('[name="monto_mtto"]');
+
+// AGUA
+const pAgua = document.querySelector('[name="p_agua"]');
+const montoAgua = document.querySelector('[name="monto_agua"]');
+
+// LUZ
+const pLuz = document.querySelector('[name="p_luz"]');
+const montoLuz = document.querySelector('[name="monto_luz"]');
+
+function calcularDesdePorcentaje(inputPorcentaje, inputMonto) {
+    const tarifa = parseFloat(inputTarifaBase.value) || 0;
+    const porcentaje = parseFloat(inputPorcentaje.value) || 0;
+
+    const monto = (tarifa * porcentaje) / 100;
+    inputMonto.value = monto.toFixed(2);
+}
+
+function calcularDesdeMonto(inputMonto, inputPorcentaje) {
+    const tarifa = parseFloat(inputTarifaBase.value) || 0;
+    const monto = parseFloat(inputMonto.value) || 0;
+
+    if (tarifa === 0) return;
+
+    const porcentaje = (monto / tarifa) * 100;
+    inputPorcentaje.value = porcentaje.toFixed(2);
+}
+
+// 🔹 MTTO
+pMtto.addEventListener("input", () => calcularDesdePorcentaje(pMtto, montoMtto));
+montoMtto.addEventListener("input", () => calcularDesdeMonto(montoMtto, pMtto));
+
+// 🔹 AGUA
+pAgua.addEventListener("input", () => calcularDesdePorcentaje(pAgua, montoAgua));
+montoAgua.addEventListener("input", () => calcularDesdeMonto(montoAgua, pAgua));
+
+// 🔹 LUZ
+pLuz.addEventListener("input", () => calcularDesdePorcentaje(pLuz, montoLuz));
+montoLuz.addEventListener("input", () => calcularDesdeMonto(montoLuz, pLuz));
+
+// 🔹 Si cambia la tarifa, recalcular todo
+inputTarifaBase.addEventListener("input", () => {
+
+    if (pMtto.value) calcularDesdePorcentaje(pMtto, montoMtto);
+    if (pAgua.value) calcularDesdePorcentaje(pAgua, montoAgua);
+    if (pLuz.value) calcularDesdePorcentaje(pLuz, montoLuz);
+});
+
 </script>
 
 </body>
