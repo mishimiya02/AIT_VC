@@ -211,8 +211,11 @@
         <div class="field"><label>% Agua</label><input type="number" step="0.01" name="p_agua"></div>
         <div class="field"><label>$ Agua</label><input type="number" step="0.01" name="monto_agua"></div>
         <div class="field"><label>% Incentivo</label><input type="number" step="0.01" name="p_incentivo"></div>
+         <div class="field"><label>$ Incentivo</label><input type="number" step="0.01" name="monto_incentivo"></div>
         <div class="field"><label>% Variable</label><input type="number" step="0.01" name="p_variable"></div>
+         <div class="field"><label>$ Variable</label><input type="number" step="0.01" name="monto_variable"></div>
         <div class="field"><label>% Penalización</label><input type="number" step="0.01" name="p_penalizacion"></div>
+         <div class="field"><label>$ Penalización</label><input type="number" step="0.01" name="monto_penalizacion"></div>
           <div class="field">
             <label>Subtotal</label>
             <input type="number" step="0.01" name="subtotal">
@@ -462,6 +465,19 @@ const montoAgua = document.querySelector('[name="monto_agua"]');
 const pLuz = document.querySelector('[name="p_luz"]');
 const montoLuz = document.querySelector('[name="monto_luz"]');
 
+
+// VARIABLE
+const pVariable = document.querySelector('[name="p_variable"]');
+const montoVariable = document.querySelector('[name="monto_variable"]');
+
+// INCENTIVO
+const pIncentivo = document.querySelector('[name="p_incentivo"]');
+const montoIncentivo = document.querySelector('[name="monto_incentivo"]');
+
+// PENALIZACION
+const pPenalizacion = document.querySelector('[name="p_penalizacion"]');
+const montoPenalizacion = document.querySelector('[name="monto_penalizacion"]');
+
 function calcularDesdePorcentaje(inputPorcentaje, inputMonto) {
     const tarifa = parseFloat(inputTarifaBase.value) || 0;
     const porcentaje = parseFloat(inputPorcentaje.value) || 0;
@@ -492,13 +508,33 @@ montoAgua.addEventListener("input", () => calcularDesdeMonto(montoAgua, pAgua));
 pLuz.addEventListener("input", () => calcularDesdePorcentaje(pLuz, montoLuz));
 montoLuz.addEventListener("input", () => calcularDesdeMonto(montoLuz, pLuz));
 
+
+// 🔹 VARIABLE
+pVariable.addEventListener("input", () => calcularDesdePorcentaje(pVariable, montoVariable));
+montoVariable.addEventListener("input", () => calcularDesdeMonto(montoVariable, pVariable));
+
+// 🔹 INCENTIVO
+pIncentivo.addEventListener("input", () => calcularDesdePorcentaje(pIncentivo, montoIncentivo));
+montoIncentivo.addEventListener("input", () => calcularDesdeMonto(montoIncentivo, pIncentivo));
+
+// 🔹 PENALIZACION
+pPenalizacion.addEventListener("input", () => calcularDesdePorcentaje(pPenalizacion, montoPenalizacion));
+montoPenalizacion.addEventListener("input", () => calcularDesdeMonto(montoPenalizacion, pPenalizacion));
+
+
 // 🔹 Si cambia la tarifa, recalcular todo
 inputTarifaBase.addEventListener("input", () => {
 
     if (pMtto.value) calcularDesdePorcentaje(pMtto, montoMtto);
     if (pAgua.value) calcularDesdePorcentaje(pAgua, montoAgua);
     if (pLuz.value) calcularDesdePorcentaje(pLuz, montoLuz);
+    if (pVariable.value) calcularDesdePorcentaje(pVariable, montoVariable);
+if (pIncentivo.value) calcularDesdePorcentaje(pIncentivo, montoIncentivo);
+if (pPenalizacion.value) calcularDesdePorcentaje(pPenalizacion, montoPenalizacion);
+
 });
+
+
 
 </script>
 
