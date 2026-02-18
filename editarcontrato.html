@@ -303,9 +303,22 @@ async function buscarContrato() {
     const noCliente = document.getElementById("buscar_no_cliente").value.trim();
 
     if (!noCliente) {
-        alert("Ingresa un número de cliente");
+        Swal.fire({
+            icon: "warning",
+            title: "Campo vacío",
+            text: "Ingresa un número de cliente"
+        });
         return;
     }
+
+    Swal.fire({
+        title: "Buscando contrato...",
+        text: "Por favor espera",
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     try {
 
@@ -315,27 +328,38 @@ async function buscarContrato() {
 
         const data = await response.json();
 
+        Swal.close();
+
         if (data.error) {
-            alert("No encontrado");
+            Swal.fire({
+                icon: "error",
+                title: "No encontrado",
+                text: "No existe un contrato con ese número de cliente"
+            });
             return;
         }
 
-        // 🔥 Rellenar todos los campos automáticamente
         Object.keys(data).forEach(key => {
-
             const campo = document.querySelector(`[name="${key}"]`);
-
-            if (!campo) return;
-
-            campo.value = data[key];
-
+            if (campo) campo.value = data[key];
         });
 
-        alert("Registro cargado");
+        Swal.fire({
+            icon: "success",
+            title: "Contrato cargado",
+            timer: 1200,
+            showConfirmButton: false
+        });
 
     } catch (error) {
+        Swal.close();
         console.error(error);
-        alert("Error al buscar");
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo conectar con el servidor"
+        });
     }
 }
 
@@ -345,6 +369,15 @@ async function guardarEdicion() {
     const form = document.getElementById("formContrato");
     const formData = new FormData(form);
     const datos = Object.fromEntries(formData.entries());
+
+    Swal.fire({
+        title: "Actualizando contrato...",
+        text: "Guardando cambios",
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     try {
 
@@ -358,17 +391,39 @@ async function guardarEdicion() {
 
         const resultado = await response.json();
 
+        Swal.close();
+
         if (resultado.result === "success") {
-            alert("Contrato actualizado correctamente");
+
+            Swal.fire({
+                icon: "success",
+                title: "Actualizado",
+                text: "El contrato fue actualizado correctamente"
+            });
+
         } else {
-            alert("No se pudo actualizar");
+
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo actualizar"
+            });
+
         }
 
     } catch (error) {
+
+        Swal.close();
         console.error(error);
-        alert("Error al actualizar");
+
+        Swal.fire({
+            icon: "error",
+            title: "Error de conexión",
+            text: "No se pudo conectar con el servidor"
+        });
     }
 }
+
 
 </script>
 </body>
