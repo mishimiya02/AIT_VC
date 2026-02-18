@@ -295,6 +295,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+window.addEventListener("DOMContentLoaded", async () => {
+    await cargarOpciones(); // 🔥 Espera a que carguen
+});
+
     
     const URL_EDITAR = "https://script.google.com/macros/s/AKfycbwaVy3BcTFlbxc4eH1Ry-WSEylImEZVFsLWSbJdcsH_gzbiEkzaWxZ5OAd-9LCbeU8J/exec";
 
@@ -421,6 +426,42 @@ async function guardarEdicion() {
             title: "Error de conexión",
             text: "No se pudo conectar con el servidor"
         });
+    }
+}
+
+const URL_OPCIONES = "https://script.google.com/macros/s/AKfycbzYdRzGuJpZzuCPcOso3zilw9O0cye6Z13wLtbLk2RPDkDqZkLUIPAHU0AFkkLpHnhBww/exec";
+async function cargarOpciones() {
+    try {
+
+        const response = await fetch(URL_OPCIONES + "?accion=opciones");
+
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+
+        const data = await response.json();
+
+        console.log("Respuesta opciones:", data);
+
+        Object.keys(data).forEach(nombreCampo => {
+
+            const select = document.querySelector(`[name="${nombreCampo}"]`);
+
+            if (!select) return;
+
+            select.innerHTML = "<option value=''>Seleccionar...</option>";
+
+            data[nombreCampo].forEach(opcion => {
+                const option = document.createElement("option");
+                option.value = opcion;
+                option.textContent = opcion;
+                select.appendChild(option);
+            });
+
+        });
+
+    } catch (error) {
+        console.error("Error cargando opciones:", error);
     }
 }
 
