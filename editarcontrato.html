@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edición de Contratos - SIAPAD</title>
+    <link rel="stylesheet" href="css/registrarcontrato.css" id="theme-style">
+</head>
+<body>
+
+
+    
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+
+        <a href='/'>Inicio</a>
+        
+        <!-- Dropdown de Servicios -->
+        <div class="dropdown">
+            <a  class="dropbtn">REGISTRAR</a>
+            <div class="dropdown-content">
+              <!--  <a href='/registrar'>REGISTRAR CLIENTE </a>-->
+                   
+                    <a href='/registrarcontrato.html'>REGISTRAR CONTRATO</a>
+                    <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+               
+            </div>
+        </div>
+        
+         <!-- justo arriba de href contacto;Segundo Dropdown de Recursos 
+                        
+                        </div>
+                    </div>
+                  <div class="dropdown">
+                <a class="dropbtn">CONSULTAR</a>
+                <div class="dropdown-content">
+               <a href='/editar'>CONSULTAR CLIENTE</a>
+              <a href='https://docs.google.com/spreadsheets/d/1jbORmZBvyyf4_U-8stKvagEa5PVZL_S3uNsJYY-C27I/edit?usp=sharing.html' target='_blank'>DAR DE ALTA CONCEPTOS</a>
+                       <a href='consulta.html'>FILTRAR CONTRATOS</a>
+                        </div>
+                    </div>    -->
+                    
+                    <a href='https://docs.google.com/spreadsheets/d/1LN1xD70yFNuaEqhP3NWET16A2JQHhdmmfb4ulCapdpw/edit?usp=sharing'>REGISTROS</a>
+                 
+                </div>
+                
+            </div>
+
+        
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
+
+<div class="container">
+    <h2>Edición de contratos </h2>
+
+<div class="container">
+  <h3>EDITAR CONTRATO</h3>
+
+  <div class="busqueda">
+      <label>No. Cliente</label>
+      <input type="text" id="buscar_no_cliente">
+      <button type="button" onclick="buscarContrato()">Buscar</button>
+  </div>
+</div>
+
+
+
+
+
+    <form id="formContrato">
+
+    <fieldset>
+        <legend>Identificación y Cliente</legend>
+
+        <div class="field">
+            <label>ID</label>
+           <input type="text" name="id" id="id" readonly>
+
+        </div>
+
+        <div class="field">
+            <label>No. Cliente</label>
+            <input type="text" name="no_cliente">
+        </div>
+
+        <div class="field">
+            <label>No. Dcto SAP</label>
+            <input type="text" name="no_dcto_sap">
+        </div>
+
+        <div class="field">
+            <label>No. Contrato</label>
+            <input type="text" name="no_contrato">
+        </div>
+
+        <div class="field">
+            <label>Tipo Contrato</label>
+            <select name="tipo_contrato"></select>
+        </div>
+
+        <div class="field">
+            <label>Razón Social</label>
+            <input type="text" name="razon_social">
+        </div>
+
+        <div class="field">
+            <label>Nombre Comercial</label>
+            <input type="text" name="nombre_comercial">
+        </div>
+
+         <div class="field">
+            <label>Estatus Facturación</label>
+            <select name="estatus_facturacion">
+                <option value="activo">ACTIVO</option>
+                <option value="concluido">CONCLUIDO</option>
+                <option value="oag">OAG</option>
+                   <option value="pausado">PAUSADO POR SITUACIÓN LEGAL</option>
+            </select>
+        </div>
+
+        <div class="field"><label>Comunicado</label><input type="text" name="comunicado"></div>
+
+    
+        <div class="field">
+         <div class="field full-width"><label>Observaciones cliente</label><textarea name="observaciones_cliente"></textarea></div>
+        </div>
+        </fieldset>
+
+    <fieldset>
+        <legend>Detalles del Concepto</legend>
+   <div class="field">
+            <label>Concepto </label>
+            <select name="concepto"></select>
+        </div>
+
+        <div class="field">
+            <label>Unidades / M2</label>
+            <input type="number" step="0.01" name="unidades_m2">
+        </div>
+
+        <div class="field">
+            <label>Tarifa x Unidad</label>
+            <input type="number" step="0.01" name="tarifa_unidades">
+        </div>
+
+       
+        <div class="field">
+            <label>Tarifa</label>
+            <input type="number" step="0.01" name="tarifa">
+        </div>
+
+      
+
+     
+
+        <div class="field">
+            <label>Objeto</label>
+            <input type="text" name="objeto">
+        </div>
+
+         <div class="field">
+         <div class="field full-width"><label>Observaciones Objeto</label><textarea name="observaciones_concepto"></textarea></div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Vigencia y Estatus</legend>
+
+        <div class="field">
+            <label>Inicio Vigencia</label>
+            <input type="date" name="inicio_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Fin Vigencia</label>
+            <input type="date" name="fin_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Días por Vencer</label>
+          <input type="number" name="dias_vencer" readonly>
+
+        </div>
+
+        <div class="field">
+            <label>Días Vencidos</label>
+            <input type="number" name="dias_vencidos" readonly>
+        </div>
+
+        <div class="field">
+            <label>Estatus Vigencia</label>
+            <input type="text" name="estatus_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Días Vigencia</label>
+            <input type="number" name="dias_vigencia">
+        </div>
+
+        <div class="field">
+            <label>Tipo Vigencia</label>
+            <input type="text" name="tipo_vigencia">
+        </div>
+
+         <div class="field">
+         <div class="field full-width"><label>Observaciones Vigencia</label><textarea name="observaciones_vigencia"></textarea></div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Costos Adicionales e Incentivos</legend>
+
+        <div class="field"><label>% Mtto</label><input type="number" step="0.01" name="p_mtto"></div>
+        <div class="field"><label>$ Mtto</label><input type="number" step="0.01" name="monto_mtto"></div>
+        <div class="field"><label>% Luz</label><input type="number" step="0.01" name="p_luz"></div>
+         <div class="field"><label>$ Luz</label><input type="number" step="0.01" name="monto_luz"></div>
+        <div class="field"><label>% Agua</label><input type="number" step="0.01" name="p_agua"></div>
+        <div class="field"><label>$ Agua</label><input type="number" step="0.01" name="monto_agua"></div>
+        <div class="field"><label>% Incentivo</label><input type="number" step="0.01" name="p_incentivo"></div>
+         <div class="field"><label>$ Incentivo</label><input type="number" step="0.01" name="monto_incentivo"></div>
+        <div class="field"><label>% Variable</label><input type="number" step="0.01" name="p_variable"></div>
+         <div class="field"><label>$ Variable</label><input type="number" step="0.01" name="monto_variable"></div>
+        <div class="field"><label>% Penalización</label><input type="number" step="0.01" name="p_penalizacion"></div>
+         <div class="field"><label>$ Penalización</label><input type="number" step="0.01" name="monto_penalizacion"></div>
+          <div class="field">
+            <label>Subtotal</label>
+            <input type="number" step="0.01" name="subtotal" readonly>
+        </div>
+         <div class="field">
+         <div class="field full-width"><label>Observaciones Alicuotas</label><textarea name="observaciones_alicuotas"></textarea></div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Actualización y Garantías</legend>
+
+           <div class="field">
+            <label>Premisa</label>
+            <select name="premisa"></select>
+        </div>
+        <div class="field"><label>Base de Premisa</label><input type="text" name="base_premisa"></div>
+          <div class="field">
+            <label>Periodicidad</label>
+            <select name="periodicidad"></select>
+        </div>
+           <div class="field">
+            <label>Metodología de Actualización</label>
+            <select name="metodologia_actualizacion"></select>
+
+        </div><div class="field"><label>Próxima Fecha Actualización</label><input type="date" name="prox_fecha_actualizacion"></div>
+        <div class="field"><label>C. Actualización</label><input type="text" name="c_actualizacion"></div>
+           <div class="field">
+            <label>Interes</label>
+            <select name="interes"></select>
+        </div>
+        <div class="field"><label>Días de Crédito</label><input type="number" name="dias_credito"></div>
+        <div class="field"><label>Garantía</label><input type="text" name="garantia"></div>
+        <div class="field"><label>Monto Garantía</label><input type="number" step="0.01" name="monto_garantia"></div>
+           <div class="field">
+            <label>Total</label>
+            <input type="number" step="0.01" name="total">
+        </div>
+        <div class="field full-width"><label>Observaciones</label><textarea name="observaciones"></textarea></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Ubicación y Contacto</legend>
+   <div class="field">
+            <label>Ubicación</label>
+            <select name="ubicacion"></select>
+        </div>   <div class="field">
+            <label>Detalle Ubicación</label>
+            <select name="detalle_ubicacion"></select>
+        </div> <div class="field"><label>Correo Electrónico SAP</label><input type="email" name="correo_electronico_sap"></div>
+        <div class="field"><label>Correo</label><input type="email" name="correo"></div>
+        <div class="field"><label>Enlace</label><input type="url" name="enlace"></div>
+
+       
+    </fieldset>
+
+   <button type="button" onclick="guardarEdicion()">
+  ACTUALIZAR CONTRATO
+</button>
+
+
+</form>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    
+    const URL_EDITAR = "https://script.google.com/macros/s/AKfycbwaVy3BcTFlbxc4eH1Ry-WSEylImEZVFsLWSbJdcsH_gzbiEkzaWxZ5OAd-9LCbeU8J/exec";
+
+async function buscarContrato() {
+
+    const noCliente = document.getElementById("buscar_no_cliente").value.trim();
+
+    if (!noCliente) {
+        alert("Ingresa un número de cliente");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            URL_EDITAR + "?accion=buscar&no_cliente=" + noCliente
+        );
+
+        const data = await response.json();
+
+        if (data.error) {
+            alert("No encontrado");
+            return;
+        }
+
+        // 🔥 Rellenar todos los campos automáticamente
+        Object.keys(data).forEach(key => {
+
+            const campo = document.querySelector(`[name="${key}"]`);
+
+            if (!campo) return;
+
+            campo.value = data[key];
+
+        });
+
+        alert("Registro cargado");
+
+    } catch (error) {
+        console.error(error);
+        alert("Error al buscar");
+    }
+}
+
+
+async function guardarEdicion() {
+
+    const form = document.getElementById("formContrato");
+    const formData = new FormData(form);
+    const datos = Object.fromEntries(formData.entries());
+
+    try {
+
+        const response = await fetch(URL_EDITAR, {
+            method: "POST",
+            body: JSON.stringify({
+                accion: "editar",
+                data: datos
+            })
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.result === "success") {
+            alert("Contrato actualizado correctamente");
+        } else {
+            alert("No se pudo actualizar");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Error al actualizar");
+    }
+}
+
+</script>
+</body>
+</html>
