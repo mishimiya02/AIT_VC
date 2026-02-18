@@ -84,11 +84,7 @@
 
         <div class="field">
             <label>Tipo Contrato</label>
-            <select name="tipo_contrato">
-                <option value="Arrendamiento">Arrendamiento</option>
-                <option value="Servicios">Servicios</option>
-                <option value="Otro">Otro</option>
-            </select>
+            <select name="tipo_contrato"></select>
         </div>
 
         <div class="field">
@@ -121,10 +117,9 @@
 
     <fieldset>
         <legend>Detalles del Concepto</legend>
-
-        <div class="field full-width">
-            <label>Concepto / Objeto</label>
-            <input type="text" name="concepto">
+   <div class="field">
+            <label>Concepto </label>
+            <select name="concepto"></select>
         </div>
 
         <div class="field">
@@ -228,14 +223,25 @@
     <fieldset>
         <legend>Actualización y Garantías</legend>
 
-        <div class="field"><label>Premisa</label><input type="text" name="premisa"></div>
+           <div class="field">
+            <label>Premisa</label>
+            <select name="premisa"></select>
+        </div>
         <div class="field"><label>Base de Premisa</label><input type="text" name="base_premisa"></div>
-        <div class="field"><label>Periodicidad</label><input type="text" name="periodicidad"></div>
-        <div class="field"><label>Metodología Actualización</label><input type="text" name="metodologia_actualizacion"></div>
-        <div class="field"><label>Próxima Fecha Actualización</label><input type="date" name="prox_fecha_actualizacion"></div>
+          <div class="field">
+            <label>Periodicidad</label>
+            <select name="periodicidad"></select>
+        </div>
+           <div class="field">
+            <label>Metodología de Actualización</label>
+            <select name="metodologia_actualizacion"></select>
+
+        </div><div class="field"><label>Próxima Fecha Actualización</label><input type="date" name="prox_fecha_actualizacion"></div>
         <div class="field"><label>C. Actualización</label><input type="text" name="c_actualizacion"></div>
-        
-        <div class="field"><label>Interés</label><input type="text" name="interes"></div>
+           <div class="field">
+            <label>Interes</label>
+            <select name="interes"></select>
+        </div>
         <div class="field"><label>Días de Crédito</label><input type="number" name="dias_credito"></div>
         <div class="field"><label>Garantía</label><input type="text" name="garantia"></div>
         <div class="field"><label>Monto Garantía</label><input type="number" step="0.01" name="monto_garantia"></div>
@@ -248,10 +254,13 @@
 
     <fieldset>
         <legend>Ubicación y Contacto</legend>
-
-        <div class="field"><label>Ubicación</label><input type="text" name="ubicacion"></div>
-        <div class="field full-width"><label>Detalle de Ubicación</label><textarea name="detalle_ubicacion"></textarea></div>
-        <div class="field"><label>Correo Electrónico SAP</label><input type="email" name="correo_electronico_sap"></div>
+   <div class="field">
+            <label>Ubicación</label>
+            <select name="ubicacion"></select>
+        </div>   <div class="field">
+            <label>Detalle Ubicación</label>
+            <select name="detalle_ubicacion"></select>
+        </div> <div class="field"><label>Correo Electrónico SAP</label><input type="email" name="correo_electronico_sap"></div>
         <div class="field"><label>Correo</label><input type="email" name="correo"></div>
         <div class="field"><label>Enlace</label><input type="url" name="enlace"></div>
 
@@ -300,6 +309,7 @@ async function generarIdAutomatico() {
 }
 window.addEventListener("DOMContentLoaded", () => {
     generarIdAutomatico();
+       cargarOpciones();
 });
 
 
@@ -569,6 +579,45 @@ function calcularTotal() {
     const total = subtotal - incentivo;
 
     inputTotal.value = total.toFixed(2);
+}
+
+
+
+
+const URL_OPCIONES = "https://script.google.com/macros/s/AKfycbzYdRzGuJpZzuCPcOso3zilw9O0cye6Z13wLtbLk2RPDkDqZkLUIPAHU0AFkkLpHnhBww/exec";
+async function cargarOpciones() {
+    try {
+
+        const response = await fetch(URL_OPCIONES + "?accion=opciones");
+
+        if (!response.ok) {
+            throw new Error("Error en la respuesta del servidor");
+        }
+
+        const data = await response.json();
+
+        console.log("Respuesta opciones:", data);
+
+        Object.keys(data).forEach(nombreCampo => {
+
+            const select = document.querySelector(`[name="${nombreCampo}"]`);
+
+            if (!select) return;
+
+            select.innerHTML = "<option value=''>Seleccionar...</option>";
+
+            data[nombreCampo].forEach(opcion => {
+                const option = document.createElement("option");
+                option.value = opcion;
+                option.textContent = opcion;
+                select.appendChild(option);
+            });
+
+        });
+
+    } catch (error) {
+        console.error("Error cargando opciones:", error);
+    }
 }
 
 
