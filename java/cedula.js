@@ -228,7 +228,7 @@ const textoGarantia = "TIPO: " + instrumentoSeleccionado.toUpperCase();
 
 doc.setFontSize(9);
 doc.setFont(undefined, 'bold');
-doc.setTextColor(150, 150, 150);
+doc.setTextColor(0, 29, 179); //color azul para destacar el tipo de garantía
 
 // derecha superior
 doc.text(textoGarantia, 190, 18, { align: "right" });
