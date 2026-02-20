@@ -167,12 +167,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
+    const tipoGarantia = document
+      .querySelector('input[name="tipo-garantia"]:checked')
+      .value;
     // Configurar fuente formal
     doc.setFont("helvetica");
     doc.setTextColor(0, 0, 0);
 
     // Datos
-    const tipoGarantia = document.querySelector('input[name="tipo-garantia"]:checked').value.toUpperCase();
     const contraprestacion = document.getElementById('contraprestacion').value;
     const alicuota = document.getElementById('alicuota').value;
     const subtotal = document.getElementById('subtotal').textContent;
@@ -320,65 +322,54 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     y += 2;
     doc.setFontSize(8);
     doc.setFont(undefined, 'italic');
-    
-    // Notas al pie
-    doc.text("La determinación del monto de garantía es elaborada según las condiciones definidas en términos comerciales,contrato y/o ", 20, y);
-    y += 5;
-
-    doc.text(" instrumento similar.", 20, y);
-    y += 5;
-    
-   doc.text(" Notas:", 20, y);
-    y += 5;
    
-    // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
-    // PÁRRAFO COMPLETO CON SALTOS DE LÍNEA
-const notaCompleta = "*Notificar el cumplimiento de exhibición de garantía mediante correo electrónico, adjuntando el comprobante bancario cuyo concepto debe incluir el texto: Depósito en garantía.";
-// SEGUNDO PÁRRAFO0
-const segundoParrafo ="*En caso de renovaciones, al contar con una garantía vigente, considerar preferentemente su devolución previa solicitud por escrito del representante legal, incluyendo motivación, número de contrato y vigencia. En su defecto, manifestar en el escrito la intención de exhibir el diferencial por garantizar. En cualquier situación, anexar copia legible del estado de cuenta bancaria con una antigüedad no mayor a tres meses y donde se muestre la CLABE interbancaria.";
+   
+// Mostrar nota SOLO si es depósito
+const instrumentoSeleccionado = document.getElementById("instrumento").value;
 
-// Dividir el texto en líneas que quepan en el ancho del PDF
-const lineHeight = 5
+if (instrumentoSeleccionado === "deposito") {
+    y += 4;
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'italic');
 
+    doc.text(
+      "DETERMINACIÓN ELABORADA SEGÚN: TÉRMINOS COMERCIALES, CONTRATO Y/O COMÚN ACUERDO ENTRE LAS PARTES.",
+      20,
+      y
+    );
+    y += 6;
 
-const maxWidth = 170; // Ancho máximo disponible
+    doc.setFont(undefined, 'bold');
+    doc.text("NOTAS:", 20, y);
+    y += 5;
 
-doc.setFontSize(8);
+    doc.setFont(undefined, 'italic');
 
-// Primer párrafo
-const lines1 = doc.splitTextToSize(notaCompleta, maxWidth);
-lines1.forEach(line => {
-    if (y > 270) { // Si se acerca al final de la página
-        doc.addPage();
-        y = 20;
-    }
-    doc.text(line, 20, y);
-    y += lineHeight;
-});
+    const notaCompleta =
+      "NOTIFICAR EL CUMPLIMIENTO DE EXHIBICIÓN DE GARANTÍA MEDIANTE CORREO ELECTRÓNICO ADJUNTANDO EL COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO: \"DEPÓSITO EN GARANTÍA\".";
 
-// Espacio entre párrafos
-y += 1;
+    const maxWidth = 170;
+    const lineHeight = 5;
 
-// Segundo párrafo
-const lines2 = doc.splitTextToSize(segundoParrafo, maxWidth);
-lines2.forEach(line => {
-    if (y > 270) { // Si se acerca al final de la página
-        doc.addPage();
-        y = 20;
-    }
-    doc.text(line, 20, y);
-    y += lineHeight;
-});
-    // Guardar
-    doc.save("cedula_garantia.pdf");
+    const lines = doc.splitTextToSize(notaCompleta, maxWidth);
+
+    lines.forEach(line => {
+        if (y > 270) {
+            doc.addPage();
+            y = 20;
+        }
+        doc.text(line, 20, y);
+        y += lineHeight;
+    });
 }
+doc.save("cedula_garantia.pdf");
+
+    }
+
     
     // Vincular el evento click del botón a la función generarPDF
     btnGenerarPDF.addEventListener('click', generarPDF);
     
-
-
-
 
 // Reiniciar formulario en 0 al cargar la página
 document.getElementById('contraprestacion').value = 0;
@@ -389,8 +380,4 @@ document.getElementById('meses-garantia').value = 0;
 
 // Calcular valores iniciales
 calcularValores();
-
-
-    // Calcular valores iniciales
-    calcularValores();
 });
