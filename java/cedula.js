@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Sincronizar el select principal con las opciones de tipo
     instrumentoSelect.addEventListener('change', manejarCambioInstrumento);
+    instrumentoSelect.addEventListener('change', actualizarCamposBancarios);
     
     // Event listeners para inputs que deben disparar cálculos
     document.getElementById('contraprestacion').addEventListener('input', calcularValores);
@@ -407,4 +408,32 @@ document.getElementById('meses-garantia').value = 0;
 
 // Calcular valores iniciales
 calcularValores();
+
+
+function actualizarCamposBancarios() {
+
+    const instrumento = document.getElementById("instrumento").value;
+
+    const banco = document.getElementById("banco");
+    const entidad = document.getElementById("entidad");
+    const beneficiario = document.getElementById("beneficiario");
+
+    const esDeposito = instrumento === "depósito en garantía";
+
+    [banco, entidad, beneficiario].forEach(input => {
+
+        input.disabled = !esDeposito;
+
+        if (!esDeposito) {
+            input.value = "";
+        }
+
+        input.style.opacity = esDeposito ? "1" : "0.5";
+        input.style.cursor = esDeposito ? "text" : "not-allowed";
+    });
+}
+
+
+
+actualizarCamposBancarios();
 });
