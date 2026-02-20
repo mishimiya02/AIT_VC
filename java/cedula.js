@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
+    const instrumentoSeleccionado = document.getElementById("instrumento").value;
     const tipoGarantia = document
       .querySelector('input[name="tipo-garantia"]:checked')
       .value;
@@ -195,6 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Intentar agregar el logo
     try {
         const logoCargado = await loadAndAddImage(doc, 'img/logo2n.png', 5, 5, 35, 15);
+
+        
         
         if (!logoCargado) {
             // Fallback si no se puede cargar el logo
@@ -205,7 +208,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } catch (e) {
         console.error("Error con el logo:", e);
+    
     }
+// ===== MARCA DE GARANTÍA =====
+
+const textoGarantia = "TIPO DE GARANTÍA: " + instrumentoSeleccionado.toUpperCase();
+
+doc.setFontSize(9);
+doc.setFont(undefined, 'bold');
+doc.setTextColor(150, 150, 150);
+
+// derecha superior
+doc.text(textoGarantia, 190, 18, { align: "right" });
+
+// restaurar color
+doc.setTextColor(0, 0, 0);
+    
 
     // Encabezado
     doc.setFontSize(16);
@@ -324,9 +342,6 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     doc.setFont(undefined, 'italic');
    
    
-// Mostrar nota SOLO si es depósito
-const instrumentoSeleccionado = document.getElementById("instrumento").value;
-
 if (instrumentoSeleccionado === "deposito") {
     y += 4;
     doc.setFontSize(8);
