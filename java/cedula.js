@@ -224,7 +224,7 @@ if (instrumentoSeleccionado === "otro") {
     }
 // ===== MARCA DE GARANTÍA =====
 
-const textoGarantia = "TIPO DE GARANTÍA: " + instrumentoSeleccionado.toUpperCase();
+const textoGarantia = "TIPO: " + instrumentoSeleccionado.toUpperCase();
 
 doc.setFontSize(9);
 doc.setFont(undefined, 'bold');
