@@ -31,29 +31,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Función para manejar el cambio en el select de instrumento
-    function manejarCambioInstrumento() {
-        if (this.value === 'otro') {
-            // Si selecciona "OTRO", desbloquear el input de meses
-            mesesGarantia.readOnly = false;
-            mesesGarantia.style.backgroundColor = '#fff';
-            mesesGarantia.style.cursor = 'text';
-            // También actualizar las opciones visuales
-            cambiarTipoGarantia(document.getElementById('option-deposito'));
+   function manejarCambioInstrumento() {
+
+    const grupoOtro = document.getElementById("grupo-otro");
+
+    if (this.value === 'otro') {
+
+        grupoOtro.style.display = "block";   // Mostrar input
+
+        mesesGarantia.readOnly = false;
+        mesesGarantia.style.backgroundColor = '#fff';
+        mesesGarantia.style.cursor = 'text';
+
+    } else {
+
+        grupoOtro.style.display = "none";    // Ocultar input
+
+        mesesGarantia.readOnly = true;
+        mesesGarantia.style.backgroundColor = '#f0f0f0';
+        mesesGarantia.style.cursor = 'not-allowed';
+
+        if (this.value === 'fianza') {
+            cambiarTipoGarantia(document.getElementById('option-fianza'));
         } else {
-            // Para otras opciones, bloquear el input
-            mesesGarantia.readOnly = true;
-            mesesGarantia.style.backgroundColor = '#f0f0f0';
-            mesesGarantia.style.cursor = 'not-allowed';
-            
-            // Sincronizar con las opciones de tipo
-            if (this.value === 'fianza') {
-                cambiarTipoGarantia(document.getElementById('option-fianza'));
-            } else {
-                cambiarTipoGarantia(document.getElementById('option-deposito'));
-            }
+            cambiarTipoGarantia(document.getElementById('option-deposito'));
         }
     }
-    
+}
     // Añadir event listeners a las opciones
     tipoOptions.forEach(option => {
         option.addEventListener('click', function() {
@@ -167,7 +171,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
-    const instrumentoSeleccionado = document.getElementById("instrumento").value;
+    let instrumentoSeleccionado = document.getElementById("instrumento").value;
+
+if (instrumentoSeleccionado === "otro") {
+    const textoPersonalizado = document.getElementById("instrumento-otro").value.trim();
+    
+    instrumentoSeleccionado = textoPersonalizado !== "" 
+        ? textoPersonalizado 
+        : "OTRO";
+}
     const tipoGarantia = document
       .querySelector('input[name="tipo-garantia"]:checked')
       .value;
