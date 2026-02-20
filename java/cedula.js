@@ -409,7 +409,6 @@ document.getElementById('meses-garantia').value = 0;
 // Calcular valores iniciales
 calcularValores();
 
-
 function actualizarCamposBancarios() {
 
     const instrumento = document.getElementById("instrumento").value;
@@ -420,19 +419,54 @@ function actualizarCamposBancarios() {
 
     const esDeposito = instrumento === "depósito en garantía";
 
-    [banco, entidad, beneficiario].forEach(input => {
+    if (esDeposito) {
 
-        input.disabled = !esDeposito;
+        // Habilitar
+        banco.disabled = false;
+        entidad.disabled = false;
+        beneficiario.disabled = false;
 
-        if (!esDeposito) {
-            input.value = "";
+        banco.style.opacity = "1";
+        entidad.style.opacity = "1";
+        beneficiario.style.opacity = "1";
+
+        banco.style.cursor = "text";
+        entidad.style.cursor = "text";
+        beneficiario.style.cursor = "text";
+
+        // Solo poner valores por defecto si están vacíos
+        if (!banco.value) {
+            banco.value = "BANORTE";
         }
 
-        input.style.opacity = esDeposito ? "1" : "0.5";
-        input.style.cursor = esDeposito ? "text" : "not-allowed";
-    });
-}
+        if (!entidad.value) {
+            entidad.value = "07 24 20 00 60 98 88 43 61";
+        }
 
+        if (!beneficiario.value) {
+            beneficiario.value = "ADMINISTRADORA MEXIQUENSE DEL AEROPUERTO INTERNACIONAL DE TOLUCA";
+        }
+
+    } else {
+
+        // Limpiar y bloquear
+        banco.value = "";
+        entidad.value = "";
+        beneficiario.value = "";
+
+        banco.disabled = true;
+        entidad.disabled = true;
+        beneficiario.disabled = true;
+
+        banco.style.opacity = "0.5";
+        entidad.style.opacity = "0.5";
+        beneficiario.style.opacity = "0.5";
+
+        banco.style.cursor = "not-allowed";
+        entidad.style.cursor = "not-allowed";
+        beneficiario.style.cursor = "not-allowed";
+    }
+}
 
 
 actualizarCamposBancarios();
