@@ -354,7 +354,7 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     doc.setFont(undefined, 'italic');
    
    
-if (instrumentoSeleccionado === "deposito") {
+if (instrumentoSeleccionado === "depósito en garantía") {
     y += 4;
     doc.setFontSize(8);
     doc.setFont(undefined, 'italic');
