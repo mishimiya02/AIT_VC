@@ -887,33 +887,31 @@ function calcularDiasRestantes() {
 }
 
 
-
 function guardarVacaciones() {
-    const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
-const aDisfrutar = parseInt(document.getElementById("diasDisf").value) || 0;
-
-if (disponibles === 0) {
-  Swal.fire({
-    icon: "warning",
-    title: "Operación no permitida",
-    text: "El empleado no tiene días disponibles."
-  });
-  return;
-}
-
-if (aDisfrutar > disponibles) {
-  Swal.fire({
-    icon: "warning",
-    title: "Días inválidos",
-    text: "Los días a disfrutar no pueden ser mayores a los disponibles."
-  });
-  return;
-}
-
+  const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+  const aDisfrutar = parseInt(document.getElementById("diasDisf").value) || 0;
   const id = document.getElementById("empleado").value.trim();
-  const dias = document.getElementById("diasDisf").value;
+  const nombre = document.getElementById("nombre").value.trim();
 
-  if (!id || !dias) {
+  if (disponibles === 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "Operación no permitida",
+      text: "El empleado no tiene días disponibles."
+    });
+    return;
+  }
+
+  if (aDisfrutar > disponibles) {
+    Swal.fire({
+      icon: "warning",
+      title: "Días inválidos",
+      text: "Los días a disfrutar no pueden ser mayores a los disponibles."
+    });
+    return;
+  }
+
+  if (!id || !aDisfrutar) {
     Swal.fire({
       icon: "warning",
       title: "Datos incompletos",
@@ -922,43 +920,68 @@ if (aDisfrutar > disponibles) {
     return;
   }
 
+  const diasRestantes = disponibles - aDisfrutar;
+
+  // 🔥 ALERTA DE CONFIRMACIÓN
   Swal.fire({
-    title: "Guardando vacaciones...",
-    allowOutsideClick: false,
-    didOpen: () => Swal.showLoading()
-  });
+    icon: "info",
+    title: "Rectifica los datos",
+    html: `
+      <div style="text-align:left">
+        <strong>ID:</strong> ${id} <br>
+        <strong>Nombre:</strong> ${nombre} <br>
+        <strong>Días restantes:</strong> ${diasRestantes}
+      </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: "Sí, guardar",
+    cancelButtonText: "Cancelar",
+    confirmButtonColor: "#16a34a",
+    cancelButtonColor: "#dc2626"
+  }).then((result) => {
 
-  fetch(`https://script.google.com/macros/s/AKfycbxiCjRHbGfyePhet0M97zvfDzogNb4TB2miktvk8_igJ5t9amJRTNJgLsRXAv8KUhJ3/exec?accion=actualizar&id=${id}&dias=${dias}`)
-    .then(r => r.json())
-    .then(respuesta => {
-      Swal.close();
+    if (!result.isConfirmed) return;
 
-      if (respuesta.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Vacaciones guardadas",
-          text: `Días restantes: ${respuesta.nuevos}`
-        });
+    // 🔥 Ahora sí guarda
+    Swal.fire({
+      title: "Guardando vacaciones...",
+      allowOutsideClick: false,
+      didOpen: () => Swal.showLoading()
+    });
 
-        document.getElementById("diasRest").value = respuesta.nuevos;
-        document.getElementById("diasDisp").value = respuesta.nuevos;
-      } else {
+    fetch(`https://script.google.com/macros/s/AKfycbxiCjRHbGfyePhet0M97zvfDzogNb4TB2miktvk8_igJ5t9amJRTNJgLsRXAv8KUhJ3/exec?accion=actualizar&id=${id}&dias=${aDisfrutar}`)
+      .then(r => r.json())
+      .then(respuesta => {
+        Swal.close();
+
+        if (respuesta.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "Vacaciones guardadas",
+            text: `Días restantes actualizados: ${respuesta.nuevos}`
+          });
+
+          document.getElementById("diasRest").value = respuesta.nuevos;
+          document.getElementById("diasDisp").value = respuesta.nuevos;
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: respuesta.mensaje
+          });
+        }
+      })
+      .catch(err => {
+        Swal.close();
+        console.error(err);
         Swal.fire({
           icon: "error",
-          title: "Error",
-          text: respuesta.mensaje
+          title: "Error de conexión",
+          text: "No se pudo guardar en Google Sheets."
         });
-      }
-    })
-    .catch(err => {
-      Swal.close();
-      console.error(err);
-      Swal.fire({
-        icon: "error",
-        title: "Error de conexión",
-        text: "No se pudo guardar en Google Sheets."
       });
-    });
+
+  });
 }
 
 /*fecha de hoy pero editable */
