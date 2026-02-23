@@ -301,9 +301,48 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
     
-    const URL_EDITAR = "https://script.google.com/macros/s/AKfycbwDEJDCGLy1C0saURXpwmShNyDN4D__SVzPxpb59l1ccyg-aBVclaFR_HGfvurvs0o/exec";
+    const URL_EDITAR ="https://script.google.com/macros/s/AKfycbz4G_nDBzCstcP6a6tSgHQhrUtbWejJkKW4GaIJXDy_Xx7I_TzYoBuvQzUg0xfPSeuLZg/exec";
 
-async function buscarContrato() {
+function cargarFormulario(data) {
+
+    Object.keys(data).forEach(key => {
+        const campo = document.querySelector(`[name="${key}"]`);
+        if (!campo) return;
+
+        if (campo.type === "date" && data[key]) {
+
+            const fecha = new Date(data[key]);
+            const yyyy = fecha.getFullYear();
+            const mm = String(fecha.getMonth() + 1).padStart(2, "0");
+            const dd = String(fecha.getDate()).padStart(2, "0");
+
+            campo.value = `${yyyy}-${mm}-${dd}`;
+
+        } else {
+
+            campo.value = data[key];
+
+        }
+    });
+
+    Swal.fire({
+        icon: "success",
+        title: "Contrato cargado",
+        timer: 1000,
+        showConfirmButton: false
+    });
+}
+
+
+
+
+
+
+
+
+
+
+    async function buscarContrato() {
 
     const noCliente = document.getElementById("buscar_no_cliente").value.trim();
 
@@ -317,12 +356,9 @@ async function buscarContrato() {
     }
 
     Swal.fire({
-        title: "Buscando contrato...",
-        text: "Por favor espera",
+        title: "Buscando contratos...",
         allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        }
+        didOpen: () => Swal.showLoading()
     });
 
     try {
@@ -339,39 +375,38 @@ async function buscarContrato() {
             Swal.fire({
                 icon: "error",
                 title: "No encontrado",
-                text: "No existe un contrato con ese número de cliente"
+                text: "No existen contratos con ese número"
             });
             return;
         }
 
-        Object.keys(data).forEach(key => {
-            const campo = document.querySelector(`[name="${key}"]`);
-           if (!campo) return;
+        // 🔥 Si solo hay uno, lo carga directo
+        if (data.length === 1) {
+            cargarFormulario(data[0]);
+            return;
+        }
 
-if (campo.type === "date" && data[key]) {
+        // 🔥 Si hay varios, mostrar lista
+        let opciones = {};
 
-    const fecha = new Date(data[key]);
-
-    const yyyy = fecha.getFullYear();
-    const mm = String(fecha.getMonth() + 1).padStart(2, "0");
-    const dd = String(fecha.getDate()).padStart(2, "0");
-
-    campo.value = `${yyyy}-${mm}-${dd}`;
-
-} else {
-
-    campo.value = data[key];
-
-}
-
+        data.forEach((contrato, index) => {
+            opciones[index] =
+                "Contrato: " + (contrato.no_contrato || "Sin número") +
+                " | Inicio: " + (contrato.inicio_vigencia || "") +
+                " | Total: " + (contrato.total || "");
         });
 
-        Swal.fire({
-            icon: "success",
-            title: "Contrato cargado",
-            timer: 1200,
-            showConfirmButton: false
+        const { value: seleccion } = await Swal.fire({
+            title: "Selecciona el contrato",
+            input: "select",
+            inputOptions: opciones,
+            inputPlaceholder: "Elige uno",
+            showCancelButton: true
         });
+
+        if (seleccion !== undefined) {
+            cargarFormulario(data[seleccion]);
+        }
 
     } catch (error) {
         Swal.close();
