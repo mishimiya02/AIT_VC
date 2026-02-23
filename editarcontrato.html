@@ -390,11 +390,24 @@ function cargarFormulario(data) {
         let opciones = {};
 
         data.forEach((contrato, index) => {
-            opciones[index] =
-                "Contrato: " + (contrato.no_contrato || "Sin número") +
-                " | Inicio: " + (contrato.inicio_vigencia || "") +
-                " | Total: " + (contrato.total || "");
-        });
+
+    let fechaFormateada = "";
+
+    if (contrato.inicio_vigencia) {
+        const fecha = new Date(contrato.inicio_vigencia);
+
+        const yyyy = fecha.getFullYear();
+        const mm = String(fecha.getMonth() + 1).padStart(2, "0");
+        const dd = String(fecha.getDate()).padStart(2, "0");
+
+        fechaFormateada = `${yyyy}-${mm}-${dd}`;
+    }
+
+    opciones[index] =
+        "Contrato: " + (contrato.no_contrato || "Sin número") +
+        " | Inicio: " + fechaFormateada +
+        " | Total: " + (contrato.total || "");
+});
 
         const { value: seleccion } = await Swal.fire({
             title: "Selecciona el contrato",
