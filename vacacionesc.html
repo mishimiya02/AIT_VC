@@ -809,7 +809,9 @@ function buscarEmpleado() {
       document.getElementById("horario").value = data.horario;
       document.getElementById("area").value = data.area;
       document.getElementById("puesto").value = data.puesto;
-      document.getElementById("ingreso").value = data.ingreso;
+      if (data.ingreso) {
+  document.getElementById("ingreso").value = data.ingreso.substring(0, 10);
+}
       document.getElementById("diasDisp").value = data.diasDisponibles;
     diasOriginales = parseInt(data.diasDisponibles);   // 👈 CLAVE
 
