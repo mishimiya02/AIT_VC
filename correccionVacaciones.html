@@ -84,7 +84,6 @@ async function mostrarFormulario(data) {
     }
 }
 
-
 async function guardarDias(id, dias) {
 
     Swal.fire({
@@ -95,28 +94,25 @@ async function guardarDias(id, dias) {
 
     try {
 
-        const response = await fetch(URL, {
-            method: "POST",
-            body: JSON.stringify({
-                accion: "editarDias",
-                id: id,
-                dias: dias
-            })
-        });
+        const response = await fetch(
+            URL + "?accion=actualizar&id=" + id + "&dias=" + dias
+        );
 
-        const resultado = await response.json();
+        const text = await response.text();
+        const data = JSON.parse(text);
 
         Swal.close();
 
-        if (resultado.result === "success") {
+        if (data.ok) {
             Swal.fire("Actualizado correctamente");
         } else {
-            Swal.fire("Error al actualizar");
+            Swal.fire(data.mensaje);
         }
 
     } catch (error) {
         Swal.close();
         Swal.fire("Error de conexión");
+        console.error(error);
     }
 }
 
