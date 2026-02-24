@@ -151,9 +151,9 @@ async function guardarDias(id, dias) {
         icon: "info",
         title: "Aviso",
         html: `
-            Si recientemente se hizo una corrección a los días asignados,<br>
+            Recientemente se hizo una corrección a los días asignados,<br>
             favor de recargar la página de solicitud de vacaciones<br>
-            para actualizar valores.
+            para actualizar valores antes de usarla.
         `,
         confirmButtonText: "Entendido",
         confirmButtonColor: "#2563eb"
@@ -182,6 +182,7 @@ function formatearFecha(fechaISO) {
     return `${yyyy}-${mm}-${dd}`;
 }
 
+localStorage.setItem("huboCorreccionVacaciones", "true");
 </script>
 
 </html>
