@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Días Disponibles</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+<h2>Editar Días Disponibles</h2>
+
+<label>ID Trabajador:</label>
+<input type="text" id="buscar_id">
+<button onclick="buscarTrabajador()">Buscar</button>
+
+<script>
+
+const URL = "https://script.google.com/macros/s/AKfycbyfr2HIL41GaXoiLWqwuRQyDmzj3DQr5gULviZUOsKMW1djzafpQ2u4jgCCGUlu-tDfFg/exec"; // 🔥 PON AQUÍ TU URL DE APPS SCRIPT
+
+async function buscarTrabajador() {
+
+    const id = document.getElementById("buscar_id").value.trim();
+
+    if (!id) {
+        Swal.fire("Ingresa un ID");
+        return;
+    }
+
+    Swal.fire({
+        title: "Buscando...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    try {
+
+        const response = await fetch(URL + "?accion=buscar&id=" + id);
+        const text = await response.text();
+        const data = JSON.parse(text);
+
+        Swal.close();
+
+        if (!data.ok) {
+            Swal.fire("No encontrado");
+            return;
+        }
+
+        mostrarFormulario(data);
+
+    } catch (error) {
+        Swal.close();
+        Swal.fire("Error de conexión");
+        console.error(error);
+    }
+}
+
+async function mostrarFormulario(data) {
+
+    const { value: nuevosDias } = await Swal.fire({
+        title: "Editar días disponibles",
+        html: `
+            <p><b>ID:</b> ${data.ID}</p>
+            <p><b>Nombre:</b> ${data.NOMBRE}</p>
+            <p><b>Horario:</b> ${data.HORARIO}</p>
+            <p><b>Área:</b> ${data.AREA}</p>
+            <p><b>Puesto:</b> ${data.PUESTO}</p>
+            <p><b>Ingreso:</b> ${formatearFecha(data.INGRESO)}</p>
+            <p><b>Días actuales:</b> ${data.Ddisponibles}</p>
+            <hr>
+            <input type="number" id="nuevo_dias" class="swal2-input" 
+                   placeholder="Nuevo número de días"
+                   value="${data.Ddisponibles}">
+        `,
+        focusConfirm: false,
+        preConfirm: () => {
+            return document.getElementById("nuevo_dias").value;
+        },
+        showCancelButton: true,
+        confirmButtonText: "Guardar"
+    });
+
+    if (nuevosDias !== undefined) {
+        guardarDias(data.ID, nuevosDias);
+    }
+}
+
+
+async function guardarDias(id, dias) {
+
+    Swal.fire({
+        title: "Guardando...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    try {
+
+        const response = await fetch(URL, {
+            method: "POST",
+            body: JSON.stringify({
+                accion: "editarDias",
+                id: id,
+                dias: dias
+            })
+        });
+
+        const resultado = await response.json();
+
+        Swal.close();
+
+        if (resultado.result === "success") {
+            Swal.fire("Actualizado correctamente");
+        } else {
+            Swal.fire("Error al actualizar");
+        }
+
+    } catch (error) {
+        Swal.close();
+        Swal.fire("Error de conexión");
+    }
+}
+
+
+function formatearFecha(fechaISO) {
+    if (!fechaISO) return "";
+    const fecha = new Date(fechaISO);
+    const yyyy = fecha.getFullYear();
+    const mm = String(fecha.getMonth() + 1).padStart(2, "0");
+    const dd = String(fecha.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+</script>
+
+</body>
+</html>
