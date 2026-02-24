@@ -1,3 +1,144 @@
+
+  /* barra de navegacion */
+	  .boton-vaciar {
+  padding: 20px 30px;
+     font-size: 24px;
+ 	text-decoration:none;
+     background-color: #165baf;
+     color: white;
+     border: none;
+     border-radius: 8px;
+     cursor: pointer;
+     transition: background-color 0.3s;
+   }
+   .boton-vaciar:hover {
+     background-color: #80dbff;
+   }
+
+
+ 			nav {
+ 				background-color: #00529e;
+        padding-left: 0;
+ 				display: flex;
+ 				justify-content: space-between;
+ 				align-items: stretch;
+ 				position: relative;
+ 				height: 100px; /* altura */
+ 			}
+
+          
+ 
+ 			.menu-center {
+ 				display: flex;
+ 				position: absolute;
+ 				left: 50%;
+ 				transform: translateX(-50%);
+ 				height: 100%;
+ 			}
+ 
+ 			nav a {
+ 				color: white;
+ 				font-weight: bold;
+ 				font-size: 25px;
+ 				padding: 0 25px;
+ 				text-decoration: none;
+ 				font-family: 'Segoe UI', sans-serif;
+ 				letter-spacing: 1px;
+ 				text-transform: uppercase;
+ 				/*display: flex;*/
+ 				align-items: center;
+ 				height: 100%;
+ 				transition: all 0.3s;
+                display: flex;
+ 			}
+ 
+ 			nav a:hover {
+ 				background-color: #be0000;
+ 				color: white;
+ 			}
+ 
+ 			/* Estilos NUEVOS para el dropdown  */
+ 			.dropdown {
+ 				position: relative;
+ 				height: 100%;
+ 				display: flex;
+ 				align-items: center;
+ 			}
+ 
+ 			.dropdown-content {
+ 				display: none;
+ 				position: absolute;
+ 				top: 100%;
+ 				left: 0;
+ 				background-color: white;
+ 				min-width: 200px;
+ 				box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+ 				z-index: 1000;
+ 			}
+ 
+ 			.dropdown-content a {
+ 				padding: 15px 25px;
+ 				color: black;
+ 				font-size: 16px;
+ 				text-transform: uppercase;
+ 				border-bottom: 1px solid #f0f0f0;
+ 			}
+ 
+ 			.dropdown-content a:hover {
+ 				background-color: #dc3545; /* Rojo al hover */
+ 				color: white;
+ 			}
+ 
+ 			.dropdown:hover .dropdown-content {
+ 				display: block;
+ 			}
+ 
+ 			/* Mantener hover azul en el botón principal */
+ 			.dropdown:hover > .dropbtn {
+ 				background-color: #2f517c;
+ 				color: white;
+ 			}
+  #theme-toggle {
+        font-weight: bold;
+        font-size: 17px;
+        background-color:  #002ec7;;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+}
+
+
+
+
+/* Estilo para el input de Razón Social */
+
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ececec;
+      margin: 0;
+   
+    }
+
+    #theme-toggle:hover {
+    background: rgb(170, 2, 100);
+}
+
+
+    body, nav, .formulario {
+    transition: background-color 2s ease, color s ease;
+}
+   
+
+
+
+
+
+
+
+
+
 body {
     margin: 0;
     background: #f4f6f9;
@@ -18,13 +159,23 @@ body {
     border-radius: 12px;
     padding: 30px 40px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    
+}
+
+.form-container h3 {
+    margin-bottom: 30px;
+    color: #1f2937;
+    text-decoration: none;
+    font-weight: normal;
+      justify-content: center;
+
 }
 
 .form-container h2 {
     margin-bottom: 30px;
     color: #1f2937;
+      justify-content: center;
 }
-
 .form-group {
     margin-bottom: 20px;
 }
@@ -75,3 +226,4 @@ button:hover {
 .guardar-btn:hover {
     background: #1d4ed8;
 }
+
