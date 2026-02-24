@@ -1,82 +1,77 @@
-/* Reset básico */
-* {
+body {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f6f9;
+    font-family: "Segoe UI", sans-serif;
 }
 
-/* Fondo general */
-body {
-    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-    min-height: 100vh;
+.page-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding: 40px 20px;
 }
 
-/* Contenedor principal */
-.container {
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
-    animation: fadeIn 0.6s ease-in-out;
+.form-container {
+    width: 100%;
+    max-width: 800px;
+    background: #ffffff;
+    border: 2px solid #7da7d9;
+    border-radius: 12px;
+    padding: 30px 40px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
 
-/* Título */
-.container h2 {
+.form-container h2 {
+    margin-bottom: 30px;
+    color: #1f2937;
+}
+
+.form-group {
     margin-bottom: 20px;
-    color: #102a43;
 }
 
-/* Label */
 label {
     display: block;
-    text-align: left;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: #334e68;
+    margin-bottom: 6px;
+    color: #374151;
 }
 
-/* Input */
-input[type="text"] {
+input {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #bcccdc;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
+    padding: 8px 10px;
+    border: 1px solid #9ca3af;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
-input[type="text"]:focus {
-    border-color: #3b82f6;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.inline-group {
+    display: flex;
+    gap: 10px;
 }
 
-/* Botón */
+.inline-group input {
+    flex: 1;
+}
+
 button {
-    width: 100%;
-    padding: 10px;
-    background: #3b82f6;
+    padding: 8px 16px;
+    background: #334155;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 button:hover {
-    background: #2563eb;
-    transform: translateY(-2px);
+    background: #1e293b;
 }
 
-/* Animación suave */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+.guardar-btn {
+    margin-top: 20px;
+    width: 200px;
+    background: #2563eb;
+}
+
+.guardar-btn:hover {
+    background: #1d4ed8;
 }

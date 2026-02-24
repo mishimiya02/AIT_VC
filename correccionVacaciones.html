@@ -8,20 +8,20 @@
 </head>
 <body>
 
+<div class="page-wrapper">
 
-<div class="main-container">
+    <div class="form-container">
 
-    <div class="card search-card">
         <h2>Corrección de Vacaciones</h2>
 
-        <label for="buscar_id">ID del Trabajador</label>
-        <input type="text" id="buscar_id" placeholder="Ej. 5678">
-
-        <button onclick="buscarTrabajador()">Buscar</button>
+        <div class="form-group">
+            <label>No. de empleado</label>
+            <div class="inline-group">
+                <input type="text" id="buscar_id">
+                <button onclick="buscarTrabajador()">Buscar</button>
+            </div>
+        </div>
     </div>
-
-    <!-- Contenedor dinámico -->
-    <div id="resultadoContainer" class="card resultado hidden"></div>
 
 </div>
 
