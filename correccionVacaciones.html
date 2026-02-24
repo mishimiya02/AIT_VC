@@ -140,10 +140,30 @@ async function guardarDias(id, dias) {
         Swal.close();
 
         if (data.ok) {
-            Swal.fire("Actualizado correctamente");
+           Swal.fire({
+    icon: "success",
+    title: "Actualizado correctamente",
+    timer: 3200,
+    showConfirmButton: false
+}).then(() => {
+
+    Swal.fire({
+        icon: "info",
+        title: "Aviso",
+        html: `
+            Si recientemente se hizo una corrección a los días asignados,<br>
+            favor de recargar la página de solicitud de vacaciones<br>
+            para actualizar valores.
+        `,
+        confirmButtonText: "Entendido",
+        confirmButtonColor: "#2563eb"
+    });
+
+});
         } else {
             Swal.fire(data.mensaje);
         }
+
 
     } catch (error) {
         Swal.close();
