@@ -4,15 +4,28 @@
   <meta charset="UTF-8">
   <title>Editar Días Disponibles</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="/css/correccionVacaciones.css">
 </head>
 <body>
 
-<h2>Editar Días Disponibles</h2>
 
-<label>ID Trabajador:</label>
-<input type="text" id="buscar_id">
-<button onclick="buscarTrabajador()">Buscar</button>
+<div class="main-container">
 
+    <div class="card search-card">
+        <h2>Corrección de Vacaciones</h2>
+
+        <label for="buscar_id">ID del Trabajador</label>
+        <input type="text" id="buscar_id" placeholder="Ej. 5678">
+
+        <button onclick="buscarTrabajador()">Buscar</button>
+    </div>
+
+    <!-- Contenedor dinámico -->
+    <div id="resultadoContainer" class="card resultado hidden"></div>
+
+</div>
+
+</body>
 <script>
 
 const URL = "https://script.google.com/macros/s/AKfycbwGoTjAPPtpNxJnh8ykpvNvBabM9ZSJ3qy2IRqdF-XTjo-2SbM4auY-fN7zlWEEAOB2NA/exec"; // 🔥 PON AQUÍ TU URL DE APPS SCRIPT
@@ -128,5 +141,4 @@ function formatearFecha(fechaISO) {
 
 </script>
 
-</body>
 </html>
