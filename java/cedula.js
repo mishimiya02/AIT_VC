@@ -326,23 +326,26 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
 
     /* ===== OBSERVACIONES ===== */
+/* ===== OBSERVACIONES ===== */
 
-const observaciones = document.getElementById("observaciones").value.trim();
+const observacionesUsuario = document.getElementById("observaciones").value.trim();
 
-if (observaciones !== "") {
+y += 8;
 
-    y += 8;
+doc.setFontSize(10);
+doc.setFont(undefined, 'bold');
+doc.setTextColor(0, 0, 0);
+doc.text("OBSERVACIONES:", 20, y);
 
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.setTextColor(0, 0, 0);
-    doc.text("OBSERVACIONES:", 20, y);
+y += 5;
 
-    y += 6;
+doc.setFont(undefined, 'normal');
 
-    doc.setFont(undefined, 'normal');
+/* --- 1. Observaciones del usuario (si existen) --- */
 
-    const lineasObs = doc.splitTextToSize(observaciones, 170);
+if (observacionesUsuario !== "") {
+
+    const lineasObs = doc.splitTextToSize(observacionesUsuario, 170);
 
     lineasObs.forEach(linea => {
 
@@ -354,7 +357,29 @@ if (observaciones !== "") {
         doc.text(linea, 20, y);
         y += 5;
     });
+
+    y += 4; // pequeño espacio antes de la institucional
 }
+
+/* --- 2. Observación institucional fija (SIEMPRE) --- */
+
+doc.setFont(undefined, 'italic');
+
+const observacionFija =
+"*DETERMINACIÓN ELABORADA SEGÚN: TÉRMINOS COMERCIALES, CONTRATO Y/O COMÚN ACUERDO ENTRE LAS PARTES.";
+
+const lineasFijas = doc.splitTextToSize(observacionFija, 170);
+
+lineasFijas.forEach(linea => {
+
+    if (y > 270) {
+        doc.addPage();
+        y = 20;
+    }
+
+    doc.text(linea, 20, y);
+    y += 4;
+});
 
     // Agregar información del banco y CLABE si están disponibles
     if (banco || entidad || beneficiario) {
@@ -390,14 +415,6 @@ if (instrumentoSeleccionado === "depósito en garantía") {
     y += 4;
     doc.setFontSize(8);
     doc.setFont(undefined, 'italic');
-
-    doc.text(
-      "DETERMINACIÓN ELABORADA SEGÚN: TÉRMINOS COMERCIALES, CONTRATO Y/O COMÚN ACUERDO ENTRE LAS PARTES.",
-      20,
-      y
-    );
-    y += 6;
-
     doc.setFont(undefined, 'bold');
     doc.text("NOTAS:", 20, y);
     y += 5;
