@@ -325,6 +325,37 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     // Total por garantizar (destacado)
     agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
 
+    /* ===== OBSERVACIONES ===== */
+
+const observaciones = document.getElementById("observaciones").value.trim();
+
+if (observaciones !== "") {
+
+    y += 8;
+
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'bold');
+    doc.setTextColor(0, 0, 0);
+    doc.text("OBSERVACIONES:", 20, y);
+
+    y += 6;
+
+    doc.setFont(undefined, 'normal');
+
+    const lineasObs = doc.splitTextToSize(observaciones, 170);
+
+    lineasObs.forEach(linea => {
+
+        if (y > 270) {
+            doc.addPage();
+            y = 20;
+        }
+
+        doc.text(linea, 20, y);
+        y += 5;
+    });
+}
+
     // Agregar información del banco y CLABE si están disponibles
     if (banco || entidad || beneficiario) {
         y += 5;

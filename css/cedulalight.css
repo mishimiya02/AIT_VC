@@ -1,4 +1,17 @@
 /* Para que funcione correctamente en todos los casos */
+
+#observaciones {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background-color: #ffffff;
+    color: #000000;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical; /* solo vertical */
+}
 .menu-center {
     display: flex;
     position: absolute;
