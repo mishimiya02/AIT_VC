@@ -226,3 +226,26 @@ button:hover {
     background: #1d4ed8;
 }
 
+/* inputs bloqueados */
+
+.swal2-input[disabled],
+.swal2-input[readonly]{
+
+    background-color:#f3f4f6;
+    color:#6b7280;
+    border:2px solid #d1d5db;
+    cursor:not-allowed;
+
+}
+
+/* efecto visual */
+
+.swal2-input[disabled]{
+    opacity:0.85;
+}
+
+/* opcional: texto más tenue */
+
+.swal2-input[disabled]::placeholder{
+    color:#9ca3af;
+}
