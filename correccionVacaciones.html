@@ -50,8 +50,8 @@
 
 </body>
 <script>
+    const URL = "https://script.google.com/macros/s/AKfycbzbWDKsAu3Ch1DdytBFeK61lh4-4SJLzOhAO0AvhupmMQcTBSTk91siYsXqaxot5qjj_g/exec";
 
-const URL = "https://script.google.com/macros/s/AKfycbwGoTjAPPtpNxJnh8ykpvNvBabM9ZSJ3qy2IRqdF-XTjo-2SbM4auY-fN7zlWEEAOB2NA/exec"; // 🔥 PON AQUÍ TU URL DE APPS SCRIPT
 
 async function buscarTrabajador() {
 
@@ -71,13 +71,12 @@ async function buscarTrabajador() {
     try {
 
         const response = await fetch(URL + "?accion=buscar&id=" + id);
-        const text = await response.text();
-        const data = JSON.parse(text);
+        const data = await response.json();
 
         Swal.close();
 
         if (!data.ok) {
-            Swal.fire("No encontrado");
+            Swal.fire("Empleado no encontrado");
             return;
         }
 
@@ -90,37 +89,61 @@ async function buscarTrabajador() {
     }
 }
 
+
+
 async function mostrarFormulario(data) {
 
-    const { value: nuevosDias } = await Swal.fire({
-        title: "Editar días disponibles",
+    const { value: formValues } = await Swal.fire({
+        title: "Editar empleado",
+        width: 600,
         html: `
-            <p><b>ID:</b> ${data.ID}</p>
-            <p><b>Nombre:</b> ${data.NOMBRE}</p>
-            <p><b>Horario:</b> ${data.HORARIO}</p>
-            <p><b>Área:</b> ${data.AREA}</p>
-            <p><b>Puesto:</b> ${data.PUESTO}</p>
-            <p><b>Ingreso:</b> ${formatearFecha(data.INGRESO)}</p>
-            <p><b>Días actuales:</b> ${data.Ddisponibles}</p>
-            <hr>
-            <input type="number" id="nuevo_dias" class="swal2-input" 
-                   placeholder="Nuevo número de días"
-                   value="${data.Ddisponibles}">
+
+        <input id="swal_nombre" class="swal2-input" placeholder="Nombre" value="${data.NOMBRE}">
+
+        <input id="swal_horario" class="swal2-input" placeholder="Horario" value="${data.HORARIO}">
+
+        <input id="swal_area" class="swal2-input" placeholder="Área" value="${data.AREA}">
+
+        <input id="swal_puesto" class="swal2-input" placeholder="Puesto" value="${data.PUESTO}">
+
+        <label style="margin-top:10px;">Fecha ingreso</label>
+        <input id="swal_ingreso" type="date" class="swal2-input"
+        value="${formatearFecha(data.INGRESO)}">
+
+        <input id="swal_dias" type="number" class="swal2-input"
+        placeholder="Días disponibles"
+        value="${data.Ddisponibles}">
+
         `,
+
         focusConfirm: false,
-        preConfirm: () => {
-            return document.getElementById("nuevo_dias").value;
-        },
         showCancelButton: true,
-        confirmButtonText: "Guardar"
+        confirmButtonText: "Guardar",
+
+        preConfirm: () => {
+
+            return {
+
+                nombre: document.getElementById("swal_nombre").value,
+                horario: document.getElementById("swal_horario").value,
+                area: document.getElementById("swal_area").value,
+                puesto: document.getElementById("swal_puesto").value,
+                ingreso: document.getElementById("swal_ingreso").value,
+                dias: document.getElementById("swal_dias").value
+
+            }
+
+        }
     });
 
-    if (nuevosDias !== undefined) {
-        guardarDias(data.ID, nuevosDias);
+    if (formValues) {
+        guardarCambios(data.ID, formValues);
     }
 }
 
-async function guardarDias(id, dias) {
+
+
+async function guardarCambios(id, valores) {
 
     Swal.fire({
         title: "Guardando...",
@@ -130,59 +153,59 @@ async function guardarDias(id, dias) {
 
     try {
 
-        const response = await fetch(
-            URL + "?accion=actualizar&id=" + id + "&dias=" + dias
-        );
+        const url =
+URL + "?accion=actualizarEmpleado"
++ "&id=" + encodeURIComponent(id)
++ "&nombre=" + encodeURIComponent(valores.nombre)
++ "&horario=" + encodeURIComponent(valores.horario)
++ "&area=" + encodeURIComponent(valores.area)
++ "&puesto=" + encodeURIComponent(valores.puesto)
++ "&ingreso=" + encodeURIComponent(valores.ingreso)
++ "&dias=" + encodeURIComponent(valores.dias);
 
-        const text = await response.text();
-        const data = JSON.parse(text);
+        const response = await fetch(url);
+        const data = await response.json();
 
         Swal.close();
 
         if (data.ok) {
-           Swal.fire({
-    icon: "success",
-    title: "Actualizado correctamente",
-    timer: 3200,
-    showConfirmButton: false
-}).then(() => {
 
-    Swal.fire({
-        icon: "info",
-        title: "Aviso",
-        html: `
-            Recientemente se hizo una corrección a los días asignados,<br>
-            favor de recargar la página de solicitud de vacaciones<br>
-            para actualizar valores antes de usarla.
-        `,
-        confirmButtonText: "Entendido",
-        confirmButtonColor: "#2563eb"
-    });
+            Swal.fire({
+                icon: "success",
+                title: "Empleado actualizado",
+                timer: 2000,
+                showConfirmButton: false
+            });
 
-});
         } else {
-            Swal.fire(data.mensaje);
+
+            Swal.fire("Error", data.mensaje, "error");
+
         }
 
-
     } catch (error) {
+
         Swal.close();
         Swal.fire("Error de conexión");
         console.error(error);
+
     }
 }
 
 
+
 function formatearFecha(fechaISO) {
+
     if (!fechaISO) return "";
+
     const fecha = new Date(fechaISO);
+
     const yyyy = fecha.getFullYear();
     const mm = String(fecha.getMonth() + 1).padStart(2, "0");
     const dd = String(fecha.getDate()).padStart(2, "0");
+
     return `${yyyy}-${mm}-${dd}`;
+
 }
-
-localStorage.setItem("huboCorreccionVacaciones", "true");
-</script>
-
+    </script>
 </html>
