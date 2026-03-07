@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Contratos - SIAPAD</title>
     <link rel="stylesheet" href="css/registrarcontrato.css" id="theme-style">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
 
@@ -263,9 +264,9 @@
         </div>   <div class="field">
             <label>Detalle Ubicación</label>
             <select name="detalle_ubicacion"></select>
-        </div> <div class="field"><label>Correo Electrónico SAP</label><input type="email" name="correo_electronico_sap"></div>
-        <div class="field"><label>Correo</label><input type="email" name="correo"></div>
-        <div class="field"><label>Enlace</label><input type="url" name="enlace"></div>
+        </div> <div class="field"><label>Correo Electrónico SAP</label><input type="text" name="correo_electronico_sap"></div>
+        <div class="field"><label>Correo</label><input type="text" name="correo"></div>
+        <div class="field"><label>Enlace</label><input type="text" name="enlace"></div>
 
        
     </fieldset>
@@ -277,7 +278,25 @@
 </form>
 
 </div>
+<button id="btnOCR">📄 OCR</button>
 
+<!-- SIDEBAR OCR -->
+ <div id="ocrSidebar">
+
+    <div class="ocr-header">
+        <h3>OCR Documento</h3>
+        <button id="cerrarOCR">✖</button>
+    </div>
+
+    <input type="file" id="imageInput" accept="image/*">
+
+    <button onclick="procesarImagen()">Extraer Texto</button>
+
+    <img id="previewImage">
+
+    <textarea id="textoExtraido" placeholder="Texto detectado..."></textarea>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -624,7 +643,58 @@ async function cargarOpciones() {
 }
 
 
+const sidebar = document.getElementById("ocrSidebar");
 
+document.getElementById("btnOCR").onclick = () => {
+    sidebar.classList.add("open");
+};
+
+document.getElementById("cerrarOCR").onclick = () => {
+    sidebar.classList.remove("open");
+};
+
+
+const imageInput = document.getElementById("imageInput");
+const previewImage = document.getElementById("previewImage");
+const textoExtraido = document.getElementById("textoExtraido");
+
+imageInput.addEventListener("change", function(e){
+
+    const file = e.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event){
+        previewImage.src = event.target.result;
+    }
+
+    reader.readAsDataURL(file);
+});
+
+
+async function procesarImagen(){
+
+    const file = imageInput.files[0];
+
+    if(!file){
+        alert("Selecciona una imagen primero");
+        return;
+    }
+
+    textoExtraido.value = "Procesando imagen...";
+
+    const result = await Tesseract.recognize(
+        file,
+        'spa+eng',
+        {
+            logger: m => console.log(m)
+        }
+    );
+
+    textoExtraido.value = result.data.text;
+
+}
 </script>
 
 </body>
