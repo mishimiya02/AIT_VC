@@ -1,0 +1,124 @@
+const SHEET_ID = "11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8";
+const SHEET_NAME = "colaboradores";
+
+function doGet(e) {
+
+  const accion = e.parameter.accion;
+
+  if (accion === "buscar") {
+    return buscarEmpleado(e);
+  }
+
+  if (accion === "actualizar") {
+    return actualizarDias(e);
+  }
+
+  if (accion === "actualizarEmpleado") {
+    return actualizarEmpleado(e);
+  }
+
+  return respuesta({ ok: false, mensaje: "Acción no válida" });
+}
+
+function buscarEmpleado(e) {
+
+  const id = String(e.parameter.id).trim();
+
+  const hoja = SpreadsheetApp.openById(SHEET_ID)
+    .getSheetByName(SHEET_NAME);
+
+  const datos = hoja.getDataRange().getValues();
+
+  for (let i = 1; i < datos.length; i++) {
+
+    if (String(datos[i][0]).trim() === id) {
+
+      return respuesta({
+        ok: true,
+        ID: datos[i][0],
+        NOMBRE: datos[i][1],
+        HORARIO: datos[i][2],
+        AREA: datos[i][3],
+        PUESTO: datos[i][4],
+        INGRESO: datos[i][5],
+        Ddisponibles: datos[i][6]
+      });
+    }
+  }
+
+  return respuesta({ ok: false, mensaje: "Empleado no encontrado" });
+}
+
+function actualizarDias(e) {
+
+  const id = String(e.parameter.id).trim();
+  const dias = Number(e.parameter.dias);
+
+  const hoja = SpreadsheetApp.openById(SHEET_ID)
+    .getSheetByName(SHEET_NAME);
+
+  const datos = hoja.getDataRange().getValues();
+
+  for (let i = 1; i < datos.length; i++) {
+
+    if (String(datos[i][0]).trim() === id) {
+
+      hoja.getRange(i + 1, 7).setValue(dias);
+
+      return respuesta({
+        ok: true,
+        nuevos: dias
+      });
+    }
+  }
+
+  return respuesta({ ok: false, mensaje: "Empleado no encontrado" });
+}
+
+
+function actualizarEmpleado(e) {
+
+  const id = String(e.parameter.id).trim();
+
+  const nombre = e.parameter.nombre;
+  const horario = e.parameter.horario;
+  const area = e.parameter.area;
+  const puesto = e.parameter.puesto;
+  const ingreso = e.parameter.ingreso;
+  const dias = Number(e.parameter.dias);
+
+  const hoja = SpreadsheetApp.openById(SHEET_ID)
+    .getSheetByName(SHEET_NAME);
+
+  const datos = hoja.getDataRange().getValues();
+
+  for (let i = 1; i < datos.length; i++) {
+
+    if (String(datos[i][0]).trim() === id) {
+
+      hoja.getRange(i + 1, 2).setValue(nombre);
+      hoja.getRange(i + 1, 3).setValue(horario);
+      hoja.getRange(i + 1, 4).setValue(area);
+      hoja.getRange(i + 1, 5).setValue(puesto);
+      hoja.getRange(i + 1, 6).setValue(ingreso);
+      hoja.getRange(i + 1, 7).setValue(dias);
+
+      return respuesta({
+        ok: true,
+        mensaje: "Empleado actualizado"
+      });
+    }
+  }
+
+  return respuesta({
+    ok: false,
+    mensaje: "Empleado no encontrado"
+  });
+}
+
+
+function respuesta(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
