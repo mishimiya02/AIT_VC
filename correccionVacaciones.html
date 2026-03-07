@@ -93,27 +93,67 @@ async function buscarTrabajador() {
 
 async function mostrarFormulario(data) {
 
+    const opcion = await Swal.fire({
+        title: "¿Qué deseas modificar?",
+        showDenyButton: true,
+        confirmButtonText: "Datos personales",
+        denyButtonText: "Horas disponibles",
+        cancelButtonText: "Cancelar",
+        showCancelButton: true
+    });
+
+    if (opcion.isDismissed) return;
+
+    const editarDatos = opcion.isConfirmed;
+    const editarDias = opcion.isDenied;
+
     const { value: formValues } = await Swal.fire({
         title: "Editar empleado",
         width: 600,
         html: `
+        
+        <label style="margin-top:10px;">Nombre</label>
 
-        <input id="swal_nombre" class="swal2-input" placeholder="Nombre" value="${data.NOMBRE}">
+        <input id="swal_nombre" class="swal2-input"
+        placeholder="Nombre"
+        value="${data.NOMBRE}"
+        ${editarDias ? "disabled" : ""}>
+        
+        <label style="margin-top:10px;">Horario</label>
 
-        <input id="swal_horario" class="swal2-input" placeholder="Horario" value="${data.HORARIO}">
+        <input id="swal_horario" class="swal2-input"
+        placeholder="Horario"
+        value="${data.HORARIO}"
+        ${editarDias ? "disabled" : ""}>
+        
+        <label style="margin-top:10px;">Área</label>
 
-        <input id="swal_area" class="swal2-input" placeholder="Área" value="${data.AREA}">
+        <input id="swal_area" class="swal2-input"
+        placeholder="Área"
+        value="${data.AREA}"
+        ${editarDias ? "disabled" : ""}>
+        
+        <label style="margin-top:10px;">Puesto</label>
 
-        <input id="swal_puesto" class="swal2-input" placeholder="Puesto" value="${data.PUESTO}">
+        <input id="swal_puesto" class="swal2-input"
+        placeholder="Puesto"
+        value="${data.PUESTO}"
+        ${editarDias ? "disabled" : ""}>
 
         <label style="margin-top:10px;">Fecha ingreso</label>
-        <input id="swal_ingreso" type="date" class="swal2-input"
-        value="${formatearFecha(data.INGRESO)}">
 
-        <input id="swal_dias" type="number" class="swal2-input"
+        <input id="swal_ingreso"
+        type="date"
+        class="swal2-input"
+        value="${formatearFecha(data.INGRESO)}"
+        ${editarDias ? "disabled" : ""}>
+
+        <input id="swal_dias"
+        type="number"
+        class="swal2-input"
         placeholder="Días disponibles"
-        value="${data.Ddisponibles}">
-
+        value="${data.Ddisponibles}"
+        ${editarDatos ? "disabled" : ""}>
         `,
 
         focusConfirm: false,
@@ -140,6 +180,11 @@ async function mostrarFormulario(data) {
         guardarCambios(data.ID, formValues);
     }
 }
+
+
+    if (formValues) {
+        guardarCambios(data.ID, formValues);
+    }
 
 
 
