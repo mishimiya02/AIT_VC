@@ -50,7 +50,7 @@
 
 </body>
 <script>
-    const URL = "https://script.google.com/macros/s/AKfycbxUBdkPuPfVFV09IJLfwrhUogRiWZjxZJr9iIXbSs42tyH4d0jNQaSeMlKy4CGTgDzHrQ/exec";
+    const URL = "https://script.google.com/macros/s/AKfycbwMDJDIhWuG6MQuaT1l9UsfMEeAYsw8pJHNECbz9NFrEb9NbajREaMV09Z83KQaOkuh6Q/exec";
 
 
 async function buscarTrabajador() {
@@ -140,13 +140,7 @@ async function mostrarFormulario(data) {
         value="${data.PUESTO}"
         ${editarDias ? "disabled" : ""}>
 
-        <label style="margin-top:10px;">Fecha ingreso</label>
-
-        <input id="swal_ingreso"
-        type="date"
-        class="swal2-input"
-        value="${formatearFecha(data.INGRESO)}"
-        ${editarDias ? "disabled" : ""}>
+       
 
         <label style="margin-top:10px;">Días disponibles</label>
 
@@ -170,7 +164,7 @@ async function mostrarFormulario(data) {
                 horario: document.getElementById("swal_horario").value,
                 area: document.getElementById("swal_area").value,
                 puesto: document.getElementById("swal_puesto").value,
-                ingreso: document.getElementById("swal_ingreso").value,
+              
                 dias: document.getElementById("swal_dias").value
 
             }
@@ -183,10 +177,6 @@ async function mostrarFormulario(data) {
     }
 }
 
-
-    if (formValues) {
-        guardarCambios(data.ID, formValues);
-    }
 
 
 
@@ -207,7 +197,7 @@ URL + "?accion=actualizarEmpleado"
 + "&horario=" + encodeURIComponent(valores.horario)
 + "&area=" + encodeURIComponent(valores.area)
 + "&puesto=" + encodeURIComponent(valores.puesto)
-+ "&ingreso=" + encodeURIComponent(valores.ingreso)
+
 + "&dias=" + encodeURIComponent(valores.dias);
 
         const response = await fetch(url);
