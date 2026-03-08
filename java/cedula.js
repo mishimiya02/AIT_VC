@@ -299,17 +299,6 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
     // Luego, en las llamadas a agregarFila, cambiar las etiquetas:
     agregarFila("= CONTRAPRESTACIÓN MENSUAL BRUTA:", contraprestacion, true, true);
     agregarFila("+ % ALICUOTAS:", alicuota + "%", false);
@@ -325,23 +314,46 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
     // Total por garantizar (destacado)
     agregarFila(" = TOTAL POR GARANTIZAR:", totalGarantizar, true, true, true);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const textoSize = 9;
+const saltoLinea = 5;
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(textoSize);
+doc.setTextColor(0,0,0);
+
     /* ===== OBSERVACIONES ===== */
 /* ===== OBSERVACIONES ===== */
-
 const observacionesUsuario = document.getElementById("observaciones").value.trim();
 
-y += 8;
+y += saltoLinea + 3;
 
-doc.setFontSize(10);
-doc.setFont(undefined, 'bold');
-doc.setTextColor(0, 0, 0);
+doc.setFont("helvetica","bold");
+doc.setFontSize(textoSize);
 doc.text("OBSERVACIONES:", 20, y);
 
-y += 5;
+y += saltoLinea;
 
-doc.setFont(undefined, 'normal');
-
-/* --- 1. Observaciones del usuario (si existen) --- */
+doc.setFont("helvetica","normal");
 
 if (observacionesUsuario !== "") {
 
@@ -355,15 +367,13 @@ if (observacionesUsuario !== "") {
         }
 
         doc.text(linea, 20, y);
-        y += 5;
+        y += saltoLinea;
     });
 
-    y += 4; // pequeño espacio antes de la institucional
+    y += saltoLinea;
 }
 
-/* --- 2. Observación institucional fija (SIEMPRE) --- */
-
-doc.setFont(undefined, 'italic');
+doc.setFont("helvetica","italic");
 
 const observacionFija =
 "*DETERMINACIÓN ELABORADA SEGÚN: TÉRMINOS COMERCIALES, CONTRATO Y/O COMÚN ACUERDO ENTRE LAS PARTES.";
@@ -378,64 +388,71 @@ lineasFijas.forEach(linea => {
     }
 
     doc.text(linea, 20, y);
-    y += 4;
+    y += saltoLinea;
 });
+
+
+
+
+
 
     // Agregar información del banco y CLABE si están disponibles
     if (banco || entidad || beneficiario) {
-        y += 5;
-        doc.setFontSize(11);
-        doc.setFont(undefined, 'bold');
-        doc.setTextColor(0, 0, 0);
-        doc.text("INFORMACIÓN BANCARIA:", 20, y);
-        y += 7;
-        
-        doc.setFont(undefined, 'normal');
-        if (banco) {
-            doc.text("BANCO: " + banco, 20, y);
-            y += 7;
-        }
-        
-        if (entidad) {
-            doc.text("CLABE: " + entidad, 20, y);
-            y += 7;
-        }
-        if (beneficiario) {
-            doc.text("BENEFICIARIO: " + beneficiario, 20, y);
-            y += 4;
-        }
+
+    y += saltoLinea;
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(textoSize);
+    doc.text("INFORMACIÓN BANCARIA:", 20, y);
+
+    y += saltoLinea;
+
+    doc.setFont("helvetica","normal");
+
+    if (banco) {
+        doc.text("BANCO: " + banco, 20, y);
+        y += saltoLinea;
     }
 
-    y += 2;
-    doc.setFontSize(8);
-    doc.setFont(undefined, 'italic');
-   
-   
-if (instrumentoSeleccionado === "depósito en garantía") {
-    y += 4;
-    doc.setFontSize(8);
-    doc.setFont(undefined, 'italic');
-    doc.setFont(undefined, 'bold');
-    doc.text("NOTAS:", 20, y);
-    y += 5;
+    if (entidad) {
+        doc.text("CLABE: " + entidad, 20, y);
+        y += saltoLinea;
+    }
 
-    doc.setFont(undefined, 'italic');
+    if (beneficiario) {
+        doc.text("BENEFICIARIO: " + beneficiario, 20, y);
+        y += saltoLinea;
+    }
+}
+   
+   /*notas*/
+
+   if (instrumentoSeleccionado === "depósito en garantía") {
+
+    y += saltoLinea;
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(textoSize);
+    doc.text("NOTAS:", 20, y);
+
+    y += saltoLinea;
+
+    doc.setFont("helvetica","italic");
 
     const notaCompleta =
-      "NOTIFICAR EL CUMPLIMIENTO DE EXHIBICIÓN DE GARANTÍA MEDIANTE CORREO ELECTRÓNICO ADJUNTANDO EL COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO: \"DEPÓSITO EN GARANTÍA\".";
+    "NOTIFICAR EL CUMPLIMIENTO DE EXHIBICIÓN DE GARANTÍA MEDIANTE CORREO ELECTRÓNICO ADJUNTANDO EL COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO: \"DEPÓSITO EN GARANTÍA\".";
 
-    const maxWidth = 170;
-    const lineHeight = 5;
-
-    const lines = doc.splitTextToSize(notaCompleta, maxWidth);
+    const lines = doc.splitTextToSize(notaCompleta, 170);
 
     lines.forEach(line => {
+
         if (y > 270) {
             doc.addPage();
             y = 20;
         }
+
         doc.text(line, 20, y);
-        y += lineHeight;
+        y += saltoLinea;
     });
 }
 doc.save("cedula_garantia.pdf");
