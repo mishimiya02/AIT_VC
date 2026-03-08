@@ -334,49 +334,19 @@ function agregarFila(label, value, isMonetary = false, isBold = false, isHighlig
 
 
 
-const textoSize = 9;
+const textoSize = 10;
 const saltoLinea = 5;
 
 doc.setFont("helvetica", "normal");
 doc.setFontSize(textoSize);
 doc.setTextColor(0,0,0);
 
-    /* ===== OBSERVACIONES ===== */
-/* ===== OBSERVACIONES ===== */
-const observacionesUsuario = document.getElementById("observaciones").value.trim();
 
-y += saltoLinea + 3;
-
-doc.setFont("helvetica","bold");
-doc.setFontSize(textoSize);
-doc.text("OBSERVACIONES:", 20, y);
-
-y += saltoLinea;
 
 doc.setFont("helvetica","normal");
 
-if (observacionesUsuario !== "") {
-
-    const lineasObs = doc.splitTextToSize(observacionesUsuario, 170);
-
-    lineasObs.forEach(linea => {
-
-        if (y > 270) {
-            doc.addPage();
-            y = 20;
-        }
-
-        doc.text(linea, 20, y);
-        y += saltoLinea;
-    });
-
-    y += saltoLinea;
-}
-
-doc.setFont("helvetica","italic");
-
 const observacionFija =
-"*DETERMINACIÓN ELABORADA SEGÚN: TÉRMINOS COMERCIALES, CONTRATO Y/O COMÚN ACUERDO ENTRE LAS PARTES.";
+"DETERMINACIÓN ELABORADA SEGÚN: TÉRMINOS COMERCIALES, CONTRATO Y/O COMÚN ACUERDO ENTRE LAS PARTES.";
 
 const lineasFijas = doc.splitTextToSize(observacionFija, 170);
 
@@ -391,9 +361,37 @@ lineasFijas.forEach(linea => {
     y += saltoLinea;
 });
 
+/* ===== OBSERVACIONES ===== */
+/* ===== OBSERVACIONES ===== */
 
 
+/* ===== OBSERVACIONES DEL USUARIO ===== */
+const observacionesUsuario = document.getElementById("observaciones").value.trim();
+if (observacionesUsuario !== "") {
 
+    y += saltoLinea; // espacio antes del encabezado
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(textoSize);
+    doc.text("OBSERVACIONES:", 20, y);
+
+    y += saltoLinea;
+
+    doc.setFont("helvetica","normal");
+
+    const lineasObs = doc.splitTextToSize(observacionesUsuario, 170);
+
+    lineasObs.forEach(linea => {
+
+        if (y > 270) {
+            doc.addPage();
+            y = 20;
+        }
+
+        doc.text(linea, 20, y);
+        y += saltoLinea;
+    });
+}
 
 
     // Agregar información del banco y CLABE si están disponibles
@@ -437,7 +435,7 @@ lineasFijas.forEach(linea => {
 
     y += saltoLinea;
 
-    doc.setFont("helvetica","italic");
+    doc.setFont("helvetica","normal");
 
     const notaCompleta =
     "NOTIFICAR EL CUMPLIMIENTO DE EXHIBICIÓN DE GARANTÍA MEDIANTE CORREO ELECTRÓNICO ADJUNTANDO EL COMPROBANTE BANCARIO CUYO CONCEPTO DEBE INCLUIR EL TEXTO: \"DEPÓSITO EN GARANTÍA\".";
