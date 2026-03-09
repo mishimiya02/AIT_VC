@@ -1,0 +1,23 @@
+const SHEET_ID = "11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8";
+const SHEET_NAME = "colaboradores"; // cambia si tu hoja tiene otro nombre
+
+function doPost(e) {
+
+  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+
+  const data = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    data.id,
+    data.nombre,
+    data.horario,
+    data.area,
+    data.puesto,
+    data.ingreso,
+    data.disponibles
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({resultado:"ok"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}

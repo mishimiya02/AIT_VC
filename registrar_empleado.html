@@ -10,7 +10,48 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<style>
+    /* CONTENEDOR */
+.form-group select{
+    width:100%;
+    padding:10px 12px;
+    font-size:14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    background-color:#fff;
+    cursor:pointer;
 
+    /* quitar estilo nativo */
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+
+    /* flecha personalizada */
+    background-image:url("data:image/svg+xml;utf8,<svg fill='%23666' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 10px center;
+    background-size:18px;
+
+    transition:all 0.25s ease;
+}
+
+/* HOVER */
+.form-group select:hover{
+    border-color:#4facfe;
+}
+
+/* FOCUS */
+.form-group select:focus{
+    outline:none;
+    border-color:#4facfe;
+    box-shadow:0 0 5px rgba(79,172,254,0.6);
+}
+
+/* OPCIONES */
+.form-group select option{
+    padding:10px;
+}
+</style>
 
 
 <link id="theme-style" rel="stylesheet" href="css/vacaciones.css">
@@ -43,6 +84,7 @@
 <a href='/index.html'>Inicio</a>
          <a href='/vacacionesc.html'>VACACIONES</a>
            <a href='/correccionVacaciones.html'>CORRECIONES</a>
+             <a href='/registrar_empleado.html'>REGISTRAR EMPLEADO</a>
        <a href="https://docs.google.com/spreadsheets/d/11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8/edit?usp=sharing"
    target="_blank"
    rel="noopener noreferrer">
@@ -100,7 +142,7 @@
 
 <div class="form-group">
 <label>Días Disponibles</label>
-<input type="number" id="disponibles" readonly>
+<input type="number" id="disponibles">
 </div>
 
 <button type="submit">Guardar Registro</button>
@@ -112,20 +154,50 @@
 
 <script>
 
-document.getElementById("ingreso").addEventListener("change", calcularDias);
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwaO6YRvPJtiRJZl45gmDa0ndPgkwfJlYmGm0tBsyjFFxlqw_2-rMnqs9OKYsD1Te-P5Q/exec";
 
-function calcularDias(){
+document.getElementById("formRegistro").addEventListener("submit", async function(e){
 
-let ingreso = new Date(document.getElementById("ingreso").value);
-let hoy = new Date();
+e.preventDefault();
 
-let diferencia = hoy - ingreso;
+const datos = {
 
-let dias = Math.floor(diferencia / (1000*60*60*24));
+id: document.getElementById("id").value,
+nombre: document.getElementById("nombre").value,
+horario: document.getElementById("horario").value,
+area: document.getElementById("area").value,
+puesto: document.getElementById("puesto").value,
+ingreso: document.getElementById("ingreso").value,
+disponibles: document.getElementById("disponibles").value
 
-document.getElementById("disponibles").value = dias;
+};
+
+try{
+
+const res = await fetch(URL_SCRIPT,{
+method:"POST",
+body: JSON.stringify(datos)
+});
+
+const respuesta = await res.json();
+
+if(respuesta.resultado === "ok"){
+
+alert("Registro guardado correctamente");
+
+document.getElementById("formRegistro").reset();
 
 }
+
+}catch(error){
+
+alert("Error al guardar");
+
+console.error(error);
+
+}
+
+});
 
 </script>
 
