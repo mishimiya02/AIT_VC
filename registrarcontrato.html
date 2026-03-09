@@ -675,7 +675,7 @@ imageInput.addEventListener("change", function(e){
 
 async function procesarImagen(){
 
-    const file = imageInput.files[0];
+    const file = imageInput.files[0] || window.imagenPegada;
 
     if(!file){
         alert("Selecciona una imagen primero");
@@ -695,6 +695,30 @@ async function procesarImagen(){
     textoExtraido.value = result.data.text;
 
 }
+document.addEventListener("paste", function(e){
+
+    const items = e.clipboardData.items;
+
+    for (let i = 0; i < items.length; i++) {
+
+        if (items[i].type.indexOf("image") !== -1) {
+
+            const blob = items[i].getAsFile();
+
+            // Mostrar preview
+            const url = URL.createObjectURL(blob);
+            previewImage.src = url;
+
+            // Guardar la imagen como si fuera seleccionada
+            imageInput.files = new DataTransfer().files;
+
+            // Guardamos la imagen para el OCR
+            window.imagenPegada = blob;
+
+            console.log("Imagen pegada desde portapapeles");
+        }
+    }
+});
 </script>
 
 </body>
