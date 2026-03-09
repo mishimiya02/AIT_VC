@@ -154,7 +154,39 @@
 
 <script>
 
-const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwaO6YRvPJtiRJZl45gmDa0ndPgkwfJlYmGm0tBsyjFFxlqw_2-rMnqs9OKYsD1Te-P5Q/exec";
+const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbzdPme0vkepTT0xmejVCYCMPV46XgxkM7KpSxhhQZkT6-QDxWY7malrtMnDYzw-PmSo8Q/exec";
+
+
+
+
+window.addEventListener("DOMContentLoaded", obtenerSiguienteID);
+
+async function obtenerSiguienteID(){
+
+try{
+
+const res = await fetch(URL_SCRIPT);
+const data = await res.json();
+
+document.getElementById("id").value = data.nextId;
+
+}catch(error){
+
+console.error("Error obteniendo ID", error);
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+
 
 document.getElementById("formRegistro").addEventListener("submit", async function(e){
 
