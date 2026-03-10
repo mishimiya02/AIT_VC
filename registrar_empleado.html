@@ -51,6 +51,16 @@
 .form-group select option{
     padding:10px;
 }
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.icono-girando {
+    width: 80px;
+    height: 80px;
+    animation: girar 1.2s linear infinite;
+}
 </style>
 
 
@@ -105,7 +115,7 @@
 <form id="formRegistro">
 
 <div class="form-group">
-<label>ID</label>
+<label>ID Recomendado (modificable)</label>
 <input type="text" id="id" required>
 </div>
 
@@ -187,7 +197,6 @@ console.error("Error obteniendo ID", error);
 
 
 
-
 document.getElementById("formRegistro").addEventListener("submit", async function(e){
 
 e.preventDefault();
@@ -204,6 +213,16 @@ disponibles: document.getElementById("disponibles").value
 
 };
 
+/* ALERTA DE GUARDANDO */
+
+Swal.fire({
+title: "Guardando registro...",
+html: '<img src="img/cargando.png" class="icono-girando">',
+showConfirmButton: false,
+allowOutsideClick: false,
+allowEscapeKey: false
+});
+
 try{
 
 const res = await fetch(URL_SCRIPT,{
@@ -213,17 +232,31 @@ body: JSON.stringify(datos)
 
 const respuesta = await res.json();
 
+Swal.close();
+
 if(respuesta.resultado === "ok"){
 
-alert("Registro guardado correctamente");
+Swal.fire({
+icon: "success",
+title: "Registro guardado",
+text: "El empleado fue registrado correctamente",
+confirmButtonText: "Aceptar"
+});
 
 document.getElementById("formRegistro").reset();
-
+/* PEDIR NUEVO ID AUTOMÁTICO */
+obtenerSiguienteID();
 }
 
 }catch(error){
 
-alert("Error al guardar");
+Swal.close();
+
+Swal.fire({
+icon: "error",
+title: "Error",
+text: "No se pudo guardar el registro"
+});
 
 console.error(error);
 

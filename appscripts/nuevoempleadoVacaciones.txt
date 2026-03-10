@@ -21,3 +21,26 @@ function doPost(e) {
     .createTextOutput(JSON.stringify({resultado:"ok"}))
     .setMimeType(ContentService.MimeType.JSON);
 }
+
+
+function doGet() {
+
+  const sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME);
+
+  const lastRow = sheet.getLastRow();
+
+  if(lastRow < 2){
+    return ContentService
+    .createTextOutput(JSON.stringify({nextId:1}))
+    .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const ultimoID = sheet.getRange(lastRow,1).getValue();
+
+  const siguiente = Number(ultimoID) + 1;
+
+  return ContentService
+  .createTextOutput(JSON.stringify({nextId:siguiente}))
+  .setMimeType(ContentService.MimeType.JSON);
+
+}
