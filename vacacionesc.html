@@ -173,8 +173,7 @@
 </button>
 
 <button onclick="generarTodo()">Generar y descargar PDF</button>
-<button type="button" class="btn btn-secondary" onclick="limpiarTodo()">  Vaciar campos
-</button>
+<button type="button" class="btn btn-secondary" onclick="limpiarTodo()">  Vaciar campos</button>
   <button type="button" onclick="descargarExcel()">
   Descargar última versión Excel
 </button>
@@ -531,6 +530,67 @@ function calcularDiasRestantes(){
   const restantes = disponibles - aDisfrutar;
 
   document.getElementById("diasRest").value = restantes >= 0 ? restantes : 0;
+}
+
+function limpiarTodo(){
+
+  // 🔹 limpiar inputs del formulario
+  document.getElementById("empleado").value = "";
+  document.getElementById("nombre").value = "";
+  document.getElementById("horario").value = "";
+  document.getElementById("area").value = "";
+  document.getElementById("puesto").value = "";
+  document.getElementById("ingreso").value = "";
+
+  document.getElementById("diasDisp").value = "";
+  document.getElementById("diasDisf").value = "";
+  document.getElementById("diasRest").value = "";
+
+  document.getElementById("periodo").value = "";
+
+  document.getElementById("firmaSolicitante").value = "";
+  document.getElementById("firmaAutoriza").value = "";
+
+  document.getElementById("observaciones").value = "";
+
+  // 🔹 limpiar fechas dinámicas
+  document.getElementById("contenedor-fechas").innerHTML = "";
+
+  // 🔹 limpiar tabla
+  const tbody = document.querySelector("#tablaFechas tbody");
+  if(tbody) tbody.innerHTML = "";
+
+  // 🔹 limpiar datos del PDF
+  document.getElementById("rNombre").textContent = "";
+  document.getElementById("rEmpleado").textContent = "";
+  document.getElementById("rHorario").textContent = "";
+  document.getElementById("rArea").textContent = "";
+  document.getElementById("rPuesto").textContent = "";
+  document.getElementById("rIngreso").textContent = "";
+
+  document.getElementById("rObservaciones").textContent = "";
+
+  document.getElementById("rFirmaSolicitante").textContent = "";
+  document.getElementById("rFirmaAutoriza").textContent = "";
+  document.getElementById("rFirmaJefe").textContent = "";
+  document.getElementById("rFirmaRH").textContent = "";
+
+  // 🔹 restaurar fecha de hoy
+  const hoy = new Date().toISOString().split("T")[0];
+  const inputFecha = document.getElementById("fechaSolicitud");
+
+  inputFecha.value = hoy;
+
+  actualizarFechaSolicitud();
+
+  // 🔔 aviso
+  Swal.fire({
+    icon: "success",
+    title: "Formulario limpio",
+    text: "Listo para un nuevo registro",
+    timer: 1200,
+    showConfirmButton: false
+  });
 
 }
 /* parte de llenar el pdf //////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
