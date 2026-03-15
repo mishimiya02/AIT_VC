@@ -1,0 +1,106 @@
+function doGet(e) {
+
+  const accion = e.parameter.accion;
+
+  // 🔹 ACTUALIZAR DÍAS DE VACACIONES
+  if (accion === "actualizar") {
+    return actualizarDiasWeb(e);
+  }
+
+  // 🔹 BUSCAR EMPLEADO O AUTORIZADOR
+  const id = e.parameter.id;
+
+  if (!id) {
+    return respuesta({ error: true });
+  }
+
+  const empleado = buscarEmpleadoPorId(id);
+
+  if (!empleado) {
+    return respuesta({ error: true });
+  }
+
+  return respuesta(empleado);
+}
+
+
+
+function buscarEmpleadoPorId(id) {
+
+  const ss = SpreadsheetApp.openById("11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8");
+  const hoja = ss.getSheetByName("colaboradores");
+
+  // 🔥 todo como texto (evita problemas de fechas)
+  const datos = hoja.getDataRange().getDisplayValues();
+
+  for (let i = 1; i < datos.length; i++) {
+
+    if (String(datos[i][0]) === String(id)) {
+
+      return {
+        nombre: datos[i][1],
+        horario: datos[i][2],
+        area: datos[i][3],
+        puesto: datos[i][4],
+        ingreso: datos[i][5],                 // texto
+        diasDisponibles: Number(datos[i][6])  // número para cálculo
+      };
+
+    }
+
+  }
+
+  return null;
+}
+
+
+
+function actualizarDiasWeb(e) {
+
+  const id = e.parameter.id;
+  const dias = Number(e.parameter.dias);
+
+  const ss = SpreadsheetApp.openById("11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8");
+  const hoja = ss.getSheetByName("colaboradores");
+
+  const datos = hoja.getDataRange().getValues();
+
+  for (let i = 1; i < datos.length; i++) {
+
+    if (String(datos[i][0]) === String(id)) {
+
+      const actuales = Number(datos[i][6]);
+      const nuevos = actuales - dias;
+
+      if (nuevos < 0) {
+        return respuesta({
+          ok: false,
+          mensaje: "No hay días suficientes"
+        });
+      }
+
+      // 🔥 guardar nuevos días en la hoja
+      hoja.getRange(i + 1, 7).setValue(nuevos);
+
+      return respuesta({
+        ok: true,
+        anteriores: actuales,
+        nuevos: nuevos
+      });
+    }
+
+  }
+
+  return respuesta({
+    ok: false,
+    mensaje: "Empleado no encontrado"
+  });
+}
+
+
+
+function respuesta(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}

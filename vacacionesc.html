@@ -686,6 +686,8 @@ async function buscarAutoriza(){
   }
 
 }
+
+
 async function guardarVacaciones(){
 
   const id = document.getElementById("empleado").value.trim();
@@ -732,8 +734,37 @@ async function guardarVacaciones(){
     Swal.fire("Error","No se pudo guardar","error");
 
   }
+await guardarRelacionVacaciones();
+}
+
+
+/*guardar en relacion*/
+async function guardarRelacionVacaciones(){
+
+  const fechas = [...document.querySelectorAll(".fecha-vacacion")]
+    .map(f => f.value)
+    .filter(f => f);
+
+  if(fechas.length === 0) return;
+
+  const datos = {
+    id: document.getElementById("empleado").value,
+    nombre: document.getElementById("nombre").value,
+    horario: document.getElementById("horario").value,
+    area: document.getElementById("area").value,
+    puesto: document.getElementById("puesto").value,
+    fechas: fechas
+  };
+
+  await fetch("https://script.google.com/macros/s/AKfycbwHyBwXjZ2pKDFEIuj7gZYmGw9FkoXnDg-Dva3sKGbE710fY0YhHeZmn00URV2_YvRWww/exec",{
+    method:"POST",
+    mode:"no-cors",
+    body: JSON.stringify(datos)
+  });
 
 }
+
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
