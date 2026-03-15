@@ -307,153 +307,37 @@
 </div>
 <script>
 
-let cacheAutoriza = JSON.parse(localStorage.getItem("cacheAutoriza")) || {};
-function buscarAutoriza() {
-  const id = document.getElementById("idAutoriza").value.trim();
+let pdfGenerando = false;
 
-  if (!id) {
-    Swal.fire("Campo vacío", "Escribe el ID de quien autoriza.", "warning");
-    return;
-  }
+function generar(){
 
-  // 🔥 Si ya existe en memoria local
-  if (cacheAutoriza[id]) {
-    document.getElementById("firmaAutoriza").value = cacheAutoriza[id];
-    toast("Cargado desde memoria local", "success");
-    return;
-  }
+  document.getElementById("rNombre").textContent = nombre.value;
+  document.getElementById("rEmpleado").textContent = empleado.value;
+  document.getElementById("rHorario").textContent = horario.value;
+  document.getElementById("rArea").textContent = area.value;
+  document.getElementById("rPuesto").textContent = puesto.value;
+  document.getElementById("rIngreso").textContent = ingreso.value;
 
-  Swal.fire({
-    title: "Buscando...",
-    allowOutsideClick: false,
-    didOpen: () => Swal.showLoading()
-  });
+  document.getElementById("rObservaciones").textContent =
+      document.getElementById("observaciones").value;
 
-  fetch(`https://script.google.com/macros/s/AKfycbyh682YSIFKowdvIGPhCJeKde6rpprRXMnnqNR8h8VqqPite-DtkkTsaZVXd4UrL6Wk/exec?id=${id}`)
-    .then(r => r.json())
-    .then(data => {
-      Swal.close();
+  document.getElementById("rFirmaSolicitante").textContent =
+      document.getElementById("firmaSolicitante").value;
 
-      if (data.error) {
-        Swal.fire("No encontrado", "No existe ese ID.", "error");
-        return;
-      }
+  document.getElementById("rFirmaAutoriza").textContent =
+      document.getElementById("firmaAutoriza").value;
 
-      const nombre = data.nombre;
+  document.getElementById("rFirmaJefe").textContent =
+      document.getElementById("firmaJefe").value;
 
-      document.getElementById("firmaAutoriza").value = nombre;
-
-      // 🔥 Guardar en memoria local
-      cacheAutoriza[id] = nombre;
-      localStorage.setItem("cacheAutoriza", JSON.stringify(cacheAutoriza));
-
-      toast("Guardado en memoria local", "success");
-    })
-    .catch(() => {
-      Swal.fire("Error", "No se pudo consultar.", "error");
-    });
+  document.getElementById("rFirmaRH").textContent =
+      document.getElementById("firmaRH").value;
 }
 
 
-
-  function descargarExcel() {
-  const url = "https://docs.google.com/spreadsheets/d/11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8/export?format=xlsx";
-
-  Swal.fire({
-    icon: "info",
-    title: "Descargando Excel...",
-    timer: 1200,
-    showConfirmButton: false
-  });
-
-  window.open(url, "_blank");
-}
-
-
-  let pdfGenerando = false;
-function toast(msg, icon = "info") {
-  Swal.fire({
-    toast: true,
-    position: "top-end",
-    icon,
-    title: msg,
-    showConfirmButton: false,
-    timer: 2000,
-    timerProgressBar: true
-  });
-}
-
-
-const firmasPorDefecto = {
-
-  jefe: "VILLAGRAN GUTIERREZ RUBEN",
-  rh: "RODRIGUEZ ORTEGA OSWALDO"
-};
-function limpiarFormulario(mostrarToast = false, mensaje) {
-
-
-  document.getElementById("nombre").value = "";
-  document.getElementById("firmaSolicitante").value = "";
-  document.getElementById("horario").value = "";
-  document.getElementById("area").value = "";
-  document.getElementById("puesto").value = "";
-  document.getElementById("ingreso").value = "";
-
-  document.getElementById("diasDisp").value = "";
-  document.getElementById("diasDisf").value = "";
-  document.getElementById("diasRest").value = "";
-  document.getElementById("periodo").value = "";
-
-  document.getElementById("observaciones").value = "";
-  
-  document.getElementById("firmaJefe").value = firmasPorDefecto.jefe;
-  document.getElementById("firmaRH").value = firmasPorDefecto.rh;
-
-  diasOriginales = undefined;
-
-  document.getElementById("contenedor-fechas").innerHTML = "";
-  document.querySelector("#tablaFechas tbody").innerHTML = "";
-
-  const btnPDF = document.getElementById("btnPDF");
-  if (btnPDF) btnPDF.disabled = true;
-
-  if (mostrarToast) {
-    toast(mensaje || "Formulario vacío");
-  }
-}
-
-
-
-
-
-
-
-    function generar(){
-    document.getElementById("rNombre").textContent = nombre.value;
-    document.getElementById("rEmpleado").textContent = empleado.value;
-    document.getElementById("rHorario").textContent = horario.value;
-    document.getElementById("rArea").textContent = area.value;
-    document.getElementById("rPuesto").textContent = puesto.value;
-    document.getElementById("rIngreso").textContent = ingreso.value;
-     document.getElementById("rDiasDisponibles").textContent =isNaN(diasOriginales) ? "0" : diasOriginales;
-
-    document.getElementById("rObservaciones").textContent =
-        document.getElementById("observaciones").value;
-        document.getElementById("rFirmaSolicitante").textContent =
-    document.getElementById("firmaSolicitante").value;
-
-document.getElementById("rFirmaAutoriza").textContent =
-    document.getElementById("firmaAutoriza").value;
-
-document.getElementById("rFirmaJefe").textContent =
-    document.getElementById("firmaJefe").value;
-
-document.getElementById("rFirmaRH").textContent =
-    document.getElementById("firmaRH").value;
-
-}
 
 function actualizarFechaSolicitud() {
+
   const input = document.getElementById("fechaSolicitud").value;
 
   if (!input) return;
@@ -468,10 +352,152 @@ function actualizarFechaSolicitud() {
 
   document.getElementById("anio").textContent =
     fecha.getFullYear();
+
+}
+
+function llenarTabla(){
+
+  const tbody = document.querySelector("#tablaFechas tbody");
+  const fechas = document.querySelectorAll(".fecha-vacacion");
+  const periodo = document.getElementById("periodo").value;
+
+  const diasDisponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+
+  tbody.innerHTML = "";
+
+  fechas.forEach((input, index) => {
+
+    if (input.value){
+
+      const fecha = new Date(input.value + "T00:00:00");
+
+      const dia = fecha.getDate();
+      const mes = fecha.getMonth() + 1;
+      const anio = fecha.getFullYear();
+
+      // 🔥 cálculo decremental
+      let restantes = diasDisponibles - (index + 1);
+      if (restantes < 0) restantes = 0;
+
+      const fila = document.createElement("tr");
+
+      fila.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${dia}</td>
+        <td>${mes.toString().padStart(2,"0")}</td>
+        <td>${anio}</td>
+        <td>${periodo || "-"}</td>
+        <td>${restantes}</td>
+      `;
+
+      tbody.appendChild(fila);
+
+    }
+
+  });
+
+}
+
+function generarTodo(){
+
+  if (pdfGenerando) return;
+
+  pdfGenerando = true;
+
+  generar();
+  llenarTabla();
+
+  const wrapper = document.querySelector(".pdf-wrapper");
+  wrapper.style.display = "block";
+
+  // 🔔 alerta de generación
+  Swal.fire({
+    title: "Generando PDF...",
+    text: "Por favor espera un momento",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  setTimeout(() => {
+
+    html2pdf().set({
+
+      filename: 'Solicitud_Vacaciones.pdf',
+
+      margin: [8,8,8,8],
+
+      image: {
+        type: 'jpeg',
+        quality: 0.95
+      },
+
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+        backgroundColor: '#ffffff'
+      },
+
+      jsPDF: {
+        unit: 'mm',
+        format: 'letter',
+        orientation: 'portrait'
+      }
+
+    })
+
+    .from(wrapper.querySelector(".hoja"))
+    .save()
+
+    .then(() => {
+
+      Swal.close(); // 🔥 cerrar alerta
+
+      wrapper.style.display = "none";
+
+    })
+
+    .catch(() => {
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo generar el PDF"
+      });
+
+    })
+
+    .finally(() => {
+
+      pdfGenerando = false;
+
+    });
+
+  },300);
+
 }
 
 
+
+/* fecha actual automática */
+
+window.addEventListener("load", () => {
+
+  const hoy = new Date().toISOString().split("T")[0];
+
+  const input = document.getElementById("fechaSolicitud");
+
+  input.value = hoy;
+
+  actualizarFechaSolicitud();
+
+});
+
 function crearFechas() {
+
   const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
   const cantidad = parseInt(document.getElementById("diasDisf").value);
   const contenedor = document.getElementById("contenedor-fechas");
@@ -483,520 +509,171 @@ function crearFechas() {
   if (cantidad > disponibles) return;
 
   for (let i = 1; i <= cantidad; i++) {
+
     const div = document.createElement("div");
     div.className = "campo-form";
 
     div.innerHTML = `
       <label>Fecha día ${i}</label>
-      <input type="date" class="fecha-vacacion" onchange="validarFechasRepetidas(this)">
-
+      <input type="date" class="fecha-vacacion" onchange="llenarTabla()">
     `;
 
     contenedor.appendChild(div);
+
   }
 
-  llenarTabla();
 }
+function calcularDiasRestantes(){
 
-function llenarTabla() {
-  const tbody = document.querySelector("#tablaFechas tbody");
-  const fechas = document.querySelectorAll(".fecha-vacacion");
-  const periodo = document.getElementById("periodo").value;
-
-  tbody.innerHTML = "";
-
-  if (isNaN(diasOriginales)) return;
-
-  fechas.forEach((input, index) => {
-    if (input.value) {
-      const fecha = new Date(input.value + "T00:00:00");
-
-      const dia = fecha.getDate();
-      const mes = fecha.getMonth() + 1;
-      const anio = fecha.getFullYear();
-
-      // 🧠 Ahora sí es correcto
-      let restantes = diasOriginales - (index + 1);
-      if (restantes < 0) restantes = 0;
-
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${dia}</td>
-        <td>${mes.toString().padStart(2,"0")}</td>
-        <td>${anio}</td>
-        <td>${periodo || "-"}</td>
-        <td>${restantes}</td>
-      `;
-
-      tbody.appendChild(fila);
-    }
-  });
-}
-
-
-function generarPDF() {
-
-    const hoja = document.querySelector(".hoja");
-
-    html2pdf()
-      .set({
-        filename: 'Solicitud_Vacaciones.pdf',
-        margin: [5, 5, 5, 5], // margen real en mm
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-            scale: 4,              // MUY IMPORTANTE
-            useCORS: true,
-            scrollY: 0,            // ← evita que salga abajo
-            backgroundColor: '#ffffff'
-        },
-        jsPDF: {
-            unit: 'mm',
-            format: 'letter',
-            orientation: 'portrait'
-        }
-      })
-      .from(hoja)
-      .save();
-}
-
-
-
-function validarAntesDeImprimir() {
-  const empleado = document.getElementById("empleado").value.trim();
-  const diasDisf = parseInt(document.getElementById("diasDisf").value) || 0;
-  const fechas = document.querySelectorAll(".fecha-vacacion");
-  const tbody = document.querySelector("#tablaFechas tbody");
-
-  if (!empleado) {
-    Swal.fire("Falta empleado", "Busca un empleado válido antes de imprimir.", "warning");
-    return false;
-  }
-
-  if (isNaN(diasOriginales)) {
-    Swal.fire("Datos incompletos", "Primero busca un empleado válido.", "warning");
-    return false;
-  }
-
-  if (diasDisf <= 0) {
-    Swal.fire("Sin días", "Indica los días a disfrutar.", "warning");
-    return false;
-  }
-
-  if (fechas.length !== diasDisf) {
-    Swal.fire("Fechas incompletas", "Genera nuevamente las fechas.", "warning");
-    return false;
-  }
-
-  for (let f of fechas) {
-    if (!f.value) {
-      Swal.fire("Fechas faltantes", "Todas las fechas deben estar seleccionadas.", "warning");
-      return false;
-    }
-  }
-
-  // 🔥 fuerza llenado limpio
-  tbody.innerHTML = "";
-  llenarTabla();
-
-  if (tbody.children.length === 0) {
-    Swal.fire("Tabla vacía", "No se pudo generar la tabla de fechas.", "error");
-    return false;
-  }
-
-  return true;
-}
-
-
-
-
-
-
-function validarFechasRepetidas(inputActual) {
-  const fechas = document.querySelectorAll(".fecha-vacacion");
-  const valorActual = inputActual.value;
-
-  if (!valorActual) return;
-
-  let repetida = false;
-
-  fechas.forEach(input => {
-    if (input !== inputActual && input.value === valorActual) {
-      repetida = true;
-    }
-  });
-
-  if (repetida) {
-    Swal.fire({
-      icon: "warning",
-      title: "Fecha repetida",
-      text: "No puedes seleccionar el mismo día más de una vez.",
-      timer: 2000,
-      showConfirmButton: false
-    });
-
-    inputActual.value = ""; // 👈 se limpia solo el duplicado
-    return;
-  }
-
-  // Si todo está bien, actualiza la tabla
-  llenarTabla();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function generarTodo() {
-
-  // 🚫 evitar múltiples clics
-  if (pdfGenerando) return;
-
-  if (!validarAntesDeImprimir()) return;
-
-  pdfGenerando = true;
-
-  const btnPDF = document.getElementById("btnPDF");
-  if (btnPDF) btnPDF.disabled = true;
-
-  Swal.fire({
-    title: "Generando PDF...",
-    text: "Por favor espera",
-    allowOutsideClick: false,
-    didOpen: () => Swal.showLoading()
-  });
-
-  generar();
-  llenarTabla();
-
-  const wrapper = document.querySelector(".pdf-wrapper");
-  wrapper.style.display = "block";
-
-Swal.fire({
-  title: "Generando PDF...",
-  text: "Por favor espera un momento",
-  allowOutsideClick: false,
-  allowEscapeKey: false,
-  didOpen: () => {
-    Swal.showLoading();
-  }
-});
-
-
-
-
-  setTimeout(() => {
-    html2pdf().set({
-      filename: 'Solicitud_Vacaciones.pdf',
-      margin: [8, 8, 8, 8],
-      image: { type: 'jpeg', quality: 0.95 },
-      html2canvas: {
-        scale: 2,          // 👈 más rápido y suficiente
-        useCORS: true,
-        scrollY: 0,
-        backgroundColor: '#ffffff'
-      },
-      jsPDF: {
-        unit: 'mm',
-        format: 'letter',
-        orientation: 'portrait'
-      }
-    })
-    .from(wrapper.querySelector(".hoja"))
-    .save()
-    .then(() => {
-      Swal.close();
-      wrapper.style.display = "none";
-    })
-    .catch(err => {
-  console.error(err);
-  Swal.fire({
-    icon: "error",
-    title: "Error",
-    text: "No se pudo generar el PDF"
-  });
-})
-    .finally(() => {
-      pdfGenerando = false;
-      if (btnPDF) btnPDF.disabled = false;
-    });
-
-  }, 300);
-}
-
-function limpiarTodo() {
-  document.getElementById("empleado").value = "";
-  limpiarFormulario(true);
-}
-
-function buscarEmpleado() {
-  limpiarFormulario(true, "Formulario limpiado para nueva búsqueda");
-
-    
-  const id = document.getElementById("empleado").value.trim();
-  if (id === "") {
-    Swal.fire({
-      icon: "warning",
-      title: "Campo vacío",
-      text: "Por favor escribe el número de empleado.",
-      confirmButtonColor: "#2563eb"
-    });
-    return;
-  }
-
-  // Cargando bonito
-  Swal.fire({
-    title: "Buscando empleado...",
-    text: "Por favor espera",
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-
-  fetch(`https://script.google.com/macros/s/AKfycbyh682YSIFKowdvIGPhCJeKde6rpprRXMnnqNR8h8VqqPite-DtkkTsaZVXd4UrL6Wk/exec?id=${id}`)
-    .then(r => r.json())
-    .then(data => {
-      Swal.close();
-
-      if (data.error) {
-        Swal.fire({
-          icon: "error",
-          title: "No encontrado",
-          text: "El número de empleado no existe.",
-          confirmButtonColor: "#dc2626"
-        });
-       
-         // 🔥 LIMPIEZA TOTAL DEL ESTADO
-  diasOriginales = undefined;
-
-  document.getElementById("nombre").value = "";
-  document.getElementById("firmaSolicitante").value = "";
-  document.getElementById("horario").value = "";
-  document.getElementById("area").value = "";
-  document.getElementById("puesto").value = "";
-  document.getElementById("ingreso").value = "";
-
-  document.getElementById("diasDisp").value = "";
-  document.getElementById("diasDisf").value = "";
-  document.getElementById("diasRest").value = "";
-
-  document.getElementById("contenedor-fechas").innerHTML = "";
-  document.querySelector("#tablaFechas tbody").innerHTML = "";
-
-        return;
-      }
-
-      // Llenar campos
-      document.getElementById("nombre").value = data.nombre;
-      document.getElementById("firmaSolicitante").value = data.nombre;
-
-      document.getElementById("horario").value = data.horario;
-      document.getElementById("area").value = data.area;
-      document.getElementById("puesto").value = data.puesto;
-      if (data.ingreso) {
-  document.getElementById("ingreso").value = data.ingreso.substring(0, 10);
-}
-      document.getElementById("diasDisp").value = data.diasDisponibles;
-    diasOriginales = parseInt(data.diasDisponibles);   // 👈 CLAVE
-
-
-
-      Swal.fire({
-        icon: "success",
-        title: "Empleado encontrado",
-        text: "Los datos se cargaron correctamente.",
-        timer: 1500,
-        showConfirmButton: false
-      });
-    })
-    .catch(err => {
-      Swal.close();
-      console.error(err);
-
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se pudo conectar con la base de datos.",
-        confirmButtonColor: "#dc2626"
-      });
-    });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function calcularDiasRestantes() {
-  const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
-  const diasInput = document.getElementById("diasDisf");
-  let aDisfrutar = parseInt(diasInput.value) || 0;
-
-  // 🚫 Caso 1: no hay días disponibles
-  if (disponibles === 0) {
-    Swal.fire({
-      icon: "warning",
-      title: "Sin días disponibles",
-      text: "Este empleado no tiene días disponibles para vacaciones."
-    });
-
-    diasInput.value = "";
-    document.getElementById("diasRest").value = 0;
-    document.getElementById("contenedor-fechas").innerHTML = "";
-    return;
-  }
-
-  // 🚫 Caso 2: días a disfrutar > disponibles
-  if (aDisfrutar > disponibles) {
-    Swal.fire({
-      icon: "warning",
-      title: "Cantidad inválida",
-      text: `Solo puedes disfrutar hasta ${disponibles} días.`
-    });
-
-    aDisfrutar = disponibles;
-    diasInput.value = disponibles;
-  }
-
-  const restantes = disponibles - aDisfrutar;
-  document.getElementById("diasRest").value = restantes;
-}
-
-
-function guardarVacaciones() {
   const disponibles = parseInt(document.getElementById("diasDisp").value) || 0;
   const aDisfrutar = parseInt(document.getElementById("diasDisf").value) || 0;
-  const id = document.getElementById("empleado").value.trim();
-  const nombre = document.getElementById("nombre").value.trim();
 
-  if (disponibles === 0) {
-    Swal.fire({
-      icon: "warning",
-      title: "Operación no permitida",
-      text: "El empleado no tiene días disponibles."
-    });
-    return;
-  }
+  const restantes = disponibles - aDisfrutar;
 
-  if (aDisfrutar > disponibles) {
-    Swal.fire({
-      icon: "warning",
-      title: "Días inválidos",
-      text: "Los días a disfrutar no pueden ser mayores a los disponibles."
-    });
-    return;
-  }
+  document.getElementById("diasRest").value = restantes >= 0 ? restantes : 0;
 
-  if (!id || !aDisfrutar) {
-    Swal.fire({
-      icon: "warning",
-      title: "Datos incompletos",
-      text: "Ingresa el número de empleado y los días a disfrutar."
-    });
-    return;
-  }
-
-  const diasRestantes = disponibles - aDisfrutar;
-
-  // 🔥 ALERTA DE CONFIRMACIÓN
-  Swal.fire({
-    icon: "info",
-    title: "Rectifica los datos",
-    html: `
-      <div style="text-align:left">
-        <strong>ID:</strong> ${id} <br>
-        <strong>Nombre:</strong> ${nombre} <br>
-        <strong>Días restantes:</strong> ${diasRestantes}
-      </div>
-    `,
-    showCancelButton: true,
-    confirmButtonText: "Sí, guardar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#16a34a",
-    cancelButtonColor: "#dc2626"
-  }).then((result) => {
-
-    if (!result.isConfirmed) return;
-
-    // 🔥 Ahora sí guarda
-    Swal.fire({
-      title: "Guardando vacaciones...",
-      allowOutsideClick: false,
-      didOpen: () => Swal.showLoading()
-    });
-
-    fetch(`https://script.google.com/macros/s/AKfycbxiCjRHbGfyePhet0M97zvfDzogNb4TB2miktvk8_igJ5t9amJRTNJgLsRXAv8KUhJ3/exec?accion=actualizar&id=${id}&dias=${aDisfrutar}`)
-      .then(r => r.json())
-      .then(respuesta => {
-        Swal.close();
-
-        if (respuesta.ok) {
-          Swal.fire({
-            icon: "success",
-            title: "Vacaciones guardadas",
-            text: `Días restantes actualizados: ${respuesta.nuevos}`
-          });
-
-          document.getElementById("diasRest").value = respuesta.nuevos;
-          document.getElementById("diasDisp").value = respuesta.nuevos;
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: respuesta.mensaje
-          });
-        }
-      })
-      .catch(err => {
-        Swal.close();
-        console.error(err);
-        Swal.fire({
-          icon: "error",
-          title: "Error de conexión",
-          text: "No se pudo guardar en Google Sheets."
-        });
-      });
-
-  });
 }
+/* parte de llenar el pdf //////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-/*fecha de hoy pero editable */
-window.addEventListener("load", () => {
-  const hoy = new Date().toISOString().split("T")[0];
-  const input = document.getElementById("fechaSolicitud");
 
-  input.value = hoy;
-  actualizarFechaSolicitud();
-});
+const API_URL = "https://script.google.com/macros/s/AKfycbxCvz1fVqB1kOCtMsk2z-IY6p2iVH520JCNI0xpeU_33ANpIxWEOBFtfEh9YXiIUIp3/exec";
+async function api(params){
 
- window.addEventListener("load", () => {
-    document.getElementById("firmaJefe").value = firmasPorDefecto.jefe;
-    document.getElementById("firmaRH").value = firmasPorDefecto.rh;
+  const url = `${API_URL}?${new URLSearchParams(params)}`;
+
+  const r = await fetch(url);
+
+  return r.json();
+
+}
+async function buscarEmpleado(){
+
+  const id = document.getElementById("empleado").value.trim();
+
+  if(!id){
+    Swal.fire("Campo vacío","Escribe el número de empleado","warning");
+    return;
+  }
+
+  Swal.fire({
+    title:"Buscando empleado...",
+    allowOutsideClick:false,
+    didOpen:()=>Swal.showLoading()
   });
+
+  try{
+
+    const data = await api({ id });
+
+    Swal.close();
+
+    if(data.error){
+      Swal.fire("No encontrado","El empleado no existe","error");
+      return;
+    }
+
+    document.getElementById("nombre").value = data.nombre;
+    document.getElementById("firmaSolicitante").value = data.nombre;
+
+    document.getElementById("horario").value = data.horario;
+    document.getElementById("area").value = data.area;
+    document.getElementById("puesto").value = data.puesto;
+    document.getElementById("ingreso").value = data.ingreso;
+
+    document.getElementById("diasDisp").value = data.diasDisponibles;
+
+  }
+  catch(err){
+
+    Swal.fire("Error","No se pudo consultar la base de datos","error");
+
+  }
+
+}
+async function buscarAutoriza(){
+
+  const id = document.getElementById("idAutoriza").value.trim();
+
+  if(!id){
+    Swal.fire("Campo vacío","Escribe el ID de quien autoriza","warning");
+    return;
+  }
+
+  Swal.fire({
+    title:"Buscando autorizador...",
+    allowOutsideClick:false,
+    didOpen:()=>Swal.showLoading()
+  });
+
+  try{
+
+    const data = await api({ id });
+
+    Swal.close();
+
+    if(data.error){
+      Swal.fire("No encontrado","El autorizador no existe","error");
+      return;
+    }
+
+    document.getElementById("firmaAutoriza").value = data.nombre;
+
+  }
+  catch(err){
+
+    Swal.fire("Error","No se pudo consultar","error");
+
+  }
+
+}
+async function guardarVacaciones(){
+
+  const id = document.getElementById("empleado").value.trim();
+
+  const dias = parseInt(document.getElementById("diasDisf").value) || 0;
+
+  if(!id || dias<=0){
+    Swal.fire("Datos incompletos","Revisa el empleado y los días","warning");
+    return;
+  }
+
+  Swal.fire({
+    title:"Guardando vacaciones...",
+    allowOutsideClick:false,
+    didOpen:()=>Swal.showLoading()
+  });
+
+  try{
+
+    const data = await api({
+      accion:"actualizar",
+      id:id,
+      dias:dias
+    });
+
+    Swal.close();
+
+    if(!data.ok){
+      Swal.fire("Error",data.mensaje,"error");
+      return;
+    }
+
+    Swal.fire(
+      "Guardado",
+      `Días restantes: ${data.nuevos}`,
+      "success"
+    );
+
+    document.getElementById("diasDisp").value = data.nuevos;
+
+  }
+  catch(err){
+
+    Swal.fire("Error","No se pudo guardar","error");
+
+  }
+
+}
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
