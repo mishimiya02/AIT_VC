@@ -40,10 +40,10 @@
     <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
     <div class="menu-center">  
      
-<a href='/index.html'>Inicio</a>
-         <a href='/vacacionesc.html'>VACACIONES</a>
-           <a href='/correccionVacaciones.html'>CORRECIONES</a>
-             <a href='/registrar_empleado.html'>REGISTRAR EMPLEADO</a>
+<a href='/'>Inicio</a>
+         <a href='/vacacionesc'>VACACIONES</a>
+           <a href='/correccionvacaciones'>CORRECIONES</a>
+             <a href='/registrar_empleado'>REGISTRAR EMPLEADO</a>
        <a href="https://docs.google.com/spreadsheets/d/11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8/edit?usp=sharing"
    target="_blank"
    rel="noopener noreferrer">
@@ -660,7 +660,7 @@ async function buscarAutoriza(){
   }
 
   Swal.fire({
-    title:"Buscando autorizador...",
+    title:"Buscando ...",
     allowOutsideClick:false,
     didOpen:()=>Swal.showLoading()
   });
@@ -672,7 +672,7 @@ async function buscarAutoriza(){
     Swal.close();
 
     if(data.error){
-      Swal.fire("No encontrado","El autorizador no existe","error");
+      Swal.fire("No encontrado","El ID no existe","error");
       return;
     }
 
