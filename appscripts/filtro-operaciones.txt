@@ -1,7 +1,6 @@
 const ID_HOJA = "11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8";
 const NOMBRE_HOJA = "relacion_vacaciones"; // ⚠️ cámbialo
 
-
 function doGet(e) {
   const hoja = SpreadsheetApp.openById(ID_HOJA).getSheetByName(NOMBRE_HOJA);
   const datos = hoja.getDataRange().getValues();
@@ -9,11 +8,12 @@ function doGet(e) {
   // encabezados
   const headers = datos[0];
 
-  // índice de columna AREA (busca dinámicamente)
+  // índice de columna AREA
   const indexArea = headers.findIndex(h => h.toString().toLowerCase().includes("area"));
 
   let resultado = datos;
 
+  // 🔎 FILTRO POR ÁREA (igual que ya tenías)
   if (e.parameter.area && indexArea !== -1) {
     resultado = datos.filter((fila, i) => {
       if (i === 0) return true;
@@ -21,7 +21,12 @@ function doGet(e) {
     });
   }
 
+  // 🔥 AQUÍ VA LO NUEVO (convertir a texto)
+  const resultadoTexto = resultado.map(fila =>
+    fila.map(celda => celda !== null ? celda.toString() : "")
+  );
+
   return ContentService
-    .createTextOutput(JSON.stringify(resultado))
+    .createTextOutput(JSON.stringify(resultadoTexto))
     .setMimeType(ContentService.MimeType.JSON);
 }

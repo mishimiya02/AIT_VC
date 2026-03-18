@@ -155,38 +155,56 @@ tr:hover {
     <option value="DIRECCION GENERAL">DIRECCION GENERAL</option>
      <option value="DIRECCION COMERCIAL">DIRECCION COMERCIAL</option>
   </select>
+<input type="text" id="fechaFiltro" placeholder="Ej: 2026-03-01">
 
   <button class="btn-buscar" onclick="buscar()">Buscar</button>
   <button class="btn-filtrado" onclick="descargarFiltrado()">⬇ Filtrado</button>
   <button class="btn-todo" onclick="descargarTodo()">⬇ Todo</button>
 
 </div>
-<button onclick="buscar()">Buscar</button>
-<button onclick="descargarFiltrado()">⬇ Descargar filtrado</button>
-<button onclick="descargarTodo()">⬇ Descargar todo</button>
-
+<div id="totalRegistros"></div>
 <table id="tabla"></table>
 
 <script>
-const URL = "https://script.google.com/macros/s/AKfycbw4WKzlYdAItL2p8UbNGLcC3ZVvlqEtOTDxRHaDXxU8zbjd9UxASu3q2AYLF9a81Oz_/exec"; // 👈 tu /exec
+const URL = "https://script.google.com/macros/s/AKfycbyn3IprMdisxxqsN6ihLQAh2CU1JS7BozMRLMuMpKasLjtHMQMNSX2KX5IPZqs01E5_/exec"; // 👈 tu /exec
 
 let datosActuales = [];
 let datosCompletos = [];
 
 async function buscar() {
-  const area = document.getElementById("area").value.trim();
 
-  let url = URL;
+  const area = document.getElementById("area").value.trim();
+  const fecha = document.getElementById("fechaFiltro").value.trim();
+
+  let url = URL; // tu endpoint
+
+  const params = [];
+
   if (area) {
-    url += "?area=" + encodeURIComponent(area);
+    params.push("area=" + encodeURIComponent(area));
   }
 
+  if (fecha) {
+    params.push("fecha=" + encodeURIComponent(fecha));
+  }
+
+  if (params.length > 0) {
+    url += "?" + params.join("&");
+  }
+
+  // 🔥 petición
   const res = await fetch(url);
   const datos = await res.json();
 
-  datosActuales = datos;
-
   mostrarTabla(datos);
+
+  // 🔢 contador
+  const total = datos.length - 1;
+
+  document.getElementById("totalRegistros").textContent =
+    total > 0
+      ? `Total: ${total} registro(s)`
+      : "Sin registros";
 }
 
 async function cargarTodo() {

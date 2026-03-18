@@ -1,87 +1,32 @@
-// ===========================================================
-//   BUSCAR REGISTRO POR "NUM CLIENTE" (columna C)
-// ===========================================================
+const ID_HOJA = "11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8";
+const NOMBRE_HOJA = "relacion_vacaciones"; // ⚠️ cámbialo
 
 function doGet(e) {
-  const cliente = e.parameter.cliente;
-  if (!cliente) {
-    return ContentService.createTextOutput(
-      JSON.stringify({
-        status: "error",
-        message: "Falta el parámetro 'cliente'"
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
+  const hoja = SpreadsheetApp.openById(ID_HOJA).getSheetByName(NOMBRE_HOJA);
+  const datos = hoja.getDataRange().getValues();
+
+  // encabezados
+  const headers = datos[0];
+
+  // índice de columna AREA
+  const indexArea = headers.findIndex(h => h.toString().toLowerCase().includes("area"));
+
+  let resultado = datos;
+
+  // 🔎 FILTRO POR ÁREA (igual que ya tenías)
+  if (e.parameter.area && indexArea !== -1) {
+    resultado = datos.filter((fila, i) => {
+      if (i === 0) return true;
+      return fila[indexArea].toString().toLowerCase() === e.parameter.area.toLowerCase();
+    });
   }
 
-  const ss = SpreadsheetApp.openById("1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk");
-  const sh = ss.getSheetByName("contratos");
-  const data = sh.getDataRange().getValues();
+  // 🔥 AQUÍ VA LO NUEVO (convertir a texto)
+  const resultadoTexto = resultado.map(fila =>
+    fila.map(celda => celda !== null ? celda.toString() : "")
+  );
 
-  const headers = data[0];
-  const rows = data.slice(1);
-
-  // 🟣 BUSCAR EN COLUMNA C → índice 2
-  const index = rows.findIndex(r => String(r[2]).trim() === cliente.trim());
-
-  if (index === -1) {
-    return ContentService.createTextOutput(
-      JSON.stringify({ status: "not_found" })
-    ).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  const rowData = rows[index];
-  const result = {};
-
-  headers.forEach((h, i) => {
-    result[h] = rowData[i];
-  });
-
-  result.rowNumber = index + 2; // número real en la hoja
-
-  return ContentService.createTextOutput(
-    JSON.stringify({
-      status: "success",
-      data: result
-    })
-  ).setMimeType(ContentService.MimeType.JSON);
-}
-
-
-// ===========================================================
-//        GUARDAR / ACTUALIZAR DATOS EN LA FILA ORIGINAL
-// ===========================================================
-
-function doPost(e) {
-  const body = JSON.parse(e.postData.contents);
-
-  if (!body["rowNumber"]) {
-    return ContentService.createTextOutput(
-      JSON.stringify({
-        status: "error",
-        message: "No se recibió rowNumber para actualizar"
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  const row = Number(body["rowNumber"]);
-
-  const ss = SpreadsheetApp.openById("1cGJk_Dg2DjT9h2_cH1ScQ5cgCxlPtg2eQXQIzPv79gk");
-  const sh = ss.getSheetByName("contratos");
-
-  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
-
-  const newRow = [];
-
-  headers.forEach(h => {
-    newRow.push(body[h] ?? "");
-  });
-
-  sh.getRange(row, 1, 1, newRow.length).setValues([newRow]);
-
-  return ContentService.createTextOutput(
-    JSON.stringify({
-      status: "success",
-      message: "Registro actualizado correctamente"
-    })
-  ).setMimeType(ContentService.MimeType.JSON);
+  return ContentService
+    .createTextOutput(JSON.stringify(resultadoTexto))
+    .setMimeType(ContentService.MimeType.JSON);
 }
