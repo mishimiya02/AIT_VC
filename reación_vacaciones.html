@@ -1,42 +1,257 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Datos</title>
+  <title>Buscador por Área</title>
+  <style>
+    body { font-family: Arial; }
+    table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #333; color: white; }
+    button { margin: 5px; padding: 8px 12px; }
+
+    /* 🌙 Fondo general */
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #eef2f7, #dfe9f3);
+  margin: 0;
+  padding: 30px;
+  color: #333;
+}
+
+/* 🧾 Contenedor principal */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* 🏷️ Título */
+h2 {
+  margin-top: 0;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* 🔍 Buscador */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 5px rgba(74,144,226,0.3);
+}
+
+/* 🔘 Botones */
+button {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+/* Botón buscar */
+.btn-buscar {
+  background: #4a90e2;
+  color: white;
+}
+
+.btn-buscar:hover {
+  background: #357abd;
+}
+
+/* Botón descargar filtrado */
+.btn-filtrado {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-filtrado:hover {
+  background: #1e874b;
+}
+
+/* Botón descargar todo */
+.btn-todo {
+  background: #8e44ad;
+  color: white;
+}
+
+.btn-todo:hover {
+  background: #6d2f8c;
+}
+
+/* 📊 Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Encabezado */
+th {
+  background: #2c3e50;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Filas */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Zebra effect */
+tr:nth-child(even) {
+  background: #f8f9fb;
+}
+
+/* Hover */
+tr:hover {
+  background: #eaf2ff;
+  transition: 0.2s;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+  </style>
 </head>
 <body>
 
-<h2>Datos de Google Sheets</h2>
+<h2>Buscador por Área</h2>
+<div class="input-group">
 
-<table id="tabla" border="1"></table>
+  <select id="area">
+    <option value="">-- Selecciona un área --</option>
+    <option value="DIRECCION DE OPERACIONES">DIRECCION DE OPERACIONES</option>
+    <option value="DIRECCION DE ADMINISTRACION Y FINANZAS">DIRECCION DE ADMINISTRACION Y FINANZAS</option>
+    <option value="DIRECCION JURIDICA">DIRECCION JURIDICA</option>
+    <option value="DIRECCION GENERAL">DIRECCION GENERAL</option>
+     <option value="DIRECCION COMERCIAL">DIRECCION COMERCIAL</option>
+  </select>
+
+  <button class="btn-buscar" onclick="buscar()">Buscar</button>
+  <button class="btn-filtrado" onclick="descargarFiltrado()">⬇ Filtrado</button>
+  <button class="btn-todo" onclick="descargarTodo()">⬇ Todo</button>
+
+</div>
+<button onclick="buscar()">Buscar</button>
+<button onclick="descargarFiltrado()">⬇ Descargar filtrado</button>
+<button onclick="descargarTodo()">⬇ Descargar todo</button>
+
+<table id="tabla"></table>
 
 <script>
-const URL = "https://script.google.com/macros/s/AKfycbydTUGLcLZY3bjjpsvUsli6m9diG8fZ-zART4-psnDzv0kLT4Vn-PO1fritf7tbuFfY/exec"; // 👈 pega tu /exec
+const URL = "https://script.google.com/macros/s/AKfycbxKgyvqXk6Y6I8eMo5xXye3EY5rsNa_JEvpkVWvkiA38TJC2ZlzkUD93SO_KAXkq2Um/exec"; // 👈 tu /exec
 
-async function cargarDatos() {
-  try {
-    const res = await fetch(URL);
-    const datos = await res.json();
+let datosActuales = [];
+let datosCompletos = [];
 
-    const tabla = document.getElementById("tabla");
+async function buscar() {
+  const area = document.getElementById("area").value.trim();
 
-    datos.forEach((fila, index) => {
-      const tr = document.createElement("tr");
+  let url = URL;
+  if (area) {
+    url += "?area=" + encodeURIComponent(area);
+  }
 
-      fila.forEach(col => {
-        const celda = document.createElement(index === 0 ? "th" : "td");
-        celda.textContent = col;
-        tr.appendChild(celda);
-      });
+  const res = await fetch(url);
+  const datos = await res.json();
 
-      tabla.appendChild(tr);
+  datosActuales = datos;
+
+  mostrarTabla(datos);
+}
+
+async function cargarTodo() {
+  const res = await fetch(URL);
+  const datos = await res.json();
+  datosCompletos = datos;
+}
+
+function mostrarTabla(datos) {
+  const tabla = document.getElementById("tabla");
+  tabla.innerHTML = "";
+
+  datos.forEach((fila, i) => {
+    const tr = document.createElement("tr");
+
+    fila.forEach(col => {
+      const celda = document.createElement(i === 0 ? "th" : "td");
+      celda.textContent = col;
+      tr.appendChild(celda);
     });
 
-  } catch (error) {
-    console.error("Error:", error);
+    tabla.appendChild(tr);
+  });
+}
+
+// 📥 Descargar CSV
+function descargarCSV(datos, nombre) {
+  let csv = "";
+
+  datos.forEach(fila => {
+    csv += fila.map(col => `"${col}"`).join(",") + "\n";
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = nombre;
+  a.click();
+}
+
+// 🔹 Descargar filtrado
+function descargarFiltrado() {
+  if (datosActuales.length === 0) {
+    alert("Primero realiza una búsqueda");
+    return;
+  }
+  descargarCSV(datosActuales, "filtrado.csv");
+}
+
+// 🔹 Descargar todo
+function descargarTodo() {
+  if (datosCompletos.length === 0) {
+    alert("Cargando datos...");
+    cargarTodo().then(() => {
+      descargarCSV(datosCompletos, "completo.csv");
+    });
+  } else {
+    descargarCSV(datosCompletos, "completo.csv");
   }
 }
 
-cargarDatos();
+// carga inicial
+cargarTodo();
 </script>
 
 </body>
