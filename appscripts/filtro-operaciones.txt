@@ -2,31 +2,52 @@ const ID_HOJA = "11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8";
 const NOMBRE_HOJA = "relacion_vacaciones"; // ⚠️ cámbialo
 
 function doGet(e) {
-  const hoja = SpreadsheetApp.openById(ID_HOJA).getSheetByName(NOMBRE_HOJA);
-  const datos = hoja.getDataRange().getValues();
 
-  // encabezados
+  const hoja = SpreadsheetApp
+    .openById(ID_HOJA)
+    .getSheetByName(NOMBRE_HOJA);
+
+  // 🔥 CLAVE: traer TODO como TEXTO
+  const datos = hoja.getDataRange().getDisplayValues();
+
   const headers = datos[0];
 
-  // índice de columna AREA
-  const indexArea = headers.findIndex(h => h.toString().toLowerCase().includes("area"));
+  // 🔎 índices dinámicos
+  const indexArea = headers.findIndex(h =>
+    h.toString().toLowerCase().includes("area")
+  );
+
+  const indexDia = headers.findIndex(h =>
+    h.toString().toLowerCase().includes("dia_libre")
+  );
 
   let resultado = datos;
 
-  // 🔎 FILTRO POR ÁREA (igual que ya tenías)
+  // 🔎 FILTRO POR ÁREA (texto exacto)
   if (e.parameter.area && indexArea !== -1) {
-    resultado = datos.filter((fila, i) => {
+
+    const areaBuscada = e.parameter.area.trim();
+
+    resultado = resultado.filter((fila, i) => {
       if (i === 0) return true;
-      return fila[indexArea].toString().toLowerCase() === e.parameter.area.toLowerCase();
+
+      return fila[indexArea].toString().trim() === areaBuscada;
     });
   }
 
-  // 🔥 AQUÍ VA LO NUEVO (convertir a texto)
-  const resultadoTexto = resultado.map(fila =>
-    fila.map(celda => celda !== null ? celda.toString() : "")
-  );
+  // 🔎 FILTRO POR FECHA (texto exacto)
+  if (e.parameter.fecha && indexDia !== -1) {
+
+    const fechaBuscada = e.parameter.fecha.trim();
+
+    resultado = resultado.filter((fila, i) => {
+      if (i === 0) return true;
+
+      return fila[indexDia].toString().trim() === fechaBuscada;
+    });
+  }
 
   return ContentService
-    .createTextOutput(JSON.stringify(resultadoTexto))
+    .createTextOutput(JSON.stringify(resultado))
     .setMimeType(ContentService.MimeType.JSON);
 }

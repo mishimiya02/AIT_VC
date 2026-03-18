@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  
+
+<link id="theme-style" rel="stylesheet" href="css/historial.css">
   <title>Buscador por Área</title>
   <style>
     body { font-family: Arial; }
@@ -140,22 +143,142 @@ tr:hover {
     width: 100%;
   }
 }
+
+
+  /* barra de navegacion */
+	  .boton-vaciar {
+  padding: 20px 30px;
+     font-size: 24px;
+ 	text-decoration:none;
+     background-color: #165baf;
+     color: white;
+     border: none;
+     border-radius: 8px;
+     cursor: pointer;
+     transition: background-color 0.3s;
+   }
+   .boton-vaciar:hover {
+     background-color: #80dbff;
+   }
+
+
+ 			nav {
+ 				background-color: #00529e;
+        padding-left: 0;
+ 				display: flex;
+ 				justify-content: space-between;
+ 				align-items: stretch;
+ 				position: relative;
+ 				height: 100px; /* altura */
+ 			}
+
+          
+ 
+ 			.menu-center {
+ 				display: flex;
+ 				position: absolute;
+ 				left: 50%;
+ 				transform: translateX(-50%);
+ 				height: 100%;
+ 			}
+ 
+ 			nav a {
+ 				color: white;
+ 				font-weight: bold;
+ 				font-size: 25px;
+ 				padding: 0 25px;
+ 				text-decoration: none;
+ 				font-family: 'Segoe UI', sans-serif;
+ 				letter-spacing: 1px;
+ 				text-transform: uppercase;
+ 				/*display: flex;*/
+ 				align-items: center;
+ 				height: 100%;
+ 				transition: all 0.3s;
+                display: flex;
+ 			}
+ 
+ 			nav a:hover {
+ 				background-color: #be0000;
+ 				color: white;
+ 			}
+ 
+ 			/* Estilos NUEVOS para el dropdown  */
+ 			.dropdown {
+ 				position: relative;
+ 				height: 100%;
+ 				display: flex;
+ 				align-items: center;
+ 			}
+ 
+ 			.dropdown-content {
+ 				display: none;
+ 				position: absolute;
+ 				top: 100%;
+ 				left: 0;
+ 				background-color: white;
+ 				min-width: 200px;
+ 				box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+ 				z-index: 1000;
+ 			}
+ 
+ 			.dropdown-content a {
+ 				padding: 15px 25px;
+ 				color: black;
+ 				font-size: 16px;
+ 				text-transform: uppercase;
+ 				border-bottom: 1px solid #f0f0f0;
+ 			}
+ 
+ 			.dropdown-content a:hover {
+ 				background-color: #dc3545; /* Rojo al hover */
+ 				color: white;
+ 			}
+ 
+ 			.dropdown:hover .dropdown-content {
+ 				display: block;
+ 			}
+ 
+ 			/* Mantener hover azul en el botón principal */
+ 			.dropdown:hover > .dropbtn {
+ 				background-color: #2f517c;
+ 				color: white;
+ 			}
   </style>
 </head>
 <body>
 
+ <!-- NAVBAR -->
+<!-- Barra de navegación -->
+    <nav class="clearfix">
+    <img src="img/logo2.png" alt="Logo" class="logo"> <!-- logo  -->
+    <div class="menu-center">  
+     
+<a href='/'>Inicio</a>
+         <a href='/vacacionesc'>VACACIONES</a>
+           <a href='/correccionvacaciones'>CORRECIONES</a>
+             <a href='/registrar_empleado'>REGISTRAR EMPLEADO</a>
+       <a href="https://docs.google.com/spreadsheets/d/11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8/edit?usp=sharing"
+   target="_blank"
+   rel="noopener noreferrer">
+   Registros
+</a>
+
+    <!--    <a href="acerca.html">Acerca de</a>-->
+    </div>
+    </nav>
 <h2>Buscador por Área</h2>
 <div class="input-group">
 
   <select id="area">
-    <option value="">-- Selecciona un área --</option>
+    <option value="">-- TODOS LOS REGISTROS --</option>
     <option value="DIRECCION DE OPERACIONES">DIRECCION DE OPERACIONES</option>
     <option value="DIRECCION DE ADMINISTRACION Y FINANZAS">DIRECCION DE ADMINISTRACION Y FINANZAS</option>
     <option value="DIRECCION JURIDICA">DIRECCION JURIDICA</option>
     <option value="DIRECCION GENERAL">DIRECCION GENERAL</option>
      <option value="DIRECCION COMERCIAL">DIRECCION COMERCIAL</option>
   </select>
-<input type="text" id="fechaFiltro" placeholder="Ej: 2026-03-01">
+<input type="text" id="fechaFiltro" placeholder="FORMATO OBLIGATORIO:2026-03-01">
 
   <button class="btn-buscar" onclick="buscar()">Buscar</button>
   <button class="btn-filtrado" onclick="descargarFiltrado()">⬇ Filtrado</button>
