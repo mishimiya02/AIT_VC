@@ -305,7 +305,7 @@
 </div>
 </div>
 <script>
-
+let diasOriginales = 0;
 let pdfGenerando = false;
 
 function generar(){
@@ -316,6 +316,10 @@ function generar(){
   document.getElementById("rArea").textContent = area.value;
   document.getElementById("rPuesto").textContent = puesto.value;
   document.getElementById("rIngreso").textContent = ingreso.value;
+
+  // 🔥 ESTA LÍNEA FALTABA
+  document.getElementById("rDiasDisponibles").textContent =
+  diasOriginales || 0;
 
   document.getElementById("rObservaciones").textContent =
       document.getElementById("observaciones").value;
@@ -331,7 +335,7 @@ function generar(){
 
   document.getElementById("rFirmaRH").textContent =
       document.getElementById("firmaRH").value;
-}
+}const diasDisponibles = diasOriginales;
 
 
 
@@ -360,7 +364,7 @@ function llenarTabla(){
   const fechas = document.querySelectorAll(".fecha-vacacion");
   const periodo = document.getElementById("periodo").value;
 
-  const diasDisponibles = parseInt(document.getElementById("diasDisp").value) || 0;
+  const diasDisponibles = diasOriginales;
 
   tbody.innerHTML = "";
 
@@ -642,6 +646,8 @@ async function buscarEmpleado(){
 
     document.getElementById("diasDisp").value = data.diasDisponibles;
 
+// 🔥 guardar original
+diasOriginales = parseInt(data.diasDisponibles) || 0;
   }
   catch(err){
 
