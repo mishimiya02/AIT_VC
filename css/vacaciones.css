@@ -217,7 +217,7 @@
     padding: 25px 30px;          /* ← espacio interno */
     border: 1px solid #ccc;      /* borde limpio */
     border-radius: 12px;         /* esquinas bonitas */
-    max-width: 900px;
+    width: 1200px;
     margin: 0 auto;
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
    border: 3px solid #9cc6ff;
