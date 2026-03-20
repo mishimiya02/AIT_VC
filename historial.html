@@ -131,31 +131,49 @@ function mostrarTabla(datos) {
 }
 
 // 📥 Descargar C
-function descargarExcel(datos, nombre) {
+async function descargarExcel(datos, nombre) {
   if (!datos || datos.length === 0) {
-    alert("No hay datos para descargar");
+    Swal.fire("Sin datos", "No hay datos para descargar", "warning");
     return;
   }
 
-  // Convertir arreglo a hoja
-  const ws = XLSX.utils.aoa_to_sheet(datos);
+  // 🔥 LOADING
+  Swal.fire({
+    title: "Generando archivo...",
+    html: "Preparando Excel 📄",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
 
-  // Crear libro
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Datos");
+  // ⏳ pequeño delay para que se vea el loader
+  await new Promise(resolve => setTimeout(resolve, 500));
 
-  // Descargar archivo
-  XLSX.writeFile(wb, nombre);
+  try {
+    const ws = XLSX.utils.aoa_to_sheet(datos);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Datos");
+
+    XLSX.writeFile(wb, nombre);
+
+    Swal.close();
+
+    // ✅ confirmación bonita
+    Swal.fire({
+      icon: "success",
+      title: "Descarga lista",
+      text: "El archivo se descargó correctamente",
+      timer: 4000,
+      showConfirmButton: false
+    });
+
+  } catch (error) {
+    Swal.fire("Error", "No se pudo generar el archivo", "error");
+    console.error(error);
+  }
 }
 // 🔹 Descargar filtrado
-function descargarFiltrado() {
-  if (datosActuales.length === 0) {
-    alert("Primero realiza una búsqueda");
-    return;
-  }
-
-  descargarExcel(datosActuales, "filtrado.xlsx");
-}
 function descargarFiltrado() {
   if (datosActuales.length === 0) {
     alert("Primero realiza una búsqueda");
