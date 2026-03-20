@@ -52,6 +52,7 @@
 <table id="tabla"></table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   
 const API_URL = "https://script.google.com/macros/s/AKfycbyn3IprMdisxxqsN6ihLQAh2CU1JS7BozMRLMuMpKasLjtHMQMNSX2KX5IPZqs01E5_/exec"; // 👈 tu /exec
@@ -73,20 +74,37 @@ async function buscar() {
     url += "?" + params.join("&");
   }
 
-  const res = await fetch(url);
-  const datos = await res.json();
+  // 🔥 MOSTRAR LOADING
+  Swal.fire({
+    title: "Buscando...",
+    text: "Espera un momento",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
 
-  // 🔥 AQUÍ ESTÁ LA CLAVE
-  datosActuales = datos;
+  try {
+    const res = await fetch(url);
+    const datos = await res.json();
 
-  mostrarTabla(datos);
+    datosActuales = datos;
+    mostrarTabla(datos);
 
-  const total = datos.length - 1;
+    const total = datos.length - 1;
 
-  document.getElementById("totalRegistros").textContent =
-    total > 0
-      ? `Total: ${total} registro(s)`
-      : "Sin registros";
+    document.getElementById("totalRegistros").textContent =
+      total > 0
+        ? `Total: ${total} registro(s)`
+        : "Sin registros";
+
+    // ✅ CERRAR LOADING
+    Swal.close();
+
+  } catch (error) {
+    Swal.fire("Error", "No se pudo realizar la búsqueda", "error");
+    console.error(error);
+  }
 }
 
 async function cargarTodo() {
