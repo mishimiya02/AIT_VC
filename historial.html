@@ -19,6 +19,7 @@
          <a href='/vacacionesc'>VACACIONES</a>
            <a href='/correccionvacaciones'>CORRECIONES</a>
              <a href='/registrar_empleado'>REGISTRAR EMPLEADO</a>
+             <a href='/historial.html'>HISTORIAL</a>
        <a href="https://docs.google.com/spreadsheets/d/11kxCAG0UFiTO6KodPXk9h1f31UublGACTMNRjQnx4D8/edit?usp=sharing"
    target="_blank"
    rel="noopener noreferrer">
@@ -50,41 +51,36 @@
 <div id="totalRegistros"></div>
 <table id="tabla"></table>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script>
-const URL = "https://script.google.com/macros/s/AKfycbyn3IprMdisxxqsN6ihLQAh2CU1JS7BozMRLMuMpKasLjtHMQMNSX2KX5IPZqs01E5_/exec"; // 👈 tu /exec
+  
+const API_URL = "https://script.google.com/macros/s/AKfycbyn3IprMdisxxqsN6ihLQAh2CU1JS7BozMRLMuMpKasLjtHMQMNSX2KX5IPZqs01E5_/exec"; // 👈 tu /exec
 
 let datosActuales = [];
 let datosCompletos = [];
-
 async function buscar() {
 
   const area = document.getElementById("area").value.trim();
   const fecha = document.getElementById("fechaFiltro").value.trim();
 
-  let url = URL; // tu endpoint
-
+  let url = API_URL;
   const params = [];
 
-  if (area) {
-    params.push("area=" + encodeURIComponent(area));
-  }
-
-  if (fecha) {
-    params.push("fecha=" + encodeURIComponent(fecha));
-  }
+  if (area) params.push("area=" + encodeURIComponent(area));
+  if (fecha) params.push("fecha=" + encodeURIComponent(fecha));
 
   if (params.length > 0) {
     url += "?" + params.join("&");
   }
 
-  // 🔥 petición
   const res = await fetch(url);
   const datos = await res.json();
 
+  // 🔥 AQUÍ ESTÁ LA CLAVE
+  datosActuales = datos;
+
   mostrarTabla(datos);
 
-  // 🔢 contador
   const total = datos.length - 1;
 
   document.getElementById("totalRegistros").textContent =
@@ -94,7 +90,7 @@ async function buscar() {
 }
 
 async function cargarTodo() {
-  const res = await fetch(URL);
+  const res = await fetch(API_URL);
   const datos = await res.json();
   datosCompletos = datos;
 }
@@ -116,30 +112,39 @@ function mostrarTabla(datos) {
   });
 }
 
-// 📥 Descargar CSV
-function descargarCSV(datos, nombre) {
-  let csv = "";
+// 📥 Descargar C
+function descargarExcel(datos, nombre) {
+  if (!datos || datos.length === 0) {
+    alert("No hay datos para descargar");
+    return;
+  }
 
-  datos.forEach(fila => {
-    csv += fila.map(col => `"${col}"`).join(",") + "\n";
-  });
+  // Convertir arreglo a hoja
+  const ws = XLSX.utils.aoa_to_sheet(datos);
 
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
+  // Crear libro
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Datos");
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = nombre;
-  a.click();
+  // Descargar archivo
+  XLSX.writeFile(wb, nombre);
 }
-
 // 🔹 Descargar filtrado
 function descargarFiltrado() {
   if (datosActuales.length === 0) {
     alert("Primero realiza una búsqueda");
     return;
   }
-  descargarCSV(datosActuales, "filtrado.csv");
+
+  descargarExcel(datosActuales, "filtrado.xlsx");
+}
+function descargarFiltrado() {
+  if (datosActuales.length === 0) {
+    alert("Primero realiza una búsqueda");
+    return;
+  }
+
+  descargarExcel(datosActuales, "filtrado.xlsx");
 }
 
 // 🔹 Descargar todo
@@ -147,13 +152,12 @@ function descargarTodo() {
   if (datosCompletos.length === 0) {
     alert("Cargando datos...");
     cargarTodo().then(() => {
-      descargarCSV(datosCompletos, "completo.csv");
+      descargarExcel(datosCompletos, "completo.xlsx");
     });
   } else {
-    descargarCSV(datosCompletos, "completo.csv");
+    descargarExcel(datosCompletos, "completo.xlsx");
   }
 }
-
 // carga inicial
 cargarTodo();
 </script>
